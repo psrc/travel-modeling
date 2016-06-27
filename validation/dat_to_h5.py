@@ -32,19 +32,19 @@ def main():
 
 		# # Create new group name based on CSV file name
 		group_name = [group_dict[i] for i in group_dict.keys() if i in fname][0]
-		# grp = f.create_group(group_name)
+		grp = f.create_group(group_name)
 
-		# for column in df.columns:
-		# 	if column in ['travdist','travcost','travtime', 'trexpfac',
-		# 	'tautotime','tautocost','tautodist','toexpfac', 'hdexpfac'
-		# 	'pwautime','pwaudist', 'psautime','psaudist,''psexpfac',
-		# 	'pdexpfac', 'hhexpfac'
-		# 	]:
-		# 		grp.create_dataset(column, data=list(df[column].astype('float64')))
-		# 	else:
-		# 		grp.create_dataset(column, data=list(df[column].astype('int32')))
+		for column in df.columns:
+			if column in ['travdist','travcost','travtime', 'trexpfac',
+			'tautotime','tautocost','tautodist','toexpfac', 'hdexpfac'
+			'pwautime','pwaudist', 'psautime','psaudist,''psexpfac',
+			'pdexpfac', 'hhexpfac'
+			]:
+				grp.create_dataset(column, data=list(df[column].astype('float64')))
+			else:
+				grp.create_dataset(column, data=list(df[column].astype('int32')))
 
-		# print "Added to h5 container: " + str(group_name)
+		print "Added to h5 container: " + str(group_name)
 	
 	f.close()
 
