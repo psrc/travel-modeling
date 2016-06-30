@@ -4,82 +4,36 @@
 import pandas as pd
 import numpy as np
 import h5py
+import glob
 from EmmeProject import *
 
-# Hardcoded paths, yippee!
-
 # Read the h5-formatted 2014 survey data
-# Note that the trip-record tables needs a unique trip ID field
+# Note that the trip-record tables needs a unique trip id field
 # this will need to be added to the DAT files sent by Mark Bradley.
-input_data = h5py.File(r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14\survey2014.h5')
+input_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14'
 output_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14\skims_attached'
+h5output = 'survey2014.h5'
 version_tag = 'P14'
+
+
 matrix_dict_loc = r'R:\SoundCast\releases\TransportationFutures2010\inputs\skim_params\demand_matrix_dictionary.json'
 working_dir = r'R:\SoundCast\releases\TransportationFutures2010\inputs'
-project_dir = r'R:\SoundCast\releases\TransportationFutures2010\projects\7to8\7to8.emp'
+project_dir = r'R:\SoundCast\releases\TransportationFutures2010\projects\8to9\8to9.emp'
 
-# Are we processing a daysim or survey file? Each have slightly different formats
-daysim = False
 tollclass = 'nt'
 
-# List of fields to extract from trip records
-tripdict={	'Household ID': 'hhno',
-            'Person Number': 'pno',
-            'Tour Number': 'tour',
-            'Tour Segment': 'tseg',
-            'Travel Time':'travtime',
-            'Travel Cost': 'travcost',
-            'Travel Distance': 'travdist',
-            'Mode': 'mode',
-            'Origin Purpose':'opurp',
-            'Destination Purpose': 'dpurp',
-            'Departure Time': 'deptm',
-            'Origin TAZ': 'otaz',
-            'Destination TAZ': 'dtaz',
-            'Arrival Time': 'arrtm',
-            'Expansion Factor': 'trexpfac'}
+tripcols = ['hhno','pno','tour','tseg', 'half','travtime','travcost','travdist','mode','opurp','dpurp',
+			'deptm','otaz','dtaz','arrtm','trexpfac']
 
-# List of fields to extract from household records
-hhdict={'Household ID': 'hhno',
-        'Household Size': 'hhsize',
-        'Household Vehicles': 'hhvehs',
-        'Household Workers': 'hhwkrs',
-        'Household Income': 'hhincome',
-        'Household TAZ': 'hhtaz',
-        'Expansion Factor': 'hhexpfac'}
+hhcols = ['hhno','hhsize','hhwkrs','hhincome','hhtaz','hhexpfac']
 
-tourdict={
-	'Household ID': 'hhno',
-    'Person Number': 'pno',
-    'Tour Number': 'tour',
-    'Travel Time':'tautotime',
-    'Travel Cost': 'tautocost',
-    'Travel Distance': 'tautodist',
-    'Mode': 'tmodetp',
-    'Destination Purpose': 'pdpurp',
-    'Origin Departure Time': 'tlvorig',
-    'Origin Arrival Time': 'tarorig',
-    'Destination Departure Time': 'tlvdest',
-    'Destination Arrival Time': 'tardest',
-    'Origin TAZ': 'totaz',
-    'Destination TAZ': 'tdtaz',
-    'Arrival Time': 'tardest',
-    'Expansion Factor': 'toexpfac'
-}
+tourcols = ['hhno','pno','tour','tautotime','tautocost','tautodist','tmodetp','pdpurp',
+			'tlvorig','tarorig','tlvdest','totaz','tardest','toexpfac']
 
-persondict={
-	'Household ID': 'hhno',
-	'Person Number': 'pno',
-	'Work TAZ': 'pwtaz',
-	'Work Auto Time': 'pwautime',
-	'Work Auto Distance': 'pwaudist',
-	'Work Mode': 'puwmode',
-	'Work Arrival Time': 'puwarrp',
-	'Work Departure Time': 'puwdepp',
-	'School TAZ' : 'pstaz',
-	'School Auto Time': 'pstaz',
-	'School Auto Distance': 'psaudist'
-}
+personcols = ['hhno','pno','pwtaz','pwautime','pwaudist','puwmode','puwarrp','pstaz','psaudist','psautime']
+
+bike_speed = 10 # miles per hour
+walk_speed = 3 # miles per hour
 
 # lookup for departure time to skim times
 tod_dict = {
@@ -116,27 +70,11 @@ mode_dict = {
     3: 'sv',
     4: 'h2',
     5: 'h3',
-    6: 'tr',
+    6: 'ivtwa',    # transit in-vehicle time
     7: 'ot',
     8: 'ot',
     9: 'ot'
 }
-
-
-
-def build_df(h5file, h5table, var_dict, survey_file=False):
-    ''' Convert H5 into dataframe '''
-    data = {}
-    if survey_file:
-        # survey h5 have nested data structure, different than daysim_outputs
-        for col_name, var in var_dict.iteritems():
-            data[col_name] = [i[0] for i in h5file[h5table][var][:]]
-    else:
-        for col_name, var in var_dict.iteritems():
-            data[col_name] = [i for i in h5file[h5table][var][:]]
-
-    return pd.DataFrame(data)
-
 
 def text_to_dictionary(input_filename):
 	''' Convert text input to Python dictionary'''
@@ -160,52 +98,86 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 
 	output_array = []
 
+   	# df = df.iloc[3000:8000]
+
 	for i in xrange(len(df)):
+
 		print i
 		rowdata = df.iloc[i]
 		rowresults = {}
 
-		if rowdata['dephr'] == '-1':
+		if rowdata['dephr'] == -1:
 			print 'skip'
 			next
 
-		rowresults['ID'] = rowdata['ID']
+		rowresults['id'] = rowdata['id']
 		rowresults['skimid'] = rowdata['skim_id']
+		rowresults['tod_orig'] = rowdata['dephr']
 
-		for skim_type in ['d','t','c']:
-
-			tod = rowdata['dephr']
-			
-			# assign atlernate tod value for special cases
-			if skim_type == 'd':
-				tod = distance_skim_tod
-			
-			if rowdata['mode code'] in ['bike','walk']:
-				tod = '5to6'
-			
-			rowresults['tod_orig'] = rowdata['dephr']
+		# write transit in vehicle times
+		if rowdata['mode code'] == 'ivtwa':
+			tod = '7to8'
 			rowresults['tod_pulled'] = tod
-
-			# write results out 
+			rowresults['c'] = -1
 			try:
-				my_matrix = skim_dict[tod]['Skims'][rowdata['skim_id']+skim_type]
-				# otaz=rowdata['Origin TAZ']
-				# dtaz=rowdata['Destination TAZ']
+				my_matrix = skim_dict[tod]['Skims']['ivtwa']
+
 				otaz = rowdata[otaz_field]
 				dtaz = rowdata[dtaz_field]
 
 				skim_value = my_matrix[dictZoneLookup[otaz]][dictZoneLookup[dtaz]]
-				rowresults[skim_type] = skim_value
+				rowresults['t'] = skim_value
+
+				my_matrix = skim_dict[tod]['Skims']['svnt2d']
+				skim_value = my_matrix[dictZoneLookup[otaz]][dictZoneLookup[dtaz]]
+				rowresults['d'] = skim_value
+
+
 			# if value unavailable, keep going and assign -1 to the field
 			except:
-				rowresults[skim_type] = '-1'
+				rowresults['t'] = -1
+				rowresults['d'] = skim_value
+		else:
+
+			for skim_type in ['d','t','c']:
+
+				tod = rowdata['dephr']
+				
+				# assign atlernate tod value for special cases
+				if skim_type == 'd':
+					tod = distance_skim_tod
+				
+				if rowdata['mode code'] in ['bike','walk']:
+					tod = '5to6'
+
+				rowresults['tod_pulled'] = tod
+
+				# write results out 
+				try:
+					my_matrix = skim_dict[tod]['Skims'][rowdata['skim_id']+skim_type]
+
+					otaz = rowdata[otaz_field]
+					dtaz = rowdata[dtaz_field]
+
+					skim_value = my_matrix[dictZoneLookup[otaz]][dictZoneLookup[dtaz]]
+					rowresults[skim_type] = skim_value
+				# if value unavailable, keep going and assign -1 to the field
+				except:
+					rowresults[skim_type] = -1
 
 		output_array.append(rowresults)
-       
-	
+      
+	df = pd.DataFrame(output_array)
+	df.to_csv('before_bike_edits.csv')
+	# For bike and walk skims, calculate distance from time skims using average speeds
+
+	for mode, speed in {'bike': bike_speed, 'walk': walk_speed}.iteritems():
+		row_index = df['skimid'] == mode
+		df.loc[row_index, 'd'] =  (df['t']*speed/60).astype('int')
+
 	# write results to a csv
 	try:
-		pd.DataFrame(output_array).to_csv(skim_output_file)
+		df.to_csv(skim_output_file, index=False)
 	except:
 		print 'failed on export of output'
 
@@ -241,7 +213,7 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 	# Note that all households with -1 (missing income) represent university students
 	# These households are lumped into the lowest VOT bin 1,
 
-	df['VOT Bin'] = pd.cut(df['Household Income'], bins=[-1,84500,108000,9999999999], right=True, 
+	df['VOT Bin'] = pd.cut(df['hhincome'], bins=[-1,84500,108000,9999999999], right=True, 
 		labels=[1,2,3], retbins=False, precision=3, include_lowest=True)
 
 	df['VOT Bin'] = df['VOT Bin'].astype('int')
@@ -262,12 +234,14 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 
 	# Concatenate to produce ID to use with skim tables
 	# but not for walk or bike modes
+	# mfivtwa
+
 	final_df = pd.DataFrame()
 	for mode in np.unique(df['mode code']):
 	    print "processing skim lookup ID: " + mode
 	    mylen = len(df[df['mode code'] == mode])
 	    tempdf = df[df['mode code'] == mode]
-	    if mode not in ['walk','bike']:
+	    if mode not in ['walk','bike','ivtwa']:
 	        tempdf['skim_id'] = tempdf['mode code'] + tollclass + tempdf['VOT Bin'].astype('str')
 	    else:
 	        tempdf['skim_id'] = tempdf['mode code']
@@ -282,11 +256,11 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 	    contents = h5py.File(working_dir + r'/'+ tod + '.h5')
 	    skim_dict[tod] = contents
 
+	df.to_csv('test1.csv')
 
 	# If the skim output file doesn't already exist, create it
 	# if not os.path.isfile(skim_output_file):
 	write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_file)
-
 
 	# join skim data to original .dat files
 	# Attach trip-level skim data to person records
@@ -295,65 +269,67 @@ def process_person_skims(tour, person, hh):
 	"""
 
 	"""
+
 	# Add person and HH level data to trip records
-	tour_per = pd.merge(tour,person, on=['Household ID','Person Number'], how='left')
-	# tour_per = pd.merge(tour_per,hh[['Household ID','Household Income', 'Household TAZ']],
+	tour_per = pd.merge(tour,person, on=['hhno','pno'], how='left')
+	# tour_per = pd.merge(tour_per,hh[['hhno','hhincome', 'Household TAZ']],
 	# 	on='Household ID',how='left')
 
-	tour_per.to_csv('out.csv')
+	
 
-	# Use tour to get work 
+	# Use tour file to get work departure/arrival time and mode
 	# Get work tours 
-	work_tours = tour_per[tour_per['Destination Purpose'] == 1]
+	work_tours = tour_per[tour_per['pdpurp'] == 1]
 
 	# Fill fields for usual wor mode and times
-	work_tours['Work Mode'] = work_tours['Mode']
-	work_tours['Work Arrival Time'] = work_tours['Destination Arrival Time']
-	work_tours['Work Departure Time'] = work_tours['Destination Departure Time']
+	work_tours['puwmode'] = work_tours['tmodetp']
+	work_tours['puwarrp'] = work_tours['tardest']
+	work_tours['puwdepp'] = work_tours['tlvdest']
+
 
 	# Merge these results back into the original person file
 
 	# drop the original Work Mode field
-	person.drop(['Work Mode','Work Arrival Time', 'Work Departure Time'],axis=1, inplace=True)
+	person.drop(['puwmode','puwarrp', 'puwdepp'],axis=1, inplace=True)
 
-	person = pd.merge(person,work_tours[['Household ID', 'Person Number', 'Work Mode', 'Work Arrival Time','Work Departure Time']],
-	                    on=['Household ID','Person Number'], how='left')
+	person = pd.merge(person,work_tours[['hhno', 'pno', 'puwmode', 'puwarrp','puwdepp']],
+	                    on=['hhno','pno'], how='left')
 	
+	# person.to_csv('out.csv')
 
 	# Fill NA for this field with -1
-	for field in ['Work Mode','Work Arrival Time', 'Work Departure Time']:
+
+	for field in ['puwmode','puwarrp', 'puwdepp']:
 	    person[field].fillna(-1,inplace=True)
 
 	# Get school tour info
-	school_tours = tour_per[tour_per['Destination Purpose'] == 2]
+	# pusarrp and pusdepp are non-daysim variables, meaning usual arrival and departure time from school
+	school_tours = tour_per[tour_per['pdpurp'] == 2]
+	school_tours['pusarrp'] = school_tours['tardest']
+	school_tours['pusdepp'] = school_tours['tlvdest']
 
-	school_tours['School Arrival Time'] = school_tours['Destination Arrival Time']
-	school_tours['School Departure Time'] = school_tours['Destination Departure Time']
+	person = pd.merge(person,school_tours[['hhno', 'pno','pusarrp', 'pusdepp']], 
+		on=['hhno','pno'], how='left')
 
-	person = pd.merge(person,school_tours[['Household ID', 'Person Number',
-		'School Arrival Time', 'School Departure Time']], 
-		on=['Household ID','Person Number'], how='left')
-
-	for field in ['School Departure Time','School Arrival Time']:
+	for field in ['pusarrp','pusdepp']:
 	    person[field].fillna(-1,inplace=True)
 
-	# Attach household income and TAZ info 
-	person = pd.merge(person,hh[['Household ID','Household Income','Household TAZ']],
-		on='Household ID',how='left')    
+	# Attach hhincome and TAZ info 
+	person = pd.merge(person,hh[['hhno','hhincome','hhtaz']],
+		on='hhno',how='left')    
 
 	# Fill -1 income (college students) with lowest income category
-	min_income = person[person['Household Income'] > 0]['Household Income'].min()
-	person.ix[person['Household Income']>0,'Household Income'] = min_income
+	min_income = person[person['hhincome'] > 0]['hhincome'].min()
+	person.ix[person['hhincome']>0,'hhincome'] = min_income
 	
 	# Convert fields to int
-	for field in ['School Arrival Time', 'School Departure Time',
-	'Work Arrival Time','Work Departure Time']:
+	for field in ['pusarrp', 'pusdepp','puwarrp','puwdepp']:
 		person[field] = person[field].astype('int')
 
 	# Write results to CSV for new derived fields
 	person.to_csv('person_skims.csv', index=False)
-	# person[['Household ID','Person Number','Work Departure Time',
-	# 'Work Arrival Time','Work Mode', 'Work TAZ', 'School Arrival Time', 
+	# person[['hhno','pno','puwdepp',
+	# 'puwarrp','Work Mode', 'Work TAZ', 'School Arrival Time', 
 	# 'School Departure Time', 'School TAZ']].to_csv('person_skims.csv')
 
 	return person
@@ -370,112 +346,180 @@ def update_records(trip,tour,person):
 	work_skim = pd.read_csv('work_travel_skim_output.csv')
 	school_skim = pd.read_csv('school_travel_skim_output.csv')
 
-	trip_tour_cols = {'Travel Time': 't','Travel Cost':'c','Travel Distance':'d'}
-	person_cols = {'Work Mode':'Work Mode','Work Arrival Time':'Work Arrival Time','Work Departure Time':'Work Departure Time'}
-	work_cols = {'Work Auto Time':'t','Work Auto Distance':'d'}
-	school_cols = {'School Auto Time':'t','School Auto Distance':'d'}
+	for df in [trip_skim,tour_skim,person_skim,work_skim,school_skim]:
+		df['id'] = df['id'].astype('str')
+
+	for df in [trip,tour,person]:
+		df['id'] = df['id'].astype('str')
+
+	trip_cols = {'travtime': 't','travcost':'c','travdist':'d'}
+	tour_cols = {'tautotime': 't','tautocost':'c','tautodist':'d'}
+	person_cols = {'puwmode':'puwmode','puwarrp':'puwarrp','puwdepp':'puwdepp'}
+	work_cols = {'pwautime':'t','pwaudist':'d'}
+	school_cols = {'psautime':'t','psaudist':'d'}
 
 	# drop skim columns from the old file
-	trip.drop(trip_tour_cols.keys(),axis=1,inplace=True)
-	tour.drop(trip_tour_cols.keys(),axis=1,inplace=True)
+	trip.drop(trip_cols.keys(),axis=1,inplace=True)
+	tour.drop(tour_cols.keys(),axis=1,inplace=True)
 	person.drop(person_cols.keys(),axis=1,inplace=True)
 	person.drop(work_cols.keys(),axis=1,inplace=True)
 	person.drop(school_cols.keys(),axis=1,inplace=True)
 
 	# Join skim file to original
-	df = pd.merge(trip,trip_skim[['ID','c','d','t']],on='ID',how='left')
-	for colname, skimname in trip_tour_cols.iteritems():
+	df = pd.merge(trip,trip_skim[['id','c','d','t']],on='id',how='left')
+	for colname, skimname in trip_cols.iteritems():
+	    df.to_csv('testout.csv')
 	    df[colname] = df[skimname]
 	    df.drop(skimname,axis=1,inplace=True)
 	    
 	    # divide skims by 100
 	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide all existing skim values by 100 
-	    df[colname].fillna(-1,inplace=True)
+	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
-	    df.to_csv(output_dir + r'\trip.dat', sep=' ',index=False) 
+	    df.to_csv(output_dir + r'\trip' + version_tag + '.dat', sep=' ',index=False) 
 	    
 	# For tour
-	df = pd.merge(tour,tour_skim[['ID','c','d','t']],on='ID',how='left')
+	df = pd.merge(tour,tour_skim[['id','c','d','t']],on='id',how='left')
 
-	for colname, skimname in trip_tour_cols.iteritems():
+	for colname, skimname in tour_cols.iteritems():
 	    df[colname] = df[skimname]
-	    df.drop(skimname,axis=1,inplace=True)
+	    # df.drop(skimname,axis=1.0,inplace=True)
 	    
 	    
 	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide all existing skim values by 100 
-	    df[colname].fillna(-1,inplace=True)
+	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
-	    df.to_csv(output_dir + r'\tour.dat', sep=' ',index=False)
+	    df.to_csv(output_dir + r'\tour' + version_tag + '.dat', sep=' ',index=False)
 
 	# Person records
-	df = pd.merge(person,person_skim[['ID','Work Mode','Work Arrival Time','Work Departure Time']],on='ID',how='left')
+	df = pd.merge(person,person_skim[['id','puwmode','puwarrp','puwdepp']],on='id',how='left')
 	for colname, skimname in person_cols.iteritems():
+	    print skimname
 	    df[colname] = df[skimname]
-	    df.drop(skimname,axis=1,inplace=True)
+	    # df.drop(skimname,axis=1.0,inplace=True)
 	    
-	df = pd.merge(df,work_skim[['ID','d','t']],on='ID',how='left')
+	df = pd.merge(df,work_skim[['id','d','t']],on='id',how='left')
 	for colname, skimname in work_cols.iteritems():
 	    df[colname] = df[skimname]
-	    df.drop(skimname,axis=1,inplace=True)
+	
 	    
 	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide skim values by 100 
-	    df[colname].fillna(-1,inplace=True)
+	    df[colname].fillna(-1.0,inplace=True)
 
-	df = pd.merge(df,school_skim[['ID','d','t']],on='ID',how='left')
+	df.to_csv('testy.csv')
+	df = df.drop(['d','t'],axis=1)
+	# df
+
+	df = pd.merge(df,school_skim[['id','d','t']],on='id',how='left')
 	for colname, skimname in school_cols.iteritems():
 	    df[colname] = df[skimname]
-	    df.drop(skimname,axis=1,inplace=True)
+	    # df.drop(skimname,axis=1.0,inplace=True)
 	    
 	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide skim values by 100 
-	    df[colname].fillna(-1,inplace=True)
-	    	    
-	    # export results
-	    df.to_csv(output_dir + r'\prec' + version_tag + '.dat', sep=' ',index=False) 
+	    df[colname].fillna(-1.0,inplace=True)
+
+	df = df.drop(['d','t'],axis=1)
+	# export results
+	df.to_csv(output_dir + r'\prec' + version_tag + '.dat', sep=' ',index=False) 
+
+def dat_to_h5(file_list):
+	group_dict={
+			'hday': 'HouseholdDay',
+			'hrec': 'Household',
+			'pday': 'PersonDay',
+			'prec': 'Person',
+			'tour': 'Tour',
+			'trip': 'Trip'
+		}
+
+	# Create H5 container (overwrite if exists)
+	print output_dir + r'\\' + h5output
+	if os.path.isfile(output_dir + r'\\' + h5output):
+		os.remove(output_dir + r'\\' + h5output)
+	f = h5py.File(output_dir + r'\\' + h5output, 'w')
+
+	# Process all csv files in this directory
+	for fname in file_list:
+		print fname
+		# Read csv data
+		df = pd.read_csv(fname,sep=' ')
+
+		df = df.fillna(-1)
+		# # Create new group name based on CSV file name
+		group_name = [group_dict[i] for i in group_dict.keys() if i in fname][0]
+		grp = f.create_group(group_name)
+
+		for column in df.columns:
+			if column in ['travdist','travcost','travtime','trexpfac',
+			'tautotime','tautocost','tautodist','toexpfac','hdexpfac'
+			'pwautime','pwaudist', 'psautime','psaudist','psexpfac',
+			'pdexpfac', 'hhexpfac'
+			]:
+				grp.create_dataset(column, data=list(df[column].astype('float64')))
+			else:
+				grp.create_dataset(column, data=list(df[column].astype('int32')))
+
+		print "Added to h5 container: " + str(group_name)
+	
+	f.close()
 
 def main():
 
 	# Open Emme project to acquire zone numbers for lookup to skim indeces
 	my_project = EmmeProject(project_dir)
 
-	# Extract daysim data from h5 files, for specified files
-	trip = build_df(h5file=input_data, h5table='Trip', var_dict=tripdict, survey_file=False)
-	hh = build_df(h5file=input_data, h5table='Household', var_dict=hhdict, survey_file=False)
-	tour = build_df(h5file=input_data, h5table='Tour', var_dict=tourdict, survey_file=False)
-	person = build_df(h5file=input_data, h5table='Person', var_dict=persondict, survey_file=False)
+	# Load data
+	trip = pd.read_csv(input_dir + r'/trip' + version_tag + '.dat', sep=' ')
+	tour = pd.read_csv(input_dir + r'/tour' + version_tag + '.dat', sep=' ')
+	hh = pd.read_csv(input_dir + r'/hrec' + version_tag + '.dat', sep=' ')
+	person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=' ')
 
-	# Add unique ID fields
-	person['ID'] = person['Household ID'].astype('str') + person['Person Number'].astype('str')
-	trip['ID'] = trip['Household ID'].astype('str') + trip['Person Number'].astype('str') + \
-	    trip['Tour Number'].astype('str') + trip['Tour Segment'].astype('str')
-	tour['ID'] = tour['Household ID'].astype('str') + tour['Person Number'].astype('str') + tour['Tour Number'].astype('str')
+	# drop any rows with -1 expansion factor
+	person = person[person['psexpfac']>=0]
+
+	# Add unique id fields 
+	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
+	trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + \
+	    trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
+	tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
 
 	# Join household to trip data to get income
-	trip_hh = pd.merge(trip,hh, on='Household ID')
-	tour_hh = pd.merge(tour,hh, on='Household ID')
+	trip_hh = pd.merge(trip,hh, on='hhno')
+	tour_hh = pd.merge(tour,hh, on='hhno')
 
-	# # Extract person-level results from trip file
+	# # # # Extract person-level results from trip file
 	person_modified = process_person_skims(tour,person,hh)
 
 	# Fetch trip skims based on trip departure time
-	fetch_skim('trip',trip_hh, time_field='Departure Time', mode_field='Mode',
-		otaz_field='Origin TAZ', dtaz_field='Destination TAZ', my_project=my_project)
+	fetch_skim('trip',trip_hh, time_field='deptm', mode_field='mode',
+		otaz_field='otaz', dtaz_field='dtaz', my_project=my_project)
 
 	# Fetch tour skims based on tour departure time from origin
-	fetch_skim('tour', tour_hh, time_field='Origin Departure Time', mode_field='Mode',
-		otaz_field='Origin TAZ', dtaz_field='Destination TAZ', my_project=my_project)
+	fetch_skim('tour', tour_hh, time_field='tlvorig', mode_field='tmodetp',
+		otaz_field='totaz', dtaz_field='tdtaz', my_project=my_project)
 
-	# Attach person-level skims based on home to work auto trips
-	fetch_skim('work_travel', person_modified, time_field='Work Arrival Time', mode_field='Work Mode',
-		otaz_field='Household TAZ', dtaz_field='Work TAZ', my_project=my_project, use_mode=3)
+	# Attach person-level work skims based on home to work auto trips
+	fetch_skim('work_travel', person_modified, time_field='puwarrp', mode_field='puwmode',
+		otaz_field='hhtaz', dtaz_field='pwtaz', my_project=my_project, use_mode=3)
 
-	# Attach person-level skims based on home to work auto trips
-	fetch_skim('school_travel', person_modified, time_field='School Arrival Time', mode_field='Work Mode',
-		otaz_field='Household TAZ', dtaz_field='School TAZ', my_project=my_project, use_mode=3)
+	# Attach person-level school skims based on home to school auto trips
+	# NOTE: mode is irrelevant in this case
+	fetch_skim('school_travel', person_modified, time_field='pusarrp', mode_field='puwmode',
+		otaz_field='hhtaz', dtaz_field='pstaz', my_project=my_project, use_mode=3)
 
-	# # Attach skim results to original survey files
+	# Reload original person file and attach skim results	# 
+	person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=' ')
+	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
+	
+	# Update records
 	update_records(trip,tour,person)
+
+	# Write results to h5
+	write_list = ['tour','trip','prec','hrec','hday','pday']
+	dat_to_h5([output_dir + r'\\' +file+version_tag+'.dat' for file in ['tour','trip','prec','hrec','hday','pday']])
+
 
 if __name__ == "__main__":
 	main()
