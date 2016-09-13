@@ -32,7 +32,7 @@ def compare_df(df1,df2,suffixes):
     df.index = df['coefficient']
     
     # set resolution
-    figsize=(len(df),len(df)*.5)
+    figsize=(10,len(df)*.4)
     
     field = 'value'
     print df[[field+suffix for suffix in suffixes]].plot(kind='barh',figsize=figsize, title='coefficient value',
@@ -42,5 +42,4 @@ def compare_df(df1,df2,suffixes):
     print [field+suffix for suffix in suffixes]
     print df[[field+suffix for suffix in suffixes]].astype('float').plot(kind='barh', figsize=figsize, title='t-stat', 
                                                                          width=2, alpha=0.6)
-
     return df
