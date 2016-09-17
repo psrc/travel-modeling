@@ -12,7 +12,7 @@ from EmmeProject import *
 # this will need to be added to the DAT files sent by Mark Bradley.
 input_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14'
 output_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14\skims_attached'
-h5output = 'survey2014.h5'
+h5output = 'survey2014_new.h5'
 version_tag = 'P14'
 
 
@@ -71,9 +71,9 @@ mode_dict = {
     4: 'h2',
     5: 'h3',
     6: 'ivtwa',    # transit in-vehicle time
-    7: 'ot',
-    8: 'ot',
-    9: 'ot'
+    7: 'sv',
+    8: 'sv',   # assign school bus as sov
+    9: 'sv'    # assign other as sov
 }
 
 def text_to_dictionary(input_filename):
@@ -95,10 +95,10 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 	
 	bikewalk_tod = '5to6'   # bike and walk are only assigned in 5to6
 	distance_skim_tod = '7to8'    # distance skims don't change over time, only saved for a single time period
-
+    
 	output_array = []
 
-   	# df = df.iloc[3000:8000]
+   	print 'in write_skims'
 
 	for i in xrange(len(df)):
 
@@ -118,7 +118,7 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 		if rowdata['mode code'] == 'ivtwa':
 			tod = '7to8'
 			rowresults['tod_pulled'] = tod
-			rowresults['c'] = -1
+
 			try:
 				my_matrix = skim_dict[tod]['Skims']['ivtwa']
 
@@ -132,13 +132,18 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 				skim_value = my_matrix[dictZoneLookup[otaz]][dictZoneLookup[dtaz]]
 				rowresults['d'] = skim_value
 
+				# fare data is only available for 6to7 time period for AM peak, or 9to10 for mid-dat (off-peak)
+				# assuming all trips are peak for now
+				my_matrix = skim_dict['6to7']['Skims']['mfafarbx']
+				skim_value = my_matrix[dictZoneLookup[otaz]][dictZoneLookup[dtaz]]
+				rowresults['c'] = skim_value
 
 			# if value unavailable, keep going and assign -1 to the field
 			except:
 				rowresults['t'] = -1
 				rowresults['d'] = skim_value
+				rowresults['c'] = -1
 		else:
-
 			for skim_type in ['d','t','c']:
 
 				tod = rowdata['dephr']
@@ -166,14 +171,18 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 					rowresults[skim_type] = -1
 
 		output_array.append(rowresults)
-      
+	 
 	df = pd.DataFrame(output_array)
 	df.to_csv('before_bike_edits.csv')
-	# For bike and walk skims, calculate distance from time skims using average speeds
 
+	# For bike and walk skims, calculate distance from time skims using average speeds
 	for mode, speed in {'bike': bike_speed, 'walk': walk_speed}.iteritems():
 		row_index = df['skimid'] == mode
 		df.loc[row_index, 'd'] =  (df['t']*speed/60).astype('int')
+
+	# Replace all bike and walk cost skims with 0
+	df.ix[df['skimid'].isin(['bike','walk']),'c'] = 0
+	df.to_csv('after_bike_edits.csv')
 
 	# write results to a csv
 	try:
@@ -256,12 +265,10 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 	    contents = h5py.File(working_dir + r'/'+ tod + '.h5')
 	    skim_dict[tod] = contents
 
-	df.to_csv('test1.csv')
 
 	# If the skim output file doesn't already exist, create it
 	# if not os.path.isfile(skim_output_file):
 	write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_file)
-
 	# join skim data to original .dat files
 	# Attach trip-level skim data to person records
 
@@ -481,8 +488,7 @@ def main():
 
 	# Add unique id fields 
 	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
-	trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + \
-	    trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
+	trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
 	tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
 
 	# Join household to trip data to get income
@@ -503,7 +509,7 @@ def main():
 	# Attach person-level work skims based on home to work auto trips
 	fetch_skim('work_travel', person_modified, time_field='puwarrp', mode_field='puwmode',
 		otaz_field='hhtaz', dtaz_field='pwtaz', my_project=my_project, use_mode=3)
-
+	
 	# Attach person-level school skims based on home to school auto trips
 	# NOTE: mode is irrelevant in this case
 	fetch_skim('school_travel', person_modified, time_field='pusarrp', mode_field='puwmode',
