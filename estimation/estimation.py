@@ -29,7 +29,7 @@ def compare_df(df1,df2,suffixes):
     Compare two F12 based dataframes
     """
         
-    df = pd.merge(df1, df2, on='coefficient', suffixes=suffixes)
+    df = pd.merge(df1, df2, on='coefficient', suffixes=suffixes, how='left')
     df.index = df['coefficient']
     
     # set resolution
