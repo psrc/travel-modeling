@@ -19,6 +19,7 @@ def load_f12(working_dir, fname, suffix=None):
     
     # Calculate a t-statistic
     df['standard error'] = df['standard error'].astype('float')
+    df['value'] = df['value'].astype('float')
     df['t-stat'] = abs(df['value']/df['standard error'])
     
     return df
@@ -32,14 +33,13 @@ def compare_df(df1,df2,suffixes):
     df.index = df['coefficient']
     
     # set resolution
-    figsize=(10,len(df)*.4)
+    figsize=(10,len(df)*.5)
     
     field = 'value'
-    print df[[field+suffix for suffix in suffixes]].plot(kind='barh',figsize=figsize, title='coefficient value',
-                                                         width=2, alpha=0.6)
+    df[[field+suffix for suffix in suffixes]].plot(kind='barh',figsize=figsize, title='coefficient value',
+                                                         alpha=0.6)
     
     field = 't-stat'
-    print [field+suffix for suffix in suffixes]
-    print df[[field+suffix for suffix in suffixes]].astype('float').plot(kind='barh', figsize=figsize, title='t-stat', 
-                                                                         width=2, alpha=0.6)
+    df[[field+suffix for suffix in suffixes]].astype('float').plot(kind='barh', figsize=figsize, title='t-stat', 
+                                                                        alpha=0.6)
     return df
