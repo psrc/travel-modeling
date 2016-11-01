@@ -11,12 +11,12 @@ from EmmeProject import *
 # Read the h5-formatted 2014 survey data
 # Note that the trip-record tables needs a unique trip id field
 # this will need to be added to the DAT files sent by Mark Bradley.
-input_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14'
-output_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14\skims_attached'
+input_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\new_weights_10_28_16'
+output_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\new_weights_10_28_16\skims_attached'
 
 # save DAT file with MAM time format conversion
-output_dats = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\xxxxP14\time_converted\\'
-h5output = 'survey2014_newest.h5'
+output_dats = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\new_weights_10_28_16\time_converted\\'
+h5output = 'survey2014_nov16.h5'
 version_tag = 'P14'
 
 
@@ -285,9 +285,9 @@ def process_person_skims(tour, person, hh):
 	tour_per = pd.merge(tour,person, on=['hhno','pno'], how='left')
 	# tour_per = pd.merge(tour_per,hh[['hhno','hhincome', 'Household TAZ']],
 	# 	on='Household ID',how='left')
-
+	tour_per['unique_id'] = tour_per.hhno.astype('str') + '_' + tour_per.pno.astype('str') 
+	tour_per['unique_tour_id'] = tour_per['unique_id'] + '_' + tour_per['tour'].astype('str')
 	
-
 	# Use tour file to get work departure/arrival time and mode
 	# Get work tours 
 	work_tours = tour_per[tour_per['pdpurp'] == 1]
@@ -297,7 +297,9 @@ def process_person_skims(tour, person, hh):
 	work_tours['puwarrp'] = work_tours['tardest']
 	work_tours['puwdepp'] = work_tours['tlvdest']
 
-
+	# some people make multiple work tours; select only the tours with greatest distance
+	primary_work_tour = work_tours.groupby('unique_id')['tlvdest','unique_tour_id'].max()
+	work_tours = work_tours[work_tours.unique_tour_id.isin(primary_work_tour['unique_tour_id'].values)]
 	# Merge these results back into the original person file
 
 	# drop the original Work Mode field
@@ -318,6 +320,10 @@ def process_person_skims(tour, person, hh):
 	school_tours = tour_per[tour_per['pdpurp'] == 2]
 	school_tours['pusarrp'] = school_tours['tardest']
 	school_tours['pusdepp'] = school_tours['tlvdest']
+
+	# Select a primary school trip, based on longest distance
+	primary_school_tour = school_tours.groupby('unique_id')['tlvdest','unique_tour_id'].max()
+	school_tours = school_tours[school_tours.unique_tour_id.isin(primary_school_tour['unique_tour_id'].values)]
 
 	person = pd.merge(person,school_tours[['hhno', 'pno','pusarrp', 'pusdepp']], 
 		on=['hhno','pno'], how='left')
@@ -508,7 +514,7 @@ def main():
 	# Save updated dat files
 	for field in ['tlvorig','tardest','tlvdest','tarorig']:
 	    tour = hhmm_to_mam(tour,field)
-	tour.to_csv(output_dir + 'tour' + 'P14.dat', index=False)
+	tour.to_csv(output_dats + 'tour' + 'P14.dat', index=False)
 
 	for field in ['deptm','arrtm','endacttm']:
 	    trip = hhmm_to_mam(trip,field)
@@ -522,7 +528,7 @@ def main():
 	trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
 	tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
 
-	# Join household to trip data to get income
+	# # Join household to trip data to get income
 	trip_hh = pd.merge(trip,hh, on='hhno')
 	tour_hh = pd.merge(tour,hh, on='hhno')
 
