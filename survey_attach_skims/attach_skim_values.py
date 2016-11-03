@@ -6,18 +6,21 @@ import numpy as np
 import h5py
 import glob
 import math
+from shutil import copyfile
 from EmmeProject import *
 
 # Read the h5-formatted 2014 survey data
 # Note that the trip-record tables needs a unique trip id field
 # this will need to be added to the DAT files sent by Mark Bradley.
-input_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\new_weights_10_28_16'
-output_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\new_weights_10_28_16\skims_attached'
+input_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\gps_weights_11_3_16\formatted'
+input_sep = ','
+output_dir = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\gps_weights_11_3_16\formatted\skims_attached'
 
 # save DAT file with MAM time format conversion
-output_dats = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\new_weights_10_28_16\time_converted\\'
-h5output = 'survey2014_nov16.h5'
-version_tag = 'P14'
+# Make sure directory exists before trying to save results there
+output_dats = r'R:\SoundCastDocuments\2014Estimation\Files_From_Mark_2014\gps_weights_11_3_16\formatted\time_converted\\'
+h5output = 'survey2014_gps_wt_nov16.h5'
+version_tag = 'P14_w'
 
 
 matrix_dict_loc = r'R:\SoundCast\releases\TransportationFutures2010\inputs\skim_params\demand_matrix_dictionary.json'
@@ -394,7 +397,7 @@ def update_records(trip,tour,person):
 	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
-	    df.to_csv(output_dir + r'\trip' + version_tag + '.dat', sep=' ',index=False) 
+	    df.to_csv(output_dir + r'\trip' + version_tag + '.dat', sep=input_sep,index=False) 
 	    
 	# For tour
 	df = pd.merge(tour,tour_skim[['id','c','d','t']],on='id',how='left')
@@ -408,7 +411,7 @@ def update_records(trip,tour,person):
 	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
-	    df.to_csv(output_dir + r'\tour' + version_tag + '.dat', sep=' ',index=False)
+	    df.to_csv(output_dir + r'\tour' + version_tag + '.dat', sep=input_sep,index=False)
 
 	# Person records
 	df = pd.merge(person,person_skim[['id','puwmode','puwarrp','puwdepp']],on='id',how='left')
@@ -439,7 +442,7 @@ def update_records(trip,tour,person):
 
 	df = df.drop(['d','t'],axis=1)
 	# export results
-	df.to_csv(output_dir + r'\prec' + version_tag + '.dat', sep=' ',index=False) 
+	df.to_csv(output_dir + r'\prec' + version_tag + '.dat', sep=input_sep,index=False) 
 
 def dat_to_h5(file_list):
 	group_dict={
@@ -461,7 +464,7 @@ def dat_to_h5(file_list):
 	for fname in file_list:
 		print fname
 		# Read csv data
-		df = pd.read_csv(fname,sep=' ')
+		df = pd.read_csv(fname,sep=input_sep)
 
 		df = df.fillna(-1)
 		# # Create new group name based on CSV file name
@@ -502,65 +505,71 @@ def hhmm_to_mam(df,field):
 def main():
 
 	# Open Emme project to acquire zone numbers for lookup to skim indeces
-	my_project = EmmeProject(project_dir)
+	# my_project = EmmeProject(project_dir)
 
-	# Load data
-	trip = pd.read_csv(input_dir + r'/trip' + version_tag + '.dat', sep=' ')
-	tour = pd.read_csv(input_dir + r'/tour' + version_tag + '.dat', sep=' ')
-	hh = pd.read_csv(input_dir + r'/hrec' + version_tag + '.dat', sep=' ')
-	person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=' ')
+	# # Load data
+	# trip = pd.read_csv(input_dir + r'/trip' + version_tag + '.dat', sep=input_sep)
+	# tour = pd.read_csv(input_dir + r'/tour' + version_tag + '.dat', sep=input_sep)
+	# hh = pd.read_csv(input_dir + r'/hrec' + version_tag + '.dat', sep=input_sep)
+	# person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=input_sep)
 
-	# Correct time fields (from HHMM to minutes after midnight)
-	# Save updated dat files
-	for field in ['tlvorig','tardest','tlvdest','tarorig']:
-	    tour = hhmm_to_mam(tour,field)
-	tour.to_csv(output_dats + 'tour' + 'P14.dat', index=False)
+	# # Correct time fields (from HHMM to minutes after midnight)
+	# # Save updated dat files
+	# for field in ['tlvorig','tardest','tlvdest','tarorig']:
+	#     tour = hhmm_to_mam(tour,field)
+	# tour.to_csv(output_dats + 'tour' + version_tag + '.dat', index=False)
 
-	for field in ['deptm','arrtm','endacttm']:
-	    trip = hhmm_to_mam(trip,field)
-	trip.to_csv(output_dats + 'trip' + 'P14.dat', index=False)
+	# for field in ['deptm','arrtm','endacttm']:
+	#     trip = hhmm_to_mam(trip,field)
+	# trip.to_csv(output_dats + 'trip' + version_tag + '.dat', index=False)
 
-	# drop any rows with -1 expansion factor
-	person = person[person['psexpfac']>=0]
+	# # drop any rows with -1 expansion factor
+	# person = person[person['psexpfac']>=0]
 
-	# Add unique id fields 
-	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
-	trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
-	tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
+	# # Add unique id fields 
+	# person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
+	# trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
+	# tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
 
-	# # Join household to trip data to get income
-	trip_hh = pd.merge(trip,hh, on='hhno')
-	tour_hh = pd.merge(tour,hh, on='hhno')
+	# # # Join household to trip data to get income
+	# trip_hh = pd.merge(trip,hh, on='hhno')
+	# tour_hh = pd.merge(tour,hh, on='hhno')
 
-	# # # # Extract person-level results from trip file
-	person_modified = process_person_skims(tour,person,hh)
+	# # # # # Extract person-level results from trip file
+	# person_modified = process_person_skims(tour,person,hh)
 
-	# Fetch trip skims based on trip departure time
-	fetch_skim('trip',trip_hh, time_field='deptm', mode_field='mode',
-		otaz_field='otaz', dtaz_field='dtaz', my_project=my_project)
+	# # Fetch trip skims based on trip departure time
+	# fetch_skim('trip',trip_hh, time_field='deptm', mode_field='mode',
+	# 	otaz_field='otaz', dtaz_field='dtaz', my_project=my_project)
 
-	# Fetch tour skims based on tour departure time from origin
-	fetch_skim('tour', tour_hh, time_field='tlvorig', mode_field='tmodetp',
-		otaz_field='totaz', dtaz_field='tdtaz', my_project=my_project)
+	# # Fetch tour skims based on tour departure time from origin
+	# fetch_skim('tour', tour_hh, time_field='tlvorig', mode_field='tmodetp',
+	# 	otaz_field='totaz', dtaz_field='tdtaz', my_project=my_project)
 
-	# Attach person-level work skims based on home to work auto trips
-	fetch_skim('work_travel', person_modified, time_field='puwarrp', mode_field='puwmode',
-		otaz_field='hhtaz', dtaz_field='pwtaz', my_project=my_project, use_mode=3)
+	# # Attach person-level work skims based on home to work auto trips
+	# fetch_skim('work_travel', person_modified, time_field='puwarrp', mode_field='puwmode',
+	# 	otaz_field='hhtaz', dtaz_field='pwtaz', my_project=my_project, use_mode=3)
 	
-	# Attach person-level school skims based on home to school auto trips
-	# NOTE: mode is irrelevant in this case
-	fetch_skim('school_travel', person_modified, time_field='pusarrp', mode_field='puwmode',
-		otaz_field='hhtaz', dtaz_field='pstaz', my_project=my_project, use_mode=3)
+	# # Attach person-level school skims based on home to school auto trips
+	# # NOTE: mode is irrelevant in this case
+	# fetch_skim('school_travel', person_modified, time_field='pusarrp', mode_field='puwmode',
+	# 	otaz_field='hhtaz', dtaz_field='pstaz', my_project=my_project, use_mode=3)
 
-	# Reload original person file and attach skim results	# 
-	person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=' ')
-	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
+	# # Reload original person file and attach skim results	# 
+	# person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=input_sep)
+	# person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
 	
-	# Update records
-	update_records(trip,tour,person)
+	# # Update records
+	# update_records(trip,tour,person)
 
 	# Write results to h5
 	write_list = ['tour','trip','prec','hrec','hday','pday']
+
+	# copy non-updated files to the same output directory for consistency
+	for file in write_list:
+		if file not in ['tour','prec','trip']:
+			copyfile(input_dir + r'\\' +file+version_tag+'.dat', output_dir + r'\\' +file+version_tag+'.dat')
+
 	dat_to_h5([output_dir + r'\\' +file+version_tag+'.dat' for file in ['tour','trip','prec','hrec','hday','pday']])
 
 
