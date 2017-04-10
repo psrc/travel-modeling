@@ -1,3 +1,7 @@
+'''
+This script was created to compare the transit trips between survey and daysim outputs, by district level. 
+'''
+
 import pandas as pd
 import numpy as np
 import h5py
