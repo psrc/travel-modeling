@@ -1,9 +1,23 @@
 import pandas as pd
 import numpy as np
 
-################################
+################################ Load Files
+# Air quality output produced from Soundcast scripts\summarize\standard\air_quality script
+aq_rates = pd.read_csv(r'L:\T2040\soundcast_2014\outputs\aq_2014_july.csv')
+
+# Activity results are at parcel level - aggregate to block level for now
+block_parcel_lookup = pd.read_csv(r'R:\aq\new_parcel_block_lookup.txt')
+
+# Load intersection of blocks and network components (replace with parcel intersect in future)
+# This was done in GIS, as an intersect between edges_0 and a layer of block centroids buffered at 500 ft.
+# Ideally do this in code with geopandas
+block_network = pd.read_csv(r'R:\aq\block_network_intersect.txt')
+
 # Use trip records to create activity patterns for each simulated person in the region
 df = pd.read_csv('_trip.tsv', sep='\t')   # Daysim standard output
+
+################################
+# Start script
 
 # Generate unique person ID field 
 df['person_id'] = df['hhno'].astype('str') + '_' + df['pno'].astype('str')
@@ -65,33 +79,23 @@ activity['end_hour_fraction'] = (activity['end_time']-((activity['end_hour'])*60
 
 
 # Write to CSV
-activity.to_csv(r'C:/users/brice/activity.csv', index=False)
+activity.to_csv(r'activity.csv', index=False)
 
 ###############################
 # Create pollution totals by assignment period
 # Re-read if you want to skip the above munging
 activity = pd.read_csv(r'activity.csv')
 
-# Activity results are at parcel level - aggregate to block level for now
-block_parcel_lookup = pd.read_csv(r'R:\aq\new_parcel_block_lookup.txt')
 
 # Add census block field (GEOID10) to the activity records
 # We use this to help filter out blocks that don't appear in the activity df
 activity = pd.merge(activity, block_parcel_lookup[['parcelid','GEOID10']], left_on='parcel',right_on='parcelid', how='left')
-
-# Load intersection of blocks and network components (replace with parcel intersect in future)
-# This was done in GIS, as an intersect between edges_0 and a layer of block centroids buffered at 500 ft.
-# Ideally do this in code with geopandas
-block_network = pd.read_csv(r'R:\aq\block_network_intersect.txt')
 
 # Remove unneeded columns and rename temporarily
 df = block_network[['Shape_Length','GEOID10','NewINode','NewJNode']]
 
 # Remove any block that doesn't exist in activity dataframe
 df = df[df['GEOID10'].isin(pd.unique(activity['GEOID10']))]
-
-# Air quality output produced from Soundcast scripts\summarize\standard\air_quality script
-aq_rates = pd.read_csv(r'L:\T2040\soundcast_2014\outputs\aq_2014_july.csv')
 
 # List of pollutant IDs; not sure which ones we will need in the future
 pollutant_list = [1,2,3,5,6,79,87,90,91,98,100,106,107,110,112,115,116,117,118,119]
