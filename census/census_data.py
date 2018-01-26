@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 # I have some hard codes I need to get out of here.
 
 
-working_directory = r'C:\Users\SChildress\Documents\Scripted-Data-Profiles'
+working_directory = r'C:\Users\SChildress\Documents\Census'
 my_key = 'd35ff72cb418d90e16e0a6e221a69c00e1209c5c'
 base_year ='2016'
 comparison = '2012'
@@ -32,23 +32,30 @@ geography_ids = {'033': ('county','King','co'),
                        '70000':('place','Tacoma' ,'place')
                       }
 
+
+
 ## Dictionaries for Census Data Tables with labels
 tables = {'$02*001%':'Total Households',
           '$02*013P%': 'Households % People Under 18',
           '$02*014P%': 'Households % People Over 65',
           '$02*015%': 'Average HH Size',
+          '$03*061P%': 'Income Over 200K',
           '$05*017%': 'Median Age',
-          '$05*018P%': 'Percent 18 and Older',
-          '$05*025P%': 'Percent 65 and Older',
           '$05*032P%': 'Percent One race White',
-          '$05*033P%': 'Percent One race Black',
-          '$05*034P%': 'Percent One race Am Ind',
+          #'$05*033P%': 'Percent One race Black',
           '$05*039P%': 'Percent One race Asian',
-          '$05*053P%': 'Percent Two plus races',
+          '$02*071P%': 'Percent with a Disability',
+          '$02*079P%' : 'Percent in Same House LY',
+          '$02*088P%' : 'Percent Born in US',
+          #'$02*151P%' : 'Percent with a Computer',
+          '$02*067P%' : 'Percent with Bachelor Degree ',
           '$03*062%': 'Median Income',
-          '$03*073P%': 'Percent with cash pub assist',
           '$03*074P%': 'Percent with foodstamps',
-          '$03*119P%': 'Percent families below poverty'
+          '$03*096P%' : 'Percent with Health Insurance',
+          '$03*119P%': 'Percent families below poverty',
+          '$03*019P%' : 'Percent Drove Alone',
+          '$03*025P%' : 'Mean travel time to work',
+          '$03*004P%' : 'Civilian Percent  employed'
          }
 
 
@@ -60,6 +67,7 @@ def create_census_url_dp(dataset, data_tables, geography_type, geography_id, yea
     data_tables = data_tables.replace('%', data_type)
     data_tables = data_tables.replace('$', 'DP')
     census_api_call = 'https://api.census.gov/data/' + str(year) + '/'+ dataset + '/profile/' + '?get=' + data_tables + '&' + 'for='+geography_type+':'+ geography_id+ '&in=state:53'+ '&key=' + api_key
+    print census_api_call
     return census_api_call
 
 
@@ -94,7 +102,6 @@ for key in tables:
     new_df = pd.DataFrame()
 
     for geography_id in geography_ids:
-
 
             current_df = pd.DataFrame()
             returns_numeric = True
@@ -133,17 +140,16 @@ for key in tables:
 
             new_df = new_df.append(current_df)
 
-
+    new_df.to_excel(writer, sheet_name = tables[key], index = False)
     new_df.set_index('Geography', drop=True,inplace=True)
     df_estimates = new_df[new_df.columns[0:2]]
     df_errors = new_df[new_df.columns[2:4]]
-
     df_errors.columns = df_estimates.columns
 
     df_plot = df_estimates.plot(kind='bar', yerr = df_errors)
     fig = df_plot.get_figure()
-    
     fig.tight_layout()
-    fig.savefig(working_directory + '/'+  tables[key])
-    new_df.to_excel(writer, sheet_name = tables[key], index = False)
+
+    fig.savefig(working_directory + '/output/acs'+  tables[key])
+    
     writer.save()
