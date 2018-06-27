@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np 
+import os as os
 
 dir = 'R:/Angela/transit_routes_2018/'
 output_loc = 'emme_gtfs_sum/' 
@@ -7,10 +8,11 @@ service_date = 20180417
 start_date = 20180416
 end_date = 20180418
 day_of_week= 'tuesday'
-feed_list = ['KC', 'PT', 'ET', 'CT', 'KT']
+feed_list = ['KC', 'PT', 'ET', 'CT', 'KT', 'FERRY']
 feed_dict = {}
 
 # Note: KC Metro has extra files - 'block': block, 'block_trip': block_trip
+
 
 def get_service_ids(calendar, calendar_dates, day_of_week, service_date):
     regular_service_dates = calendar[(calendar['start_date']<= service_date) & (calendar['end_date'] >= service_date) & (calendar[day_of_week] == 1)]['service_id'].tolist()
@@ -29,7 +31,10 @@ for feed in feed_list:
     feed_dict[feed] = {}
     # read data
     calendar = pd.read_csv(dir + feed + '_gtfs/' + 'calendar.txt')
-    calendar_dates = pd.read_csv(dir + feed + '_gtfs/'+ 'calendar_dates.txt')
+    if os.path.exists(dir + feed + '_gtfs/'+ 'calendar_dates.txt') is False:
+        calendar_dates = pd.DataFrame(columns=['service_id', 'date', 'exception_type']) 
+    else:
+        calendar_dates = pd.read_csv(dir + feed + '_gtfs/'+ 'calendar_dates.txt')
     trips = pd.read_csv(dir + feed + '_gtfs/' + 'trips.txt')
     stops = pd.read_csv(dir + feed + '_gtfs/' + 'stops.txt')
     stop_times = pd.read_csv(dir + feed + '_gtfs/' + 'stop_times.txt')
