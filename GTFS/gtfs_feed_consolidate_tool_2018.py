@@ -108,7 +108,7 @@ def save_sum(df_name, sum_name, feed_dict, dir, output_loc):
     sum_df = pd.DataFrame()
     for feed in feed_dict: 
         sum_df = pd.concat([sum_df, feed_dict[feed][df_name]])
-        sum_df.to_csv(dir + output_loc + sum_name)
+        sum_df.to_csv(dir + output_loc + sum_name, index=None)
 
 save_sum('agency_df', 'agency.txt', feed_dict, dir, output_loc)
 save_sum('calendar_df', 'calendar.txt', feed_dict, dir, output_loc)
