@@ -14,14 +14,14 @@ max_gate_id = 15
 get_gate_mode_splits = False
 use_warm_starts = True
 
-gates_df = pd.read_csv(r'inputs\gates.csv')
+gates_df = pd.read_csv(r'inputs\gates2_walkadjust.csv')
 tod_list = ['6to7', '7to8','8to9']
 
 bank_list = [r'D:\stefan\Seattle_voc\code\banks\6to7', r'D:\stefan\Seattle_voc\code\banks\7to8', r'D:\stefan\Seattle_voc\code\banks\8to9'] 
 
 project_list = ['projects/6to7/6to7.emp', 'projects/7to8/7to8.emp', 'projects/8to9/8to9.emp']
 
-skim_dict = {"sov" : ["svtl1", "svtl2", "svtl3"], "hov2" : ["h2tl1", "h2tl2", "h2tl3"], "hov3" : ["h3tl1","h3tl2", "h3tl3"], "trucks" : ["hvtrk", "metrk", "lttrk"], "transit" : ['litrat', 'trnst']}
+skim_dict = {"sov" : ["svtl1", "svtl2", "svtl3"], "hov2" : ["h2tl1", "h2tl2", "h2tl3"], "hov3" : ["h3tl1","h3tl2", "h3tl3"], "trucks" : ["hvtrk", "metrk", "lttrk"], "transit" : ['litrat', 'trnst'], 'walk' : ['walk'], 'bike' : ['bike']}
 
 skim_list = [item for sublist in skim_dict.values() for item in sublist]
 
@@ -31,16 +31,30 @@ def start_pool(project_list):
     pool.map(run_traversal_parallel,project_list[0:parallel_instances])
     pool.close()
 
+def transit_assignment(spec, name, project, add_volumes_):
+     with open(spec) as f:
+        spec = json.load(f)
+     assign_transit = project.m.tool("inro.emme.transit_assignment.extended_transit_assignment")
+     return  assign_transit(spec, save_strategies=True, class_name=name, add_volumes=add_volumes_)
+
+def transit_traversal(spec, name, project):
+     with open(spec) as f:
+        spec = json.load(f)
+     NAMESPACE = "inro.emme.transit_assignment.extended.traversal_analysis"
+     analyze_transit_paths = project.m.tool(NAMESPACE)
+     return analyze_transit_paths(spec, append_to_output_file=False, class_name= name, output_file= 'outputs/' + name + '_traversal_' + project.tod, num_processors = 8)
+
+
 def run_traversal_parallel(project_name):
     my_project = EmmeProject(project_name)
 
-    # auto assignment/traversal:
+    ## auto assignment/traversal:
     with open(r'inputs\traffic_assignment.ems') as f:
         spec = json.load(f)
     assign_traffic = my_project.m.tool("inro.emme.traffic_assignment.path_based_traffic_assignment")
     report = assign_traffic(spec, warm_start = use_warm_starts)
 
-    print 'finished assignment'
+    #print 'finished assignment'
 
     with open(r'inputs\auto_taversal.ems') as f:
         spec = json.load(f)
@@ -49,33 +63,18 @@ def run_traversal_parallel(project_name):
     report = analyze_paths(spec)
 
     # bus transit assignment/traversal
-    with open(r'inputs\bus_transit_assignment.ems') as f:
-        spec = json.load(f)
-    assign_transit = my_project.m.tool("inro.emme.transit_assignment.extended_transit_assignment")
-    report = assign_transit(spec, save_strategies=True, class_name='Bus', add_volumes=False)
+    bus_assigment = transit_assignment(r'inputs\bus_transit_assignment.ems', 'Bus', my_project, False)
+    bus_traversal = transit_traversal(r'inputs\transit_traversal_analysis.ems', 'Bus', my_project)
 
-    print 'finished assignment'
+    rail_assignment = transit_assignment(r'inputs\rail_transit_assignment.ems', 'Rail', my_project, True)
+    rail_traversal = transit_traversal(r'inputs\transit_traversal_analysis.ems', 'Rail', my_project)
 
-    with open(r'inputs\transit_traversal_analysis.ems') as f:
-        spec = json.load(f)
-    NAMESPACE = "inro.emme.transit_assignment.extended.traversal_analysis"
-    analyze_transit_paths = my_project.m.tool(NAMESPACE)
-    report = analyze_transit_paths(spec, append_to_output_file=False, class_name='Bus', output_file= 'outputs/bus_traversal_' + my_project.tod, num_processors = 8)
+    walk_assignment = transit_assignment(r'inputs\walk_transit_assignment.ems', 'walk', my_project, True)
+    walk_traversal = transit_traversal(r'inputs\transit_traversal_analysis.ems', 'walk', my_project)
 
-    # rail transit assignment/traversal
-    with open(r'inputs\rail_transit_assignment.ems') as f:
-        spec = json.load(f)
-    assign_transit = my_project.m.tool("inro.emme.transit_assignment.extended_transit_assignment")
-    report = assign_transit(spec, save_strategies=True, class_name='Rail', add_volumes=True)
+    bike_assignment = transit_assignment(r'inputs\bike_transit_assignment.ems', 'bike', my_project, True)
+    bike_traversal = transit_traversal(r'inputs\transit_traversal_analysis.ems', 'bike', my_project)
 
-    print 'finished assignment'
-
-    with open(r'inputs\transit_traversal_analysis.ems') as f:
-        spec = json.load(f)
-    NAMESPACE = "inro.emme.transit_assignment.extended.traversal_analysis"
-    analyze_transit_paths = my_project.m.tool(NAMESPACE)
-    report = analyze_transit_paths(spec, append_to_output_file=False, class_name='Rail', output_file= 'outputs/rail_traversal_' + my_project.tod, num_processors = 8)
-    
     my_project.bank.dispose()
 
 def update_network_attribute(bank_path, att_name):
@@ -101,7 +100,7 @@ def gate_volumes_by_class(bank):
             if link['@gate'] not in gate_dict.keys():
                 gate_dict[link['@gate']] = {}
             for key, value in skim_dict.iteritems():
-                if not key == 'transit':
+                if not key not in ['transit', 'bike', 'walk']:
                     vol = 0
                     
                     for user_class in value:
@@ -125,7 +124,7 @@ def gate_volumes_by_class(bank):
 
 
 def main():
-    gates_df = pd.read_csv(r'inputs\gates.csv')
+    gates_df = pd.read_csv(r'inputs\gates2_walkadjust.csv')
     districts_df = gates_df[gates_df['TAZ'] >0]
     districts_df = districts_df.groupby('TAZ').first()
     districts_df.reset_index(inplace = True)
@@ -136,7 +135,7 @@ def main():
     for path in bank_list:
         update_network_attribute(path, '@gate')
 
-    # create matrices for traversal results
+    #create matrices for traversal results
     for bank_path in bank_list:
         bank = _eb.Emmebank(os.path.join(bank_path, 'emmebank'))
         for matrix in bank.matrices():
@@ -154,8 +153,9 @@ def main():
  
     np_matrices = {}
     for key in skim_dict.keys():
-        print key 
-        np_matrices[key] = np.zeros((3700,3700), np.float16)
+        if key not in ['transit', 'bike', 'walk']:
+            print key 
+            np_matrices[key] = np.zeros((3700,3700), np.float16)
 
     for tod in tod_list:
         bank = _eb.Emmebank(os.path.join('banks', tod, 'emmebank'))
@@ -199,7 +199,7 @@ def main():
     df_final['walk_vol'] = 0
      
     for tod in tod_list:
-        rail_df = pd.read_csv(r'outputs\rail_traversal_' + tod, skiprows=17, delim_whitespace = True, header =  None)
+        rail_df = pd.read_csv(r'outputs\rail_traversal_' + tod, skiprows=17, delim_whitespace = True, header =  None, engine = 'python')
         rail_df.columns = ['from', 'to', 'tvol']
         df_final = df_final.merge(rail_df, how='left', on = ['from', 'to'])
         df_final['tvol'] = df_final['tvol'].convert_objects(convert_numeric=True)
@@ -207,12 +207,28 @@ def main():
         df_final['transit_vol'] = df_final['transit_vol'] + df_final['tvol']
         df_final.drop('tvol', axis= 1, inplace=True)
 
-        bus_df = pd.read_csv(r'outputs\bus_traversal_' + tod, skiprows=17, delim_whitespace = True, header =  None)
+        bus_df = pd.read_csv(r'outputs\bus_traversal_' + tod, skiprows=17, delim_whitespace = True, header =  None, engine = 'python')
         bus_df.columns = ['from', 'to', 'tvol']
         df_final = df_final.merge(bus_df, how='left', on = ['from', 'to'])
         df_final['tvol'] = df_final['tvol'].convert_objects(convert_numeric=True)
         df_final.tvol.fillna(0, inplace=True)
         df_final['transit_vol'] = df_final['transit_vol'] + df_final['tvol'].astype(float)
+        df_final.drop('tvol', axis= 1, inplace=True)
+
+        walk_df = pd.read_csv(r'outputs\walk_traversal_' + tod, skiprows=17, delim_whitespace = True, header =  None, engine = 'python')
+        walk_df.columns = ['from', 'to', 'tvol']
+        df_final = df_final.merge(walk_df, how='left', on = ['from', 'to'])
+        df_final['tvol'] = df_final['tvol'].convert_objects(convert_numeric=True)
+        df_final.tvol.fillna(0, inplace=True)
+        df_final['walk_vol'] = df_final['walk_vol'] + df_final['tvol'].astype(float)
+        df_final.drop('tvol', axis= 1, inplace=True)
+
+        bike_df = pd.read_csv(r'outputs\bike_traversal_' + tod, skiprows=17, delim_whitespace = True, header =  None, engine = 'python')
+        bike_df.columns = ['from', 'to', 'tvol']
+        df_final = df_final.merge(bike_df, how='left', on = ['from', 'to'])
+        df_final['tvol'] = df_final['tvol'].convert_objects(convert_numeric=True)
+        df_final.tvol.fillna(0, inplace=True)
+        df_final['bike_vol'] = df_final['bike_vol'] + df_final['tvol'].astype(float)
         df_final.drop('tvol', axis= 1, inplace=True)
 
     districts_df = districts_df[['TAZ', 'district_2', 'district_2_name', 'aggregate_district_name2']]
