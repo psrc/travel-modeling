@@ -7,9 +7,10 @@ import numpy as np
 
 working_dir = r'C:\Users\SChildress\Documents\google_places_data'
 zone_file = 'zone_lat_long_test.csv'
+tract_zone_hh_file = 'tract_zone_hh_file.csv'
+out_file = 'tract_dist_amenity.csv'
 
-amenity_types = ['supermarket','library','hospital','pharmacy','post_office','school','cafe','store']
-amenity_type = 'supermarket'
+amenity_types = ['supermarket','library','hospital','pharmacy','school','cafe']
 API_KEY = open(working_dir+'/google_api_key.txt').read()
 google_places = GooglePlaces(API_KEY)
 # 10K is the farther away to look
@@ -28,8 +29,8 @@ def distance(s_lat, s_lng, e_lat, e_lng):
     
     return 2 * R * np.arcsin(np.sqrt(d))
 
-def find_distance(zone_id, zone_lat, zone_long, amenity_type):
-    query_result = google_places.nearby_search(keyword=amenity_type,
+def find_distance(zone_id, zone_lat, zone_long, amenity):
+    query_result = google_places.nearby_search(keyword=amenity,
     lat_lng={'lat': zone_lat, 'lng': zone_long}, rankby = 'distance', 
     radius=max_search)
 
@@ -39,10 +40,8 @@ def find_distance(zone_id, zone_lat, zone_long, amenity_type):
         dist_between = distance(zone_lat, zone_long, nearest_lat, nearest_long)
     except:
         dist_between = -1
-    
-    return pd.Series({'ZoneID': zone_id, 'Dist_'+amenity_type:dist_between})
 
-
+    return pd.Series([zone_id, dist_between])
 
 def get_distances(zones):
     amenity_count = 0
@@ -50,28 +49,29 @@ def get_distances(zones):
         print amenity
         if amenity_count == 0:
             zones_out = zones.apply(lambda row: find_distance(row['ZoneID'], row['LAT'], row['LONG'], amenity), axis=1)
-            
+            zones_out.columns = ['ZoneID', amenity]
         else:
             zones_next = zones.apply(lambda row: find_distance(row['ZoneID'], row['LAT'], row['LONG'], amenity), axis=1)
+            zones_next.columns = ['ZoneID', amenity]
             zones_out = pd.merge(zones_next, zones_out, on ='ZoneID')
         
         amenity_count = amenity_count + 1
 
-        return zones_out
+    return zones_out
+
+def get_tract_distances(zones_distances,tract_zones_hh):
+    zone_dist_tract = pd.merge(zones_distances, tract_zones_hh, left_on = 'ZoneID', right_on = 'taz_p')
+    g= zone_dist_tract.groupby('GEOID')
+    g.apply(lambda x: pd.Series(np.average(x[amenity_types], weights=x['hh_p'], axis=0), amenity_types))
+
 
 
 def main():
-    
     zones = pd.read_csv(working_dir +'\\' +zone_file)
+    tract_zones_hh = pd.read_csv(working_dir +'\\' +tract_zone_hh_file)
     zones_distances = get_distances(zones)
-
-    # read in the list of zone centroids lat longs
-    # define list of amenities to search for
-    # for each zone for each amenity find the lat long of the nearest amenity by type
-    #write it out
-
-
-
+    tract_distances = get_tract_distances(zones_distances, tract_zone_hh)
+    tract_distances.to_csv(working_dir+'\\'+out_file)
 
 if __name__ == "__main__":
     main()
