@@ -6,7 +6,7 @@ import numpy as np
 #where to find googleplaces: https://github.com/slimkrazy/python-google-places
 
 working_dir = r'C:\Users\SChildress\Documents\google_places_data'
-zone_file = 'zone_lat_long_test.csv'
+zone_file = 'zone_lat_long.csv'
 tract_zone_hh_file = 'tract_zone_hh_file.csv'
 out_file = 'tract_dist_amenity.csv'
 
@@ -39,7 +39,8 @@ def find_distance(zone_id, zone_lat, zone_long, amenity):
         nearest_long = float(query_result.places[0].geo_location['lng'])
         dist_between = distance(zone_lat, zone_long, nearest_lat, nearest_long)
     except:
-        dist_between = -1
+        # if it can't find a distance, set the distance at the max distance (10K, 6.2 miles)
+        dist_between = 6.2
 
     return pd.Series([zone_id, dist_between])
 
@@ -62,15 +63,14 @@ def get_distances(zones):
 def get_tract_distances(zones_distances,tract_zones_hh):
     zone_dist_tract = pd.merge(zones_distances, tract_zones_hh, left_on = 'ZoneID', right_on = 'taz_p')
     g= zone_dist_tract.groupby('GEOID')
-    g.apply(lambda x: pd.Series(np.average(x[amenity_types], weights=x['hh_p'], axis=0), amenity_types))
-
-
+    tract_distances = g.apply(lambda x: pd.Series(np.average(x[amenity_types], weights=x['hh_p'], axis=0), amenity_types))
+    return tract_distances
 
 def main():
     zones = pd.read_csv(working_dir +'\\' +zone_file)
     tract_zones_hh = pd.read_csv(working_dir +'\\' +tract_zone_hh_file)
     zones_distances = get_distances(zones)
-    tract_distances = get_tract_distances(zones_distances, tract_zone_hh)
+    tract_distances = get_tract_distances(zones_distances, tract_zones_hh)
     tract_distances.to_csv(working_dir+'\\'+out_file)
 
 if __name__ == "__main__":
