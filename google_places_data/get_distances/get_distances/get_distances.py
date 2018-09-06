@@ -8,9 +8,11 @@ import numpy as np
 working_dir = r'C:\Users\SChildress\Documents\google_places_data'
 zone_file = 'zone_lat_long.csv'
 tract_zone_hh_file = 'tract_zone_hh_file.csv'
+zone_distances = 'zone_dist_amenity.csv'
 out_file = 'tract_dist_amenity.csv'
 
-amenity_types = ['supermarket','library','hospital','pharmacy','school','cafe']
+amenity_types = ['supermarket','pharmacy','school', 'restaurant']
+
 API_KEY = open(working_dir+'/google_api_key.txt').read()
 google_places = GooglePlaces(API_KEY)
 # 10K is the farther away to look
@@ -57,19 +59,27 @@ def get_distances(zones):
             zones_out = pd.merge(zones_next, zones_out, on ='ZoneID')
         
         amenity_count = amenity_count + 1
+        zones_out.to_csv(working_dir+'\\'+amenity + ' ' + zone_distances)
 
     return zones_out
 
 def get_tract_distances(zones_distances,tract_zones_hh):
     zone_dist_tract = pd.merge(zones_distances, tract_zones_hh, left_on = 'ZoneID', right_on = 'taz_p')
     g= zone_dist_tract.groupby('GEOID')
-    tract_distances = g.apply(lambda x: pd.Series(np.average(x[amenity_types], weights=x['hh_p'], axis=0), amenity_types))
+    # have to also take care of if there is weird missing data (hh_p)
+    tract_distances = g.apply(lambda x: pd.Series(np.average(x[amenity_types], weights=x['hh_p'], axis=0), amenity_types)
+                                  if x['hh_p'].sum()>0 
+                                  else 
+                                  pd.Series(np.average(x[amenity_types], axis=0), amenity_types))
+
     return tract_distances
 
 def main():
     zones = pd.read_csv(working_dir +'\\' +zone_file)
     tract_zones_hh = pd.read_csv(working_dir +'\\' +tract_zone_hh_file)
     zones_distances = get_distances(zones)
+    #zones_distances = pd.read_csv(working_dir +'\\zone_dist_amenity.csv')
+    zones_distances.to_csv(working_dir+'\\'+ zone_distances)
     tract_distances = get_tract_distances(zones_distances, tract_zones_hh)
     tract_distances.to_csv(working_dir+'\\'+out_file)
 
