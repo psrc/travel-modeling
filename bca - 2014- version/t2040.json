@@ -1,0 +1,381 @@
+{
+"description": "User benefits calculation of a new cross-sound bridge.",
+"year": 2040,
+"outputpath": "c:/users/billy/desktop/test-benefits.h5",
+"constantdollars": 2010,
+
+"baseline": {
+    "description": "Test base",
+    "filepath": "c:/users/billy/desktop/adopted.h5"
+},
+
+"alternative": {
+    "description": "Test alt",
+    "filepath": "c:/users/billy/desktop/hybrid.h5"
+},
+
+
+"timeperiods": {
+    "description": "Conversion of time periods to skim/triptable code",
+    "periods": [ 
+        {"period":"AM", "trperiod":"AM", "code":"a", "trcode":"a", "assignper":"Period1600AM900AM"},
+        {"period":"MD", "trperiod":"MD", "code":"m", "trcode":"m", "assignper":"Period2900AM300PM"},
+        {"period":"PM", "trperiod":"AM", "code":"p", "trcode":"a", "assignper":"Period3300PM600PM"},
+        {"period":"EV", "trperiod":"MD", "code":"e", "trcode":"m", "assignper":"Period4600PM1000PM"},
+        {"period":"NI", "trperiod":"MD", "code":"n", "trcode":"m", "assignper":"Period51000PM600AM"}
+    ]
+},
+
+
+"benefits-by-period": [
+    {"userclass":"HBW Income 1",
+     "costpath":"/${PER}AutoSkims/${CODE}a1tm1",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}hbw1v"
+    },
+
+    {"userclass":"HBW Income 2",
+     "costpath":"/${PER}AutoSkims/${CODE}a1tm2",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}hbw2v"
+    },
+
+    {"userclass":"HBW Income 3",
+     "costpath":"/${PER}AutoSkims/${CODE}a1tm3",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}hbw3v"
+    },
+
+    {"userclass":"HBW Income 4",
+     "costpath":"/${PER}AutoSkims/${CODE}a1tm4",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}hbw4v"
+    },
+
+    {"userclass":"SOV Non-Work",
+     "costpath":"/${PER}AutoSkims/${CODE}au1tm",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}vehda"
+    },
+
+    {"userclass":"HOV 2",
+     "factor":2.0,
+     "costpath":"/${PER}AutoSkims/${CODE}au2tm",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}vehs2"
+    },
+
+    {"userclass":"HOV 3+",
+     "factor":3.2,
+     "costpath":"/${PER}AutoSkims/${CODE}au3tm",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}vehs3"
+    },
+
+    {"userclass":"Vanpool",
+     "factor":4.0,
+     "costpath":"/${PER}AutoSkims/${CODE}au4tm",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}vpool"
+    },
+
+    {"userclass":"Light Truck",
+     "costpath":"/${PER}AutoSkims/${CODE}lgttm",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}lttrk"
+    },
+
+    {"userclass":"Medium Truck",
+     "costpath":"/${PER}AutoSkims/${CODE}medtm",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}mdtrk"
+    },
+
+    {"userclass":"Heavy Truck",
+     "costpath":"/${PER}AutoSkims/${CODE}hvytm",
+     "volumepath":"/VehicleAssignment${ASSIGNPER}/${CODE}hvtrk"
+    },
+
+
+    {"userclass":"Walk to Transit-IVT HBW1",
+     "component":"IVT",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}ivtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th1wa"
+    },
+
+    {"userclass":"Walk to Transit-Walk HBW1",
+     "component":"Walk",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}auxwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th1wa"
+    },
+
+    {"userclass":"Walk to Transit-Wait HBW1",
+     "component":"Wait",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}twtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th1wa"
+    },
+
+
+    {"userclass":"Walk to Transit-IVT HBW2",
+     "component":"IVT",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}ivtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th2wa"
+    },
+
+    {"userclass":"Walk to Transit-Walk HBW2",
+     "component":"Walk",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}auxwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th2wa"
+    },
+
+    {"userclass":"Walk to Transit-Wait HBW2",
+     "component":"Wait",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}twtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th2wa"
+    },
+
+
+    {"userclass":"Walk to Transit-IVT HBW3",
+     "component":"IVT",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}ivtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th3wa"
+    },
+
+    {"userclass":"Walk to Transit-Walk HBW3",
+     "component":"Walk",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}auxwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th3wa"
+    },
+
+    {"userclass":"Walk to Transit-Wait HBW3",
+     "component":"Wait",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}twtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th3wa"
+    },
+
+    {"userclass":"Walk to Transit-IVT HBW4",
+     "component":"IVT",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}ivtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th4wa"
+    },
+
+    {"userclass":"Walk to Transit-Walk HBW4",
+     "component":"Walk",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}auxwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th4wa"
+    },
+
+    {"userclass":"Walk to Transit-Wait HBW4",
+     "component":"Wait",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}twtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}th4wa"
+    },
+
+
+    {"userclass":"Walk to Transit-IVT NHB",
+     "component":"IVT",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}ivtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}tnwwa"
+    },
+
+    {"userclass":"Walk to Transit-Walk NHB",
+     "component":"Walk",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}auxwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}tnwwa"
+    },
+
+    {"userclass":"Walk to Transit-Wait NHB",
+     "component":"Wait",
+     "costpath":"/${TRPER}AllModeTransitSkims/${TRCODE}twtwa",
+     "volumepath":"/TransitWalkAccessTripTables/${CODE}tnwwa"
+    }
+],
+
+
+"vot": {
+    "description":"Value of time in Dollars per hour",
+    "SOV Non-Work": {
+        "AM": 19.835,
+        "MD": 19.835,
+        "PM": 19.835,
+        "EV": 19.835,
+        "NI": 19.835
+    },
+    
+    "HOV 2": {
+        "AM": 38.127,
+        "MD": 24.402,
+        "PM": 28.981,
+        "EV": 25.933,
+        "NI": 33.548
+    },
+    
+    "HOV 3+": {
+        "AM": 48.184,
+        "MD": 26.919,
+        "PM": 34.003,
+        "EV": 25.933,
+        "NI": 33.548
+    },
+    
+    "Vanpool": {
+        "AM": 128.688,
+        "MD": 47.045,
+        "PM": 34.003,
+        "EV": 26.919,
+        "NI": 110.536
+    },
+
+    "HBW Income 1": {
+        "AM": 12.106,
+        "MD": 12.106,
+        "PM": 12.106,
+        "EV": 12.106,
+        "NI": 12.106
+    },
+    
+    "HBW Income 2": {
+        "AM": 22.315,
+        "MD": 22.315,
+        "PM": 22.315,
+        "EV": 22.315,
+        "NI": 22.315
+    },
+    
+    "HBW Income 3": {
+        "AM": 32.523,
+        "MD": 32.523,
+        "PM": 32.523,
+        "EV": 32.523,
+        "NI": 32.523
+    },
+
+    "HBW Income 4": {
+        "AM": 42.162,
+        "MD": 42.162,
+        "PM": 42.162,
+        "EV": 42.162,
+        "NI": 42.162
+    },
+
+    "Light Truck": {
+        "AM": 50.600,
+        "MD": 50.600,
+        "PM": 50.600,
+        "EV": 50.600,
+        "NI": 50.600
+    },
+    
+    "Medium Truck": {
+        "AM": 56.925,
+        "MD": 56.925,
+        "PM": 56.925,
+        "EV": 56.925,
+        "NI": 56.925
+    },
+    
+    "Heavy Truck": {
+        "AM": 63.250,
+        "MD": 63.250,
+        "PM": 63.250,
+        "EV": 63.250,
+        "NI": 63.250
+    },
+
+    "Walk to Transit-IVT HBW1": {
+        "AM": 12.106,
+        "MD": 12.106,
+        "PM": 12.106,
+        "EV": 12.106,
+        "NI": 12.106
+    },
+    "Walk to Transit-IVT HBW2": {
+        "AM":22.315,
+        "MD": 22.315,
+        "PM": 22.315,
+        "EV": 22.315,
+        "NI": 22.315
+    },
+    "Walk to Transit-IVT HBW3": {
+        "AM": 32.523,
+        "MD": 32.523,
+        "PM": 32.523,
+        "EV": 32.523,
+        "NI": 32.523
+    },
+    "Walk to Transit-IVT HBW4": {
+        "AM": 42.162,
+        "MD": 42.162,
+        "PM": 42.162,
+        "EV": 42.162,
+        "NI": 42.162
+    },
+    "Walk to Transit-Walk HBW1": {
+        "AM": 30.284,
+        "MD": 30.284,
+        "PM": 30.284,
+        "EV": 30.284,
+        "NI": 30.284
+    },
+    "Walk to Transit-Walk HBW2": {
+        "AM": 55.837,
+        "MD": 55.837,
+        "PM": 55.837,
+        "EV": 55.837,
+        "NI": 55.837
+    },
+    "Walk to Transit-Walk HBW3": {
+        "AM": 81.365,
+        "MD": 81.365,
+        "PM": 81.365,
+        "EV": 81.365,
+        "NI": 81.365
+    },
+    "Walk to Transit-Walk HBW4": {
+        "AM": 105.488,
+        "MD": 105.488,
+        "PM": 105.488,
+        "EV": 105.488,
+        "NI": 105.488
+    },
+    "Walk to Transit-Wait HBW1": {
+        "AM": 30.284,
+        "MD": 30.284,
+        "PM": 30.284,
+        "EV": 30.284,
+        "NI": 30.284
+    },
+    "Walk to Transit-Wait HBW2": {
+        "AM": 55.837,
+        "MD": 55.837,
+        "PM": 55.837,
+        "EV": 55.837,
+        "NI": 55.837
+    },
+    "Walk to Transit-Wait HBW3": {
+        "AM": 81.365,
+        "MD": 81.365,
+        "PM": 81.365,
+        "EV": 81.365,
+        "NI": 81.365
+    },
+    "Walk to Transit-Wait HBW4": {
+        "AM": 105.488,
+        "MD": 105.488,
+        "PM": 105.488,
+        "EV": 105.488,
+        "NI": 105.488
+    },
+    "Walk to Transit-IVT NHB": {
+        "AM": 12.650,
+        "MD": 12.650,
+        "PM": 12.650,
+        "EV": 12.650,
+        "NI": 12.650
+    },
+    "Walk to Transit-Walk NHB": {
+        "AM": 31.650,
+        "MD": 31.650,
+        "PM": 31.650,
+        "EV": 31.650,
+        "NI": 31.650
+    },
+    "Walk to Transit-Wait NHB": {
+        "AM": 31.650,
+        "MD": 31.650,
+        "PM": 31.650,
+        "EV": 31.650,
+        "NI": 31.650
+    }
+}
+}

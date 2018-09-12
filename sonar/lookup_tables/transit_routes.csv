@@ -1,0 +1,1368 @@
+description,id,mode,route_code
+20 Navy Yard City EB,5129,b,4020
+17 South to Mall St*,5219,b,7017
+14SEP-Weekday-51051*,5423,b,6512
+10 capitol hill,4101,b,1010
+131 Normandy Park,4169,b,1131
+232 Bellevue/Redmond,4300,b,1232
+240 Bellevue\Renton,4317,b,1240
+28 Broadview,4373,b,1028
+331 S03: Kenmore - *,4416,b,1331
+48 Loyal Heights/Mt*,4484,p,1048
+48 Loyal Heights/Mt*,4485,b,1048
+545 Redmond to CBD *,4506,b,6545
+93 Manzanita SB,5191,b,4093
+97 Crystal Sprngs EB,5197,b,4097
+661 test,5318,b,1661
+40 CBD-NGTC via Fre*,4454,b,1040
+47 Summit,4475,b,1047
+17 Silverdale EastS,5074,b,4017
+32 Poulsbo/Silverda*,5081,b,4032
+13 Parkwood East Li*,5253,b,4013
+17 Silverdale East,5257,b,4017
+36 Ridgetop Shuttle,5260,b,4036
+91 Kingston/Bainbri*,5274,b,4091
+91 Kingston/Bainbri*,5275,b,4091
+9 South Park,5277,b,4009
+Mt Baker,5333,b,1014
+Vashon Is--Tahlequa*,5336,b,1118
+Dockton,5338,b,1119
+Normandy Park expre*,5339,b,1121
+Maple Valley & Rent*,5341,b,1143
+Kent-Southcenter to*,5342,b,1150
+Federal Way/Twin La*,5345,b,1187
+Eastgate\Redmond,5346,b,1221
+seattle pacific uni*,5348,b,1013
+Sandpoint/U-Dist,5350,b,1030
+Ft Lawton,5351,b,1033
+Lake City/Northgate*,5352,b,1041
+Jackson Park,5357,b,1073
+UW - NTC - Ballard,5358,b,1075
+301 Aurora Village-*,5366,b,1301
+capitol hill,5367,b,1010
+seattle pacific uni*,5368,b,1013
+Sandpoint/U-Dist,5372,b,1030
+Ft Lawton,5373,b,1033
+Lake City/Northgate*,5376,b,1041
+cbd/u-district,5377,b,1043
+cbd/u-district,5378,b,1043
+Northgate to UW Cam*,5379,b,1067
+View Ridge,5380,b,1071
+Eastgate Factoria B*,5382,b,1241
+Lakeside School to *,5384,b,1984
+Route 3,5386,b,1003
+Judkins / E QA,5388,b,1004
+Route 7,5390,b,1007
+Seattle Center to U*,5391,b,1032
+Vashon Is--Tahlequa*,5393,b,1118
+Federal Way P&R Via*,5397,b,1177
+South Fed Way & Fed*,5398,b,1178
+Bellevue/Overlake/R*,5405,b,1249
+Issaquah to U Dist,5406,b,1271
+Bellevue/Overlake/R*,5411,b,1249
+ST Issaquah - CBD,5413,b,6554
+810-nb-Weekday,5415,b,3810
+14SEP-Weekday-855-8*,5424,b,3810
+Union Ave,5429,b,2051
+University Place,5430,b,2053
+University Place,5431,b,2053
+Washington,5433,b,2214
+Pacific Hwy/Tillicu*,5436,b,2206
+Lakewood/Tacoma,5437,b,2003
+Lakewood/Tacoma,5438,b,2003
+Meridian/Federal Way,5439,b,2402
+Puyallup/72nd,5440,b,2409
+111 East Renton to *,4655,b,1111
+119 Dockton,4662,p,1119
+121 Normandy Park e*,4663,b,1121
+14 Mt Baker,4665,b,1014
+16 Meridian,4672,b,1016
+19 Magnolia,4682,b,1019
+342 Renton/Shorelin*,4734,b,1342
+66 5 & Main to NTC,4756,p,1066
+910 Supermall - Nor*,4769,b,1910
+916 Kent Shuttle (D*,4773,b,1916
+952 Auburn P&R to B*,4775,p,1952
+952 Auburn P&R to B*,4776,p,1952
+90A PoulsboN,5085,b,4090
+90B Poulsbo All Sto*,5087,b,4090
+92 Poulsbo/Kingston*,5094,b,4092
+15AC McWilliams Shu*,5212,b,4015
+12 Silverdale West,5252,b,4012
+81 Annapolis Commut*,5263,b,4081
+180 test,5284,b,1180
+301 Aurora Village-*,5303,b,1301
+316 test,5305,b,1316
+41 test,5310,b,1041
+Wedgwood Express,5361,b,1076
+68 Northgate to UW *,4058,b,1068
+101 Renton Transit *,4651,b,1101
+118 Vashon Is--Tahl*,4660,b,1118
+152 Enumclaw-Auburn*,4668,b,1152
+173 Federal Way to *,4675,b,1173
+202 Mercer Island,4688,b,1202
+203 Shorewood Van S*,4690,b,1203
+204 Island Crest Wy*,4691,b,1204
+205 Mercer Island/U*,4692,p,1205
+218 Issaquah Highla*,4703,b,1218
+3 Route 3,4721,b,1003
+316 Meridian Park e*,4732,b,1316
+41 Lake City/Northg*,4737,b,1041
+7 Route 7,4758,b,1007
+891 Mercer Island H*,4766,b,1891
+892 Mercer Island H*,4767,b,1892
+914 Kent Shopper Sh*,4772,b,1914
+917 Auburn/Algona/P*,4774,b,1917
+982 Lakeside\UPrep *,4777,p,1982
+986 Lakeside School,4778,p,1986
+987 Lakeside School*,4779,p,1987
+988 Lakeside School*,4780,p,1988
+989 Eastgate Lakesi*,4781,p,1989
+994 Downtown/Magnol*,4782,p,1994
+995 Laurelhurst-Lak*,4783,p,1995
+485 Benaroya-Olympi*,4921,b,2485
+desc needed,5063,b,3880
+43 Viking Ave.E,5082,b,4043
+85 Mullenix ExpressW,5084,b,4085
+90B Poulsbo All Sto*,5089,b,4090
+94 Agate PointN,5097,b,4094
+32 Poulsbo/Silverda*,5209,b,4032
+3 South to W Casino*,5229,b,7003
+81 Annapolis Commut*,5262,b,4081
+86 Southworth Shutt*,5264,b,4086
+74 test,5280,b,1074
+124 test,5283,b,1124
+182 test,5285,b,1182
+232 test,5288,b,1232
+26 test,5295,b,1026
+14SEP-Weekday-27027*,5418,b,3277
+1 kinnear,4096,b,1001
+116 Fauntleroy Ferr*,4130,p,1116
+12 interlaken park,4142,b,1012
+121 Normandy Park e*,4148,b,1121
+123 Gregory Heights*,4152,b,1123
+14 Mt Baker,4178,b,1014
+150 Kent-Southcente*,4190,b,1150
+17 Sunset Hill,4216,p,1017
+179 Twin Lakes P&R *,4222,b,1179
+183 Kent/Federal Wa*,4232,b,1183
+2 Route 2,4253,b,1002
+201 West Mercer Way*,4258,b,1201
+202 Mercer Island,4259,b,1202
+203 Shorewood Van S*,4263,b,1203
+205 Mercer Island/U*,4268,p,1205
+221 Eastgate\Redmond,4291,b,1221
+245 Factoria - Kirk*,4327,b,1245
+3 Route 3,4380,b,1003
+31 Magnolia to Univ*,4398,b,1031
+33 Ft Lawton,4409,b,1033
+330 Lake City - Sho*,4412,b,1330
+330 Lake City - Sho*,4414,b,1330
+355 Shoreline Comm *,4428,p,1355
+372 Woodinville/Uni*,4437,p,1372
+4 Judkins / E QA,4445,b,1004
+41 Lake City/Northg*,4458,b,1041
+48 Loyal Heights/Mt*,4478,b,1048
+48 Loyal Heights/Mt*,4479,p,1048
+48 Loyal Heights/Mt*,4481,b,1048
+48 Loyal Heights/Mt*,4482,b,1048
+48 Loyal Heights/Mt*,4483,b,1048
+55 W. Sea. Admiral *,4510,b,1055
+62 SODO-Ballard Rev*,4530,b,1062
+66 5 & Main to NTC,4539,p,1066
+67 Northgate to UW *,4542,b,1067
+68 Northgate to UW *,4546,b,1068
+68 Northgate to UW *,4549,b,1068
+71 View Ridge,4565,p,1071
+72 Lake City,4568,p,1072
+73 Jackson Park,4574,p,1073
+73 Jackson Park,4576,p,1073
+891 Mercer Island H*,4602,b,1891
+892 Mercer Island H*,4603,b,1892
+980 Lakeside,4640,p,1980
+982 Lakeside\UPrep *,4641,p,1982
+986 Lakeside School,4642,p,1986
+988 Lakeside School*,4644,p,1988
+995 Laurelhurst-Lak*,4649,p,1995
+577 FederalWay-Seat*,4885,b,6577
+577 FederalWay-Seat*,4886,b,6577
+577 FederalWay-Seat*,4890,b,6577
+12 Silverdale West,5115,b,4012
+13 Parkwood East Ltd,5116,b,4013
+13 Parkwood East Ltd,5117,b,4013
+20 Navy Yard City WB,5131,b,4020
+36 Ridgetop Shuttle,5155,b,4036
+37 Fairgrnds Shuttle,5158,b,4037
+86 Southwrth Shtl EB,5165,b,4086
+90 Poulsbo-Bainbr EB,5180,b,4090
+90 Poulsbo-Bainbr EB,5184,b,4090
+90 Poulsbo-Bainbr EB,5185,b,4090
+95 Battle Point EB,5195,b,4095
+99 Bill Point NB,5201,b,4099
+9 South Park WB,5203,b,4009
+230-wb-Weekday,5414,b,3230
+118 Vashon Is--Tahl*,4002,b,1118
+121 Normandy Park e*,4007,b,1121
+154 Tukwila Station*,4012,b,1154
+246 Bellevue/Somers*,4027,b,1246
+301 Aurora Village-*,4035,p,1301
+346 Aurora Village *,4037,b,1346
+48 Loyal Heights/Mt*,4046,b,1048
+555 Issaquah/NTC,4052,b,6555
+60 Beacon Hill/Broa*,4055,b,1060
+661 tripper storage*,4057,b,1661
+823 Cougar Mt/Newpo*,4071,b,1823
+824 Newcastle/Facto*,4072,b,1824
+887 Bellevue SD New*,4073,b,1887
+888 Interlake High *,4074,b,1888
+889 Sammamish HS/In*,4075,b,1889
+893 911 For Lake Wa*,4076,b,1893
+952 Auburn P&R to B*,4084,p,1952
+60 Beacon Hill/Broa*,4526,b,1060
+402 Meridian/Federa*,4908,b,2402
+desc needed,5065,b,3227
+desc needed,5066,b,3247
+desc needed,5067,b,3277
+3 South to W Casino*,5234,b,7003
+86 Southworth Shutt*,5266,b,4086
+90 Poulsbo/Bainbrid*,5270,b,4090
+90 Poulsbo/Bainbrid*,5272,b,4090
+90 Poulsbo/Bainbrid*,5273,b,4090
+D Line test,5299,b,1674
+D Line test,5300,b,1674
+10 capitol hill,4001,b,1010
+12 interlaken park,4006,b,1012
+121 Normandy Park e*,4008,b,1121
+122 Des moines expr*,4009,b,1122
+167 Auburn-Kent-Ren*,4015,b,1167
+180 Auburn  Kent  S*,4016,b,1180
+211 Issa Hlnds PR\E*,4022,p,1211
+277 Totem Lake/U Di*,4032,b,1277
+312 Woodinville/Bot*,4036,p,1312
+355 Shoreline Comm *,4038,p,1355
+36 Jefferson Park/R*,4039,b,1036
+41 Lake City/Northg*,4041,b,1041
+41 Lake City/Northg*,4043,b,1041
+540 Kirkland U Dist*,4049,b,6540
+556 Issaquah/UW/NTC,4053,b,6556
+556 Issaquah/UW/NTC,4054,b,6556
+62 SODO-Ballard Rev*,4056,b,1062
+73 Jackson Park,4066,p,1073
+8 Cap.Hill/Denny Wy,4070,b,1008
+106 Renton-Downtown*,4111,b,1106
+13 seattle pacific *,4165,b,1013
+14 Mt Baker,4175,b,1014
+2 Route 2,4250,b,1002
+240 Bellevue\Renton,4316,b,1240
+269 Issaquah Plateau,4359,b,1269
+36 Jefferson Park/R*,4430,b,1036
+4 Judkins / E QA,4447,b,1004
+68 Northgate to UW *,4548,b,1068
+7 Route 7,4555,b,1007
+102 Fairwood - Seat*,4652,b,1102
+111 East Renton to *,4654,b,1111
+113 Shorewood  Whit*,4656,b,1113
+113 Shorewood  Whit*,4657,b,1113
+114 Renton Highland*,4658,b,1114
+116 Fauntleroy Ferr*,4659,p,1116
+119 Dockton,4661,b,1119
+123 Gregory Heights*,4664,b,1123
+143 Maple Valley & *,4666,p,1143
+15 Blue Ridge/Downt*,4667,p,1015
+157 Lake Meridian P*,4669,b,1157
+158 E. Kent--Lk. Me*,4670,b,1158
+159 Kent-Kangley-Ti*,4671,b,1159
+161 Lk Meridian - S*,4673,b,1161
+17 Sunset Hill,4674,p,1017
+177 Federal Way P&R*,4676,b,1177
+178 South Fed Way &*,4677,b,1178
+179 Twin Lakes P&R *,4678,b,1179
+18 North Beach/Down*,4679,p,1018
+180 Auburn  Kent  S*,4680,b,1180
+19 Magnolia,4681,b,1019
+190 Star Lk. P&R Vi*,4683,b,1190
+192 S. Military Rd.*,4684,b,1192
+193 Star Lk. to Fir*,4685,p,1193
+201 West Mercer Way*,4686,b,1201
+202 Mercer Island,4687,b,1202
+202 Mercer Island,4689,b,1202
+209 Issaquah/North *,4693,b,1209
+21 35  Av SW/Arbor *,4694,p,1021
+210 Issaquah,4695,b,1210
+212 Eastgate P & R *,4696,b,1212
+212 Eastgate P & R *,4697,b,1212
+214 Seattle - Issaq*,4698,b,1214
+214 Seattle - Issaq*,4699,b,1214
+215 N Bend  Seattle,4700,b,1215
+216 Sammamish/CBD,4701,b,1216
+217 Issaquah/CBD,4702,b,1217
+219 913 Seattle Iss*,4704,b,1219
+232 Bellevue/Redmond,4705,b,1232
+232 Bellevue/Redmond,4706,b,1232
+237 Bellevue/Woodin*,4707,b,1237
+246 Bellevue/Somers*,4708,b,1246
+250 Seattle/Overlak*,4709,b,1250
+252 Seattle/Kingsga*,4710,b,1252
+257 Seattle/Juanita*,4711,b,1257
+26 Latona,4712,p,1026
+260 Seattle/Juanita*,4713,b,1260
+265 Redmond/Seattle*,4714,b,1265
+265 Redmond/Seattle*,4715,b,1265
+268 Seattle/Bear Cr*,4716,b,1268
+271 Issaquah to U D*,4717,b,1271
+28 Broadview,4718,p,1028
+29 Ballard - West Q*,4719,b,1029
+3 Route 3,4720,b,1003
+301 Aurora Village-*,4722,p,1301
+301 Aurora Village-*,4723,p,1301
+301 Aurora Village-*,4724,b,1301
+303 Shoreline - NTC*,4725,p,1303
+304 Richmond Beach *,4726,b,1304
+306 Kenmore tunnel *,4727,p,1306
+308 Aurora Village *,4728,b,1308
+309 Kenmore - S Lk *,4729,p,1309
+311 Seattle/Woodinv*,4730,b,1311
+312 Woodinville/Bot*,4731,p,1312
+342 Renton/Shorelin*,4733,b,1342
+37 Alki,4735,b,1037
+372 Woodinville/Uni*,4736,p,1372
+41 Lake City/Northg*,4738,b,1041
+41 Lake City/Northg*,4739,b,1041
+43 cbd/u-district,4740,b,1043
+48 Loyal Heights/Mt*,4741,p,1048
+49 CBD-Cap Hill-U D*,4742,b,1049
+49 CBD-Cap Hill-U D*,4743,b,1049
+5 Greenwood/SCC/Nor*,4744,p,1005
+540 Kirkland U Dist*,4745,b,6540
+545 Redmond to CBD *,4746,b,6545
+55 W. Sea. Admiral *,4747,b,1055
+550 Bellevue,4748,b,6550
+56 Admiral Way/Alki,4751,b,1056
+57 Admiral Way/Gene*,4752,b,1057
+601 Group Health Co*,4753,p,1601
+64 Lake City - CBD *,4754,p,1064
+66 5 & Main to NTC,4755,p,1066
+67 Northgate to UW *,4757,b,1067
+7 Route 7,4759,p,1007
+74 Sandpoint/U-Dist*,4760,p,1074
+75 UW - NTC - Balla*,4761,b,1075
+76 Wedgwood Express,4763,b,1076
+77 Jackson Park Exp*,4764,p,1077
+906 Southcenter/Fai*,4768,b,1906
+913 Kent - Riverview,4770,b,1913
+913 Kent - Riverview,4771,b,1913
+242 North Seattle t*,4784,b,1242
+243 Jackson Park to*,4785,b,1243
+244 Kenmore Kingsga*,4786,b,1244
+554 ST Issaquah - C*,4788,b,6554
+554 ST Issaquah - C*,4789,b,6554
+300 S Tacoma Way NB,4826,b,2300
+501 Miltn-Fed Way SB,4859,b,2501
+567 Kent-OverlakeS,4913,b,6567
+577 FederalWay-Seat*,4915,b,6577
+590 Seattle ExpressS,4917,b,6590
+595 Seattle ExpressS,4918,b,6595
+102 Purdy Gig Harbo*,4919,b,2102
+475 UPS-OlympiaE,4920,b,2475
+495 South Hill Mall*,4922,b,2495
+497 Lakeland Hill c*,4923,b,2497
+566 Auburn-OverlakeS,4924,b,6566
+592 Seattle ExpressS,4925,b,6592
+596 Bonney Lake/Sum*,4926,b,6596
+62 N.E TacomaW,4927,b,2062
+COMMTR RL SEA-EV NB,4944,c,6999
+COMMTR RL TAC-SEA NB,4945,c,6998
+COMMTR RL SEA-LKW SB,4961,c,6998
+desc needed,5046,b,3412
+desc needed,5047,b,3413
+desc needed,5048,b,3415
+desc needed,5049,b,3416
+desc needed,5050,b,3417
+desc needed,5051,b,3421
+desc needed,5052,b,3422
+desc needed,5053,b,3424
+desc needed,5054,b,3425
+desc needed,5055,b,3435
+desc needed,5056,b,6510
+desc needed,5057,b,6511
+desc needed,5058,b,3111
+desc needed,5059,b,6513
+desc needed,5062,b,3821
+desc needed,5064,b,3880
+desc needed,5068,b,3402
+desc needed,5069,b,3405
+desc needed,5070,b,3410
+15A McWilliams Shut*,5071,b,4015
+15C McWilliams Shut*,5072,b,4015
+15K McWilliams Shut*,5073,b,4015
+21 Perry AvenueN,5075,b,4021
+22 Gateway ExpressW,5076,b,4022
+23 Kariotis/Tracyto*,5077,b,4023
+24 Olympic CollegeW,5078,b,4024
+25 East ParkN,5079,b,4025
+26 West ParkW,5080,b,4026
+85 Mullenix ExpressW,5083,b,4085
+90A PoulsboN,5086,b,4090
+90B Poulsbo All Sto*,5088,b,4090
+90C Poulsbo Express*,5090,b,4090
+90D Poulsbo Express*,5091,b,4090
+91 Kingston/Bainbri*,5092,b,4091
+91 Kingston/Bainbri*,5093,b,4091
+93 ManzanitaN,5095,b,4093
+94 Agate PointN,5096,b,4094
+94 Agate PointN,5098,b,4094
+95 Battle PointW,5099,b,4095
+96 SunriseN,5100,b,4096
+97 Crystal SpringsW,5101,b,4097
+98 Fort WardS,5102,b,4098
+99 Bill PointS,5103,b,4099
+20 Navy Yard City WB,5130,b,4020
+91 Kingston-Bainbrdg,5188,b,4091
+106 Fletcher BayW,5211,b,4106
+3 South to W Casino*,5228,b,7003
+70 Commuter East to*,5243,b,7070
+32 Poulsbo/Silverda*,5258,b,4032
+71 test,5278,b,1071
+72 test,5279,b,1072
+77 test,5282,b,1077
+226 test,5287,b,1226
+255 test,5289,b,1255
+271 test,5290,b,1271
+121 test,5291,b,1121
+17 test,5292,b,1017
+18 test,5293,b,1018
+19 test,5294,b,1019
+28 test,5296,b,1028
+29 test,5297,b,1029
+40 test,5298,b,1040
+C Line test,5301,b,1673
+66 test,5302,b,1066
+301 Aurora Village-*,5304,b,1301
+555 test,5306,b,6555
+255 test,5307,b,1255
+545 test,5308,b,6545
+41 test,5309,b,1041
+74 test,5311,b,1074
+77 test,5312,b,1077
+316 test,5313,b,1316
+41 test,5326,b,1041
+545 test,5327,b,6545
+Wedgwood Express,5359,b,1076
+Wedgwood Express,5360,b,1076
+14SEP-Weekday-40241*,5421,b,3417
+14SEP-Weekday-855-8*,5425,b,3821
+10 capitol hill,4098,b,1010
+101 Renton Transit *,4102,b,1101
+101 Renton Transit *,4104,b,1101
+106 Renton-Downtown*,4113,b,1106
+107 Rainier Beach/R*,4119,b,1107
+110 Renton Shuttle,4124,b,1110
+111 East Renton to *,4126,b,1111
+118 Vashon Is--Tahl*,4133,p,1118
+119 Dockton,4137,p,1119
+12 interlaken park,4140,b,1012
+122 Des moines expr*,4150,b,1122
+124 Tukwila - E Mar*,4154,b,1124
+124 Tukwila - E Mar*,4158,b,1124
+14 Mt Baker,4176,b,1014
+15 Blue Ridge/Downt*,4187,p,1015
+153 Kent/Renton Shu*,4194,b,1153
+161 Lk Meridian - S*,4205,b,1161
+167 Auburn-Kent-Ren*,4211,b,1167
+17 Sunset Hill,4217,p,1017
+18 North Beach/Down*,4223,p,1018
+183 Kent/Federal Wa*,4233,b,1183
+186 Auburn/Enumclaw*,4234,b,1186
+19 Magnolia,4240,b,1019
+19 Magnolia,4241,b,1019
+190 Star Lk. P&R Vi*,4242,b,1190
+192 S. Military Rd.*,4243,b,1192
+192 S. Military Rd.*,4244,b,1192
+2 Route 2,4254,b,1002
+202 Mercer Island,4260,b,1202
+203 Shorewood Van S*,4261,b,1203
+205 Mercer Island/U*,4269,p,1205
+212 Eastgate P & R *,4279,b,1212
+217 Issaquah/CBD,4284,b,1217
+232 Bellevue/Redmond,4299,b,1232
+237 Bellevue/Woodin*,4307,b,1237
+24 Magnolia via W G*,4313,b,1024
+243 Jackson Park to*,4323,b,1243
+244 Kenmore Kingsga*,4324,b,1244
+249 Bellevue/Overla*,4333,b,1249
+249 Bellevue/Overla*,4336,b,1249
+25 Laurelhurst-Lake*,4337,b,1025
+250 Seattle/Overlak*,4340,b,1250
+255 Seattle/Kirklan*,4344,b,1255
+255 Seattle/Kirklan*,4348,b,1255
+26 Latona,4352,p,1026
+260 Seattle/Juanita*,4353,b,1260
+265 Redmond/Seattle*,4354,b,1265
+269 Issaquah Plateau,4357,b,1269
+269 Issaquah Plateau,4358,b,1269
+3 Route 3,4377,b,1003
+3 Route 3,4378,b,1003
+3 Route 3,4383,b,1003
+3 Route 3,4384,b,1003
+3 Route 3,4385,b,1003
+301 Aurora Village-*,4388,b,1301
+301 Aurora Village-*,4390,p,1301
+301 Aurora Village-*,4391,p,1301
+304 Richmond Beach *,4393,b,1304
+309 Kenmore - S Lk *,4396,p,1309
+312 Woodinville/Bot*,4403,p,1312
+342 Renton/Shorelin*,4419,b,1342
+373 Aurora Village *,4438,p,1373
+4 Judkins / E QA,4439,b,1004
+40 CBD-NGTC via Fre*,4456,b,1040
+41 Lake City/Northg*,4460,b,1041
+43 cbd/u-district,4467,b,1043
+44 ballard/montlake,4471,b,1044
+47 Summit,4474,b,1047
+5 Greenwood/SCC/Nor*,4493,p,1005
+540 Univ Dst-Kirklnd,4501,b,6540
+55 W. Sea. Admiral *,4509,b,1055
+550 Bellevue-Seattle,4511,b,6550
+550 Bellevue-Seattle,4513,b,6550
+550 Bellevue-Seattle,4514,b,6550
+556 Issqh-UW-Northgt,4520,b,6556
+57 Admiral Way/Gene*,4523,b,1057
+601 Group Health Co*,4527,p,1601
+62 SODO-Ballard Rev*,4531,b,1062
+65 NTC to UW,4535,b,1065
+66 5 & Main to NTC,4538,p,1066
+67 Northgate to UW *,4544,b,1067
+68 Northgate to UW *,4545,b,1068
+68 Northgate to UW *,4551,b,1068
+7 Route 7,4554,p,1007
+74 Sandpoint/U-Dist*,4580,p,1074
+75 UW - NTC - Balla*,4585,b,1075
+76 Wedgwood Express,4588,b,1076
+773 West Seattle Wa*,4591,b,1773
+775 Water Taxi shut*,4592,b,1775
+823 Cougar Mt/Newpo*,4597,b,1823
+824 Newcastle/Facto*,4598,b,1824
+887 Bellevue SD New*,4599,b,1887
+888 Interlake High *,4600,b,1888
+889 Sammamish HS/In*,4601,b,1889
+893 911 For Lake Wa*,4604,b,1893
+906 Southcenter/Fai*,4611,b,1906
+917 Auburn/Algona/P*,4625,b,1917
+930 Kingsgate/Redmo*,4632,b,1930
+930 Kingsgate/Redmo*,4633,b,1930
+987 Lakeside School*,4643,p,1987
+989 Eastgate Lakesi*,4645,p,1989
+99 Waterfront,4646,b,1099
+99 Waterfront,4647,b,1099
+994 Downtown/Magnol*,4648,p,1994
+100 Gig Harbor SB,4791,b,2100
+206 Pac Hwy-Till NB,4811,b,2206
+300 S Tacoma Way SB,4827,b,2300
+400 Puyllp-Tacoma WB,4831,b,2400
+410 112th St EB,4838,b,2410
+410 112th St WB,4840,b,2410
+501 Miltn-Fed Way SB,4858,b,2501
+51 Union Ave NB,4863,b,2051
+53 University Plc WB,4869,b,2053
+566 Kent-Overlake,4876,b,6566
+577 FederalWay-Seat*,4888,b,6577
+577 FederalWay-Seat*,4914,b,6577
+KCFD SEA-VASHN PO NB,4937,f,5999
+COMMTR RL SEA-TAC SB,4952,c,6998
+Foot Ferry Annap-Bre,4955,f,4999
+Foot Ferry Bre-Annap,4956,f,4999
+KCFD E BAY WTR TX WB,4957,f,5999
+KCFD E BAY WTR TX EB,4958,f,5999
+110 Edmonds-MLT P&R,4968,b,3110
+110 MLT P&R-Edmonds,4974,b,3110
+desc needed,4980,b,6532
+871 Edmonds P&R-UW,4990,b,3871
+desc needed,5021,b,3230
+270 Everett-Gold Bar,5025,b,3270
+280 Everett-Lake Stv,5033,b,3280
+106 Fletcher Bay EB,5105,b,4106
+11 Crosstown Ltd WB,5111,b,4011
+11 Crosstown Ltd WB,5112,b,4011
+13 Parkwood East Ltd,5118,b,4013
+20 Navy Yard City EB,5126,b,4020
+24 Olympic Coll EB,5140,b,4024
+24 Olympic College,5141,b,4024
+32 Poulsbo-Silvrdale,5149,b,4032
+33 Silvrdale-Bain EB,5150,b,4033
+81 Annapolis Commutr,5163,b,4081
+86 Southwrth Shtl EB,5166,b,4086
+86 Southwrth Shtl EB,5167,b,4086
+86 Southwrth Shtl WB,5170,b,4086
+90 Bainbrdge-Poulsbo,5172,b,4090
+90 Poulsbo-Bainbr EB,5179,b,4090
+90 Poulsbo-Bainbr EB,5182,b,4090
+Purdy Connection,5204,b,4999
+12 Mall Circulator,5215,b,7012
+3 Evt Stn-Casino Rd,5233,b,7003
+6 Evt Stn-Harborfrnt,5237,b,7006
+6 Harborfrnt-Evt Stn,5238,b,7006
+14SEP-Weekday-40241*,5422,b,3417
+101 Renton Transit *,4105,b,1101
+102 Fairwood - Seat*,4107,b,1102
+102 Fairwood - Seat*,4108,b,1102
+106 Renton-Downtown*,4115,b,1106
+110 Renton Shuttle,4123,b,1110
+111 East Renton to *,4125,b,1111
+113 Shorewood  Whit*,4127,b,1113
+114 Renton Highland*,4128,b,1114
+116 Fauntleroy Ferr*,4129,p,1116
+118 Vashon Is--Tahl*,4132,b,1118
+118 Vashon Is--Tahl*,4135,b,1118
+119 Dockton,4136,b,1119
+12 interlaken park,4141,b,1012
+121 Normandy Park e*,4146,b,1121
+121 Normandy Park e*,4147,b,1121
+121 Normandy Park e*,4149,b,1121
+122 Des moines expr*,4151,b,1122
+123 Gregory Heights*,4153,b,1123
+124 Tukwila - E Mar*,4156,b,1124
+13 seattle pacific *,4163,b,1013
+14 Mt Baker,4179,b,1014
+140 Renton to Burien,4181,b,1140
+140 Renton to Burien,4182,b,1140
+143 Maple Valley & *,4184,p,1143
+150 Kent-Southcente*,4188,b,1150
+152 Enumclaw-Auburn*,4192,b,1152
+153 Kent/Renton Shu*,4193,b,1153
+154 Tukwila Station*,4195,b,1154
+157 Lake Meridian P*,4198,b,1157
+158 E. Kent--Lk. Me*,4199,b,1158
+158 E. Kent--Lk. Me*,4200,b,1158
+159 Kent-Kangley-Ti*,4201,b,1159
+16 Meridian,4204,b,1016
+161 Lk Meridian - S*,4206,b,1161
+173 Federal Way to *,4218,b,1173
+177 Federal Way P&R*,4219,b,1177
+178 South Fed Way &*,4220,b,1178
+179 Twin Lakes P&R *,4221,b,1179
+180 Auburn  Kent  S*,4225,b,1180
+186 Auburn/Enumclaw*,4235,b,1186
+186 Auburn/Enumclaw*,4236,b,1186
+187 Federal Way/Twi*,4238,b,1187
+193 Star Lk. to Fir*,4245,p,1193
+197 Twin Lakes P&R/*,4246,b,1197
+2 Route 2,4249,b,1002
+200 Issaquah Shuttle,4255,b,1200
+203 Shorewood Van S*,4265,b,1203
+209 Issaquah/North *,4272,b,1209
+21 35  Av SW/Arbor *,4273,p,1021
+210 Issaquah,4276,b,1210
+211 Issa Hlnds PR\E*,4277,p,1211
+212 Eastgate P & R *,4278,b,1212
+214 Seattle - Issaq*,4280,b,1214
+214 Seattle - Issaq*,4281,b,1214
+215 N Bend  Seattle,4282,b,1215
+216 Sammamish/CBD,4283,b,1216
+218 Issaquah Highla*,4285,b,1218
+219 913 Seattle Iss*,4286,b,1219
+221 Eastgate\Redmond,4290,b,1221
+226 BTC Crossroads *,4296,b,1226
+232 Bellevue/Redmond,4298,b,1232
+24 Magnolia via W G*,4311,b,1024
+242 North Seattle t*,4322,b,1242
+245 Factoria - Kirk*,4326,b,1245
+252 Seattle/Kingsga*,4341,b,1252
+255 Seattle/Kirklan*,4345,b,1255
+257 Seattle/Juanita*,4349,b,1257
+265 Redmond/Seattle*,4355,b,1265
+268 Seattle/Bear Cr*,4356,b,1268
+271 Issaquah to U D*,4363,b,1271
+271 Issaquah to U D*,4365,b,1271
+271 Issaquah to U D*,4368,b,1271
+277 Totem Lake/U Di*,4369,b,1277
+28 Broadview,4372,p,1028
+3 Route 3,4379,b,1003
+301 Aurora Village-*,4389,b,1301
+303 Shoreline - NTC*,4392,p,1303
+306 Kenmore tunnel *,4394,p,1306
+308 Aurora Village *,4395,b,1308
+31 Magnolia to Univ*,4399,b,1031
+311 Seattle/Woodinv*,4401,b,1311
+312 Woodinville/Bot*,4402,p,1312
+316 Meridian Park e*,4404,b,1316
+33 Ft Lawton,4408,b,1033
+342 Renton/Shorelin*,4418,b,1342
+355 Shoreline Comm *,4429,p,1355
+36 Jefferson Park/R*,4432,b,1036
+37 Alki,4434,p,1037
+4 Judkins / E QA,4441,b,1004
+4 Judkins / E QA,4442,b,1004
+4 Judkins / E QA,4444,b,1004
+4 Judkins / E QA,4448,b,1004
+40 CBD-NGTC via Fre*,4452,b,1040
+40 CBD-NGTC via Fre*,4455,b,1040
+43 cbd/u-district,4461,b,1043
+43 cbd/u-district,4464,b,1043
+43 cbd/u-district,4465,b,1043
+44 ballard/montlake,4468,b,1044
+44 ballard/montlake,4472,b,1044
+48 Loyal Heights/Mt*,4486,b,1048
+49 CBD-Cap Hill-U D*,4488,b,1049
+49 CBD-Cap Hill-U D*,4489,b,1049
+49 CBD-Cap Hill-U D*,4491,b,1049
+522 Wdnville-Seattle,4498,b,6522
+522 Bothell-Seattle,4499,b,6522
+542 Redmond-Univ Dst,4502,b,6542
+545 Redmond to CBD *,4507,b,6545
+554 Redm-Issaqah-Sea,4516,b,6554
+555 Northgt-Issaquah,4519,b,6555
+556 Issaquah/UW/NTC,4521,b,6556
+56 Admiral Way/Alki,4522,b,1056
+64 Lake City - CBD *,4532,p,1064
+65 NTC to UW,4534,b,1065
+7 Route 7,4552,b,1007
+7 Route 7,4559,b,1007
+71 View Ridge,4564,b,1071
+72 Lake City,4569,b,1072
+72 Lake City,4571,b,1072
+73 Jackson Park,4573,b,1073
+73 Jackson Park,4578,b,1073
+75 UW - NTC - Balla*,4582,b,1075
+75 UW - NTC - Balla*,4586,b,1075
+77 Jackson Park Exp*,4589,p,1077
+773 West Seattle Wa*,4590,b,1773
+775 Water Taxi shut*,4593,b,1775
+913 Kent - Riverview,4621,b,1913
+913 Kent - Riverview,4622,b,1913
+935 Kenmore/Finn Hi*,4636,b,1935
+935 Kenmore/Finn Hi*,4637,b,1935
+952 Auburn P&R to B*,4638,p,1952
+952 Auburn P&R to B*,4639,p,1952
+1 kinnear,4650,b,1001
+107 Rainier Beach/R*,4653,b,1107
+75 UW - NTC - Balla*,4762,b,1075
+775 Water Taxi shut*,4765,b,1775
+102 Gig Harbor Ex SB,4792,b,2102
+1 6th Ave-Pacific NB,4804,b,2001
+1 6th Ave-Pacific SB,4806,b,2001
+2 Bridgprt-S 19th SB,4824,b,2002
+475 TCC-Olympia SB,4848,b,2475
+485 Olympia-Puylp NB,4849,b,2485
+48 Sheridan-M St NB,4851,b,2048
+497 Lakelnd Hills NB,4853,b,2497
+500 Federal Way SB,4856,b,2500
+501 Miltn-Fed Way NB,4857,b,2501
+566 Auburn-Overlake,4877,b,6566
+567 Kent-Overlake,4880,b,6567
+577 FederalWay-Seat*,4887,b,6577
+577 FederalWay-Seat*,4889,b,6577
+590 Seattle ExpressN,4896,b,6590
+590 Seattle ExpressS,4898,b,6590
+592 Seattle ExpressN,4899,b,6592
+592 Seattle ExpressN,4900,b,6592
+592 Seattle ExpressS,4901,b,6592
+595 Seattle ExpressN,4904,b,6595
+596 Bonney Lake/Sum*,4905,b,6596
+62 NE Tacoma EB,4906,b,2062
+KCFD SEA-VASHN PO SB,4938,f,5999
+COMMTR RL EV-SEA SB,4943,c,6999
+COMMTR RL LKW-SEA NB,4960,c,6998
+106 Mariner P&R-Both,4962,b,3106
+410 Mar P&R-Sea CBD,4963,b,3410
+412 Slv Firs-Sea CBD,4964,b,3412
+413 Sw Ck P&R-SeaCBD,4965,b,3413
+415 N Lynn-Sea CBD,4966,b,3415
+416 Edmonds-Sea CBD,4967,b,3416
+417 Mukilteo-Sea CBD,4969,b,3417
+421 Marysvil-Sea CBD,4970,b,3421
+422 Stanwood-Sea CBD,4971,b,3422
+424 Snohomsh-Sea CBD,4972,b,3424
+425 Lk Stevn-Sea CBD,4973,b,3425
+435 Mill Ck-Sea CBD,4975,b,3435
+desc needed,4976,b,6510
+desc needed,4977,b,6511
+desc needed,4979,b,6513
+desc needed,4981,b,6532
+111 Brier-MLT P&R,4982,b,3111
+821 Marysville-UW,4987,b,3821
+855 Lynn TC-UW,4988,b,3855
+860 McCollum P&R-UW,4989,b,3860
+880 Ash Way P&R-UW,4992,b,3880
+880 Mukilteo-UW,4993,b,3880
+desc needed,5020,b,3227
+desc needed,5024,b,3247
+270 Gold Bar-Everett,5026,b,3270
+106 Both-Mariner P&R,5034,b,3106
+280 Lk Stevns-Evertt,5036,b,3280
+402 Lynn TC-Sea CBD,5038,b,3402
+405 Edmonds-Sea CBD,5039,b,3405
+106 Fletcher Bay EB,5104,b,4106
+11 Crosstown Ltd EB,5106,b,4011
+11 Crosstown Ltd NB,5108,b,4011
+11 Crosstown Ltd SB,5109,b,4011
+13 Parkwood East Ltd,5119,b,4013
+15 McWilliams Sht SB,5120,b,4015
+15 McWilliams Sht SB,5121,b,4015
+15 McWilliams Sht SB,5122,b,4015
+20 Navy Yard City,5127,b,4020
+20 Navy Yard City,5132,b,4020
+22 Gateway Exp EB,5135,b,4022
+22 Gateway Exp EB,5136,b,4022
+24 Olympic Coll EB,5139,b,4024
+25 East Park SB,5143,b,4025
+29 Trenton Avenue SB,5147,b,4029
+33 Silvrdale-Bain EB,5151,b,4033
+33 Silvrdale-Bain WB,5152,b,4033
+81 Annapolis Commutr,5162,b,4081
+85 Mullenix Exp EB,5164,b,4085
+86 Southwrth Shtl WB,5169,b,4086
+90 Bainbrdge-Poulsbo,5173,b,4090
+90 Poulsbo-Bainbr EB,5176,b,4090
+90 Poulsbo-Bainbr EB,5177,b,4090
+90 Poulsbo-Bainbr EB,5178,b,4090
+90 Poulsbo-Bainbr EB,5181,b,4090
+91 Bainbrdg-Kingston,5186,b,4091
+91 Kingston-Bainbrdg,5187,b,4091
+91 Kingston-Bainbrdg,5189,b,4091
+93 Manzanita SB,5192,b,4093
+94 Agate Point SB,5193,b,4094
+95 Battle Point EB,5194,b,4095
+96 Sunrise SB,5196,b,4096
+97 Crystal Sprngs EB,5198,b,4097
+98 Fort Ward NB,5199,b,4098
+99 Bill Point NB,5200,b,4099
+18 Mukilteo-Evt Stn,5221,b,7018
+29 Coll Stn-Mall Stn,5223,b,7029
+3 Evt Stn-Casino Rd,5232,b,7003
+70 Mukilteo-Boeing,5241,b,7070
+29 Mall Stn-Coll Stn,5249,b,7029
+81 Annapolis Commut*,5261,b,4081
+90 Poulsbo/Bainbrid*,5268,b,4090
+542 test,5286,b,6542
+Judkins / E QA,5331,b,1004
+Normandy Park,5340,b,1131
+Federal Way P&R Via*,5343,b,1177
+A-Line Rapid Ride,5347,b,1671
+CBD-NGTC via Fremon*,5375,b,1040
+Route 2,5385,b,1002
+Vashon Is--Tahlequa*,5394,b,1118
+Dockton,5396,b,1119
+C-Line Rapid Ride,5404,b,1673
+Issaquah to U Dist,5408,b,1271
+14SEP-Weekday-855-8*,5417,b,3821
+118 Vashon Is--Tahl*,4003,b,1118
+118 Vashon Is--Tahl*,4004,p,1118
+119 Dockton,4005,b,1119
+150 Kent-Southcente*,4010,b,1150
+150 Kent-Southcente*,4011,b,1150
+166 Highline C C to*,4013,b,1166
+166 Highline C C to*,4014,b,1166
+183 Kent/Federal Wa*,4017,b,1183
+183 Kent/Federal Wa*,4018,b,1183
+197 Twin Lakes P&R/*,4019,b,1197
+205 Mercer Island/U*,4020,p,1205
+21 35  Av SW/Arbor *,4021,b,1021
+213 Covenant Shores*,4023,b,1213
+213 Covenant Shores*,4024,b,1213
+221 Eastgate\Redmond,4025,b,1221
+221 Eastgate\Redmond,4026,b,1221
+25 Laurelhurst-Lake*,4028,b,1025
+25 Laurelhurst-Lake*,4029,b,1025
+255 Seattle/Kirklan*,4030,b,1255
+271 Issaquah to U D*,4031,b,1271
+3 Route 3,4033,b,1003
+3 Route 3,4034,b,1003
+373 Aurora Village *,4040,p,1373
+41 Lake City/Northg*,4042,b,1041
+41 Lake City/Northg*,4044,b,1041
+43 cbd/u-district,4045,b,1043
+522 ST 522 Woodinvi*,4047,b,6522
+522 ST 522 Woodinvi*,4048,b,6522
+545 Redmond to CBD *,4050,b,6545
+545 Redmond to CBD *,4051,b,6545
+71 View Ridge,4059,p,1071
+71 View Ridge,4060,p,1071
+72 Lake City,4061,p,1072
+72 Lake City,4062,p,1072
+72 Lake City,4063,p,1072
+73 Jackson Park,4064,p,1073
+73 Jackson Park,4065,p,1073
+73 Jackson Park,4067,p,1073
+73 Jackson Park,4068,p,1073
+73 Jackson Park,4069,p,1073
+906 Southcenter/Fai*,4077,b,1906
+914 Kent Shopper Sh*,4078,b,1914
+914 Kent Shopper Sh*,4079,b,1914
+915 Auburn/Enumclaw*,4080,b,1915
+915 Auburn/Enumclaw*,4081,b,1915
+916 Kent Shuttle (D*,4082,b,1916
+916 Kent Shuttle (D*,4083,b,1916
+A Line A-Line Rapid*,4085,b,1671
+A Line A-Line Rapid*,4086,b,1671
+B Line B-Line Rapid*,4087,b,1672
+B Line B-Line Rapid*,4088,b,1672
+C Line C-Line Rapid*,4089,b,1673
+C Line C-Line Rapid*,4090,b,1673
+D Line D-Line Rapid*,4091,b,1674
+D Line D-Line Rapid*,4092,b,1674
+E-Line E-Line Rapid*,4093,b,1675
+E-Line E-Line Rapid*,4094,b,1675
+1 kinnear,4095,b,1001
+1 kinnear,4097,b,1001
+10 capitol hill,4099,b,1010
+10 capitol hill,4100,b,1010
+101 Renton Transit *,4103,b,1101
+101 Renton Transit *,4106,b,1101
+105 Renton Hub - Re*,4109,b,1105
+105 Renton Hub - Re*,4110,b,1105
+106 Renton-Downtown*,4112,b,1106
+106 Renton-Downtown*,4114,b,1106
+106 Renton-Downtown*,4116,b,1106
+106 Renton-Downtown*,4117,b,1106
+107 Rainier Beach/R*,4118,b,1107
+107 Rainier Beach/R*,4120,b,1107
+11 Madison,4121,b,1011
+11 Madison,4122,b,1011
+118 Vashon Is--Tahl*,4131,b,1118
+118 Vashon Is--Tahl*,4134,b,1118
+119 Dockton,4138,b,1119
+12 interlaken park,4139,b,1012
+12 interlaken park,4143,b,1012
+120 Burien to Seatt*,4144,b,1120
+120 Burien to Seatt*,4145,b,1120
+124 Tukwila - E Mar*,4155,b,1124
+124 Tukwila - E Mar*,4157,b,1124
+125 Westwood to CBD*,4159,b,1125
+125 Westwood to CBD*,4160,b,1125
+128 West Seattle-Wh*,4161,b,1128
+128 West Seattle-Wh*,4162,b,1128
+13 seattle pacific *,4164,b,1013
+13 seattle pacific *,4166,b,1013
+131 Normandy Park,4167,b,1131
+131 Normandy Park,4168,b,1131
+132 Des Moines,4170,b,1132
+132 Des Moines,4171,b,1132
+139 Burien/Gregory *,4172,b,1139
+139 Burien/Gregory *,4173,b,1139
+14 Mt Baker,4174,b,1014
+14 Mt Baker,4177,b,1014
+140 Renton to Burien,4180,b,1140
+140 Renton to Burien,4183,b,1140
+148 Fairwood--S.Ren*,4185,b,1148
+148 Fairwood--S.Ren*,4186,b,1148
+150 Kent-Southcente*,4189,b,1150
+150 Kent-Southcente*,4191,b,1150
+156 SeaTac - Southc*,4196,b,1156
+156 SeaTac - Southc*,4197,b,1156
+16 Meridian,4202,b,1016
+16 Meridian,4203,b,1016
+164 GGreen River Co*,4207,b,1164
+164 GGreen River Co*,4208,b,1164
+166 Highline C C to*,4209,b,1166
+166 Highline C C to*,4210,b,1166
+168 Timberlane - Ke*,4212,b,1168
+168 Timberlane - Ke*,4213,b,1168
+169 Renton to Kent *,4214,b,1169
+169 Renton to Kent *,4215,b,1169
+180 Auburn  Kent  S*,4224,b,1180
+180 Auburn  Kent  S*,4226,b,1180
+181 Green River CC/*,4227,b,1181
+181 Green River CC/*,4228,b,1181
+182 Federal Way-NE *,4229,b,1182
+182 Federal Way-NE *,4230,b,1182
+183 Kent/Federal Wa*,4231,b,1183
+187 Federal Way/Twi*,4237,b,1187
+187 Federal Way/Twi*,4239,b,1187
+2 Route 2,4247,b,1002
+2 Route 2,4248,b,1002
+2 Route 2,4251,b,1002
+2 Route 2,4252,b,1002
+200 Issaquah Shuttle,4256,b,1200
+200 Issaquah Shuttle,4257,b,1200
+203 Shorewood Van S*,4262,b,1203
+203 Shorewood Van S*,4264,b,1203
+204 Island Crest Wy*,4266,b,1204
+204 Island Crest Wy*,4267,b,1204
+208 IssaTC/SnoqRidg*,4270,b,1208
+208 IssaTC/SnoqRidg*,4271,b,1208
+21 35  Av SW/Arbor *,4274,b,1021
+21 35  Av SW/Arbor *,4275,b,1021
+22 West Seattle/Whi*,4287,b,1022
+22 West Seattle/Whi*,4288,b,1022
+221 Eastgate\Redmond,4289,b,1221
+221 Eastgate\Redmond,4292,b,1221
+224 Fall City Redmo*,4293,b,1224
+224 Fall City Redmo*,4294,b,1224
+226 BTC Crossroads *,4295,b,1226
+226 BTC Crossroads *,4297,b,1226
+234 Bellevue/Kirkla*,4301,b,1234
+234 Bellevue/Kirkla*,4302,b,1234
+235 BTC To Kingsgat*,4303,b,1235
+235 BTC To Kingsgat*,4304,b,1235
+236 Woodinville/KTC*,4305,b,1236
+236 Woodinville/KTC*,4306,b,1236
+238 UWB Bothell CC/*,4308,b,1238
+238 UWB Bothell CC/*,4309,b,1238
+24 Magnolia via W G*,4310,b,1024
+24 Magnolia via W G*,4312,b,1024
+240 Bellevue\Renton,4314,b,1240
+240 Bellevue\Renton,4315,b,1240
+240 Bellevue\Renton,4318,b,1240
+240 Bellevue\Renton,4319,b,1240
+241 Eastgate Factor*,4320,b,1241
+241 Eastgate Factor*,4321,b,1241
+245 Factoria - Kirk*,4325,b,1245
+245 Factoria - Kirk*,4328,b,1245
+246 Bellevue/Somers*,4329,b,1246
+246 Bellevue/Somers*,4330,b,1246
+248 Redmond-Kirkland,4331,b,1248
+248 Redmond-Kirkland,4332,b,1248
+249 Bellevue/Overla*,4334,b,1249
+249 Bellevue/Overla*,4335,b,1249
+25 Laurelhurst-Lake*,4338,b,1025
+25 Laurelhurst-Lake*,4339,b,1025
+255 Seattle/Kirklan*,4342,b,1255
+255 Seattle/Kirklan*,4343,b,1255
+255 Seattle/Kirklan*,4346,b,1255
+255 Seattle/Kirklan*,4347,b,1255
+26 Latona,4350,b,1026
+26 Latona,4351,b,1026
+27 Yesler-Leschi Pa*,4360,b,1027
+27 Yesler-Leschi Pa*,4361,b,1027
+271 Issaquah to U D*,4362,b,1271
+271 Issaquah to U D*,4364,b,1271
+271 Issaquah to U D*,4366,b,1271
+271 Issaquah to U D*,4367,b,1271
+28 Broadview,4370,b,1028
+28 Broadview,4371,b,1028
+29 Ballard - West Q*,4374,b,1029
+3 Route 3,4375,b,1003
+3 Route 3,4376,b,1003
+3 Route 3,4381,b,1003
+3 Route 3,4382,b,1003
+30 Sandpoint/U-Dist,4386,b,1030
+30 Sandpoint/U-Dist,4387,b,1030
+31 Magnolia to Univ*,4397,b,1031
+31 Magnolia to Univ*,4400,b,1031
+32 Seattle Center t*,4405,b,1032
+32 Seattle Center t*,4406,b,1032
+33 Ft Lawton,4407,b,1033
+33 Ft Lawton,4410,b,1033
+330 Lake City - Sho*,4411,b,1330
+330 Lake City - Sho*,4413,b,1330
+331 S03: Kenmore - *,4415,b,1331
+331 S03: Kenmore - *,4417,b,1331
+345 NTC - SCC,4420,b,1345
+345 NTC - SCC,4421,b,1345
+346 Aurora Village *,4422,b,1346
+346 Aurora Village *,4423,b,1346
+347 NTC - Mountlake*,4424,b,1347
+347 NTC - Mountlake*,4425,b,1347
+348 NTC - Richmond *,4426,b,1348
+348 NTC - Richmond *,4427,b,1348
+36 Jefferson Park/R*,4431,b,1036
+36 Jefferson Park/R*,4433,b,1036
+372 Woodinville/Uni*,4435,p,1372
+372 Woodinville/Uni*,4436,p,1372
+4 Judkins / E QA,4440,b,1004
+4 Judkins / E QA,4443,b,1004
+4 Judkins / E QA,4446,b,1004
+4 Judkins / E QA,4449,b,1004
+40 CBD-NGTC via Fre*,4450,b,1040
+40 CBD-NGTC via Fre*,4451,b,1040
+40 CBD-NGTC via Fre*,4453,b,1040
+41 Lake City/Northg*,4457,b,1041
+41 Lake City/Northg*,4459,b,1041
+43 cbd/u-district,4462,b,1043
+43 cbd/u-district,4463,b,1043
+43 cbd/u-district,4466,b,1043
+44 ballard/montlake,4469,b,1044
+44 ballard/montlake,4470,b,1044
+47 Summit,4473,b,1047
+47 Summit,4476,b,1047
+48 Loyal Heights/Mt*,4477,b,1048
+48 Loyal Heights/Mt*,4480,b,1048
+49 CBD-Cap Hill-U D*,4487,b,1049
+49 CBD-Cap Hill-U D*,4490,b,1049
+5 Greenwood/SCC/Nor*,4492,b,1005
+5 Greenwood/SCC/Nor*,4494,b,1005
+50 Seward Park/Alki,4495,b,1050
+50 Seward Park/Alki,4496,b,1050
+522 Seattle-Wdnville,4497,b,6522
+540 Kirklnd-Univ Dst,4500,b,6540
+542 Univ Dst-Redmond,4503,b,6542
+545 Redmond-Seattle,4504,b,6545
+545 Seattle-Redmond,4505,b,6545
+545 Redmond to CBD *,4508,b,6545
+550 Bellevue-Seattle,4512,b,6550
+550 Seattle-Bellevue,4515,b,6550
+554 Issaquah-Seattle,4517,b,6554
+554 Seattle-Issaquah,4518,b,6554
+60 Beacon Hill/Broa*,4524,b,1060
+60 Beacon Hill/Broa*,4525,b,1060
+61 Ballard - North *,4528,b,1061
+61 Ballard - North *,4529,b,1061
+65 NTC to UW,4533,b,1065
+65 NTC to UW,4536,b,1065
+66 5 & Main to NTC,4537,p,1066
+66 5 & Main to NTC,4540,p,1066
+67 Northgate to UW *,4541,b,1067
+67 Northgate to UW *,4543,b,1067
+68 Northgate to UW *,4547,b,1068
+68 Northgate to UW *,4550,b,1068
+7 Route 7,4553,b,1007
+7 Route 7,4556,b,1007
+7 Route 7,4557,b,1007
+7 Route 7,4558,b,1007
+70 University Distr*,4560,b,1070
+70 University Distr*,4561,b,1070
+70 University Distr*,4562,b,1070
+70 University Distr*,4563,b,1070
+71 View Ridge,4566,p,1071
+71 View Ridge,4567,p,1071
+72 Lake City,4570,p,1072
+72 Lake City,4572,p,1072
+73 Jackson Park,4575,p,1073
+73 Jackson Park,4577,p,1073
+73 Jackson Park,4579,p,1073
+75 UW - NTC - Balla*,4581,b,1075
+75 UW - NTC - Balla*,4583,b,1075
+75 UW - NTC - Balla*,4584,b,1075
+75 UW - NTC - Balla*,4587,b,1075
+8 Cap.Hill/Denny Wy,4594,b,1008
+8 Cap.Hill/Denny Wy,4595,b,1008
+8 Cap.Hill/Denny Wy,4596,b,1008
+9 broadway  /  rain*,4605,p,1009
+9 broadway  /  rain*,4606,p,1009
+901 Federal Way/Das*,4607,b,1901
+901 Federal Way/Das*,4608,b,1901
+903 Federal Way - S*,4609,b,1903
+903 Federal Way - S*,4610,b,1903
+906 Southcenter/Fai*,4612,b,1906
+907 Black Diamond-M*,4613,b,1907
+907 Black Diamond-M*,4614,b,1907
+908 Renton Highland*,4615,b,1908
+908 Renton Highland*,4616,b,1908
+909 Highlands/Kenny*,4617,b,1909
+909 Highlands/Kenny*,4618,b,1909
+910 Supermall - Nor*,4619,b,1910
+910 Supermall - Nor*,4620,b,1910
+917 Auburn/Algona/P*,4623,b,1917
+917 Auburn/Algona/P*,4624,b,1917
+919 North and South*,4626,b,1919
+919 North and South*,4627,b,1919
+927 Issaquah DART,4628,b,1927
+927 Issaquah DART,4629,b,1927
+927 Issaquah DART,4630,b,1927
+927 Issaquah DART,4631,b,1927
+931 Redmond/Woodinv*,4634,b,1931
+931 Redmond/Woodinv*,4635,b,1931
+550 Bellevue,4749,b,6550
+550 Bellevue,4750,b,6550
+554 ST Issaquah - C*,4787,b,6554
+100 Gig Harbor NB,4790,b,2100
+10 Pearl Street NB,4793,b,2010
+10 Pearl Street SB,4794,b,2010
+11 Pt Defiance NB,4795,b,2011
+11 Pt Defiance SB,4796,b,2011
+13 N 30th Street EB,4797,b,2013
+13 N 30th Street WB,4798,b,2013
+14 N Proctor Dist EB,4799,b,2014
+14 N Proctor Dist WB,4800,b,2014
+16 UPS-TCC EB,4801,b,2016
+16 UPS-TCC WB,4802,b,2016
+1 6th Ave-Pacific NB,4803,b,2001
+1 6th Ave-Pacific SB,4805,b,2001
+202 72nd Street EB,4807,b,2202
+202 72nd Street WB,4808,b,2202
+204 Lkwd-Parklnd EB,4809,b,2204
+204 Lkwd-Parklnd WB,4810,b,2204
+206 Pac Hwy-Till NB,4812,b,2206
+206 Pac Hwy-Till SB,4813,b,2206
+212 Steilacoom EB,4814,b,2212
+212 Steilacoom EB,4815,b,2212
+212 Steilacoom WB,4816,b,2212
+212 Steilacoom WB,4817,b,2212
+214 Washington EB,4818,b,2214
+214 Washington WB,4819,b,2214
+28 S 12TH ST EB,4820,b,2028
+28 S 12TH ST WB,4821,b,2028
+2 Bridgprt-S 19th NB,4822,b,2002
+2 Bridgprt-S 19th SB,4823,b,2002
+300 S Tacoma Way NB,4825,b,2300
+300 S Tacoma Way SB,4828,b,2300
+3 Lakewood-Tacoma NB,4829,b,2003
+3 Lakewood-Tacoma SB,4830,b,2003
+400 Puyllp-Tacoma WB,4832,b,2400
+400 Puyllp-Tacoma EB,4833,b,2400
+402 Meridian NB,4834,b,2402
+402 Meridian SB,4835,b,2402
+409 Puyallup-72nd EB,4836,b,2409
+409 Puyallup-72nd WB,4837,b,2409
+410 112th St EB,4839,b,2410
+410 112th St WB,4841,b,2410
+41 Portland Ave NB,4842,b,2041
+41 Portland Ave SB,4843,b,2041
+42 McKinley Ave NB,4844,b,2042
+42 McKinley Ave SB,4845,b,2042
+45 Yakima NB,4846,b,2045
+45 Yakima SB,4847,b,2045
+48 Sheridan-M St NB,4850,b,2048
+48 Sheridan-M St SB,4852,b,2048
+500 Federal Way NB,4854,b,2500
+500 Federal Way SB,4855,b,2500
+503 Fife-Puyallup NB,4860,b,2503
+503 Fife-Puyallup SB,4861,b,2503
+51 Union Ave NB,4862,b,2051
+51 Union Ave SB,4864,b,2051
+52 TCC-Tac Mall EB,4865,b,2052
+52 TCC-Tac Mall WB,4866,b,2052
+53 University Plc EB,4867,b,2053
+53 University Plc WB,4868,b,2053
+54 38th St EB,4870,b,2054
+54 38th St WB,4871,b,2054
+55 Prklnd-TacMall NB,4872,b,2055
+55 Prklnd-TacMall SB,4873,b,2055
+560 WSea-SeaTac-Belv,4874,b,6560
+560 Belv-SeaTac-WSea,4875,b,6560
+566 Auburn-Overlake,4878,b,6566
+566 Overlake-Auburn,4879,b,6566
+56 56th St EB,4881,b,2056
+56 56th St WB,4882,b,2056
+574 Lkwd-Taco-SeaTac,4883,b,6574
+574 SeaTac-Taco-Lkwd,4884,b,6574
+578 Seattle/Puyallu*,4891,b,6578
+578 Seattle/Puyallu*,4892,b,6578
+57 Tacoma Mall NB,4893,b,2057
+57 Tacoma Mall SB,4894,b,2057
+586 Tacoma - U Dist*,4895,b,6586
+590 Seattle ExpressN,4897,b,6590
+594 Seattle ExpressN,4902,b,6594
+594 Seattle ExpressS,4903,b,6594
+100 Purdy Gig Harbo*,4907,b,2100
+501 Milton-Federal *,4909,b,2501
+501 Milton-Federal *,4910,b,2501
+566 Auburn-OverlakeN,4911,b,6566
+566 Auburn-OverlakeS,4912,b,6566
+586 Tacoma - U Dist*,4916,b,6586
+WSF EDMNDS-KNGSTN EB,4928,f,5999
+WSF EDMNDS-KNGSTN WB,4929,f,5999
+WSF FAUNTLR-SWRTH WB,4930,f,5999
+WSF PT DEFI-TAHLQ SB,4931,f,5999
+WSF PT DEFI-TAHLQ NB,4932,f,5999
+WSF SEA-BAINB ISL EB,4933,f,5999
+WSF SEA-BAINB ISL WB,4934,f,5999
+WSF SEA-BREMERTON EB,4935,f,5999
+WSF SEA-BREMERTON WB,4936,f,5999
+WSF FAUNTLR-VASHN EB,4939,f,5999
+WSF FAUNTLR-VASHN WB,4940,f,5999
+WSF VASHN-STHWRTH EB,4941,f,5999
+WSF VASHN-STHWRTH WB,4942,f,5999
+LITE RL TCOMA CBD,4946,r,6995
+LITE RL TCOMA CBD,4947,r,6995
+ MNRL SEACTR-WSTLK *,4948,r,1999
+ MNRL SEACTR-WSTLK *,4949,r,1999
+LightRail SeaTac-Sea,4950,r,6996
+LightRail Sea-Seatac,4951,r,6996
+Foot Ferry Pt Or-Bre,4953,f,4999
+Foot Ferry Bre-Pt Or,4954,f,4999
+WSF FAUNTLR-SWRTH WB,4959,f,5999
+desc needed,4978,b,6512
+desc needed,4983,b,6535
+desc needed,4984,b,6535
+Swift NB,4985,b,3701
+Swift SB,4986,b,3701
+112 MLT P&R-Ash P&R,4991,b,3112
+112 Ash P&R-MLT P&R,4994,b,3112
+101 Aur Vill-Mar P&R,4995,b,3101
+113 Ash Way P&R-Muk,4996,b,3113
+113 Muk-Ash Way P&R,4997,b,3113
+115 Aur Vill-Mar P&R,4998,b,3115
+115 Mar P&R-Aur Vill,4999,b,3115
+116 Edm-Silver Firs,5000,b,3116
+116 Silver Firs-Edm,5001,b,3116
+119 MLT P&R-Ash P&R,5002,b,3119
+119 Ash P&R-MLT P&R,5003,b,3119
+120 Lyn TC-CanPk P&R,5004,b,3120
+120 CanPk P&R-Lyn TC,5005,b,3120
+101 Mar P&R-Aur Vill,5006,b,3101
+130 Edmonds-Lynn TC,5007,b,3130
+130 Lynn TC-Edmonds,5008,b,3130
+196 Edmonds-Ald Mall,5009,b,3196
+196 Ald Mall-Edmonds,5010,b,3196
+201 Lynn TC-Smoky Pt,5011,b,3201
+201 Smoky Pt-Lynn TC,5012,b,3201
+202 Lynn TC-Smoky Pt,5013,b,3202
+202 Smoky Pt-Lynn TC,5014,b,3202
+220 Smoky Pt-Arlngtn,5015,b,3220
+220 Arlngtn-Smoky Pt,5016,b,3220
+105 Both-Mariner P&R,5017,b,3105
+222 Tulalip-Marysvil,5018,b,3222
+222 Marysvil-Tulalip,5019,b,3222
+240 Stanwd-Smokey Pt,5022,b,3240
+240 Smokey Pt-Stanwd,5023,b,3240
+105 Mariner P&R-Both,5028,b,3105
+275 Everett-Monroe,5029,b,3275
+275 Monroe-Everett,5030,b,3275
+280 Evt-Gran Falls,5035,b,3280
+280 Gran Falls-Evt,5037,b,3280
+desc needed,5040,b,6512
+desc needed,5041,b,3855
+desc needed,5042,b,3860
+desc needed,5043,b,3871
+desc needed,5044,b,3270
+270 Gold Bar-Monroe,5045,b,3270
+11 Crosstown Ltd,5107,b,4011
+11 Crosstown Ltd WB,5110,b,4011
+12 Silverdale West,5113,b,4012
+12 Silverdale West,5114,b,4012
+17 Silvrdale East NB,5123,b,4017
+17 Silvrdale East SB,5124,b,4017
+20 Navy Yard City,5128,b,4020
+21 Perry Avenue,5133,b,4021
+21 Perry Avenue,5134,b,4021
+23 Kariotis,5137,b,4023
+24 Olympic College,5138,b,4024
+25 East Park,5142,b,4025
+26 Bay Vista,5144,b,4026
+29 Trenton Avenue,5145,b,4029
+29 Trenton Avenue,5146,b,4029
+32 Poulsbo-Silvrdale,5148,b,4032
+34 Bangor Shuttle,5153,b,4034
+35 Old Town Shuttle,5154,b,4035
+36 Ridgetop Shuttle,5156,b,4036
+37 Fairgrnds Shuttle,5157,b,4037
+41 Lincoln Road,5159,b,4041
+4 Tremont,5160,b,4004
+5 Sidney,5161,b,4005
+86 Southwrth Shtl WB,5168,b,4086
+8 Bethel,5171,b,4008
+90 Bainbrdge-Poulsbo,5174,b,4090
+90 Bainbrdge-Poulsbo,5175,b,4090
+90 Poulsbo-Bainbr EB,5183,b,4090
+92 Poulsbo-Kingston,5190,b,4092
+9 South Park,5202,b,4009
+43 Viking Ave.E,5210,b,4043
+12 Mall Circulator,5214,b,7012
+17 Mall Stn-Evt Stn,5216,b,7017
+17 South to Mall St*,5217,b,7017
+17 Mall Stn-Evt Stn,5218,b,7017
+18 Mukilteo-Evt Stn,5220,b,7018
+29 South to Mall St*,5222,b,7029
+29 Coll San-Mall Stn,5224,b,7029
+2 S Evt Circulator,5225,b,7002
+3 Casino Rd-Evt Stn,5226,b,7003
+3 Casino Rd-Evt Stn,5227,b,7003
+3 South to W Casino*,5230,b,7003
+3 Evt Stn-Casino Rd,5231,b,7003
+4 N Evt Circulator,5235,b,7004
+4 N Evt Circulator,5236,b,7005
+17 Mall Stn-Evt Stn,5239,b,7701
+17 Evt Stn-Mall Stn,5240,b,7701
+7 Coll Stn-Mall Stn,5244,b,7007
+7 Coll Stn-Mall Stn,5245,b,7007
+8 Airport Rd-Evt Stn,5246,b,7008
+8 Evt Stn-Airport Rd,5247,b,7008
+18 Evt Stn-Mukilteo,5248,b,7018
+13 Parkwood East Li*,5254,b,4013
+86 Southworth Shutt*,5265,b,4086
+90 Poulsbo/Bainbrid*,5269,b,4090
+98 SLUSC Northbound,5315,b,1098
+98 SLUSC Southbound,5316,b,1098
+810-sb-Weekday,5416,b,3810
+14SEP-Weekday-855-8*,5426,b,3810
