@@ -1,0 +1,149 @@
+{
+"description": "User benefits calculation of a new cross-sound bridge.",
+"year": 2040,
+"outputpath": "e:/benefits.h5",
+"constantdollars": 2006,
+
+"baseline": {
+    "description": "Cross-sound high-bridge is not built",
+    "filepath": "e:/base.h5"
+},
+
+"alternative": {
+    "description": "Cross-sound high-bridge added from Seattle to Bainbridge",
+    "filepath": "e:/alt.h5"
+},
+
+"zzbenefits": [
+    {"costpath":"/AMAutoSkims/aa1cs1",
+     "volumepath":"/VehicleAssignmentPeriod1600AM900AM/ahbw1v",
+     "userclass":"HBW Income 1",
+     "timeperiod":"AM"},
+
+    {"costpath":"/AMAutoSkims/aa1cs2",
+     "volumepath":"/VehicleAssignmentPeriod1600AM900AM/ahbw2v",
+     "userclass":"HBW Income 2",
+     "timeperiod":"AM"},
+
+    {"costpath":"/AMAutoSkims/aa1cs3",
+     "volumepath":"/VehicleAssignmentPeriod1600AM900AM/ahbw3v",
+     "userclass":"HBW Income 3",
+     "timeperiod":"AM"},
+
+    {"costpath":"/AMAutoSkims/aa1cs4",
+     "volumepath":"/VehicleAssignmentPeriod1600AM900AM/ahbw4v",
+     "userclass":"HBW Income 4",
+     "timeperiod":"AM"},
+
+    {"costpath":"/MDAutoSkims/ma1cs1",
+     "volumepath":"/VehicleAssignmentPeriod2900AM300PM/mhbw1v",
+     "userclass":"HBW Income 1",
+     "timeperiod":"MD"},
+
+    {"costpath":"/MDAutoSkims/ma1cs2",
+     "volumepath":"/VehicleAssignmentPeriod2900AM300PM/mhbw2v",
+     "userclass":"HBW Income 2",
+     "timeperiod":"MD"},
+
+    {"costpath":"/MDAutoSkims/ma1cs3",
+     "volumepath":"/VehicleAssignmentPeriod2900AM300PM/mhbw3v",
+     "userclass":"HBW Income 3",
+     "timeperiod":"MD"},
+
+    {"costpath":"/MDAutoSkims/ma1cs4",
+     "volumepath":"/VehicleAssignmentPeriod2900AM300PM/mhbw4v",
+     "userclass":"HBW Income 4",
+     "timeperiod":"MD"}
+],
+
+"vot": {
+    "description":"Value of time in Dollars per hour",
+    "SOV Non-Work": {
+        "AM": 18.15,
+        "MD": 18.15,
+        "PM": 18.15,
+        "EV": 18.15,
+        "NI": 18.15
+    },
+    
+    "HOV 2": {
+        "AM": 34.93,
+        "MD": 22.35,
+        "PM": 26.53,
+        "EV": 23.72,
+        "NI": 30.76
+    },
+    
+    "HOV 3+": {
+        "AM": 43.99,
+        "MD": 24.65,
+        "PM": 31.17,
+        "EV": 24.65,
+        "NI": 39.72
+    },
+    
+    "Vanpool": {
+        "AM": 117.81,
+        "MD": 0.0000000000000,
+        "PM": 68.15,
+        "EV": 0.0000000000000,
+        "NI": 0.0000000000000
+    },
+
+    "HBW Income 1": {
+        "AM": 11.09,
+        "MD": 11.09,
+        "PM": 11.09,
+        "EV": 11.09,
+        "NI": 11.09
+    },
+    
+    "HBW Income 2": {
+        "AM": 20.44,
+        "MD": 20.44,
+        "PM": 20.44,
+        "EV": 20.44,
+        "NI": 20.44
+    },
+    
+    "HBW Income 3": {
+        "AM": 29.83,
+        "MD": 29.83,
+        "PM": 29.83,
+        "EV": 29.83,
+        "NI": 29.83
+    },
+
+    "HBW Income 4": {
+        "AM": 38.62,
+        "MD": 38.62,
+        "PM": 38.62,
+        "EV": 38.62,
+        "NI": 38.62
+    },
+
+    "Light Truck": {
+        "AM": 46.34,
+        "MD": 46.34,
+        "PM": 46.34,
+        "EV": 46.34,
+        "NI": 46.34
+    },
+    
+    "Medium Truck": {
+        "AM": 52.26,
+        "MD": 52.26,
+        "PM": 52.26,
+        "EV": 52.26,
+        "NI": 52.26
+    },
+    
+    "Heavy Truck": {
+        "AM": 57.93,
+        "MD": 57.93,
+        "PM": 57.93,
+        "EV": 57.93,
+        "NI": 57.93
+    }
+}
+}
