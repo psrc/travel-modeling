@@ -366,30 +366,16 @@ class GTFS_Utilities2(object):
         #c = df2.shape_id.nunique()
         return df2
            
-test = GTFS_Utilities2(r"D:\stefan\Transit_2040_OSM\GTFS\2040_GTFS\revised_final", 0, 1439, 1)
-
-#am =test.get_tph_emme_rep_trip_id(r'D:\stefan\Transit_2018\reversible_routes\AM\AM_detail.p')
-print 'done'
-#am =test.get_tph_emme_rep_trip_id(r'D:\stefan\Transit_2018\reversible_routes\AM\AM_detail.p')
-bus =test.get_tph_emme_rep_trip_id(r'D:\stefan\Transit_2040_OSM\Outputs\All\Bus\MD_detail.p')
-ferry =test.get_tph_emme_rep_trip_id(r'D:\stefan\Transit_2040_OSM\Outputs\All\Ferry\MD_detail.p')
-cr =test.get_tph_emme_rep_trip_id(r'D:\stefan\Transit_2040_OSM\Outputs\All\CR\MD_detail.p')
-lr =test.get_tph_emme_rep_trip_id(r'D:\stefan\Transit_2040_OSM\Outputs\All\LR\MD_detail.p')
+gtfs_util = GTFS_Utilities2(r"path\to\gtfs\folder", 0, 1439, 1)
+hourly_frequency_df = gtfs_util.get_trips_per_hour
 
 
 
 
 
-#pm =test.get_tph_emme_rep_trip_id(r'D:\stefan\Transit_2018\reversible_routes\PM\PM_detail.p')
 
 
-#md_cols = [col for col in md.columns if col not in am.columns]
-#pm_cols = [col for col in pm.columns if col not in md.columns]
 
-#md = md[md_cols]
-
-
-#final = pd.concat([am,md,pm], axis = 1)
 
 
                 
