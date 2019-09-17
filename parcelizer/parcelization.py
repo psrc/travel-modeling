@@ -10,14 +10,6 @@ path_bldgs_file = r'W:\gis\projects\parcelization\buildings_2014.csv'
 path_block_shp = r'W:\geodata\census\Block\block2010.shp'
 path_prcl_shp = r'J:\Projects\UrbanSim\NEW_DIRECTORY\GIS\Shapefiles\Parcels\Region\2014\gapwork\prcl15_4kpt.shp'
 
-def assemble_baseyear_units():
-    # sum base year residential units by parcel id 
-    raw_bldgs = pd.read_csv(path_bldgs_file)
-    keep_cols = ['parcel_id', 'residential_units']
-    df = raw_bldgs.filter(keep_cols).groupby('parcel_id').sum().reset_index()
-    df = df.rename(columns = {'parcel_id' : 'PSRC_ID'})
-    return(df)
-
 def sqlconn(dbname):
     # create Elmer connection
     con = pyodbc.connect('DRIVER={SQL Server};SERVER=AWS-PROD-SQL\COHO;DATABASE=' + dbname + ';trusted_connection=true')
@@ -44,21 +36,12 @@ def query_and_tidy_ofm_estimates(year):
     df_pivot = df_pivot.rename(columns = {'GEOID':'GEOID10'})
     return(df_pivot)
 
-def read_parcel_shape():
+def read_shape_file(path, keep_columns):
     # import parcel shapefile
     print("Reading parcel shapefile")
     keep_cols = ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry']
     prcls = gpd.read_file(path_prcl_shp)
-    prcls_sub = prcls.filter(keep_cols)
-    return(prcls_sub)
-
-def read_block_shape():
-    # import block shapefile
-    print("Reading block shapefile")
-    keep_cols = ['GEOID10', 'geometry']
-    blks = gpd.read_file(path_block_shp)
-    blks_sub = blks[keep_cols]
-    return(blks_sub)
+    return prcls.filter(keep_cols)
 
 def blocks_without_parcels(prcls_to_blks_shp, ofm_df_single_year):
     # identifies blocks that do not have parcels (with and without estimates)
@@ -97,11 +80,16 @@ def blocks_with_parcels_without_byrunits(prcls_to_blks_shp, prcls_units):
     return(df_sub)
 
 # spatial join parcels & blocks
-prcls_sub = read_parcel_shape()
-blks_sub = read_block_shape()
+prcls_sub = read_shape_file(path_prcl_shp, ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry'])
+blks_sub = read_shape_file(path_block_shp, ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry'])
 prcls_to_blks = gpd.sjoin(prcls_sub, blks_sub, op = 'within', how = 'left')
 
-prcls_units = assemble_baseyear_units() # baseyear units data
+# assemble baseyear units:
+raw_bldgs = pd.read_csv(path_bldgs_file)
+keep_cols = ['parcel_id', 'residential_units']
+prcls_units = raw_bldgs.filter(keep_cols).groupby('parcel_id').sum().reset_index()
+prcls_units = prcls_units.rename(columns = {'parcel_id' : 'PSRC_ID'})
+
 
 ofm_df = query_and_tidy_ofm_estimates('2014') # ofm data
 
