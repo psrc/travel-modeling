@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 import re
 
-#path_bldgs_file = r'C:\Users\clam\Desktop\parcelization\data\buildings_2014.csv'
 path_bldgs_file = r'W:\gis\projects\parcelization\buildings_2014.csv'
 path_block_shp = r'W:\geodata\census\Block\block2010.shp'
 path_prcl_shp = r'J:\Projects\UrbanSim\NEW_DIRECTORY\GIS\Shapefiles\Parcels\Region\2014\gapwork\prcl15_4kpt.shp'
@@ -36,12 +35,11 @@ def query_and_tidy_ofm_estimates(year):
     df_pivot = df_pivot.rename(columns = {'GEOID':'GEOID10'})
     return(df_pivot)
 
-def read_shape_file(path, keep_columns):
-    # import parcel shapefile
-    print("Reading parcel shapefile")
-    keep_cols = ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry']
-    prcls = gpd.read_file(path_prcl_shp)
-    return prcls.filter(keep_cols)
+def read_shapefile(path, keep_columns):
+    # read shapefile
+    print("Reading shapefile")
+    shp = gpd.read_file(path)
+    return shp.filter(keep_columns)
 
 def blocks_without_parcels(prcls_to_blks_shp, ofm_df_single_year):
     # identifies blocks that do not have parcels (with and without estimates)
@@ -80,8 +78,8 @@ def blocks_with_parcels_without_byrunits(prcls_to_blks_shp, prcls_units):
     return(df_sub)
 
 # spatial join parcels & blocks
-prcls_sub = read_shape_file(path_prcl_shp, ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry'])
-blks_sub = read_shape_file(path_block_shp, ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry'])
+prcls_sub = read_shapefile(path_prcl_shp, ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry'])
+blks_sub = read_shapefile(path_block_shp, ['GEOID10', 'geometry'])
 prcls_to_blks = gpd.sjoin(prcls_sub, blks_sub, op = 'within', how = 'left')
 
 # assemble baseyear units:
@@ -89,7 +87,6 @@ raw_bldgs = pd.read_csv(path_bldgs_file)
 keep_cols = ['parcel_id', 'residential_units']
 prcls_units = raw_bldgs.filter(keep_cols).groupby('parcel_id').sum().reset_index()
 prcls_units = prcls_units.rename(columns = {'parcel_id' : 'PSRC_ID'})
-
 
 ofm_df = query_and_tidy_ofm_estimates('2014') # ofm data
 
