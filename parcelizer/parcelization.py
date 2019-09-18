@@ -1,9 +1,7 @@
-import os
 import pyodbc
 import geopandas as gpd
 import pandas as pd
 import numpy as np
-import re
 
 path_bldgs_file = r'W:\gis\projects\parcelization\buildings_2014.csv'
 path_block_shp = r'W:\geodata\census\Block\block2010.shp'
@@ -58,17 +56,11 @@ def blocks_with_est_without_parcels(prcls_to_blks_shp, ofm_df_single_year):
     blks_with_est_without_parcels = blks_without_prcls[blks_without_prcls[hu_col] > 0]
     return(blks_with_est_without_parcels)
 
-def join_prcls_with_baseyear_units(prcls_to_blks_shp, prcl_units):
-    # join baseyear units data to parcels
-    df = pd.merge(prcls_to_blks_shp, prcl_units, how = 'left')
-    df['residential_units'].fillna(0.0, inplace = True)
-    return(df)
-
 def summarize_blocks_prcls_units(prcls_to_blks_shp, prcls_units):
     # create dataframe of blocks with parcels, count of parcels, and sum of baseyear units
-    df_join = join_prcls_with_baseyear_units(prcls_to_blks_shp, prcls_units)
+    #df_join = join_prcls_with_baseyear_units(prcls_to_blks_shp, prcls_units)
     colnames = {'PSRC_ID' : 'parcels', 'residential_units' : 'baseyear_res_units'}
-    df_sum = df_join.groupby('GEOID10').agg({'PSRC_ID': 'count', 'residential_units': 'sum'}).reset_index().rename(columns = colnames)
+    df_sum = prcls_to_blks_shp.groupby('GEOID10').agg({'PSRC_ID': 'count', 'residential_units': 'sum'}).reset_index().rename(columns = colnames)
     return(df_sum)
 
 def blocks_with_parcels_without_byrunits(prcls_to_blks_shp, prcls_units):
@@ -76,6 +68,7 @@ def blocks_with_parcels_without_byrunits(prcls_to_blks_shp, prcls_units):
     df = summarize_blocks_prcls_units(prcls_to_blks_shp, prcls_units)
     df_sub = df[df['baseyear_res_units'] == 0]
     return(df_sub)
+
 
 # spatial join parcels & blocks
 prcls_sub = read_shapefile(path_prcl_shp, ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry'])
@@ -88,8 +81,27 @@ keep_cols = ['parcel_id', 'residential_units']
 prcls_units = raw_bldgs.filter(keep_cols).groupby('parcel_id').sum().reset_index()
 prcls_units = prcls_units.rename(columns = {'parcel_id' : 'PSRC_ID'})
 
-ofm_df = query_and_tidy_ofm_estimates('2014') # ofm data
+#add units to parcels_blocks
+prcls_to_blks = prcls_to_blks.merge(prcls_units, how = 'left')
+prcls_to_blks ['residential_units'].fillna(0.0, inplace = True)
+
+# add OFM estimates to parcels_blocks
+
+ofm_df = query_and_tidy_ofm_estimates('2014')
+prcls_to_blks = prcls_to_blks.merge(ofm_df, how = 'left')
 
 blks_without_parcels = blocks_without_parcels(prcls_to_blks, ofm_df)
 blks_with_est_without_parcels = blocks_with_est_without_parcels(prcls_to_blks, ofm_df)
 blks_with_parcels_without_byr_units = blocks_with_parcels_without_byrunits(prcls_to_blks, prcls_units)
+
+# create dummy parcels for block groups that have estimates but no parcels
+
+# set number of units to 1 for dummy parcels
+
+# allocated block hhs and pop to parcels
+prcls_to_blks['total_units'] = prcls_to_blks.groupby('GEOID10')['residential_units'].transform('sum')
+prcls_to_blks['proportion'] = prcls_to_blks.residential_units / prcls_to_blks.total_units
+prcls_to_blks['parcel_hh'] = prcls_to_blks.proportion * prcls_to_blks.HHP
+
+
+
