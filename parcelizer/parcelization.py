@@ -1,3 +1,4 @@
+import os
 import pyodbc
 import geopandas as gpd
 import pandas as pd
@@ -6,6 +7,11 @@ import numpy as np
 path_bldgs_file = r'W:\gis\projects\parcelization\buildings_2014.csv'
 path_block_shp = r'W:\geodata\census\Block\block2010.shp'
 path_prcl_shp = r'J:\Projects\UrbanSim\NEW_DIRECTORY\GIS\Shapefiles\Parcels\Region\2014\gapwork\prcl15_4kpt.shp'
+
+ofm_year = '2014'
+
+out_dir = r'C:\Users\clam\Desktop\parcelization\data'
+out_file = 'parcelized_ofm_' + ofm_year + '.shp'
 
 def sqlconn(dbname):
     # create Elmer connection
@@ -31,6 +37,7 @@ def query_and_tidy_ofm_estimates(year):
     df_pivot['GEOID'] = df_pivot['GEOID'].astype('str')
     df_pivot.columns.name = None
     df_pivot = df_pivot.rename(columns = {'GEOID':'GEOID10'})
+    df_pivot = df_pivot[['GEOID10', 'POP', 'HHP', 'GQ', 'HU', 'OHU']]
     return(df_pivot)
 
 def read_shapefile(path, keep_columns):
@@ -58,50 +65,70 @@ def blocks_with_est_without_parcels(prcls_to_blks_shp, ofm_df_single_year):
 
 def summarize_blocks_prcls_units(prcls_to_blks_shp, prcls_units):
     # create dataframe of blocks with parcels, count of parcels, and sum of baseyear units
-    #df_join = join_prcls_with_baseyear_units(prcls_to_blks_shp, prcls_units)
-    colnames = {'PSRC_ID' : 'parcels', 'residential_units' : 'baseyear_res_units'}
-    df_sum = prcls_to_blks_shp.groupby('GEOID10').agg({'PSRC_ID': 'count', 'residential_units': 'sum'}).reset_index().rename(columns = colnames)
+    df_join = pd.merge(prcls_to_blks_shp, prcls_units, how = 'left')
+    df_join['residential_units'].fillna(0.0, inplace = True)
+    colnames = {'PSRC_ID' : 'parcels'} #, 'residential_units' : 'baseyear_res_units'
+    df_sum = df_join.groupby('GEOID10').agg({'PSRC_ID': 'count', 'residential_units': 'sum'}).reset_index().rename(columns = colnames)
     return(df_sum)
 
-def blocks_with_parcels_without_byrunits(prcls_to_blks_shp, prcls_units):
-    print("Assembling dataframe of blocks with parcels that do not have base year units")
+def blocks_with_parcels_and_est_without_byrunits(prcls_to_blks_shp, prcls_units, ofm_df_single_year):
+    print("Assembling dataframe of blocks with parcels and OFM estimates that do not have base year units")
     df = summarize_blocks_prcls_units(prcls_to_blks_shp, prcls_units)
-    df_sub = df[df['baseyear_res_units'] == 0]
-    return(df_sub)
+    df_sub = df[df['residential_units'] == 0]#'baseyear_res_units'
+    df_sub_join = pd.merge(df_sub, ofm_df_single_year, how = 'left') 
+    df_sub_join_est = df_sub_join[df_sub_join['HU'] > 0]
+    return(df_sub_join_est)
 
 
 # spatial join parcels & blocks
-prcls_sub = read_shapefile(path_prcl_shp, ['OBJECTID_1', 'PSRC_ID', 'COUNTY', 'POINT_X', 'POINT_Y', 'geometry'])
+prcls_sub = read_shapefile(path_prcl_shp, ['PSRC_ID', 'geometry']) #'OBJECTID_1','COUNTY', 'POINT_X', 'POINT_Y', 
 blks_sub = read_shapefile(path_block_shp, ['GEOID10', 'geometry'])
 prcls_to_blks = gpd.sjoin(prcls_sub, blks_sub, op = 'within', how = 'left')
 
-# assemble baseyear units:
+# assemble baseyear units
 raw_bldgs = pd.read_csv(path_bldgs_file)
 keep_cols = ['parcel_id', 'residential_units']
 prcls_units = raw_bldgs.filter(keep_cols).groupby('parcel_id').sum().reset_index()
 prcls_units = prcls_units.rename(columns = {'parcel_id' : 'PSRC_ID'})
 
-#add units to parcels_blocks
-prcls_to_blks = prcls_to_blks.merge(prcls_units, how = 'left')
-prcls_to_blks ['residential_units'].fillna(0.0, inplace = True)
-
-# add OFM estimates to parcels_blocks
-
-ofm_df = query_and_tidy_ofm_estimates('2014')
-prcls_to_blks = prcls_to_blks.merge(ofm_df, how = 'left')
-
-blks_without_parcels = blocks_without_parcels(prcls_to_blks, ofm_df)
+# assess which blocks need dummy parcels or need to evenly distribute
+ofm_df = query_and_tidy_ofm_estimates(ofm_year)
+#blks_without_parcels = blocks_without_parcels(prcls_to_blks, ofm_df)
 blks_with_est_without_parcels = blocks_with_est_without_parcels(prcls_to_blks, ofm_df)
-blks_with_parcels_without_byr_units = blocks_with_parcels_without_byrunits(prcls_to_blks, prcls_units)
+blks_with_parcels_est_without_byrunits = blocks_with_parcels_and_est_without_byrunits(prcls_to_blks, prcls_units, ofm_df)
 
 # create dummy parcels for block groups that have estimates but no parcels
+dummy_prcls = blks_sub[blks_sub['GEOID10'].isin(blks_with_est_without_parcels['GEOID10'])] 
+dummy_prcls['geometry'] = dummy_prcls['geometry'].centroid
+start_id = prcls_to_blks['PSRC_ID'].max() + 1
+rows = len(dummy_prcls)
+dummy_prcls_id = [1.0 * n for n in range(int(start_id), int((start_id + rows)))]
+dummy_prcls['PSRC_ID'] = dummy_prcls_id
+
+# add dummy parcels
+new_prcls_to_blks = gpd.GeoDataFrame(pd.concat([prcls_to_blks, dummy_prcls], sort = False)) 
+
+# add OFM estimates to shapefile
+new_prcls_to_blks = new_prcls_to_blks.merge(ofm_df, how = 'left')
+
+# add units to parcels_blocks
+new_prcls_to_blks = new_prcls_to_blks.merge(prcls_units, how = 'left')
+new_prcls_to_blks['residential_units'].fillna(0.0, inplace = True)
 
 # set number of units to 1 for dummy parcels
+new_prcls_to_blks.loc[new_prcls_to_blks['PSRC_ID'].isin(dummy_prcls_id), 'residential_units'] = 1.0
 
-# allocated block hhs and pop to parcels
-prcls_to_blks['total_units'] = prcls_to_blks.groupby('GEOID10')['residential_units'].transform('sum')
-prcls_to_blks['proportion'] = prcls_to_blks.residential_units / prcls_to_blks.total_units
-prcls_to_blks['parcel_hh'] = prcls_to_blks.proportion * prcls_to_blks.HHP
+# set number of units to 1 for blocks with estimates and parcels but no base year units
+new_prcls_to_blks.loc[new_prcls_to_blks['GEOID10'].isin(blks_with_parcels_est_without_byrunits['GEOID10']), 'residential_units'] = 1.0
 
+# allocate block estimates to parcels
+new_prcls_to_blks['total_units'] = new_prcls_to_blks.groupby('GEOID10')['residential_units'].transform('sum')
+new_prcls_to_blks['proportion'] = new_prcls_to_blks.residential_units / new_prcls_to_blks.total_units
 
+estimate_types = ['POP', 'HHP', 'GQ', 'HU', 'OHU']
+for type in estimate_types:
+    new_colname = 'parcel_' + type.lower()
+    new_prcls_to_blks[new_colname] = new_prcls_to_blks['proportion'] * new_prcls_to_blks[type]
+    new_prcls_to_blks[new_colname].fillna(0.0, inplace = True)
 
+#new_prcls_to_blks.to_file(os.path.join(out_dir, out_file)) # takes approx. 11 mins to write to file
