@@ -1,6 +1,7 @@
 # This script attaches skim values to Daysim records
 
 # Extract skim values based on Daysim attributes
+import os
 import pandas as pd
 import numpy as np
 import h5py
@@ -8,6 +9,8 @@ import glob
 import math
 from shutil import copyfile
 from EmmeProject import *
+
+run_root = r'L:\vision2050\soundcast\dseis\integrated\final_runs\base_year\2014'
 
 # Read the h5-formatted 2014 survey data
 # Note that the trip-record tables needs a unique trip id field
@@ -23,9 +26,9 @@ h5output = 'survey2014_gps_wt_nov16.h5'
 version_tag = 'P14_w'
 
 
-matrix_dict_loc = r'R:\SoundCast\releases\TransportationFutures2010\inputs\skim_params\demand_matrix_dictionary.json'
-working_dir = r'R:\SoundCast\releases\TransportationFutures2010\inputs'
-project_dir = r'R:\SoundCast\releases\TransportationFutures2010\projects\8to9\8to9.emp'
+matrix_dict_loc = os.path.join(run_root,r'\inputs\model\skim_parametersdemand_matrix_dictionary.json')
+skim_dir = os.path.join(run_root,'inputs\roster')
+project_dir = os.path.join(run_root,r'projects\8to9\8to9.emp')
 
 tollclass = 'nt'
 
@@ -269,7 +272,7 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 	tods = set(tod_dict.values())
 	skim_dict = {}
 	for tod in tods:
-	    contents = h5py.File(working_dir + r'/'+ tod + '.h5')
+	    contents = h5py.File(skim_dir + r'/'+ tod + '.h5')
 	    skim_dict[tod] = contents
 
 
@@ -505,62 +508,62 @@ def hhmm_to_mam(df,field):
 def main():
 
 	# Open Emme project to acquire zone numbers for lookup to skim indeces
-	# my_project = EmmeProject(project_dir)
+	my_project = EmmeProject(project_dir)
 
-	# # Load data
-	# trip = pd.read_csv(input_dir + r'/trip' + version_tag + '.dat', sep=input_sep)
-	# tour = pd.read_csv(input_dir + r'/tour' + version_tag + '.dat', sep=input_sep)
-	# hh = pd.read_csv(input_dir + r'/hrec' + version_tag + '.dat', sep=input_sep)
-	# person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=input_sep)
+	# Load data
+	trip = pd.read_csv(input_dir + r'/trip' + version_tag + '.dat', sep=input_sep)
+	tour = pd.read_csv(input_dir + r'/tour' + version_tag + '.dat', sep=input_sep)
+	hh = pd.read_csv(input_dir + r'/hrec' + version_tag + '.dat', sep=input_sep)
+	person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=input_sep)
 
-	# # Correct time fields (from HHMM to minutes after midnight)
-	# # Save updated dat files
-	# for field in ['tlvorig','tardest','tlvdest','tarorig']:
-	#     tour = hhmm_to_mam(tour,field)
-	# tour.to_csv(output_dats + 'tour' + version_tag + '.dat', index=False)
+	# Correct time fields (from HHMM to minutes after midnight)
+	# Save updated dat files
+	for field in ['tlvorig','tardest','tlvdest','tarorig']:
+	    tour = hhmm_to_mam(tour,field)
+	tour.to_csv(output_dats + 'tour' + version_tag + '.dat', index=False)
 
-	# for field in ['deptm','arrtm','endacttm']:
-	#     trip = hhmm_to_mam(trip,field)
-	# trip.to_csv(output_dats + 'trip' + version_tag + '.dat', index=False)
+	for field in ['deptm','arrtm','endacttm']:
+	    trip = hhmm_to_mam(trip,field)
+	trip.to_csv(output_dats + 'trip' + version_tag + '.dat', index=False)
 
-	# # drop any rows with -1 expansion factor
-	# person = person[person['psexpfac']>=0]
+	# drop any rows with -1 expansion factor
+	person = person[person['psexpfac']>=0]
 
-	# # Add unique id fields 
-	# person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
-	# trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
-	# tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
+	# Add unique id fields 
+	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
+	trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
+	tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
 
-	# # # Join household to trip data to get income
-	# trip_hh = pd.merge(trip,hh, on='hhno')
-	# tour_hh = pd.merge(tour,hh, on='hhno')
+	# # Join household to trip data to get income
+	trip_hh = pd.merge(trip,hh, on='hhno')
+	tour_hh = pd.merge(tour,hh, on='hhno')
 
-	# # # # # Extract person-level results from trip file
-	# person_modified = process_person_skims(tour,person,hh)
+	# # # # Extract person-level results from trip file
+	person_modified = process_person_skims(tour,person,hh)
 
-	# # Fetch trip skims based on trip departure time
-	# fetch_skim('trip',trip_hh, time_field='deptm', mode_field='mode',
-	# 	otaz_field='otaz', dtaz_field='dtaz', my_project=my_project)
+	# Fetch trip skims based on trip departure time
+	fetch_skim('trip',trip_hh, time_field='deptm', mode_field='mode',
+		otaz_field='otaz', dtaz_field='dtaz', my_project=my_project)
 
-	# # Fetch tour skims based on tour departure time from origin
-	# fetch_skim('tour', tour_hh, time_field='tlvorig', mode_field='tmodetp',
-	# 	otaz_field='totaz', dtaz_field='tdtaz', my_project=my_project)
+	# Fetch tour skims based on tour departure time from origin
+	fetch_skim('tour', tour_hh, time_field='tlvorig', mode_field='tmodetp',
+		otaz_field='totaz', dtaz_field='tdtaz', my_project=my_project)
 
-	# # Attach person-level work skims based on home to work auto trips
-	# fetch_skim('work_travel', person_modified, time_field='puwarrp', mode_field='puwmode',
-	# 	otaz_field='hhtaz', dtaz_field='pwtaz', my_project=my_project, use_mode=3)
+	# Attach person-level work skims based on home to work auto trips
+	fetch_skim('work_travel', person_modified, time_field='puwarrp', mode_field='puwmode',
+		otaz_field='hhtaz', dtaz_field='pwtaz', my_project=my_project, use_mode=3)
 	
-	# # Attach person-level school skims based on home to school auto trips
-	# # NOTE: mode is irrelevant in this case
-	# fetch_skim('school_travel', person_modified, time_field='pusarrp', mode_field='puwmode',
-	# 	otaz_field='hhtaz', dtaz_field='pstaz', my_project=my_project, use_mode=3)
+	# Attach person-level school skims based on home to school auto trips
+	# NOTE: mode is irrelevant in this case
+	fetch_skim('school_travel', person_modified, time_field='pusarrp', mode_field='puwmode',
+		otaz_field='hhtaz', dtaz_field='pstaz', my_project=my_project, use_mode=3)
 
-	# # Reload original person file and attach skim results	# 
-	# person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=input_sep)
-	# person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
+	# Reload original person file and attach skim results	# 
+	person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=input_sep)
+	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
 	
-	# # Update records
-	# update_records(trip,tour,person)
+	# Update records
+	update_records(trip,tour,person)
 
 	# Write results to h5
 	write_list = ['tour','trip','prec','hrec','hday','pday']
