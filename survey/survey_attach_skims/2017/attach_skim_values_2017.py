@@ -1,31 +1,35 @@
 # This script attaches skim values to Daysim records
 
 # Extract skim values based on Daysim attributes
+import os
 import pandas as pd
 import numpy as np
 import h5py
 import glob
 import math
 from shutil import copyfile
+
+# run_root = r'L:\vision2050\soundcast\dseis\integrated\final_runs\base_year\2014'
+run_root = r'L:\vision2050\soundcast\dseis\integrated\final_runs\base_year\2014'
+os.chdir(run_root)
 from EmmeProject import *
 
-# Read the h5-formatted 2014 survey data
-# Note that the trip-record tables needs a unique trip id field
-# this will need to be added to the DAT files sent by Mark Bradley.
-input_dir = r'R:\SoundCastDocuments\2017Estimation'
+working_dir = os.getcwd()
+
+input_dir = r'R:\e2projects_two\SoundCastDocuments\2017Estimation\survey\geocoded'
 input_sep = ','
-output_dir = r'R:\SoundCastDocuments\2017Estimationskims_attached'
+output_dir = r'R:\e2projects_two\SoundCastDocuments\2017Estimation\survey\skims_attached'
 
 # save DAT file with MAM time format conversion
 # Make sure directory exists before trying to save results there
-output_dats = r'R:\SoundCastDocuments\2017Estimation\skims_attached\dats'
 h5output = 'survey2017.h5'
-version_tag = 'P17_w'
+version_tag = 'P17'
 
 
-matrix_dict_loc = r'D:\soundcast-2.1\soundcast-2.1\inputs\model\skim_parameters\demand_matrix_dictionary.json'
-working_dir = r'D:\soundcast-2.1\soundcast-2.1\inputs\model\roster'
-project_dir = r'D:\soundcast-2.1\soundcast-2.1\projects\8to9\8to9.emp'
+matrix_dict_loc = os.path.join(run_root,r'inputs\model\skim_parameters\demand_matrix_dictionary.json')
+print matrix_dict_loc
+skim_dir = os.path.join(run_root,r'inputs\model\roster')
+project_dir = os.path.join(run_root,r'projects\8to9\8to9.emp')
 
 tollclass = 'nt'
 
@@ -67,7 +71,8 @@ tod_dict = {
     20: '20to5',
     21: '20to5',
     22: '20to5',
-    23: '20to5'
+    23: '20to5',
+    24: '20to5'
 }
 
 # Create an ID to match skim naming method
@@ -80,7 +85,9 @@ mode_dict = {
     6: 'ivtwa',    # transit in-vehicle time
     7: 'sv',
     8: 'sv',   # assign school bus as sov
-    9: 'sv'    # assign other as sov
+    9: 'h2',    # assign tnc as hov2
+    10: 'sv', # assign other as sov
+    -99: 'sv'
 }
 
 def text_to_dictionary(input_filename):
@@ -180,7 +187,7 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 		output_array.append(rowresults)
 	 
 	df = pd.DataFrame(output_array)
-	df.to_csv('before_bike_edits.csv')
+	df.to_csv(os.path.join(output_dir,'before_bike_edits.csv'), index=False)
 
 	# For bike and walk skims, calculate distance from time skims using average speeds
 	for mode, speed in {'bike': bike_speed, 'walk': walk_speed}.iteritems():
@@ -189,11 +196,11 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 
 	# Replace all bike and walk cost skims with 0
 	df.ix[df['skimid'].isin(['bike','walk']),'c'] = 0
-	df.to_csv('after_bike_edits.csv')
+	df.to_csv(os.path.join(output_dir,'after_bike_edits.csv'), index=False)
 
 	# write results to a csv
 	try:
-		df.to_csv(skim_output_file, index=False)
+		df.to_csv(os.path.join(output_dir,skim_output_file), index=False)
 	except:
 		print 'failed on export of output'
 
@@ -242,6 +249,7 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 	df['dephr'] = [tod_dict[hours[i]] for i in xrange(len(hours))]
 
 	# Look up mode keyword unless using standard mode value (e.g.)
+	df[mode_field] = df[mode_field].fillna(-99)
 	modes = np.asarray(df[mode_field].astype('int'))
 	if use_mode:
 		df['mode code'] = [mode_dict[use_mode] for i in xrange(len(df))]
@@ -269,7 +277,7 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 	tods = set(tod_dict.values())
 	skim_dict = {}
 	for tod in tods:
-	    contents = h5py.File(working_dir + r'/'+ tod + '.h5')
+	    contents = h5py.File(os.path.join(working_dir, r'inputs/model/roster', tod + '.h5'))
 	    skim_dict[tod] = contents
 
 
@@ -347,10 +355,10 @@ def process_person_skims(tour, person, hh):
 		person[field] = person[field].astype('int')
 
 	# Write results to CSV for new derived fields
-	person.to_csv('person_skims.csv', index=False)
-	# person[['hhno','pno','puwdepp',
-	# 'puwarrp','Work Mode', 'Work TAZ', 'School Arrival Time', 
-	# 'School Departure Time', 'School TAZ']].to_csv('person_skims.csv')
+	person.to_csv(os.path.join(output_dir,'person17.csv'), index=False)
+	#person[['hhno','pno','puwdepp',
+	#'puwarrp','Work Mode', 'Work TAZ', 'School Arrival Time', 
+	#'School Departure Time', 'School TAZ']].to_csv(os.path.join(output_dir,'person_skims.csv'), index=False)
 
 	return person
 
@@ -360,11 +368,11 @@ def update_records(trip,tour,person):
 	"""
 
 	# Load skim data
-	trip_skim = pd.read_csv('trip_skim_output.csv')
-	tour_skim = pd.read_csv('tour_skim_output.csv')
-	person_skim = pd.read_csv('person_skims.csv')
-	work_skim = pd.read_csv('work_travel_skim_output.csv')
-	school_skim = pd.read_csv('school_travel_skim_output.csv')
+	trip_skim = pd.read_csv(os.path.join(output_dir, 'trip_skim_output.csv'))
+	tour_skim = pd.read_csv(os.path.join(output_dir, 'tour_skim_output.csv'))
+	person_skim = pd.read_csv(os.path.join(output_dir, 'person17.csv'))
+	work_skim = pd.read_csv(os.path.join(output_dir, 'work_travel_skim_output.csv'))
+	school_skim = pd.read_csv(os.path.join(output_dir, 'school_travel_skim_output.csv'))
 
 	for df in [trip_skim,tour_skim,person_skim,work_skim,school_skim]:
 		df['id'] = df['id'].astype('str')
@@ -388,7 +396,7 @@ def update_records(trip,tour,person):
 	# Join skim file to original
 	df = pd.merge(trip,trip_skim[['id','c','d','t']],on='id',how='left')
 	for colname, skimname in trip_cols.iteritems():
-	    df.to_csv('testout.csv')
+	    df.to_csv(os.path.join(output_dir,'testout.csv'), index=False)
 	    df[colname] = df[skimname]
 	    df.drop(skimname,axis=1,inplace=True)
 	    
@@ -397,7 +405,7 @@ def update_records(trip,tour,person):
 	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
-	    df.to_csv(output_dir + r'\trip' + version_tag + '.dat', sep=input_sep,index=False) 
+	    df.to_csv(os.path.join(output_dir, 'trip17.csv'), index=False) 
 	    
 	# For tour
 	df = pd.merge(tour,tour_skim[['id','c','d','t']],on='id',how='left')
@@ -411,7 +419,7 @@ def update_records(trip,tour,person):
 	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
-	    df.to_csv(output_dir + r'\tour' + version_tag + '.dat', sep=input_sep,index=False)
+	    df.to_csv(os.path.join(output_dir, 'tour17.csv'), index=False) 
 
 	# Person records
 	df = pd.merge(person,person_skim[['id','puwmode','puwarrp','puwdepp']],on='id',how='left')
@@ -442,7 +450,7 @@ def update_records(trip,tour,person):
 
 	df = df.drop(['d','t'],axis=1)
 	# export results
-	df.to_csv(output_dir + r'\prec' + version_tag + '.dat', sep=input_sep,index=False) 
+	df.to_csv(os.path.join(output_dir, 'person17.csv'), index=False) 
 
 def dat_to_h5(file_list):
 	group_dict={
@@ -509,19 +517,19 @@ def main():
 
 	# Load data
 	trip = pd.read_csv(input_dir + r'/trip17.csv', sep=input_sep)
-	# tour = pd.read_csv(input_dir + r'/tour' + version_tag + '.dat', sep=input_sep)
+	tour = pd.read_csv(input_dir + r'/tour17.csv', sep=input_sep)
 	hh = pd.read_csv(input_dir + r'/household17.csv', sep=input_sep)
-	person = pd.read_csv(input_dir + r'/pesron17.csv', sep=input_sep)
+	person = pd.read_csv(input_dir + r'/person17.csv', sep=input_sep)
 
 	# Correct time fields (from HHMM to minutes after midnight)
 	# Save updated dat files
-	for field in ['tlvorig','tardest','tlvdest','tarorig']:
-	    tour = hhmm_to_mam(tour,field)
-	tour.to_csv(output_dats + 'tour' + version_tag + '.dat', index=False)
+	#for field in ['tlvorig','tardest','tlvdest','tarorig']:
+	#    tour = hhmm_to_mam(tour,field)
+	tour.to_csv(os.path.join(output_dir,'tour17.csv'), index=False)
 
-	for field in ['deptm','arrtm','endacttm']:
-	    trip = hhmm_to_mam(trip,field)
-	trip.to_csv(output_dats + 'trip' + version_tag + '.dat', index=False)
+	#for field in ['deptm','arrtm','endacttm']:
+	#    trip = hhmm_to_mam(trip,field)
+	trip.to_csv(os.path.join(output_dir,'trip17.csv'), index=False)
 
 	# drop any rows with -1 expansion factor
 	person = person[person['psexpfac']>=0]
@@ -556,21 +564,21 @@ def main():
 		otaz_field='hhtaz', dtaz_field='pstaz', my_project=my_project, use_mode=3)
 
 	# Reload original person file and attach skim results	# 
-	person = pd.read_csv(input_dir + r'/prec' + version_tag + '.dat', sep=input_sep)
+	person = pd.read_csv(input_dir + r'/person17.csv')
 	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
 	
-	# Update records
+	## Update records
 	update_records(trip,tour,person)
 
-	# Write results to h5
-	write_list = ['tour','trip','prec','hrec','hday','pday']
+	## Write results to h5
+	#write_list = ['tour','trip','prec','hrec','hday','pday']
 
 	# copy non-updated files to the same output directory for consistency
-	for file in write_list:
-		if file not in ['tour','prec','trip']:
-			copyfile(input_dir + r'\\' +file+version_tag+'.dat', output_dir + r'\\' +file+version_tag+'.dat')
+	#for file in write_list:
+	#	if file not in ['tour','prec','trip']:
+	#		copyfile(input_dir + r'\\' +file+version_tag+'.dat', output_dir + r'\\' +file+version_tag+'.dat')
 
-	dat_to_h5([output_dir + r'\\' +file+version_tag+'.dat' for file in ['tour','trip','prec','hrec','hday','pday']])
+	#dat_to_h5([output_dir + r'\\' +file+version_tag+'.dat' for file in ['tour','trip','prec','hrec','hday','pday']])
 
 
 if __name__ == "__main__":
