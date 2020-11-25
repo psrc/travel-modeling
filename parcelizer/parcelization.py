@@ -9,37 +9,38 @@ path_gq_file = r'W:\gis\projects\parcelization\gq_2014.csv'
 path_block_shp = r'W:\geodata\census\Block\block2010.shp'
 path_prcl_shp = r'J:\Projects\UrbanSim\NEW_DIRECTORY\GIS\Shapefiles\Parcels\Region\2014\gapwork\prcl15_4kpt.shp'
 
-ofm_year = '2017'
+ofm_year = '2020'
 
 out_dir = r'C:\Users\clam\Desktop\parcelization\data'
-out_file = 'parcelized_ofm_' + ofm_year + '.shp'
+#out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2019-10-15\parcelized'
+out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2020.shp'
 
 def sqlconn(dbname):
     # create Elmer connection
-    con = pyodbc.connect('DRIVER={SQL Server};SERVER=AWS-PROD-SQL\COHO;DATABASE=' + dbname + ';trusted_connection=true')
+    con = pyodbc.connect('DRIVER={SQL Server};SERVER=AWS-PROD-SQL\SOCKEYE;DATABASE=' + dbname + ';trusted_connection=true')
     return(con)
 
 def query_tblOfmSaep(year):
     # retrieve ofm data from Elmer
-    con = sqlconn('Sandbox')
-    table_name = 'Christy.tblOfmSaep'
-    query = "SELECT * FROM " + table_name + " WHERE Year = " + year
+    con = sqlconn('Elmer')
+    table_name = 'ofm.estimate_facts'
+    geog_table_name = 'census.geography_dim' 
+    query = "SELECT a.geography_dim_id, b.block_geoid, a.estimate_year, a.housing_units, a.occupied_housing_units, a.group_quarters_population, a.household_population FROM " + table_name + " AS a LEFT JOIN " +  geog_table_name + " AS b ON a.geography_dim_id = b.geography_dim_id WHERE a.estimate_year = " +  ofm_year + ";"
     df = pd.read_sql(query, con)
     con.close()
     return(df)
 
 def query_and_tidy_ofm_estimates(year):
-    # gather and filter for a single years worth of ofm block estimates data, wide format
+    # gather and filter for a single years worth of ofm block estimates data
     print("Gathering " + year + " OFM estimates")
+    col_names = {'block_geoid':'GEOID10', 'housing_units':'HU', 'occupied_housing_units':'OHU', 'group_quarters_population':'GQ', 'household_population':'HHP'}
+    col_order = ['GEOID10', 'POP', 'HHP', 'GQ', 'HU', 'OHU']
     elmer_ofm = query_tblOfmSaep(year)
-    keep_cols = ['GEOID', 'Attribute', 'Estimate']
-    df = elmer_ofm.filter(keep_cols)
-    df_pivot = pd.pivot_table(df, values = 'Estimate', index = 'GEOID', columns = 'Attribute', aggfunc = np.sum).reset_index()
-    df_pivot['GEOID'] = df_pivot['GEOID'].astype('str')
-    df_pivot.columns.name = None
-    df_pivot = df_pivot.rename(columns = {'GEOID':'GEOID10'})
-    df_pivot = df_pivot[['GEOID10', 'POP', 'HHP', 'GQ', 'HU', 'OHU']]
-    return(df_pivot)
+    elmer_ofm = elmer_ofm.drop(columns = ['geography_dim_id', 'estimate_year'])
+    elmer_ofm = elmer_ofm.rename(columns = col_names)
+    elmer_ofm['POP'] = elmer_ofm['HHP'] + elmer_ofm['GQ']
+    elmer_ofm = elmer_ofm[col_order]
+    return(elmer_ofm)
 
 def read_shapefile(path, keep_columns):
     # read shapefile
