@@ -1,0 +1,23 @@
+table,field,value,text
+Tour,tour_mode,DRIVE_LOC,Transit
+Tour,tour_mode,DRIVEALONEFREE,SOV
+Tour,tour_mode,SHARED2FREE,HOV2
+Tour,tour_mode,DRIVE_LRF,Transit
+Tour,tour_mode,SHARED2PAY,HOV2
+Tour,tour_mode,SHARED3FREE,HOV3+
+Tour,tour_mode,WALK_LOC,Transit
+Tour,tour_mode,WALK_LRF,Transit
+Tour,tour_mode,BIKE,Bike
+Tour,tour_mode,DRIVEALONEPAY,SOV
+Tour,tour_mode,SHARED3PAY,HOV3+
+Tour,tour_mode,WALK_EXP,Transit
+Tour,tour_mode,DRIVE_EXP,Transit
+Tour,tour_mode,WALK,Walk
+Person,ptype,1,Full-Time Worker
+Person,ptype,2,Part-Time Worker
+Person,ptype,3,University Student
+Person,ptype,4,Non working adult age<65
+Person,ptype,5,Non working adult age 65+
+Person,ptype,6,High school student age 16+
+Person,ptype,7,Child age 5-15
+Person,ptype,8,Child age 0-4

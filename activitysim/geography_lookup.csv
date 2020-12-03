@@ -1,0 +1,2 @@
+left_table,left_index,right_table,right_index,right_column,right_column_rename
+Household,TAZ,parcel_geog,TAZ,CountyName,hh_county

@@ -1,0 +1,4 @@
+table,target,query,agg_fields,filter_fields,values,aggfunc,output_dir,output_col_rename,description
+household,auto_ownership,,"auto_ownership,hh_county,income_in_thousands",,hhexpfac,sum,dash,"hhvehs,hh_county,hhincome_thousands",vehicles owned by county
+tour,tour_total,,"start,tour_mode,ptype,primary_purpose",,toexpfac,sum,dash,"tlvorg_hr,tmodetp,pptyp,pdpurp",
+trip,trip_total,,"depart,trip_mode,ptype,primary_purpose",,trexpfac,sum,dash,"tlvorg_hr,tmodetp,pptyp,pdpurp","deptm_hr,mode,pptyp,dpurp"
