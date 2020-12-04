@@ -12,7 +12,7 @@ path_prcl_shp = r'J:\Projects\UrbanSim\NEW_DIRECTORY\GIS\Shapefiles\Parcels\Regi
 ofm_year = '2020'
 
 out_dir = r'C:\Users\clam\Desktop\parcelization\data'
-#out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2019-10-15\parcelized'
+#out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2020-10-02\parcelized'
 out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2020.shp'
 
 def sqlconn(dbname):
@@ -61,8 +61,6 @@ def blocks_with_est_without_parcels(prcls_to_blks_shp, ofm_df_single_year):
     # returns a dataframe
     print("Assembling dataframe of blocks without parcels that have OFM estimates")
     blks_without_prcls = blocks_without_parcels(prcls_to_blks_shp, ofm_df_single_year)
-    #hu_col = ofm_df_single_year.columns[ofm_df_single_year.columns.str.contains('^HU')][0] 
-    #blks_with_est_without_parcels = blks_without_prcls[blks_without_prcls[hu_col] > 0]
     blks_with_est_without_parcels = blks_without_prcls[(blks_without_prcls['HU'] > 0) | ((blks_without_prcls['GQ'] >0) & (blks_without_prcls['HU']==0))]
     return(blks_with_est_without_parcels)
 
@@ -70,21 +68,21 @@ def summarize_blocks_prcls_units(prcls_to_blks_shp, prcls_units):
     # create dataframe of blocks with parcels, count of parcels, and sum of baseyear units
     df_join = pd.merge(prcls_to_blks_shp, prcls_units, how = 'left')
     df_join['residential_units'].fillna(0.0, inplace = True)
-    colnames = {'PSRC_ID' : 'parcels'} #, 'residential_units' : 'baseyear_res_units'
+    colnames = {'PSRC_ID' : 'parcels'}
     df_sum = df_join.groupby('GEOID10').agg({'PSRC_ID': 'count', 'residential_units': 'sum'}).reset_index().rename(columns = colnames)
     return(df_sum)
 
 def blocks_with_parcels_and_est_without_byrunits(prcls_to_blks_shp, prcls_units, ofm_df_single_year):
     print("Assembling dataframe of blocks with parcels and OFM estimates that do not have base year units")
     df = summarize_blocks_prcls_units(prcls_to_blks_shp, prcls_units)
-    df_sub = df[df['residential_units'] == 0]#'baseyear_res_units'
+    df_sub = df[df['residential_units'] == 0]
     df_sub_join = pd.merge(df_sub, ofm_df_single_year, how = 'left') 
     df_sub_join_est = df_sub_join[df_sub_join['HU'] > 0]
     return(df_sub_join_est)
 
 
 # spatial join parcels & blocks
-prcls_sub = read_shapefile(path_prcl_shp, ['PSRC_ID', 'geometry']) #'OBJECTID_1','COUNTY', 'POINT_X', 'POINT_Y', 
+prcls_sub = read_shapefile(path_prcl_shp, ['PSRC_ID', 'geometry'])
 blks_sub = read_shapefile(path_block_shp, ['GEOID10', 'geometry'])
 prcls_to_blks = gpd.sjoin(prcls_sub, blks_sub, op = 'within', how = 'left')
 
@@ -104,7 +102,6 @@ prcls_sqft = prcls_sqft.rename(columns = {'parcel_id' : 'PSRC_ID'})
 
 # assess which blocks need dummy parcels or need to evenly distribute
 ofm_df = query_and_tidy_ofm_estimates(ofm_year)
-#blks_without_parcels = blocks_without_parcels(prcls_to_blks, ofm_df)
 blks_with_est_without_parcels = blocks_with_est_without_parcels(prcls_to_blks, ofm_df) ### CHECK
 blks_with_parcels_est_without_byrunits = blocks_with_parcels_and_est_without_byrunits(prcls_to_blks, prcls_units, ofm_df)
 
