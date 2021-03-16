@@ -57,6 +57,11 @@ def process_hh(df, parcel_block, zone_type):
     elif zone_type == 'TAZ':
         print('hit')
         df.rename(columns={'hhtaz': 'home_zone_id'}, inplace=True)
+
+    ### FIXME
+    # If a person is placed on a MAZ/TAZ/parcel with no population,
+    # move them to the nearest location that has population. 
+    # If not, this causes issues in estimation.
         
     return df
 
