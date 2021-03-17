@@ -248,7 +248,7 @@ def process_landuse(df_psrc, df_psrc_person, zone_type):
     """
 
     mtc_lu_path = 'https://raw.githubusercontent.com/ActivitySim/activitysim/master/activitysim/examples/example_mtc/data/land_use.csv'
-    df_parcel_path = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\base_year\parcels_urbansim.txt'
+    df_parcel_path = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\vers2_july2020\parcels_urbansim.txt'
     df_mtc_lu = pd.read_csv(mtc_lu_path)
     df_parcel = pd.read_csv(df_parcel_path, delim_whitespace=True)
     df_parcel.rename(columns={'taz_p': 'TAZ'}, inplace=True)
@@ -328,7 +328,7 @@ def process_landuse(df_psrc, df_psrc_person, zone_type):
     df = df_psrc.groupby(zone_type).sum()[['HHINCQ1','HHINCQ2','HHINCQ3','HHINCQ4']].reset_index()
     df_lu = df_lu.merge(df, on=zone_type, how='left')
 
-    # Total acres
+    # Total acres, based on parcel size
     df = (df_parcel.groupby(zone_type).sum()[['sqft_p']]/43560).reset_index()
     df.rename(columns={'sqft_p': 'TOTACRE'}, inplace=True)
     df_lu = df_lu.merge(df, on=zone_type, how='left')
@@ -337,14 +337,15 @@ def process_landuse(df_psrc, df_psrc_person, zone_type):
     # Popuilate with regional average
     df_lu.loc[df_lu['TOTACRE'] == 0, 'TOTACRE'] = df_lu.TOTACRE.mean()
 
-    # Acreage occupied by residential development - don't know if we have that
-    # For now scale it by population and employment, with a default of 1 for RES
+    # Acreage occupied by residential development; 
     df_lu['RESACRE'] = df_lu['TOTACRE']*(df_lu['TOTPOP']/(df_lu['TOTPOP']+df_lu['TOTEMP']))
+    df_lu.loc[df_lu['TOTPOP'].isnull(), 'RESACRE'] = df_lu['TOTACRE']/2.0
 
-    # commercial acreage, set to 0.5 for now
+    # commercial acreage
     df_lu['CIACRE'] = df_lu['TOTACRE']*(df_lu['TOTEMP']/(df_lu['TOTPOP']+df_lu['TOTEMP']))
+    df_lu.loc[df_lu['TOTPOP'].isnull(), 'CIACRE'] = df_lu['TOTACRE']/2.0
 
-    # Calculate density index
+    # Calculate density index as a check; should not be null
     df_lu['household_density'] = df_lu.TOTHH / (df_lu.RESACRE + df_lu.CIACRE)
     df_lu['employment_density'] = df_lu.TOTEMP / (df_lu.RESACRE + df_lu.CIACRE)
     df_lu['density_index'] = (df_lu['household_density'] *df_lu['employment_density']) / (df_lu['household_density'] + df_lu['employment_density']).clip(lower=1)
@@ -356,6 +357,7 @@ def process_landuse(df_psrc, df_psrc_person, zone_type):
     df = df_psrc.groupby(zone_type).sum()['SHPOP62P'].reset_index()
     df_lu = df_lu.merge(df, on=zone_type, how='left')
     df_lu['SHPOP62P'] = df_lu['SHPOP62P']/df_lu['TOTPOP']
+    df_lu['SHPOP62P'] = df_lu['SHPOP62P'].fillna(0)
 
     # Age categories
     df_psrc_person.loc[df_psrc_person['age'] < 5, 'AGE0004'] = 1
