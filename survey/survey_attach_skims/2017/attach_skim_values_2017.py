@@ -10,15 +10,15 @@ import math
 from shutil import copyfile
 
 # run_root = r'L:\vision2050\soundcast\dseis\integrated\final_runs\base_year\2014'
-run_root = r'L:\vision2050\soundcast\dseis\integrated\final_runs\base_year\2014'
+run_root = r'E:\sc_dev_py3'
 os.chdir(run_root)
 from EmmeProject import *
 
 working_dir = os.getcwd()
 
-input_dir = r'R:\e2projects_two\SoundCastDocuments\2017Estimation\survey\geocoded'
+input_dir = r'R:\e2projects_two\2018_base_year\survey\skims_attached\input'
 input_sep = ','
-output_dir = r'R:\e2projects_two\SoundCastDocuments\2017Estimation\survey\skims_attached'
+output_dir = r'R:\e2projects_two\2018_base_year\survey\skims_attached\output'
 
 # save DAT file with MAM time format conversion
 # Make sure directory exists before trying to save results there
@@ -26,12 +26,12 @@ h5output = 'survey2017.h5'
 version_tag = 'P17'
 
 
-matrix_dict_loc = os.path.join(run_root,r'inputs\model\skim_parameters\demand_matrix_dictionary.json')
-print matrix_dict_loc
+matrix_dict_loc = os.path.join(run_root,r'inputs\model\skim_parameters\demand_matrix_dictionary.txt')
+print(matrix_dict_loc)
 skim_dir = os.path.join(run_root,r'inputs\model\roster')
 project_dir = os.path.join(run_root,r'projects\8to9\8to9.emp')
 
-tollclass = 'nt'
+tollclass = 'tl'
 
 tripcols = ['hhno','pno','tour','tseg', 'half','travtime','travcost','travdist','mode','opurp','dpurp',
 			'deptm','otaz','dtaz','arrtm','trexpfac']
@@ -79,14 +79,14 @@ tod_dict = {
 mode_dict = {
     1: 'walk',
     2: 'bike',
-    3: 'sv',
-    4: 'h2',
-    5: 'h3',
+    3: 'sov',
+    4: 'hov2',
+    5: 'hov3',
     6: 'ivtwa',    # transit in-vehicle time
-    7: 'sv',
-    8: 'sv',   # assign school bus as sov
-    9: 'h2',    # assign tnc as hov2
-    10: 'sv', # assign other as sov
+    7: 'sov',
+    8: 'sov',   # assign school bus as sov
+    9: 'sov',    # assign other as sov
+	10: 'sov',    # assign other as sov
     -99: 'sv'
 }
 
@@ -97,7 +97,7 @@ def text_to_dictionary(input_filename):
 
 	for line in my_file:
 		k, v = line.split(':')
-    	my_dictionary[eval(k)] = v.strip()
+		my_dictionary[eval(k)] = v.strip()
 
 	return(my_dictionary)
 
@@ -109,19 +109,19 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 	
 	bikewalk_tod = '5to6'   # bike and walk are only assigned in 5to6
 	distance_skim_tod = '7to8'    # distance skims don't change over time, only saved for a single time period
-    
+
 	output_array = []
 
-   	print 'in write_skims'
+	print('in write_skims')
 
-	for i in xrange(len(df)):
+	for i in range(len(df)):
 
-		print i
+		print(i)
 		rowdata = df.iloc[i]
 		rowresults = {}
 
 		if rowdata['dephr'] == -1:
-			print 'skip'
+			print('skip')
 			next
 
 		rowresults['id'] = rowdata['id']
@@ -142,7 +142,7 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 				skim_value = my_matrix[dictZoneLookup[otaz]][dictZoneLookup[dtaz]]
 				rowresults['t'] = skim_value
 
-				my_matrix = skim_dict[tod]['Skims']['svnt2d']
+				my_matrix = skim_dict[tod]['Skims']['sov_inc2d']
 				skim_value = my_matrix[dictZoneLookup[otaz]][dictZoneLookup[dtaz]]
 				rowresults['d'] = skim_value
 
@@ -185,24 +185,24 @@ def write_skims(df, skim_dict, otaz_field, dtaz_field, my_project, skim_output_f
 					rowresults[skim_type] = -1
 
 		output_array.append(rowresults)
-	 
+
 	df = pd.DataFrame(output_array)
 	df.to_csv(os.path.join(output_dir,'before_bike_edits.csv'), index=False)
 
 	# For bike and walk skims, calculate distance from time skims using average speeds
-	for mode, speed in {'bike': bike_speed, 'walk': walk_speed}.iteritems():
+	for mode, speed in {'bike': bike_speed, 'walk': walk_speed}.items():
 		row_index = df['skimid'] == mode
 		df.loc[row_index, 'd'] =  (df['t']*speed/60).astype('int')
 
 	# Replace all bike and walk cost skims with 0
-	df.ix[df['skimid'].isin(['bike','walk']),'c'] = 0
+	df.loc[df['skimid'].isin(['bike','walk']),'c'] = 0
 	df.to_csv(os.path.join(output_dir,'after_bike_edits.csv'), index=False)
 
 	# write results to a csv
 	try:
 		df.to_csv(os.path.join(output_dir,skim_output_file), index=False)
 	except:
-		print 'failed on export of output'
+		print('failed on export of output')
 
 def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_project, use_mode=False):
 	"""
@@ -246,15 +246,15 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 	# hours = np.asarray(df[time_field].astype('str').str[:-2].astype('int'))
 	# pd.DataFrame(hours).to_csv('hours.csv')
 
-	df['dephr'] = [tod_dict[hours[i]] for i in xrange(len(hours))]
+	df['dephr'] = [tod_dict[hours[i]] for i in range(len(hours))]
 
 	# Look up mode keyword unless using standard mode value (e.g.)
 	df[mode_field] = df[mode_field].fillna(-99)
 	modes = np.asarray(df[mode_field].astype('int'))
 	if use_mode:
-		df['mode code'] = [mode_dict[use_mode] for i in xrange(len(df))]
+		df['mode code'] = [mode_dict[use_mode] for i in range(len(df))]
 	else:	
-		df['mode code'] = [mode_dict[modes[i]] for i in xrange(len(df))]
+		df['mode code'] = [mode_dict[modes[i]] for i in range(len(df))]
 
 	# Concatenate to produce ID to use with skim tables
 	# but not for walk or bike modes
@@ -262,15 +262,15 @@ def fetch_skim(df_name, df, time_field, mode_field, otaz_field, dtaz_field, my_p
 
 	final_df = pd.DataFrame()
 	for mode in np.unique(df['mode code']):
-	    print "processing skim lookup ID: " + mode
+	    print("processing skim lookup ID: " + mode)
 	    mylen = len(df[df['mode code'] == mode])
 	    tempdf = df[df['mode code'] == mode]
 	    if mode not in ['walk','bike','ivtwa']:
-	        tempdf['skim_id'] = tempdf['mode code'] + tollclass + tempdf['VOT Bin'].astype('str')
+	        tempdf['skim_id'] = tempdf['mode code'] + '_inc' + tempdf['VOT Bin'].astype('str')
 	    else:
 	        tempdf['skim_id'] = tempdf['mode code']
 	    final_df = final_df.append(tempdf)
-	    print 'number of ' + mode + 'trips: ' + str(len(final_df))
+	    print('number of ' + mode + 'trips: ' + str(len(final_df)))
 	df = final_df; del final_df
 
 	# Load skim data from h5 into a dictionary
@@ -348,7 +348,7 @@ def process_person_skims(tour, person, hh):
 
 	# Fill -1 income (college students) with lowest income category
 	min_income = person[person['hhincome'] > 0]['hhincome'].min()
-	person.ix[person['hhincome']>0,'hhincome'] = min_income
+	person.loc[person['hhincome']>0,'hhincome'] = min_income
 	
 	# Convert fields to int
 	for field in ['pusarrp', 'pusdepp','puwarrp','puwdepp']:
@@ -395,13 +395,13 @@ def update_records(trip,tour,person):
 
 	# Join skim file to original
 	df = pd.merge(trip,trip_skim[['id','c','d','t']],on='id',how='left')
-	for colname, skimname in trip_cols.iteritems():
+	for colname, skimname in trip_cols.items():
 	    df.to_csv(os.path.join(output_dir,'testout.csv'), index=False)
 	    df[colname] = df[skimname]
 	    df.drop(skimname,axis=1,inplace=True)
 	    
 	    # divide skims by 100
-	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide all existing skim values by 100 
+	    df[colname] = df[df[colname]>=0][colname].iloc[:]/100    # divide all existing skim values by 100 
 	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
@@ -410,12 +410,12 @@ def update_records(trip,tour,person):
 	# For tour
 	df = pd.merge(tour,tour_skim[['id','c','d','t']],on='id',how='left')
 
-	for colname, skimname in tour_cols.iteritems():
+	for colname, skimname in tour_cols.items():
 	    df[colname] = df[skimname]
 	    # df.drop(skimname,axis=1.0,inplace=True)
 	    
 	    
-	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide all existing skim values by 100 
+	    df[colname] = df[df[colname]>=0][colname].iloc[:]/100    # divide all existing skim values by 100 
 	    df[colname].fillna(-1.0,inplace=True)
 	    
 	    # export results
@@ -423,17 +423,17 @@ def update_records(trip,tour,person):
 
 	# Person records
 	df = pd.merge(person,person_skim[['id','puwmode','puwarrp','puwdepp']],on='id',how='left')
-	for colname, skimname in person_cols.iteritems():
-	    print skimname
+	for colname, skimname in person_cols.items():
+	    print(skimname)
 	    df[colname] = df[skimname]
 	    # df.drop(skimname,axis=1.0,inplace=True)
 	    
 	df = pd.merge(df,work_skim[['id','d','t']],on='id',how='left')
-	for colname, skimname in work_cols.iteritems():
+	for colname, skimname in work_cols.items():
 	    df[colname] = df[skimname]
 	
 	    
-	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide skim values by 100 
+	    df[colname] = df[df[colname]>=0][colname].iloc[:]/100    # divide skim values by 100 
 	    df[colname].fillna(-1.0,inplace=True)
 
 	df.to_csv('testy.csv')
@@ -441,11 +441,11 @@ def update_records(trip,tour,person):
 	# df
 
 	df = pd.merge(df,school_skim[['id','d','t']],on='id',how='left')
-	for colname, skimname in school_cols.iteritems():
+	for colname, skimname in school_cols.items():
 	    df[colname] = df[skimname]
 	    # df.drop(skimname,axis=1.0,inplace=True)
 	    
-	    df[colname] = df[df[colname]>=0][colname].ix[:]/100    # divide skim values by 100 
+	    df[colname] = df[df[colname]>=0][colname].iloc[:]/100    # divide skim values by 100 
 	    df[colname].fillna(-1.0,inplace=True)
 
 	df = df.drop(['d','t'],axis=1)
@@ -463,14 +463,14 @@ def dat_to_h5(file_list):
 		}
 
 	# Create H5 container (overwrite if exists)
-	print output_dir + r'\\' + h5output
+	print(output_dir + r'\\' + h5output)
 	if os.path.isfile(output_dir + r'\\' + h5output):
 		os.remove(output_dir + r'\\' + h5output)
 	f = h5py.File(output_dir + r'\\' + h5output, 'w')
 
 	# Process all csv files in this directory
 	for fname in file_list:
-		print fname
+		print(fname)
 		# Read csv data
 		df = pd.read_csv(fname,sep=input_sep)
 
@@ -489,7 +489,7 @@ def dat_to_h5(file_list):
 			else:
 				grp.create_dataset(column, data=list(df[column].astype('int32')))
 
-		print "Added to h5 container: " + str(group_name)
+		print("Added to h5 container: " + str(group_name))
 	
 	f.close()
 
@@ -504,7 +504,7 @@ def hhmm_to_mam(df,field):
     
     # Hours range from 3-27; if any are greater than 24, subtract 24 so the range goes from 0-24
     hr = pd.DataFrame(hr)
-    hr.ix[hr[field] >= 24, field] = hr.ix[hr[field] >= 24, field] -24
+    hr.loc[hr[field] >= 24, field] = hr.loc[hr[field] >= 24, field] -24
     
     df[field] = (hr[field]*60)+minute
 
@@ -516,10 +516,10 @@ def main():
 	my_project = EmmeProject(project_dir)
 
 	# Load data
-	trip = pd.read_csv(input_dir + r'/trip17.csv', sep=input_sep)
-	tour = pd.read_csv(input_dir + r'/tour17.csv', sep=input_sep)
-	hh = pd.read_csv(input_dir + r'/household17.csv', sep=input_sep)
-	person = pd.read_csv(input_dir + r'/person17.csv', sep=input_sep)
+	trip = pd.read_csv(input_dir + r'/_trip.tsv', delim_whitespace=True)
+	tour = pd.read_csv(input_dir + r'/_tour.tsv', delim_whitespace=True)
+	hh = pd.read_csv(input_dir + r'/_household.tsv', delim_whitespace=True)
+	person = pd.read_csv(input_dir + r'/_person.tsv', delim_whitespace=True)
 
 	# Correct time fields (from HHMM to minutes after midnight)
 	# Save updated dat files
@@ -539,7 +539,7 @@ def main():
 	trip['id'] = trip['hhno'].astype('str') + trip['pno'].astype('str') + trip['tour'].astype('str') + trip['half'].astype('str') + trip['tseg'].astype('str')
 	tour['id'] = tour['hhno'].astype('str') + tour['pno'].astype('str') + tour['tour'].astype('str')
 
-	# # Join household to trip data to get income
+	## # Join household to trip data to get income
 	trip_hh = pd.merge(trip,hh, on='hhno')
 	tour_hh = pd.merge(tour,hh, on='hhno')
 
@@ -564,7 +564,7 @@ def main():
 		otaz_field='hhtaz', dtaz_field='pstaz', my_project=my_project, use_mode=3)
 
 	# Reload original person file and attach skim results	# 
-	person = pd.read_csv(input_dir + r'/person17.csv')
+	person = pd.read_csv(input_dir + r'/_person.tsv', delim_whitespace=True)
 	person['id'] = person['hhno'].astype('str') + person['pno'].astype('str')
 	
 	## Update records
