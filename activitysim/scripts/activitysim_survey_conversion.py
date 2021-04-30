@@ -17,7 +17,7 @@ output_dir = r'C:\users\bnichols\documents'
 
 # Example survey data for formatting template
 example_survey_dir = r'https://raw.githubusercontent.com/ActivitySim/activitysim/master/activitysim/examples/example_estimation/data_sf/survey_data/'
-parcel_block_file = r'R:\e2projects_two\activitysim\inputs\data\psrc\two_zone_maz\psrc_data_mtc_model\full\parcel_block_lookup.csv'
+parcel_block_file = r'R:\e2projects_two\activitysim\inputs\data\psrc\two_zone_maz\psrc_data_mtc_model\parcel_block_lookup.csv'
 parcel_block = pd.read_csv(parcel_block_file)
 
 #zone_type_list = ['TAZ','MAZ','parcel']
@@ -116,6 +116,7 @@ def process_person(df, parcel_block, df_tour, zone_type):
     df.loc[df['age'] < 16,'pemploy'] = 4
     df['pemploy'] = df['pemploy'].astype('int')
 
+    # Some people make work trips but are not classified as workers
     df['pstudent'] = 3
     df.loc[df['pptyp'].isin([7,6]),'pstudent'] = 1
     df.loc[df['pptyp']==5 ,'pstudent'] = 2
@@ -141,12 +142,14 @@ def process_person(df, parcel_block, df_tour, zone_type):
 
     # If person makes a school tour but has no school_col field, set as tour destination zone for school tours
     # Select tours that have purpose of school and people who do not have a school zone
-    df_school = df_tour.loc[(df_tour['pdpurp'] == 2) & (df_tour[school_col]==-1)]
+    #df_school = df_tour.loc[(df_tour['pdpurp'] == 2) & (df_tour[school_col]==-1)]
+    df_school = df_tour[(df_tour['pdpurp'] == 2) & (df_tour['destination'] != -1)]
     if zone_type == 'TAZ':
         dest_col = 'taz'
     else:
         dest_col = 'pcl'
     df_school['updated_school_taz'] = df_school['td'+dest_col]
+    
     # If MAZ, update the parcel destination to MAZ
     if zone_type == 'MAZ':
         df_school = df_school.merge(parcel_block[['parcel_id','psrc_block_id']], left_on='updated_school_taz', right_on='parcel_id', how='left')
@@ -158,7 +161,9 @@ def process_person(df, parcel_block, df_tour, zone_type):
         df_school.rename(columns={'parcel_id':'updated_school_taz'},inplace=True)
         
     # take the most frequent value for school zone (mode)
-    df_school = df_school.groupby('person_id').agg(lambda x:x.value_counts().index[0])[['updated_school_taz']]    
+    ##df_school = df_school.groupby('person_id').agg(lambda x:x.value_counts().index[0])[['updated_school_taz']]   
+    # Not working so take the first record
+    df_school = df_school.groupby('person_id').first()[['updated_school_taz']]
     df_school.reset_index(inplace=True)
     
     df = df.merge(df_school, how='left',on='person_id')
@@ -172,9 +177,21 @@ def process_person(df, parcel_block, df_tour, zone_type):
     
 
     # Similarly, workplace is missing for people who make work tours
-    df_work = df_tour.loc[(df_tour['pdpurp'] == 1) & (df_tour[work_col]==-1)]
+    df_work = df_tour.loc[(df_tour['pdpurp'] == 1) & (df_tour['destination']!=-1)]
     df_work['updated_work_taz'] = df_work['td'+dest_col]
-    df_work = df_work.groupby('person_id').agg(lambda x:x.value_counts().index[0])[['updated_work_taz']]    
+
+    # If MAZ, update the parcel destination to MAZ
+    if zone_type == 'MAZ':
+        df_work = df_work.merge(parcel_block[['parcel_id','psrc_block_id']], left_on='updated_work_taz', right_on='parcel_id', how='left')
+        df_work.drop('updated_work_taz',inplace=True, axis=1)
+        df_work.rename(columns={'psrc_block_id':'updated_work_taz'},inplace=True)
+    if zone_type == 'parcel':
+        df_work = df_work.merge(parcel_block[['parcel_id','psrc_block_id']], left_on='updated_work_taz', right_on='parcel_id', how='left')
+        df_work.drop('updated_school_taz',inplace=True, axis=1)
+        df_work.rename(columns={'parcel_id':'updated_work_taz'},inplace=True)
+
+    #df_work = df_work.groupby('person_id').agg(lambda x:x.value_counts().index[0])[['updated_work_taz']]    
+    df_work = df_work.groupby('person_id').first()[['updated_work_taz']]
     df_work.reset_index(inplace=True)
     
     df = df.merge(df_work, how='left',on='person_id')
@@ -184,8 +201,11 @@ def process_person(df, parcel_block, df_tour, zone_type):
     else:
         df['updated_work_taz'] = df['updated_work_taz'].fillna(-1)
         df['updated_work_taz'] = df['updated_work_taz'].astype('int')
-    df[work_col] = df[work_col].replace(-1, df['updated_work_taz'], regex=True, inplace=True)
+    #df[work_col] = df[work_col].replace(-1, df['updated_work_taz'], regex=True, inplace=True)
+    df.loc[df[work_col] < 0, work_col] = df['updated_work_taz']
     df[work_col] = df[work_col].fillna(-1).astype('int')
+
+    # If this person has no usual workplace and doesn't have work trips, remove them from the dataset?
 
     # Ensure that this person is coded as a student, based on age (even if they are part-time students)
     # Find where school TAZ != -1 but student type is non-student
@@ -207,11 +227,19 @@ def process_person(df, parcel_block, df_tour, zone_type):
     # Ensure person is coded as some type of worker
     # For now, make them part-time workers...
     df.loc[(df[work_col] > 0) & (df['pemploy'] >= 3) & (df['age'] >= 16), 'pemploy'] = 2
+    # Update the person type field so it corresponds with this change
+    # Person must be either a college student or a full-time worker; change these to part-time worker
+    df.loc[(df['ptype'] == 3) & (df['pemploy'] == 1), 'pemploy'] = 2
+    df.loc[(df['ptype'] == 4) & (df['pemploy'] == 2), 'ptype'] = 2  # record non-working adult to PT worker
+    df.loc[(df['ptype'] == 5) & (df['pemploy'] == 2), 'ptype'] = 2 # retired w/part time job -> PT worker
+    df.loc[(df['ptype'] == 6) & (df['pstudent'] == 3) & (df['pemploy'] == 2), 'ptype'] = 2  # coded as a student but pstudent not a student -> part time work
+
+    # Make sure pre-school age kids are not classified as a student in pemploy if they are not students
+    df.loc[(df['age'] < 16) & (df['pstudent'] == 3), 'pemploy'] = 3
 
     return df
 
 def process_trip(df, template):
-
 
     # Create new person id by concatenating household id and pno
     df['person_id'] = df['hhno'].astype('str') + df['pno'].astype('str')
@@ -275,13 +303,32 @@ def process_trip(df, template):
     return df
 
 
-def process_tour(df, df_person, parcel_block, template, zone_type):
+def process_tour(df, df_person, parcel_block, template, zone_type, raw_survey=True):
     # concatentate tour ID
     df['tour_id'] = df['hhno'].astype('str') + df['pno'].astype('str') + df['tour'].astype('str')
     df['person_id'] = df['hhno'].astype('str') + df['pno'].astype('str')
     df['household_id'] = df['hhno']
 
-        # For MAZ geography, merge parcel to MAZ lookup
+    # FIXME
+    # We have tour data for multiple days for people
+    # If they have more than one travel day, select day randomly?
+    for person in df['person_id'].unique():
+        _df = df[df['person_id'] == person]
+        if len(_df['day'].unique()) > 1:
+            # Just take the first day for now? 
+            # Other options are to randomize this? Take day with average number of tours?
+            keep_day = _df['day'].unique()[0]
+            df = df.drop(df[(df['person_id'] == person) & (df['day'] != keep_day)].index)
+
+    # Filter out children taking work tours
+    # Incorrectly coded for trips when child is with parent. Not sure how to classify these, so removing
+    # Merge to get person attributes
+    if raw_survey:
+        df_person['person_id'] = df_person['hhno'].astype('str') + df_person['pno'].astype('str')
+        df = df.merge(df_person[['person_id','pagey']], on='person_id', how='left')
+        df = df.loc[-((df['pagey'] < 16) & (df['pdpurp'] == 1))]
+
+    # For MAZ geography, merge parcel to MAZ lookup
     if zone_type == 'MAZ':
         parcel_block = parcel_block[-parcel_block['psrc_block_id'].isnull()]
         parcel_block['psrc_block_id'] = parcel_block['psrc_block_id'].astype('int')
@@ -333,6 +380,13 @@ def process_tour(df, df_person, parcel_block, template, zone_type):
     df['start'] = np.floor(df['tlvorig']/60)
     df['end'] = np.floor(df['tardest']/60)
 
+    # Set start hour to time within modeled hours 
+    # Group anything from midnight to 5 together 
+    df.loc[(df['start'] < 5) & (df['end'] < 5), 'start'] = 4.0
+    df.loc[(df['start'] < 5) & (df['end'] < 5), 'end'] = 4.0
+    df.loc[(df['start'] < 5) & (df['end'] >= 5), 'start'] = 4.0
+    df.loc[(df['start'] > 5) & (df['end'] < 5), 'end'] = 23.0
+
     # assign some modes directly
     mode_map = {
         1: 'WALK',
@@ -380,6 +434,57 @@ def process_tour(df, df_person, parcel_block, template, zone_type):
     # We may want to remove all of this person/households records
     df = df[pd.to_numeric(df['tour_type_id'], errors='coerce').notnull()]
 
+    # In order to estimate, we need to enforce the mandatory tour totals
+    # these can only be: ['work_and_school', 'school1', 'work1', 'school2', 'work2']
+    # If someone has 2 work trips and 1 school trip, must decide a heirarchy of 
+    # which of those tours to delete
+    # if any number of work and school, remove all but 1 one of each
+
+    #FIXME
+    # Note: for now we are just removing all tours by people that don't fit in the hierarchy
+    # This removes tours for a few people, but alternatives could include selectively removing trips
+    # Curretnly removes all tours for 3 people
+    # to make a person-day fit the tour hierarchy (eliminate all but 1 school and work trip for isntance)
+
+    drop_list = []
+    df_mandatory = df[df['tour_category'] == 'mandatory'].groupby(['tour_type','person_id']).size().reset_index()
+    for person in df_mandatory['person_id'].unique():
+        _df = df_mandatory[df_mandatory['person_id'] == person]
+
+        # If only school trips and no work trips:
+        if ('work' not in _df['tour_type'].values) & ('school' in _df['tour_type'].values):
+            #Case 1: more than 2 school trips and no work trips -> remove school trips to max of school2
+            if (_df.loc[_df['tour_type'] == 'school',0].values[0] > 2):
+                df = df.drop(df[df['person_id'] == person].index)
+                drop_list.append(person)
+
+        # If only work trips and no school trips
+        #Case 2: more than 2 work trips and no school trips ->  remove work trips to max of work2
+        elif ('work' in _df['tour_type'].values) & ('school' not in _df['tour_type'].values):
+            if (_df.loc[_df['tour_type'] == 'work',0].values[0] > 2):
+                df = df.drop(df[df['person_id'] == person].index)
+                drop_list.append(person)
+
+        elif ('work' in _df['tour_type'].values) & ('school' in _df['tour_type'].values):
+        # Case 1: at least 2 school and work trips both, 
+            if (_df.loc[_df['tour_type'] == 'school',0].values[0] >= 2) & (_df.loc[_df['tour_type'] == 'work',0].values[0] >= 2):
+                df = df.drop(df[df['person_id'] == person].index)
+                drop_list.append(person)
+
+            # Case 4: 2 or more work trips and 1 school trip -> remove work trips to yield work_and_school (1 of each only)
+            elif (_df.loc[_df['tour_type'] == 'school',0].values[0] == 1) & (_df.loc[_df['tour_type'] == 'work',0].values[0] >= 2):
+                df = df.drop(df[df['person_id'] == person].index)
+                drop_list.append(person)
+
+            # Case 5: more than 2 school trips and 1 work trip -> remove school trips to yield work_and_school (1 of each only)
+            elif (_df.loc[_df['tour_type'] == 'school',0].values[0] >= 2) & (_df.loc[_df['tour_type'] == 'work',0].values[0] == 1):
+                df = df.drop(df[df['person_id'] == person].index)
+                drop_list.append(person)
+
+    # Drop all of the tour IDs in drop_list
+    print('------------------')
+    print('dropped: ' + str(len(drop_list)))
+
     return df
 
 def process_joint_tour(df, template):
@@ -419,12 +524,10 @@ for table in ['household','person','tour']:
 
 # Do some clean up
 # Fix this in daysim outputs
-tour_input_df = results_dict['tour']
-tour_input_df['person_id'] = tour_input_df['hhno'].astype('str') + tour_input_df['pno'].astype('str')
-results_dict['person']['person_id'] = results_dict['person']['hhno'].astype('str') + results_dict['person']['pno'].astype('str')
-tour_input_df = tour_input_df.merge(results_dict['person'], on=['hhno','pno','person_id'], how='left')
-# Filter out children taking work tours
-tour_input_df = tour_input_df.loc[-((tour_input_df['pagey'] < 16) & (tour_input_df['pdpurp'] == 1))]
+#tour_input_df = results_dict['tour']
+#tour_input_df['person_id'] = tour_input_df['hhno'].astype('str') + tour_input_df['pno'].astype('str')
+#results_dict['person']['person_id'] = results_dict['person']['hhno'].astype('str') + results_dict['person']['pno'].astype('str')
+#tour_input_df = tour_input_df.merge(results_dict['person'], on=['hhno','pno','person_id'], how='left')
 
 # Process results for all zone types
 for zone_type in zone_type_list:
@@ -446,9 +549,15 @@ for zone_type in zone_type_list:
     hh[output_cols].to_csv(os.path.join(output_dir, zone_type, 'survey_households.csv'), index=False)
 
     ####################
+    # Tour
+    ####################
+    tour = process_tour(results_dict['tour'], results_dict['person'], parcel_block, template_dict['tour'], zone_type)
+    tour[template_dict['tour'].columns].to_csv(os.path.join(output_dir, zone_type, 'survey_tours.csv'), index=False)
+
+    ####################
     # Person
     ####################
-    person = process_person(results_dict['person'], parcel_block, tour_input_df, zone_type)
+    person = process_person(results_dict['person'], parcel_block, tour, zone_type)
     output_cols = template_dict['person'].columns.values
     output_cols[output_cols == 'workplace_taz'] = 'workplace_zone_id'
     output_cols[output_cols == 'school_taz'] = 'school_zone_id'    # These column names are changed for some reason in estimation
@@ -456,21 +565,13 @@ for zone_type in zone_type_list:
     
     person[output_cols].to_csv(os.path.join(output_dir, zone_type, 'survey_persons.csv'), index=False)
     
-    ##### TEMP FIXME ####
-    #person = pd.read_csv(os.path.join(output_dir, zone_type, 'survey_persons.csv'))
-
     ####################
     # Trip
     ####################
     #trip = process_trip(results_dict['trip'], template_dict['trip'])
     #trip[template_dict['trip'].columns].to_csv(os.path.join(output_dir,'survey_trips.csv'), index=False)
 
-    ####################
-    # Tour
-    ####################
-    tour = process_tour(results_dict['tour'], person, parcel_block, template_dict['tour'], zone_type)
-    tour[template_dict['tour'].columns].to_csv(os.path.join(output_dir, zone_type, 'survey_tours.csv'), index=False)
-
+    
     ####################
     # Joint Tour
     ####################

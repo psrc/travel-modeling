@@ -446,11 +446,11 @@ def process_landuse(df_psrc, df_psrc_person, zone_type):
         df_lu[['MAZ','TAZ']] = df_lu[['MAZ','TAZ']].astype('int')
         df_lu[['MAZ','TAZ']].to_csv(os.path.join(output_dir,zone_type,'maz.csv'), index=False)
 
-        
     else:
         additional_cols = []
     # Do some other clean up
     cols = ['AGE0004','AGE0519','AGE2044','AGE4564','AGE65P','HHINCQ1','HHINCQ2','HHINCQ3','HHINCQ4','HHPOP','TOTPOP']
+    df_lu[cols] = df_lu[cols].fillna(0)
     df_lu[cols] = df_lu[cols].replace(-1,0)
     df_lu_out = write_csv(df_lu, df_mtc_lu, os.path.join(output_dir,zone_type), 'land_use.csv', additional_cols=additional_cols)
 
