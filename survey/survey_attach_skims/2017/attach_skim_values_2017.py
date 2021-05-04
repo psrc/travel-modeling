@@ -297,7 +297,7 @@ def process_person_skims(tour, person, hh):
 	# tour_per = pd.merge(tour_per,hh[['hhno','hhincome', 'Household TAZ']],
 	# 	on='Household ID',how='left')
 	tour_per['unique_id'] = tour_per.hhno.astype('str') + '_' + tour_per.pno.astype('str') 
-	tour_per['unique_tour_id'] = tour_per['unique_id'] + '_' + tour_per['tour'].astype('str')
+	tour_per['unique_tour_id'] = tour_per['unique_id'] + '_' + tour_per['day'].astype('str') + '_' + tour_per['tour'].astype('str')
 	
 	# Use tour file to get work departure/arrival time and mode
 	# Get work tours 
@@ -571,11 +571,12 @@ def main():
 	update_records(trip,tour,person)
 
 	## Write results to h5
-	#write_list = ['tour','trip','prec','hrec','hday','pday']
+	write_list = ['tour','trip','person']
 
 	# copy non-updated files to the same output directory for consistency
-	#for file in write_list:
-	#	if file not in ['tour','prec','trip']:
+	for file in write_list:
+		df = pd.read_csv(os.path.join(output_dir, write_list+'17.csv'))
+		df.to_csv(os.path.join(output_dir,'_'+write_list+'.tsv', sep='\t'), index=False)
 	#		copyfile(input_dir + r'\\' +file+version_tag+'.dat', output_dir + r'\\' +file+version_tag+'.dat')
 
 	#dat_to_h5([output_dir + r'\\' +file+version_tag+'.dat' for file in ['tour','trip','prec','hrec','hday','pday']])
