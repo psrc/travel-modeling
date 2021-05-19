@@ -10,7 +10,7 @@ seed_hh_file = r'R:\e2projects_two\SyntheticPopulation_2018\keep\2018\population
 seed_person_file = r'R:\e2projects_two\SyntheticPopulation_2018\keep\2018\populationsim_files\data\seed_persons.csv'
 parcel_block_file = r'R:\e2projects_two\activitysim\conversion\parcel_taz_block_lookup.csv'
 raw_parcel_file = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\with_race\parcels_urbansim.txt'
-buffered_parcel_path = r'C:\Stefan\scratch\buffered_parcels.csv'
+buffered_parcel_path = r'R:\e2projects_two\activitysim\conversion\land_use\buffered_parcels.csv'
 
 #parcels_file = 
 hh_persons_file = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\base_year\hh_and_persons.h5'
@@ -27,8 +27,8 @@ zone_types = ['MAZ']
 # If true, create new persons.csv and households.csv; otherwise load existing files from the output directory
 ##run_hh = True
 ##run_person = True
-run_hh = True
-run_person = True
+run_hh = False
+run_person = False
 use_buffered_parcels = True
 
 lu_aggregate_dict = {'hh_p': 'sum',
