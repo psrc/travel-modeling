@@ -10,6 +10,9 @@
 import os
 import pandas as pd
 import numpy as np
+import urllib
+import pyodbc
+import sqlalchemy
 
 # Survey input files, in Daysim format
 survey_input_dir = r'R:\e2projects_two\SoundCast\Inputs\dev\base_year\2018\survey'
@@ -19,11 +22,26 @@ output_dir = r'C:\users\bnichols\documents'
 example_survey_dir = r'https://raw.githubusercontent.com/ActivitySim/activitysim/master/activitysim/examples/example_estimation/data_sf/survey_data/'
 parcel_block_file = r'R:\e2projects_two\activitysim\inputs\data\psrc\two_zone_maz\psrc_data_mtc_model\parcel_block_lookup.csv'
 parcel_block = pd.read_csv(parcel_block_file)
+parcel_file = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\with_race\parcels_urbansim.txt'
 
 #zone_type_list = ['TAZ','MAZ','parcel']
 zone_type_list = ['MAZ']
 
+race_dict = {
+    'African American': 1,
+    'Asian': 2,
+    'Child': 3,
+    'Hispanic': 4,
+    'Missing': 5,
+    'Other': 6,
+    'White Only': 7}
+
 def process_hh(df, parcel_block, zone_type):
+
+    # Add data about whether household lives on a parcel with multi or single family use
+    raw_parcels_df = pd.read_csv(parcel_file, delim_whitespace=True, usecols=['parcelid', 'sfunits', 'mfunits']) 
+    df = df.merge(raw_parcels_df, left_on = 'hhparcel', right_on = 'parcelid')
+    df['is_mf'] = np.where(df['mfunits']>0, 1, 0)
 
     df.rename(columns={'hhincome': 'income',
                          'hhwkrs': 'num_workers',
@@ -58,10 +76,14 @@ def process_hh(df, parcel_block, zone_type):
         print('hit')
         df.rename(columns={'hhtaz': 'home_zone_id'}, inplace=True)
 
-    ### FIXME
-    # If a person is placed on a MAZ/TAZ/parcel with no population,
-    # move them to the nearest location that has population. 
-    # If not, this causes issues in estimation.
+    # Add household race from original survey file
+    conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=AWS-PROD-SQL\Sockeye; DATABASE=Elmer; trusted_connection=yes"
+    sql_conn = pyodbc.connect(conn_string)
+    params = urllib.parse.quote_plus(conn_string)
+    engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+    df_orig_survey = pd.read_sql(sql='SELECT hhid, hh_race_category FROM HHSurvey.household_dim_2017_2019', con=engine)
+    df = df.merge(df_orig_survey, left_on='household_id', right_on='hhid', how='left')
+    df['hh_race'] = df['hh_race_category'].map(race_dict)
         
     return df
 
@@ -137,6 +159,17 @@ def process_person(df, parcel_block, df_tour, zone_type):
     # Free parking at work
     df.loc[df['ppaidprk'] == 1, 'free_parking_at_work'] = True
     df.loc[df['ppaidprk'] < 1, 'free_parking_at_work'] = False
+
+    # Add race from original survey file
+    conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=AWS-PROD-SQL\Sockeye; DATABASE=Elmer; trusted_connection=yes"
+    sql_conn = pyodbc.connect(conn_string)
+    params = urllib.parse.quote_plus(conn_string)
+    engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+    df_orig_survey = pd.read_sql(sql='SELECT hhid, pernum, race_category FROM HHSurvey.person_dim_2017_2019', con=engine)
+    df = df.merge(df_orig_survey, left_on=['household_id','PNUM'], right_on=['hhid','pernum'], how='left')
+    # Code race variables as values
+
+    df['race'] = df['race_category'].map(race_dict)
 
     df_tour.rename(columns={'pstaz': school_col, 'pwtaz': work_col}, inplace=True)
 
@@ -545,6 +578,9 @@ for zone_type in zone_type_list:
 
     # The template TAZ field should be updated as "home_zone_id"
     output_cols = [x if x != 'TAZ' else 'home_zone_id' for x in output_cols]
+    output_cols += ['hh_race','is_mf','hownrent','hrestype']
+    #output_cols = np.append(output_cols,'hh_race')
+    #output_cols = np.append(output_cols,'is_mf')
     print(output_cols)
     hh[output_cols].to_csv(os.path.join(output_dir, zone_type, 'survey_households.csv'), index=False)
 
@@ -559,6 +595,7 @@ for zone_type in zone_type_list:
     ####################
     person = process_person(results_dict['person'], parcel_block, tour, zone_type)
     output_cols = template_dict['person'].columns.values
+    output_cols = np.append(output_cols,'race')
     output_cols[output_cols == 'workplace_taz'] = 'workplace_zone_id'
     output_cols[output_cols == 'school_taz'] = 'school_zone_id'    # These column names are changed for some reason in estimation
     person.rename(columns={'school_taz': 'school_zone_id','workplace_taz':'workplace_zone_id'}, inplace=True)
