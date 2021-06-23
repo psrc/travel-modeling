@@ -4,7 +4,7 @@ import h5py
 import os
 
 # Supply a base 
-base_dir = r'\\aws-model03\e$\activitysim\activitysim\examples'
+base_dir = r'\\modelstation1\c$\workspace\activitysim\activitysim\examples\e_e_psrc'
 syn_hh_file = r'R:\e2projects_two\SyntheticPopulation_2018\keep\2018\populationsim_files\outputs\synthetic_households.csv'
 seed_hh_file = r'R:\e2projects_two\SyntheticPopulation_2018\keep\2018\populationsim_files\data\seed_households.csv'
 seed_person_file = r'R:\e2projects_two\SyntheticPopulation_2018\keep\2018\populationsim_files\data\seed_persons.csv'
@@ -19,7 +19,7 @@ hh_persons_file = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\base_yea
 transit_score_file = r'R:\e2projects_two\activitysim\inputs\data\psrc\two_zone_maz\transit_index\block_transit_score2018.csv'
 
 ##### Outputs
-output_dir = r'C:\Stefan'
+output_dir = r'C:\Users\bnichols'
 
 #zone_types = ['TAZ','MAZ','parcel']
 zone_types = ['MAZ']
@@ -489,13 +489,15 @@ def process_landuse(df_psrc, df_psrc_person, zone_type):
     taz_geog = pd.read_csv(r'R:\e2projects_two\SoundCast\Inputs\db_inputs\taz_geography.csv')
     # df_lu.columns
     # taz_geog.columns
-    df_lu = df_lu.merge(taz_geog[['taz','geog_name']],left_on='TAZ', right_on='taz', how='left')
+    df_lu = df_lu.merge(taz_geog[['taz','geog_name','district_id']],left_on='TAZ', right_on='taz', how='left')
 
     county_map = {'King County': 1,
                  'Kitsap County': 2,
                  'Pierce County': 3,
                  'Snohomish County': 4}
     df_lu['COUNTY'] = df_lu['geog_name'].map(county_map)
+    df_lu.rename(columns={'district_id': 'DISTRICT'}, inplace=True)
+
 
     for col in df_mtc_lu.columns:
         if col not in df_lu.columns:
@@ -710,13 +712,14 @@ def process_buffered_landuse(df_psrc, df_psrc_person, zone_type, aggregate_dict)
     taz_geog = pd.read_csv(r'R:\e2projects_two\SoundCast\Inputs\db_inputs\taz_geography.csv')
     # df_lu.columns
     # taz_geog.columns
-    df_lu = df_lu.merge(taz_geog[['taz','geog_name']],left_on='TAZ', right_on='taz', how='left')
+    df_lu = df_lu.merge(taz_geog[['taz','geog_name','district_id']],left_on='TAZ', right_on='taz', how='left')
 
     county_map = {'King County': 1,
                  'Kitsap County': 2,
                  'Pierce County': 3,
                  'Snohomish County': 4}
     df_lu['COUNTY'] = df_lu['geog_name'].map(county_map)
+    df_lu.rename(columns={'district_id': 'DISTRICT'}, inplace=True)
 
     # mixed use variable from buffered parcels:
     df_lu['mixed_use1'] = log2(df_lu, 'hh_1', 'emptot_1', 0.0001)
@@ -781,7 +784,3 @@ for zone_type in zone_types:
         df_lu = process_buffered_landuse(df_psrc, df_psrc_person, zone_type, lu_aggregate_dict)
     else:
         df_lu = process_landuse(df_psrc, df_psrc_person, zone_type)
-
-#df = pd.read_csv(r'C:\Users\bnichols\MAZ\land_use.csv')
-#df_psrc = pd.read_csv(r'C:\Users\bnichols\MAZ\households.csv')
-#df_psrc_person = pd.read_csv(r'C:\Users\bnichols\MAZ\persons.csv')
