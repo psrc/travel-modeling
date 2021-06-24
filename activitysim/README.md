@@ -13,3 +13,4 @@
     - run_hh
     - run_person
     - use_buffered_parcels: this will produce land use variables based on preprocessed buffered parcel variables instead of the raw parcels land use. 
+- Copy outputs to the [data folder of a run](https://github.com/ActivitySim/activitysim/tree/master/activitysim/examples/example_psrc/data)
