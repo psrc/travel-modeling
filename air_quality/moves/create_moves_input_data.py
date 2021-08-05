@@ -29,8 +29,9 @@ for year in year_list:
             # Update year in file name
             output_fname = fname.split(base_year)[0]+year+'.csv'
 
-            if 'yearID' in df.columns:
-                print(fname)
-                df['yearID'] = year
+            for col in ['yearID', 'fuelYearID']:
+                if col in df.columns:
+                    print(fname)
+                    df[col] = year
 
             df.to_csv(os.path.join(output_dir,year,county,output_fname),index=False)

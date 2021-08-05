@@ -21,23 +21,37 @@ import shutil
 import pandas as pd
 import xml.etree.ElementTree
 
-# Open original file
-root_dir = r'Y:\Air Quality\RTP_2022'
+# Inputs are 3 template files, created in MOVES for 3 vehicle type classes (light, medium, heavy)
+template_dir = r'Y:\Air Quality\RTP_2022\moves_run_spec_templates'
+output_dir = r'Y:\Air Quality\RTP_2022\moves_run_specs'
+db_tag = '07_19_2021'    # set database tag to match input databases created
+year_list = ['2018','2030','2040','2050']
 
-for year in ['2030','2040','2050']:
-    for county in ['king','kitsap','pierce','snohomish']:
-        et = xml.etree.ElementTree.parse(os.path.join(root_dir,county.capitalize(),county+'_2018_light.mrs'))
-        root = et.getroot()
-        for veh_type in ['light','medium','heavy']:
+county_id_dict = {
+    'King': '53033',
+    'Kitsap': '53035',
+    'Pierce': '53053',
+    'Snohomish': '53061'}
+
+# Iterate through each year, county, and vehicle type and update XML
+for year in year_list:
+    for county in ['King','Kitsap','Pierce','Snohomish']:
+        for veh_type in ['light','medium','heavy','all']:
+            et = xml.etree.ElementTree.parse(os.path.join(template_dir,'template_'+veh_type+'.mrs'))
+            root = et.getroot()
+            for i in root.iter('geographicselection'):
+                i.set('key',county_id_dict[county])
+                i.set('description',county + ' County - ' + county_id_dict[county])
             for i in root.iter('outputdatabase'):
-                i.set('databasename',county+'_'+year+'_out_'+veh_type)
+                i.set('databasename',county+'_out_'+veh_type+'_'+year+'_'+db_tag)
             for i in root.iter('scaleinputdatabase'):
-                i.set('databasename',county+'_in_'+year)
-            root[0].set('description','Puget Sound Regional \nRTP 2022 \nRegional Emissions Analysis \nAnalysis year '+year)
-
+                i.set('databasename',county+'_in_'+veh_type+'_'+year+'_'+db_tag)
+            for i in root.iter('description'):
+                i.text = 'Puget Sound Regional \nRTP 2022 \nRegional Emissions Analysis \nAnalysis year '+year
             for order in root.iter('timespan'):
                 for child in order:
                     if child.tag == 'year':
                         child.set('key',year)
 
-            et.write(os.path.join(root_dir,'test\\'+county+'_'+year+'_'+veh_type+'.mrs'))
+            et.write(os.path.join(output_dir,county+'_'+year+'_'+veh_type+'.mrs'))
+
