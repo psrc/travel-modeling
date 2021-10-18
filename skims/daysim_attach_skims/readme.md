@@ -1,7 +1,7 @@
-Daysim can be run in estimation mode to attach final assignment skim values to daysim outputs
+Daysim can be run in estimation mode to attach final assignment skim values to daysim outputs.
 Use the attached daysim configuration file in a standard soundcast run.
 Set input config to only run daysim and run soundcast
-Note: the latest version of daysim adding in Sept/Oct 2021 will work properly
+Note: only the latest version of daysim from Soundcast (added in Sept/Oct 2021) will work properly after local changes made by PSRC.
 
 BEFORE running:
 - convert daysim outputs to be in correct column order to match expected format
