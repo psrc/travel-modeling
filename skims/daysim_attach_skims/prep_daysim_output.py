@@ -5,23 +5,40 @@ import h5py
 #copydir = r'C:\Workspace\sc_2018_rtp_TEST\soundcast\outputs\daysim'
 #copydir = r'C:\Workspace\sc_new_emp_SCEN4_optimistic2018\soundcast\outputs_original\daysim'
 #outdir = r'C:\Workspace\sc_new_emp_SCEN4_optimistic2018\soundcast\outputs\daysim'
-copydir = r'\\modelstation3\c$\Workspace\sc_new_emp_SCEN3_2018\soundcast\outputs_original\daysim'
-outdir = r'\\modelstation3\c$\Workspace\sc_new_emp_SCEN3_2018\soundcast\outputs\daysim'
+copydir = r'C:\Workspace\sc_2018_rtp_final - Copy\soundcast\outputs\daysim'
+outdir = r'C:\Workspace\sc_2018_rtp_final\soundcast\outputs\daysim'
 survey_root = r'R:\e2projects_two\2018_base_year\survey\daysim_format'
+
+##########
+#
+##########
 
 ##########
 # Reformat daysim outputs so columns are in an expceted order (Same as survey data for estimation)
 ##########
+
+h5_template = h5py.File(os.path.join(copydir, 'daysim_outputs.h5'),'r')
+
+h5_lookup = {
+    'person': 'Person',
+    'tour': 'Tour',
+    'household': 'Household',
+    'person_day':'PersonDay',
+    'household_day': 'HouseholdDay',
+    'trip': 'Trip'}
 
 survey_dict = {'person': 'prec', 'person_day' : 'pday', 'household': 'hrec','household_day': 'hday', 'trip': 'trip', 'tour': 'tour'}
 for fname in ['tour','person','person_day','household','household_day','trip']:
 #for fname in ['trip']:
     print(fname)
     df = pd.read_csv(os.path.join(copydir,'_'+fname+'.tsv'), sep='\t')
-    #for col in df.columns:
-    #    print(col)
-    #    df[col] = df[col].astype('str')
-    # Load survey file
+    # Make sure the records here match the h5 outputs
+    # If not, delete the trips
+    df_h5 = pd.DataFrame()
+    for col in df.columns:
+        if col in h5_template[h5_lookup[fname]].keys():
+             df_h5[col] = h5_template[h5_lookup[fname]][col][:]
+
     df_survey = pd.read_csv(os.path.join(survey_root, survey_dict[fname]+'P17.csv'),sep=',')
     if 'Unnamed: 0' in df.columns:
         print('dropping')
@@ -36,22 +53,21 @@ for fname in ['tour','person','person_day','household','household_day','trip']:
 ##########
 
 # Update h5 file with new results
-h5_template = h5py.File(os.path.join(copydir, 'daysim_outputs.h5'),'r')
 myh5 = h5py.File(os.path.join(outdir,'daysim_outputs.h5'), 'w')
 
-for csv_file, tablename in {'person': 'Person', 'person_day' : 'PersonDay', 'household': 'Household',
-                            'household_day': 'HouseholdDay', 'trip': 'Trip', 'tour': 'Tour'}.items():
-    print(csv_file)
-    df = pd.read_csv(os.path.join(outdir,'_'+csv_file+'_final.tsv'), sep='\t')
-    myh5.create_group(tablename)
-    for col in h5_template[tablename]:
-        print(col)
-        if col in df.columns:
-            myh5[tablename][col] = df[col]
-        else:
-            print('missing ' + col)
+#for csv_file, tablename in {'person': 'Person', 'person_day' : 'PersonDay', 'household': 'Household',
+#                            'household_day': 'HouseholdDay', 'trip': 'Trip', 'tour': 'Tour'}.items():
+#    print(csv_file)
+#    df = pd.read_csv(os.path.join(outdir,'_'+csv_file+'_final.tsv'), sep='\t')
+#    myh5.create_group(tablename)
+#    for col in h5_template[tablename]:
+#        print(col)
+#        if col in df.columns:
+#            myh5[tablename][col] = df[col]
+#        else:
+#            print('missing ' + col)
 
-myh5.close()
+#myh5.close()
 
 ##########
 # Update the outputs so they include sov_ff_time req'd for summaries
