@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>REQUEST_king_county_city_emissions_12.27.21</title>
+<title>aq_tool</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13121,27 +13121,10 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="King-County-Request-|-December-2022">King County Request | December 2022<a class="anchor-link" href="#King-County-Request-|-December-2022">&#182;</a></h3><p>"Total onroad vehicle emissions and activity data within each jurisdiction's geographic boundary for the calendar years 2019 and 2020. If available, we would also request projections over time going to 2050. Only aggregate data is needed, broken down by the vehicle mode and fuel type, as shown in the table. If there is data that doesn't fit into the listed categories, please let us know."</p>
-<p>Requested for all King County cities, King County total and King County unicorporated areas.</p>
-<p>Years required include 2018, 2019, 2020, 2030, 2040, 2050. Interpolation between 2018 and 2030 are used to provide 2019 and 2020 estimates.</p>
-<p>A script was created to address the data request, which allows standard Soundcast network outputs to be segmented to the jurisdiction level. The "aq_tool" notebook processes Soundcast output for a list of provided cities and reports emissions and VMT by light, medium, and heavy vehicles.</p>
-<p>This notebook compiles and organizes the results of the aq_tool.</p>
+<p>This script computes emissions within city boundaries using standard Soundcast network outputs and established emissions rates for base and forecast years. Additional functions are provided from the imported "emissions" and "functions" methods.</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13150,6 +13133,11 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+
+<span class="kn">from</span> <span class="nn">functions</span> <span class="kn">import</span> <span class="n">read_from_sde</span><span class="p">,</span> <span class="n">load_network_summary</span><span class="p">,</span> <span class="n">intersect_geog</span>
+<span class="kn">from</span> <span class="nn">emissions</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 
     </div>
@@ -13162,8 +13150,18 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Location of output from aq_tool</span>
-<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Set root of model run to analyze AND the model year</span>
+<span class="c1"># run_dir = r&#39;\\modelstation2\c$\Workspace\sc_2018_rtp_final\soundcast&#39;</span>
+<span class="c1"># model_year = &#39;2018&#39;    # Make sure to update this since rates used are based on this value</span>
+<span class="c1"># run_dir = r&#39;\\modelstation1\c$\workspace\sc_rtp_2030_final\soundcast&#39;</span>
+<span class="c1"># model_year = &#39;2030&#39;    # Make sure to update this since rates used are based on this value</span>
+<span class="c1"># run_dir = r&#39;\\modelstation1\c$\workspace\sc_2040_rtp_final\soundcast&#39;</span>
+<span class="c1"># model_year = &#39;2040&#39;</span>
+<span class="n">run_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">modelstation1\c$\workspace\sc_rtp_2050_constrained_final\soundcast&#39;</span>
+<span class="n">model_year</span> <span class="o">=</span> <span class="s1">&#39;2050&#39;</span>
+
+<span class="c1"># Set output directory; results will be stored in a folder by model year </span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">model_year</span>
 </pre></div>
 
     </div>
@@ -13176,17 +13174,17 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2018&#39;</span>
-<span class="n">df_18</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">year</span><span class="o">+</span><span class="s1">&#39;_summary.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create outputs directory if needed</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_dir</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
 
-<span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2030&#39;</span>
-<span class="n">df_30</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">year</span><span class="o">+</span><span class="s1">&#39;_summary.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">)</span>
+<span class="c1"># Change working directory to run_dir</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
 
-<span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2040&#39;</span>
-<span class="n">df_40</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">year</span><span class="o">+</span><span class="s1">&#39;_summary.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">)</span>
-
-<span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2050&#39;</span>
-<span class="n">df_50</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">year</span><span class="p">,</span><span class="n">year</span><span class="o">+</span><span class="s1">&#39;_summary.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">)</span>
+<span class="c1"># Load the network</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="s1">&#39;EPSG:2285&#39;</span>
+<span class="n">gdf_network</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;inputs\scenario\networks\shapefiles\AM\AM_edges.shp&#39;</span><span class="p">))</span>
+<span class="n">gdf_network</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">crs</span>
 </pre></div>
 
     </div>
@@ -13199,23 +13197,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create interpolations</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df_18</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_30</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;city&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">],</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;_2018&#39;</span><span class="p">,</span><span class="s1">&#39;_2030&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load  tract geographies from ElmerGeo</span>
+<span class="n">connection_string</span> <span class="o">=</span> <span class="s1">&#39;mssql+pyodbc://AWS-PROD-SQL\Sockeye/ElmerGeo?driver=SQL Server?Trusted_Connection=yes&#39;</span>
 
-<span class="c1"># Merge 2040</span>
-<span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2040&#39;</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_40</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;city&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">:</span> <span class="s1">&#39;total_daily_tons_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">,</span>
-                    <span class="s1">&#39;vmt&#39;</span><span class="p">:</span> <span class="s1">&#39;vmt_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Merge 2050</span>
-<span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2050&#39;</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_50</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;city&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">:</span> <span class="s1">&#39;total_daily_tons_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">,</span>
-                    <span class="s1">&#39;vmt&#39;</span><span class="p">:</span> <span class="s1">&#39;vmt_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-
-<span class="c1"># df.head()</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;&#39;DBO.Default&#39;&quot;</span>
+<span class="n">gdf_shp</span> <span class="o">=</span> <span class="n">read_from_sde</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="s1">&#39;regional_geographies_preferred_alternative&#39;</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">is_table</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13228,15 +13214,12 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">,</span> <span class="n">interpolated_year</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Interpolate values from two cols of data given start, end, and target (interpolated) years.&quot;&quot;&quot;</span>
-    
-    <span class="c1"># Calculate annual rate of change based on difference between values at start and end year, divided number of years difference</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;annual_&#39;</span><span class="o">+</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_change&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">end_year</span><span class="p">)]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">start_year</span><span class="p">)])</span><span class="o">/</span><span class="p">(</span><span class="n">end_year</span><span class="o">-</span><span class="n">start_year</span><span class="p">)</span>
-    <span class="c1"># Calculate </span>
-    <span class="n">df</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interpolated_year</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">start_year</span><span class="p">)]</span><span class="o">+</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;annual_&#39;</span><span class="o">+</span><span class="n">var</span><span class="o">+</span><span class="s1">&#39;_change&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">interpolated_year</span><span class="o">-</span><span class="n">start_year</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load parcels as a geodataframe</span>
+<span class="n">parcel_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;inputs/scenario/landuse/parcels_urbansim.txt&#39;</span><span class="p">),</span> <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PARCELID&#39;</span><span class="p">,</span><span class="s1">&#39;XCOORD_P&#39;</span><span class="p">,</span><span class="s1">&#39;YCOORD_P&#39;</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">df</span>                                 
+<span class="n">parcel_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">parcel_df</span><span class="p">,</span>
+        <span class="n">geometry</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">parcel_df</span><span class="p">[</span><span class="s1">&#39;XCOORD_P&#39;</span><span class="p">],</span> <span class="n">parcel_df</span><span class="p">[</span><span class="s1">&#39;YCOORD_P&#39;</span><span class="p">]),</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13249,8 +13232,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_vmt</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2019</span><span class="p">,</span> <span class="s1">&#39;vmt&#39;</span><span class="p">)</span>
-<span class="n">df_vmt</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="s1">&#39;vmt&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Perform intersect to get the network within each city in a list</span>
+<span class="n">df_network</span> <span class="o">=</span> <span class="n">load_network_summary</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;outputs\network\network_results.csv&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13263,141 +13246,105 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_vmt</span> <span class="o">=</span> <span class="n">df_vmt</span><span class="p">[[</span><span class="s1">&#39;city&#39;</span><span class="p">,</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2018&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2019&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2020&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2030&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2040&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2050&#39;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">evaluate_emissions</span><span class="p">(</span><span class="n">_gdf_shp</span><span class="p">,</span> <span class="n">model_year</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute emissions for a jurisdiction. </span>
+<span class="sd">    </span>
+<span class="sd">        _gdf_shp: polygon geodataframe of a jurisidiction (should be complete coverage without holes over bodies of water, etc.)</span>
+<span class="sd">        model_year: must be passed for clarity</span>
 
-<span class="c1"># VMT is duplicated for each pollutant total; Select only the first set of rows</span>
-<span class="n">df_vmt</span> <span class="o">=</span> <span class="n">df_vmt</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df_vmt</span> <span class="o">=</span> <span class="n">df_vmt</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;city&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="n">df_vmt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output\king_county_cities_vmt.csv&#39;</span><span class="p">)</span>
-</pre></div>
+    <span class="c1"># Intersect jurisdiction polygon with network shapefile and network CSV file</span>
+    <span class="n">_gdf_shp</span> <span class="o">=</span> <span class="n">intersect_geog</span><span class="p">(</span><span class="n">_gdf_shp</span><span class="p">,</span> <span class="n">gdf_network</span><span class="p">,</span> <span class="n">df_network</span><span class="p">)</span>
 
-    </div>
-</div>
-</div>
+    <span class="c1"># Select links from network summary dataframe that are within the gdf_shp</span>
+    <span class="c1"># The dataframe contains link-level model outputs</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">df_network</span><span class="p">[</span><span class="n">df_network</span><span class="p">[</span><span class="s1">&#39;ij&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">_gdf_shp</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])]</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get county totals by vehicle type</span>
-<span class="n">df_city_tot_vmt</span> <span class="o">=</span> <span class="n">df_vmt</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;veh_type&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
+    <span class="c1"># Replace length with length from _gdf_shp to ensure roads stop at city boundaries</span>
+    <span class="c1"># Drop &quot;length field from _gdf_shp, which is length in miles; </span>
+    <span class="c1"># use new_length field, which is calculated length of intersected links in feet</span>
+    <span class="n">_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">_gdf_shp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+    <span class="c1"># _df.drop(&#39;length&#39;, axis=1, inplace=True)</span>
+    <span class="n">_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;new_length&#39;</span><span class="p">:</span> <span class="s1">&#39;length&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="s1">&#39;original_length&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    </div>
-</div>
-</div>
+    <span class="c1"># Calculate interzonal emissions using same approach as for regional/county emissions</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">run_dir</span><span class="p">)</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///inputs/db/soundcast_inputs.db&#39;</span><span class="p">)</span>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Compile-Emissions">Compile Emissions<a class="anchor-link" href="#Compile-Emissions">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_emissions</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2019</span><span class="p">,</span> <span class="s1">&#39;total_daily_tons&#39;</span><span class="p">)</span>
-<span class="n">df_emissions</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="s1">&#39;total_daily_tons&#39;</span><span class="p">)</span>
-</pre></div>
+    <span class="c1"># Load running emission rates by vehicle type, for the model year</span>
+    <span class="n">df_running_rates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM running_emission_rates_by_veh_type WHERE year==&#39;</span><span class="o">+</span><span class="n">model_year</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+    <span class="n">df_running_rates</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ratePerDistance&#39;</span><span class="p">:</span> <span class="s1">&#39;grams_per_mile&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_running_rates</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_running_rates</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
 
-    </div>
-</div>
-</div>
+    <span class="c1"># Select the month to use for each pollutant; some rates are used for winter or summer depending</span>
+    <span class="c1"># on when the impacts are at a maximum due to temperature.</span>
+    <span class="n">df_summer</span> <span class="o">=</span> <span class="n">df_running_rates</span><span class="p">[</span><span class="n">df_running_rates</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_list</span><span class="p">)]</span>
+    <span class="n">df_summer</span> <span class="o">=</span> <span class="n">df_summer</span><span class="p">[</span><span class="n">df_summer</span><span class="p">[</span><span class="s1">&#39;monthID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="n">df_winter</span> <span class="o">=</span> <span class="n">df_running_rates</span><span class="p">[</span><span class="o">~</span><span class="n">df_running_rates</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">summer_list</span><span class="p">)]</span>
+    <span class="n">df_winter</span> <span class="o">=</span> <span class="n">df_winter</span><span class="p">[</span><span class="n">df_winter</span><span class="p">[</span><span class="s1">&#39;monthID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">df_running_rates</span> <span class="o">=</span> <span class="n">df_winter</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_summer</span><span class="p">)</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_emissions</span> <span class="o">=</span> <span class="n">df_emissions</span><span class="p">[[</span><span class="s1">&#39;city&#39;</span><span class="p">,</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2018&#39;</span><span class="p">,</span> <span class="s1">&#39;total_daily_tons_2019&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;total_daily_tons_2020&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2030&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2040&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2050&#39;</span><span class="p">]]</span>
-<span class="n">df_emissions</span> <span class="o">=</span> <span class="n">df_emissions</span><span class="p">[</span><span class="n">df_emissions</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;Atmospheric CO2&#39;</span><span class="p">,</span><span class="s1">&#39;CO2 Equivalent&#39;</span><span class="p">])]</span>
-</pre></div>
+    <span class="n">df_interzonal_vmt</span> <span class="o">=</span> <span class="n">calculate_interzonal_vmt</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+    <span class="n">df_interzonal</span> <span class="o">=</span> <span class="n">calculate_interzonal_emissions</span><span class="p">(</span><span class="n">df_interzonal_vmt</span><span class="p">,</span> <span class="n">df_running_rates</span><span class="p">)</span>
 
-    </div>
-</div>
-</div>
+    <span class="c1"># Get list of zones to include for intrazonal trips</span>
+    <span class="c1"># Include intrazonal trips for any TAZ centroids within city boundary</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_emissions</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output\king_county_cities_emissions.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
+    <span class="c1"># Load TAZ centroids</span>
+    <span class="n">connection_string</span> <span class="o">=</span> <span class="s1">&#39;mssql+pyodbc://AWS-PROD-SQL\Sockeye/ElmerGeo?driver=SQL Server?Trusted_Connection=yes&#39;</span>
 
-    </div>
-</div>
-</div>
+    <span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;&#39;DBO.Default&#39;&quot;</span>
+    <span class="n">taz_gdf</span> <span class="o">=</span> <span class="n">read_from_sde</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="s1">&#39;taz2010_no_water&#39;</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">is_table</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get county totals by vehicle type</span>
-<span class="n">df_city_tot_emissions</span> <span class="o">=</span> <span class="n">df_emissions</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
+    <span class="n">_taz_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">taz_gdf</span><span class="o">.</span><span class="n">centroid</span><span class="p">)</span>
+    <span class="n">_taz_gdf</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">_taz_gdf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">_taz_gdf</span><span class="p">[</span><span class="s1">&#39;taz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">taz_gdf</span><span class="p">[</span><span class="s1">&#39;taz&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
 
-    </div>
-</div>
-</div>
+    <span class="n">city_gdf</span> <span class="o">=</span> <span class="n">gdf_shp</span><span class="p">[</span><span class="n">gdf_shp</span><span class="p">[</span><span class="s1">&#39;juris&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">city</span><span class="p">]</span>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Compile-Totals-for-County-and-Unincorporated-Areas">Compile Totals for County and Unincorporated Areas<a class="anchor-link" href="#Compile-Totals-for-County-and-Unincorporated-Areas">&#182;</a></h3><p>Get county level results from the outputs of the regional results</p>
+    <span class="n">intersect_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">_taz_gdf</span><span class="p">,</span> 
+            <span class="n">city_gdf</span><span class="p">,</span> 
+            <span class="n">how</span><span class="o">=</span><span class="s2">&quot;intersection&quot;</span><span class="p">)</span>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_county_emissions</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="n">county</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    
-    <span class="c1"># Get county level totals</span>
-    <span class="n">df_interzonal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;outputs\emissions\interzonal_emissions.csv&#39;</span><span class="p">))</span>
-    <span class="n">df_intrazonal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;outputs\emissions\intrazonal_emissions.csv&#39;</span><span class="p">))</span>
-    <span class="n">start_emissions_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;outputs\emissions\start_emissions.csv&#39;</span><span class="p">))</span>
-    <span class="n">df_inter_group</span> <span class="o">=</span> <span class="n">df_interzonal</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">,</span><span class="s1">&#39;vmt&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">df_inter_group</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">:</span> <span class="s1">&#39;interzonal_tons&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df_intra_group</span> <span class="o">=</span> <span class="n">df_intrazonal</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">,</span><span class="s1">&#39;vmt&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">df_intra_group</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">:</span> <span class="s1">&#39;intrazonal_tons&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df_start_group</span> <span class="o">=</span> <span class="n">start_emissions_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;start_tons&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="c1"># Load intrazonal trips for zones in the area</span>
+    <span class="n">df_iz</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;outputs\network\iz_vol.csv&#39;</span><span class="p">))</span>
 
-    <span class="kn">from</span> <span class="nn">emissions</span> <span class="kn">import</span> <span class="n">finalize_emissions</span><span class="p">,</span> <span class="n">pollutant_map</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_inter_group</span><span class="p">,</span> <span class="n">df_intra_group</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">],</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;_interzonal&#39;</span><span class="p">,</span><span class="s1">&#39;_intrazonal&#39;</span><span class="p">])</span>
-    <span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;vmt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;vmt_interzonal&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;vmt_intrazonal&#39;</span><span class="p">]</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">summary_df</span><span class="p">,</span> <span class="n">df_start_group</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">])</span>
-    <span class="c1"># summary_df = finalize_emissions(summary_df, col_suffix=&quot;&quot;)</span>
-    <span class="n">pm10</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">106</span><span class="p">,</span><span class="mi">107</span><span class="p">])]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">pm10</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;PM10&#39;</span>
-    <span class="n">pm25</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">110</span><span class="p">,</span><span class="mi">116</span><span class="p">,</span><span class="mi">117</span><span class="p">])]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-    <span class="n">pm25</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;PM25&#39;</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">summary_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pm10</span><span class="p">)</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">summary_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pm25</span><span class="p">)</span>
+    <span class="c1"># Filter for zone centroids within the jurisdiction</span>
+    <span class="n">_df_iz</span> <span class="o">=</span> <span class="n">df_iz</span><span class="p">[</span><span class="n">df_iz</span><span class="p">[</span><span class="s1">&#39;taz&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">intersect_gdf</span><span class="o">.</span><span class="n">taz</span><span class="p">)]</span>
+
+    <span class="c1"># If no zones centroids in a city, pass an empty df with 0 values for VMT;</span>
+    <span class="c1"># Otherwise calculate intrazonal VMT for the associated TAZs only</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_df_iz</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">df_intrazonal_vmt</span> <span class="o">=</span> <span class="n">calculate_intrazonal_vmt</span><span class="p">(</span><span class="n">_df_iz</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Load the regional results and fill VMT with 0</span>
+        <span class="n">df_intrazonal_vmt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;outputs\emissions\intrazonal_vmt_grouped.csv&#39;</span><span class="p">))</span>
+        <span class="n">df_intrazonal_vmt</span><span class="p">[</span><span class="s1">&#39;VMT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">df_intrazonal</span> <span class="o">=</span> <span class="n">calculate_intrazonal_emissions</span><span class="p">(</span><span class="n">df_intrazonal_vmt</span><span class="p">,</span> <span class="n">df_running_rates</span><span class="p">)</span>
+
+    <span class="c1"># Intersect parcels with the city gdf to get number of household to adjust vehicle starts</span>
+    <span class="n">parcel_intersect_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">overlay</span><span class="p">(</span><span class="n">parcel_gdf</span><span class="p">,</span>  
+                <span class="n">city_gdf</span><span class="p">,</span> 
+                <span class="n">how</span><span class="o">=</span><span class="s2">&quot;intersection&quot;</span><span class="p">)</span>
+    <span class="n">start_emissions_df</span> <span class="o">=</span> <span class="n">calculate_start_emissions</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">parcel_intersect_gdf</span><span class="p">,</span> <span class="n">model_year</span><span class="p">)</span>
+
+    <span class="n">df_inter_group</span> <span class="o">=</span> <span class="n">df_interzonal</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">,</span><span class="s1">&#39;vmt&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">df_inter_group</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">:</span> <span class="s1">&#39;interzonal_tons&#39;</span><span class="p">,</span> <span class="s1">&#39;vmt&#39;</span><span class="p">:</span> <span class="s1">&#39;interzonal_vmt&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_intra_group</span> <span class="o">=</span> <span class="n">df_intrazonal</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">,</span><span class="s1">&#39;vmt&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">df_intra_group</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;tons_tot&#39;</span><span class="p">:</span> <span class="s1">&#39;intrazonal_tons&#39;</span><span class="p">,</span> <span class="s1">&#39;vmt&#39;</span><span class="p">:</span> <span class="s1">&#39;intrazonal_vmt&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_start_group</span> <span class="o">=</span> <span class="n">start_emissions_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;start_tons&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_inter_group</span><span class="p">,</span> <span class="n">df_intra_group</span><span class="p">)</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">summary_df</span><span class="p">,</span> <span class="n">df_start_group</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">finalize_emissions</span><span class="p">(</span><span class="n">summary_df</span><span class="p">,</span> <span class="n">col_suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">summary_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;PM&#39;</span><span class="p">,</span><span class="s1">&#39;PM10&#39;</span><span class="p">,</span><span class="s1">&#39;PM25&#39;</span><span class="p">]),</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[</span><span class="o">~</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;PM&#39;</span><span class="p">,</span><span class="s1">&#39;PM10&#39;</span><span class="p">,</span><span class="s1">&#39;PM25&#39;</span><span class="p">])][</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
     <span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">pollutant_map</span><span class="p">)</span>
     <span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;start_tons&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;interzonal_tons&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;intrazonal_tons&#39;</span><span class="p">]</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;county&#39;</span><span class="p">,</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;start_tons&#39;</span><span class="p">,</span><span class="s1">&#39;intrazonal_tons&#39;</span><span class="p">,</span><span class="s1">&#39;interzonal_tons&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">,</span><span class="s1">&#39;vmt&#39;</span><span class="p">]]</span>
-
-    <span class="c1"># Filter for county</span>
-    <span class="k">if</span> <span class="n">county</span><span class="p">:</span>
-        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[</span><span class="n">summary_df</span><span class="p">[</span><span class="s1">&#39;county&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">county</span><span class="p">]</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">summary_df</span><span class="p">[[</span><span class="s1">&#39;pollutantID&#39;</span><span class="p">,</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;intrazonal_vmt&#39;</span><span class="p">,</span><span class="s1">&#39;interzonal_vmt&#39;</span><span class="p">,</span><span class="s1">&#39;start_tons&#39;</span><span class="p">,</span><span class="s1">&#39;intrazonal_tons&#39;</span><span class="p">,</span><span class="s1">&#39;interzonal_tons&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">]]</span>
 
     <span class="k">return</span> <span class="n">summary_df</span>
 </pre></div>
@@ -13412,43 +13359,31 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">modelstation2\c$\Workspace\sc_2018_rtp_final\soundcast&#39;</span>
-<span class="n">df_18_county</span> <span class="o">=</span> <span class="n">get_county_emissions</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="s1">&#39;king&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Select all cities and towns in King county</span>
+<span class="n">king_city_list</span> <span class="o">=</span> <span class="n">gdf_shp</span><span class="p">[(</span><span class="n">gdf_shp</span><span class="p">[</span><span class="s1">&#39;cnty_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;King&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">gdf_shp</span><span class="p">[</span><span class="s1">&#39;rg_propose_pa&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;CitiesTowns&#39;</span><span class="p">,</span> <span class="s1">&#39;Core&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;Metro&#39;</span><span class="p">,</span><span class="s1">&#39;HCT&#39;</span><span class="p">]))][</span><span class="s1">&#39;juris&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+<span class="c1"># Exclude any PAA (potential annexation area from this list); we will consider that unincorporated King County</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">king_city_list</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;PAA&#39;</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+        <span class="n">king_city_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
-<span class="n">run_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">modelstation1\c$\workspace\sc_rtp_2030_final\soundcast&#39;</span>
-<span class="n">df_30_county</span> <span class="o">=</span> <span class="n">get_county_emissions</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="s1">&#39;king&#39;</span><span class="p">)</span>
+<span class="c1"># Manually remove some anomalies:</span>
+<span class="n">king_city_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;North Highline&#39;</span><span class="p">)</span>
 
-<span class="n">run_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">modelstation1\c$\workspace\sc_2040_rtp_final\soundcast&#39;</span>
-<span class="n">df_40_county</span> <span class="o">=</span> <span class="n">get_county_emissions</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="s1">&#39;king&#39;</span><span class="p">)</span>
+<span class="n">missing_city_list</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="n">run_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">modelstation1\c$\workspace\sc_rtp_2050_constrained_final\soundcast&#39;</span>
-<span class="n">df_50_county</span> <span class="o">=</span> <span class="n">get_county_emissions</span><span class="p">(</span><span class="n">run_dir</span><span class="p">,</span> <span class="s1">&#39;king&#39;</span><span class="p">)</span>
-
-
-<span class="c1"># Create interpolations</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df_18_county</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_30_county</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">],</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;_2018&#39;</span><span class="p">,</span><span class="s1">&#39;_2030&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
-
-<span class="c1"># Merge 2040</span>
-<span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2040&#39;</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_40_county</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">:</span> <span class="s1">&#39;total_daily_tons_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">,</span>
-                    <span class="s1">&#39;vmt&#39;</span><span class="p">:</span> <span class="s1">&#39;vmt_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># # Merge 2050</span>
-<span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;2050&#39;</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_50_county</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">:</span> <span class="s1">&#39;total_daily_tons_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">,</span>
-                    <span class="s1">&#39;vmt&#39;</span><span class="p">:</span> <span class="s1">&#39;vmt_&#39;</span><span class="o">+</span><span class="n">year</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-
-<span class="n">df_vmt</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2019</span><span class="p">,</span> <span class="s1">&#39;vmt&#39;</span><span class="p">)</span>
-<span class="n">df_vmt</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="s1">&#39;vmt&#39;</span><span class="p">)</span>
-<span class="n">df_vmt</span> <span class="o">=</span> <span class="n">df_vmt</span><span class="p">[[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2018&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2019&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2020&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2030&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2040&#39;</span><span class="p">,</span><span class="s1">&#39;vmt_2050&#39;</span><span class="p">]]</span>
-
-<span class="n">df_emissions</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2019</span><span class="p">,</span> <span class="s1">&#39;total_daily_tons&#39;</span><span class="p">)</span>
-<span class="n">df_emissions</span> <span class="o">=</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="s1">&#39;total_daily_tons&#39;</span><span class="p">)</span>
-<span class="n">df_emissions</span> <span class="o">=</span> <span class="n">df_emissions</span><span class="p">[[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2018&#39;</span><span class="p">,</span> <span class="s1">&#39;total_daily_tons_2019&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;total_daily_tons_2020&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2030&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2040&#39;</span><span class="p">,</span><span class="s1">&#39;total_daily_tons_2050&#39;</span><span class="p">]]</span>
+<span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">king_city_list</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">city</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_gdf_shp</span> <span class="o">=</span> <span class="n">gdf_shp</span><span class="p">[</span><span class="n">gdf_shp</span><span class="p">[</span><span class="s1">&#39;juris&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">city</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">evaluate_emissions</span><span class="p">(</span><span class="n">_gdf_shp</span><span class="p">,</span> <span class="n">model_year</span><span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">city</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR for: &#39;</span> <span class="o">+</span><span class="n">city</span><span class="p">)</span>
+            <span class="n">missing_city_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+            <span class="k">continue</span>
+    
 </pre></div>
 
     </div>
@@ -13461,8 +13396,97 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_emissions</span> <span class="o">=</span> <span class="n">df_emissions</span><span class="p">[</span><span class="n">df_emissions</span><span class="p">[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;Atmospheric CO2&#39;</span><span class="p">,</span><span class="s1">&#39;CO2 Equivalent&#39;</span><span class="p">])]</span>
-<span class="n">df_emissions</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output\king_county_total_emissions.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Sometimes there are database issues when loading data;</span>
+<span class="c1"># If the initial pass did not work for all cities, try a second pass</span>
+<span class="c1"># Usually this will catch any city that did not work on the first attempt</span>
+
+<span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">missing_city_list</span><span class="p">:</span>
+<span class="c1"># for city in [&#39;Bothell&#39;,&#39;Medina&#39;,&#39;Milton&#39;,&#39;Newcastle&#39;]:</span>
+    <span class="c1"># _gdf_shp = g?.path.join(output_dir,city+&#39;.csv&#39;), index=False)</span>
+    <span class="c1"># print(city)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_gdf_shp</span> <span class="o">=</span> <span class="n">gdf_shp</span><span class="p">[</span><span class="n">gdf_shp</span><span class="p">[</span><span class="s1">&#39;juris&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">city</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">evaluate_emissions</span><span class="p">(</span><span class="n">_gdf_shp</span><span class="p">,</span> <span class="n">model_year</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">city</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR for: &#39;</span> <span class="o">+</span><span class="n">city</span><span class="p">)</span>
+        <span class="k">continue</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2050
+2050
+2050
+2050
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Calculate-Emissions-and-VMT-for-Entirity-of-King-County">Calculate Emissions and VMT for Entirity of King County<a class="anchor-link" href="#Calculate-Emissions-and-VMT-for-Entirity-of-King-County">&#182;</a></h3><p>The remainder between the county and city totals will be unincorporated areas</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># The shapefile used for this exercise covers the entirity of King County</span>
+<span class="c1"># any location in the inverse of the previously calculated cities will be considered unincorporated King County</span>
+<span class="n">_gdf_shp</span> <span class="o">=</span> <span class="n">gdf_shp</span><span class="p">[(</span><span class="n">gdf_shp</span><span class="p">[</span><span class="s1">&#39;cnty_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;King&#39;</span><span class="p">)]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">evaluate_emissions</span><span class="p">(</span><span class="n">_gdf_shp</span><span class="p">,</span> <span class="n">model_year</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2018
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="s1">&#39;King County Total.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13475,10 +13499,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df_vmt</span> <span class="o">=</span> <span class="n">df_vmt</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;veh_type&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">_df_vmt</span><span class="p">[</span><span class="s1">&#39;geography&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;King County Total&#39;</span>
-<span class="n">_df_vmt</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">_df_vmt</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output\king_county_total_vmt.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="s1">&#39;King County Total.csv&#39;</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;vmt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;interzonal_vmt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;intrazonal_vmt&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">,</span><span class="s1">&#39;vmt&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">model_year</span><span class="o">+</span><span class="s1">&#39;_county_summary.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13486,73 +13510,32 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># </span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">df_city_tot_emissions</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_emissions</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;_cities_tot&#39;</span><span class="p">,</span><span class="s1">&#39;_county_tot&#39;</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">])</span>
-<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2019</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">2030</span><span class="p">,</span><span class="mi">2040</span><span class="p">,</span><span class="mi">2050</span><span class="p">]:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;total_daily_tons_unincorporated_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;total_daily_tons_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_county_tot&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;total_daily_tons_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_cities_tot&#39;</span><span class="p">]</span>
-</pre></div>
-
-    </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Create-Summary">Create Summary<a class="anchor-link" href="#Create-Summary">&#182;</a></h3>
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;total_daily_tons_unincorporated_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;2019&#39;</span><span class="p">,</span><span class="s1">&#39;2020&#39;</span><span class="p">,</span><span class="s1">&#39;2030&#39;</span><span class="p">,</span><span class="s1">&#39;2040&#39;</span><span class="p">,</span><span class="s1">&#39;2050&#39;</span><span class="p">]]]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output\king_county_unincorporated_emissions.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Summarize total emissions by each city</span>
+<span class="c1"># Note that VMT will be listed for the same city and vehicle type combination multiple times (for each pollutant)</span>
 
-    </div>
-</div>
-</div>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">model_year</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">_df_vmt</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;geography&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_city_tot_vmt</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;_county&#39;</span><span class="p">,</span><span class="s1">&#39;_city_total&#39;</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;veh_type&#39;</span><span class="p">)</span>
-<span class="c1"># df = df_vmt.merge(df_emissions, suffixes=[&#39;_cities_tot&#39;,&#39;_county_tot&#39;], on=[&#39;veh_type&#39;,&#39;pollutant_name&#39;])</span>
-<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2019</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">2030</span><span class="p">,</span><span class="mi">2040</span><span class="p">,</span><span class="mi">2050</span><span class="p">]:</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;vmt_unincorporated_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;vmt_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_county&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;vmt_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_city_total&#39;</span><span class="p">]</span>
-</pre></div>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;geography&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Unincorporated King&#39;</span>
-<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;veh_type&#39;</span><span class="p">,</span><span class="s1">&#39;geography&#39;</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;vmt_unincorporated_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;2018&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;2019&#39;</span><span class="p">,</span><span class="s1">&#39;2020&#39;</span><span class="p">,</span><span class="s1">&#39;2030&#39;</span><span class="p">,</span><span class="s1">&#39;2040&#39;</span><span class="p">,</span><span class="s1">&#39;2050&#39;</span><span class="p">]]]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;C:\Workspace\aq_tool\output\king_county_unincorporated_vmt.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">king_city_list</span><span class="p">:</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">city</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">))</span>
+    <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;vmt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;interzonal_vmt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;intrazonal_vmt&#39;</span><span class="p">]</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pollutant_name&#39;</span><span class="p">,</span><span class="s1">&#39;veh_type&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()[[</span><span class="s1">&#39;total_daily_tons&#39;</span><span class="p">,</span><span class="s1">&#39;vmt&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;city&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">city</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span><span class="n">model_year</span><span class="o">+</span><span class="s1">&#39;_summary.csv&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
