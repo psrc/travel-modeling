@@ -1,0 +1,2575 @@
+,pollutant_name,veh_type,total_daily_tons,vmt,city
+0,Atmospheric CO2,heavy,22.86702148,11139.32599,Algona
+1,Atmospheric CO2,light,60.81794455,146112.4691,Algona
+2,Atmospheric CO2,medium,7.404395434,10972.97239,Algona
+3,CO,heavy,0.039038215,11139.32599,Algona
+4,CO,light,0.525544017,146112.4691,Algona
+5,CO,medium,0.067799908,10972.97239,Algona
+6,CO2 Equivalent,heavy,22.90300284,11139.32599,Algona
+7,CO2 Equivalent,light,61.14953006,146112.4691,Algona
+8,CO2 Equivalent,medium,7.481011697,10972.97239,Algona
+9,Composite NonECPM,heavy,0.000887152,11139.32599,Algona
+10,Composite NonECPM,light,0.000490884,146112.4691,Algona
+11,Composite NonECPM,medium,0.000136497,10972.97239,Algona
+12,Elemental Carbon,heavy,0.002856197,11139.32599,Algona
+13,Elemental Carbon,light,0.000354518,146112.4691,Algona
+14,Elemental Carbon,medium,0.00021828,10972.97239,Algona
+15,H20 Aerosol,heavy,0,11139.32599,Algona
+16,H20 Aerosol,light,0,146112.4691,Algona
+17,H20 Aerosol,medium,0,10972.97239,Algona
+18,Methane,heavy,0.001030065,11139.32599,Algona
+19,Methane,light,0.003308091,146112.4691,Algona
+20,Methane,medium,0.000944997,10972.97239,Algona
+21,N20,heavy,3.43E-05,11139.32599,Algona
+22,N20,light,0.000835328,146112.4691,Algona
+23,N20,medium,0.000177819,10972.97239,Algona
+24,NOx,heavy,0.125600858,11139.32599,Algona
+25,NOx,light,0.061396139,146112.4691,Algona
+26,NOx,medium,0.016460679,10972.97239,Algona
+27,Non-methane HCs,heavy,0.004278528,11139.32599,Algona
+28,Non-methane HCs,light,0.017791349,146112.4691,Algona
+29,Non-methane HCs,medium,0.003391972,10972.97239,Algona
+30,PM10 Brakewear,heavy,0,11139.32599,Algona
+31,PM10 Brakewear,light,0,146112.4691,Algona
+32,PM10 Brakewear,medium,0,10972.97239,Algona
+33,PM10 Exhaust,heavy,0.004068885,11139.32599,Algona
+34,PM10 Exhaust,light,0.000946301,146112.4691,Algona
+35,PM10 Exhaust,medium,0.000389427,10972.97239,Algona
+36,PM10 Tirewear,heavy,0,11139.32599,Algona
+37,PM10 Tirewear,light,0,146112.4691,Algona
+38,PM10 Tirewear,medium,0,10972.97239,Algona
+39,PM10 Total,heavy,0.007062109,33417.97798,Algona
+40,PM10 Total,light,0.007971202,438337.4073,Algona
+41,PM10 Total,medium,0.001163736,32918.91716,Algona
+42,PM25 Brakewear,heavy,0,11139.32599,Algona
+43,PM25 Brakewear,light,0,146112.4691,Algona
+44,PM25 Brakewear,medium,0,10972.97239,Algona
+45,PM25 Exhaust,heavy,0.003743348,11139.32599,Algona
+46,PM25 Exhaust,light,0.000845402,146112.4691,Algona
+47,PM25 Exhaust,medium,0.000354777,10972.97239,Algona
+48,PM25 Tirewear,heavy,0,11139.32599,Algona
+49,PM25 Tirewear,light,0,146112.4691,Algona
+50,PM25 Tirewear,medium,0,10972.97239,Algona
+51,PM25 Total,heavy,0.004128402,33417.97798,Algona
+52,PM25 Total,light,0.001764357,438337.4073,Algona
+53,PM25 Total,medium,0.000455326,32918.91716,Algona
+54,Sulfate Particulate,heavy,0.000148505,11139.32599,Algona
+55,Sulfate Particulate,light,2.56E-05,146112.4691,Algona
+56,Sulfate Particulate,medium,2.11E-05,10972.97239,Algona
+57,Total Energy,heavy,310700.4782,11139.32599,Algona
+58,Total Energy,light,845780.5629,146112.4691,Algona
+59,Total Energy,medium,102187.5086,10972.97239,Algona
+60,Total Gaseous HCs,heavy,0.005308595,11139.32599,Algona
+61,Total Gaseous HCs,light,0.02111312,146112.4691,Algona
+62,Total Gaseous HCs,medium,0.004339345,10972.97239,Algona
+63,VOCs,heavy,0.004858354,11139.32599,Algona
+64,VOCs,light,0.015792196,146112.4691,Algona
+65,VOCs,medium,0.003118107,10972.97239,Algona
+0,Atmospheric CO2,heavy,130.8900265,65835.77341,Auburn
+1,Atmospheric CO2,light,780.4449966,1822554.446,Auburn
+2,Atmospheric CO2,medium,61.95026206,85870.41575,Auburn
+3,CO,heavy,0.214987607,65835.77341,Auburn
+4,CO,light,8.330179952,1822554.446,Auburn
+5,CO,medium,0.970717065,85870.41575,Auburn
+6,CO2 Equivalent,heavy,131.0800118,65835.77341,Auburn
+7,CO2 Equivalent,light,786.7379093,1822554.446,Auburn
+8,CO2 Equivalent,medium,63.41669227,85870.41575,Auburn
+9,Composite NonECPM,heavy,0.004745859,65835.77341,Auburn
+10,Composite NonECPM,light,0.008028983,1822554.446,Auburn
+11,Composite NonECPM,medium,0.001478407,85870.41575,Auburn
+12,Elemental Carbon,heavy,0.015296777,65835.77341,Auburn
+13,Elemental Carbon,light,0.006177275,1822554.446,Auburn
+14,Elemental Carbon,medium,0.002111015,85870.41575,Auburn
+15,H20 Aerosol,heavy,0,65835.77341,Auburn
+16,H20 Aerosol,light,0,1822554.446,Auburn
+17,H20 Aerosol,medium,0,85870.41575,Auburn
+18,Methane,heavy,0.005396275,65835.77341,Auburn
+19,Methane,light,0.058952035,1822554.446,Auburn
+20,Methane,medium,0.015118676,85870.41575,Auburn
+21,N20,heavy,0.000184849,65835.77341,Auburn
+22,N20,light,0.016172404,1822554.446,Auburn
+23,N20,medium,0.003652556,85870.41575,Auburn
+24,NOx,heavy,0.705718864,65835.77341,Auburn
+25,NOx,light,0.868635048,1822554.446,Auburn
+26,NOx,medium,0.161026243,85870.41575,Auburn
+27,Non-methane HCs,heavy,0.023424006,65835.77341,Auburn
+28,Non-methane HCs,light,0.349093129,1822554.446,Auburn
+29,Non-methane HCs,medium,0.057556892,85870.41575,Auburn
+30,PM10 Brakewear,heavy,0,65835.77341,Auburn
+31,PM10 Brakewear,light,0,1822554.446,Auburn
+32,PM10 Brakewear,medium,0,85870.41575,Auburn
+33,PM10 Exhaust,heavy,0.02178562,65835.77341,Auburn
+34,PM10 Exhaust,light,0.015940894,1822554.446,Auburn
+35,PM10 Exhaust,medium,0.003963614,85870.41575,Auburn
+36,PM10 Tirewear,heavy,0,65835.77341,Auburn
+37,PM10 Tirewear,light,0,1822554.446,Auburn
+38,PM10 Tirewear,medium,0,85870.41575,Auburn
+39,PM10 Total,heavy,0.035210461,197507.3202,Auburn
+40,PM10 Total,light,0.105023719,5467663.338,Auburn
+41,PM10 Total,medium,0.009721178,257611.2473,Auburn
+42,PM25 Brakewear,heavy,0,65835.77341,Auburn
+43,PM25 Brakewear,light,0,1822554.446,Auburn
+44,PM25 Brakewear,medium,0,85870.41575,Auburn
+45,PM25 Exhaust,heavy,0.020042633,65835.77341,Auburn
+46,PM25 Exhaust,light,0.01420626,1822554.446,Auburn
+47,PM25 Exhaust,medium,0.003589422,85870.41575,Auburn
+48,PM25 Tirewear,heavy,0,65835.77341,Auburn
+49,PM25 Tirewear,light,0,1822554.446,Auburn
+50,PM25 Tirewear,medium,0,85870.41575,Auburn
+51,PM25 Total,heavy,0.021780612,197507.3202,Auburn
+52,PM25 Total,light,0.025853739,5467663.338,Auburn
+53,PM25 Total,medium,0.00433807,257611.2473,Auburn
+54,Sulfate Particulate,heavy,0.000794944,65835.77341,Auburn
+55,Sulfate Particulate,light,0.000368816,1822554.446,Auburn
+56,Sulfate Particulate,medium,0.000184992,85870.41575,Auburn
+57,Total Energy,heavy,1778421.987,65835.77341,Auburn
+58,Total Energy,light,10853441.71,1822554.446,Auburn
+59,Total Energy,medium,854905.1163,85870.41575,Auburn
+60,Total Gaseous HCs,heavy,0.02882035,65835.77341,Auburn
+61,Total Gaseous HCs,light,0.408422789,1822554.446,Auburn
+62,Total Gaseous HCs,medium,0.072741071,85870.41575,Auburn
+63,VOCs,heavy,0.02642388,65835.77341,Auburn
+64,VOCs,light,0.284390907,1822554.446,Auburn
+65,VOCs,medium,0.046460786,85870.41575,Auburn
+0,Atmospheric CO2,heavy,0.000197407,0,Beaux Arts
+1,Atmospheric CO2,light,0.411383396,463.8496716,Beaux Arts
+2,Atmospheric CO2,medium,0.028040164,7.288847027,Beaux Arts
+3,CO,heavy,6.27E-06,0,Beaux Arts
+4,CO,light,0.012050585,463.8496716,Beaux Arts
+5,CO,medium,0.002376351,7.288847027,Beaux Arts
+6,CO2 Equivalent,heavy,0.000222926,0,Beaux Arts
+7,CO2 Equivalent,light,0.427169557,463.8496716,Beaux Arts
+8,CO2 Equivalent,medium,0.032792421,7.288847027,Beaux Arts
+9,Composite NonECPM,heavy,9.97E-09,0,Beaux Arts
+10,Composite NonECPM,light,1.25E-05,463.8496716,Beaux Arts
+11,Composite NonECPM,medium,2.16E-06,7.288847027,Beaux Arts
+12,Elemental Carbon,heavy,5.02E-09,0,Beaux Arts
+13,Elemental Carbon,light,1.29E-05,463.8496716,Beaux Arts
+14,Elemental Carbon,medium,2.23E-06,7.288847027,Beaux Arts
+15,H20 Aerosol,heavy,0,0,Beaux Arts
+16,H20 Aerosol,light,0,463.8496716,Beaux Arts
+17,H20 Aerosol,medium,0,7.288847027,Beaux Arts
+18,Methane,heavy,5.61E-07,0,Beaux Arts
+19,Methane,light,0.000122342,463.8496716,Beaux Arts
+20,Methane,medium,4.26E-05,7.288847027,Beaux Arts
+21,N20,heavy,3.86E-08,0,Beaux Arts
+22,N20,light,4.27E-05,463.8496716,Beaux Arts
+23,N20,medium,1.24E-05,7.288847027,Beaux Arts
+24,NOx,heavy,1.35E-06,0,Beaux Arts
+25,NOx,light,0.000757177,463.8496716,Beaux Arts
+26,NOx,medium,0.000179306,7.288847027,Beaux Arts
+27,Non-methane HCs,heavy,1.19E-06,0,Beaux Arts
+28,Non-methane HCs,light,0.000891454,463.8496716,Beaux Arts
+29,Non-methane HCs,medium,0.000170192,7.288847027,Beaux Arts
+30,PM10 Brakewear,heavy,0,0,Beaux Arts
+31,PM10 Brakewear,light,0,463.8496716,Beaux Arts
+32,PM10 Brakewear,medium,0,7.288847027,Beaux Arts
+33,PM10 Exhaust,heavy,1.63E-08,0,Beaux Arts
+34,PM10 Exhaust,light,2.86E-05,463.8496716,Beaux Arts
+35,PM10 Exhaust,medium,4.94E-06,7.288847027,Beaux Arts
+36,PM10 Tirewear,heavy,0,0,Beaux Arts
+37,PM10 Tirewear,light,0,463.8496716,Beaux Arts
+38,PM10 Tirewear,medium,0,7.288847027,Beaux Arts
+39,PM10 Total,heavy,1.63E-08,0,Beaux Arts
+40,PM10 Total,light,7.61E-05,1391.549015,Beaux Arts
+41,PM10 Total,medium,6.24E-06,21.86654108,Beaux Arts
+42,PM25 Brakewear,heavy,0,0,Beaux Arts
+43,PM25 Brakewear,light,0,463.8496716,Beaux Arts
+44,PM25 Brakewear,medium,0,7.288847027,Beaux Arts
+45,PM25 Exhaust,heavy,1.50E-08,0,Beaux Arts
+46,PM25 Exhaust,light,2.54E-05,463.8496716,Beaux Arts
+47,PM25 Exhaust,medium,4.39E-06,7.288847027,Beaux Arts
+48,PM25 Tirewear,heavy,0,0,Beaux Arts
+49,PM25 Tirewear,light,0,463.8496716,Beaux Arts
+50,PM25 Tirewear,medium,0,7.288847027,Beaux Arts
+51,PM25 Total,heavy,1.50E-08,0,Beaux Arts
+52,PM25 Total,light,3.15E-05,1391.549015,Beaux Arts
+53,PM25 Total,medium,4.56E-06,21.86654108,Beaux Arts
+54,Sulfate Particulate,heavy,2.94E-09,0,Beaux Arts
+55,Sulfate Particulate,light,3.46E-07,463.8496716,Beaux Arts
+56,Sulfate Particulate,medium,1.02E-07,7.288847027,Beaux Arts
+57,Total Energy,heavy,2.684364307,0,Beaux Arts
+58,Total Energy,light,5721.453449,463.8496716,Beaux Arts
+59,Total Energy,medium,388.1538216,7.288847027,Beaux Arts
+60,Total Gaseous HCs,heavy,1.75E-06,0,Beaux Arts
+61,Total Gaseous HCs,light,0.001015231,463.8496716,Beaux Arts
+62,Total Gaseous HCs,medium,0.00021308,7.288847027,Beaux Arts
+63,VOCs,heavy,4.33E-07,0,Beaux Arts
+64,VOCs,light,0.00061598,463.8496716,Beaux Arts
+65,VOCs,medium,0.000121835,7.288847027,Beaux Arts
+0,Atmospheric CO2,heavy,179.2757781,88391.75712,Bellevue
+1,Atmospheric CO2,light,1662.218958,3879024.978,Bellevue
+2,Atmospheric CO2,medium,145.4239748,203930.0093,Bellevue
+3,CO,heavy,0.3040894,88391.75712,Bellevue
+4,CO,light,16.74580488,3879024.978,Bellevue
+5,CO,medium,1.987381679,203930.0093,Bellevue
+6,CO2 Equivalent,heavy,179.556512,88391.75712,Bellevue
+7,CO2 Equivalent,light,1674.518889,3879024.978,Bellevue
+8,CO2 Equivalent,medium,148.3019711,203930.0093,Bellevue
+9,Composite NonECPM,heavy,0.006608959,88391.75712,Bellevue
+10,Composite NonECPM,light,0.015928859,3879024.978,Bellevue
+11,Composite NonECPM,medium,0.00321116,203930.0093,Bellevue
+12,Elemental Carbon,heavy,0.021172723,88391.75712,Bellevue
+13,Elemental Carbon,light,0.012261901,3879024.978,Bellevue
+14,Elemental Carbon,medium,0.00473534,203930.0093,Bellevue
+15,H20 Aerosol,heavy,0,88391.75712,Bellevue
+16,H20 Aerosol,light,0,3879024.978,Bellevue
+17,H20 Aerosol,medium,0,203930.0093,Bellevue
+18,Methane,heavy,0.00792427,88391.75712,Bellevue
+19,Methane,light,0.116166996,3879024.978,Bellevue
+20,Methane,medium,0.030563654,203930.0093,Bellevue
+21,N20,heavy,0.000277323,88391.75712,Bellevue
+22,N20,light,0.031532203,3879024.978,Bellevue
+23,N20,medium,0.007093597,203930.0093,Bellevue
+24,NOx,heavy,0.97952163,88391.75712,Bellevue
+25,NOx,light,1.795153481,3879024.978,Bellevue
+26,NOx,medium,0.360152571,203930.0093,Bellevue
+27,Non-methane HCs,heavy,0.033719891,88391.75712,Bellevue
+28,Non-methane HCs,light,0.677731342,3879024.978,Bellevue
+29,Non-methane HCs,medium,0.115097478,203930.0093,Bellevue
+30,PM10 Brakewear,heavy,0,88391.75712,Bellevue
+31,PM10 Brakewear,light,0,3879024.978,Bellevue
+32,PM10 Brakewear,medium,0,203930.0093,Bellevue
+33,PM10 Exhaust,heavy,0.030197683,88391.75712,Bellevue
+34,PM10 Exhaust,light,0.031614638,3879024.978,Bellevue
+35,PM10 Exhaust,medium,0.008760521,203930.0093,Bellevue
+36,PM10 Tirewear,heavy,0,88391.75712,Bellevue
+37,PM10 Tirewear,light,0,3879024.978,Bellevue
+38,PM10 Tirewear,medium,0,203930.0093,Bellevue
+39,PM10 Total,heavy,0.051812906,265175.2714,Bellevue
+40,PM10 Total,light,0.222394059,11637074.93,Bellevue
+41,PM10 Total,medium,0.023116661,611790.0278,Bellevue
+42,PM25 Brakewear,heavy,0,88391.75712,Bellevue
+43,PM25 Brakewear,light,0,3879024.978,Bellevue
+44,PM25 Brakewear,medium,0,203930.0093,Bellevue
+45,PM25 Exhaust,heavy,0.027781674,88391.75712,Bellevue
+46,PM25 Exhaust,light,0.028190765,3879024.978,Bellevue
+47,PM25 Exhaust,medium,0.0079465,203930.0093,Bellevue
+48,PM25 Tirewear,heavy,0,88391.75712,Bellevue
+49,PM25 Tirewear,light,0,3879024.978,Bellevue
+50,PM25 Tirewear,medium,0,203930.0093,Bellevue
+51,PM25 Total,heavy,0.030565955,265175.2714,Bellevue
+52,PM25 Total,light,0.053119322,11637074.93,Bellevue
+53,PM25 Total,medium,0.009809855,611790.0278,Bellevue
+54,Sulfate Particulate,heavy,0.001110949,88391.75712,Bellevue
+55,Sulfate Particulate,light,0.000756521,3879024.978,Bellevue
+56,Sulfate Particulate,medium,0.000426544,203930.0093,Bellevue
+57,Total Energy,heavy,2435864.942,88391.75712,Bellevue
+58,Total Energy,light,23116097.27,3879024.978,Bellevue
+59,Total Energy,medium,2007116.489,203930.0093,Bellevue
+60,Total Gaseous HCs,heavy,0.041644307,88391.75712,Bellevue
+61,Total Gaseous HCs,light,0.794595894,3879024.978,Bellevue
+62,Total Gaseous HCs,medium,0.145782374,203930.0093,Bellevue
+63,VOCs,heavy,0.037933106,88391.75712,Bellevue
+64,VOCs,light,0.560434052,3879024.978,Bellevue
+65,VOCs,medium,0.095020529,203930.0093,Bellevue
+0,Atmospheric CO2,heavy,1.087998454,497.3734014,Black Diamond
+1,Atmospheric CO2,light,23.28349722,47766.60392,Black Diamond
+2,Atmospheric CO2,medium,1.386082284,1444.787346,Black Diamond
+3,CO,heavy,0.002032434,497.3734014,Black Diamond
+4,CO,light,0.315485709,47766.60392,Black Diamond
+5,CO,medium,0.042252317,1444.787346,Black Diamond
+6,CO2 Equivalent,heavy,1.090268004,497.3734014,Black Diamond
+7,CO2 Equivalent,light,23.58251902,47766.60392,Black Diamond
+8,CO2 Equivalent,medium,1.463134629,1444.787346,Black Diamond
+9,Composite NonECPM,heavy,4.61E-05,497.3734014,Black Diamond
+10,Composite NonECPM,light,0.000312577,47766.60392,Black Diamond
+11,Composite NonECPM,medium,5.08E-05,1444.787346,Black Diamond
+12,Elemental Carbon,heavy,0.000146493,497.3734014,Black Diamond
+13,Elemental Carbon,light,0.000268194,47766.60392,Black Diamond
+14,Elemental Carbon,medium,6.32E-05,1444.787346,Black Diamond
+15,H20 Aerosol,heavy,0,497.3734014,Black Diamond
+16,H20 Aerosol,light,0,47766.60392,Black Diamond
+17,H20 Aerosol,medium,0,1444.787346,Black Diamond
+18,Methane,heavy,6.24E-05,497.3734014,Black Diamond
+19,Methane,light,0.002570184,47766.60392,Black Diamond
+20,Methane,medium,0.00073296,1444.787346,Black Diamond
+21,N20,heavy,2.38E-06,497.3734014,Black Diamond
+22,N20,light,0.000787835,47766.60392,Black Diamond
+23,N20,medium,0.000197076,1444.787346,Black Diamond
+24,NOx,heavy,0.00611276,497.3734014,Black Diamond
+25,NOx,light,0.027939385,47766.60392,Black Diamond
+26,NOx,medium,0.004800872,1444.787346,Black Diamond
+27,Non-methane HCs,heavy,0.000230019,497.3734014,Black Diamond
+28,Non-methane HCs,light,0.016653925,47766.60392,Black Diamond
+29,Non-methane HCs,medium,0.002846401,1444.787346,Black Diamond
+30,PM10 Brakewear,heavy,0,497.3734014,Black Diamond
+31,PM10 Brakewear,light,0,47766.60392,Black Diamond
+32,PM10 Brakewear,medium,0,1444.787346,Black Diamond
+33,PM10 Exhaust,heavy,0.000209349,497.3734014,Black Diamond
+34,PM10 Exhaust,light,0.000652976,47766.60392,Black Diamond
+35,PM10 Exhaust,medium,0.000126869,1444.787346,Black Diamond
+36,PM10 Tirewear,heavy,0,497.3734014,Black Diamond
+37,PM10 Tirewear,light,0,47766.60392,Black Diamond
+38,PM10 Tirewear,medium,0,1444.787346,Black Diamond
+39,PM10 Total,heavy,0.000376741,1492.120204,Black Diamond
+40,PM10 Total,light,0.00349766,143299.8117,Black Diamond
+41,PM10 Total,medium,0.000254065,4334.362039,Black Diamond
+42,PM25 Brakewear,heavy,0,497.3734014,Black Diamond
+43,PM25 Brakewear,light,0,47766.60392,Black Diamond
+44,PM25 Brakewear,medium,0,1444.787346,Black Diamond
+45,PM25 Exhaust,heavy,0.0001926,497.3734014,Black Diamond
+46,PM25 Exhaust,light,0.000580771,47766.60392,Black Diamond
+47,PM25 Exhaust,medium,0.000114039,1444.787346,Black Diamond
+48,PM25 Tirewear,heavy,0,497.3734014,Black Diamond
+49,PM25 Tirewear,light,0,47766.60392,Black Diamond
+50,PM25 Tirewear,medium,0,1444.787346,Black Diamond
+51,PM25 Total,heavy,0.000214054,1492.120204,Black Diamond
+52,PM25 Total,light,0.000950544,143299.8117,Black Diamond
+53,PM25 Total,medium,0.000130475,4334.362039,Black Diamond
+54,Sulfate Particulate,heavy,7.70E-06,497.3734014,Black Diamond
+55,Sulfate Particulate,light,1.25E-05,47766.60392,Black Diamond
+56,Sulfate Particulate,medium,4.70E-06,1444.787346,Black Diamond
+57,Total Energy,heavy,14783.08676,497.3734014,Black Diamond
+58,Total Energy,light,323800.8662,47766.60392,Black Diamond
+59,Total Energy,medium,19130.37346,1444.787346,Black Diamond
+60,Total Gaseous HCs,heavy,0.000292399,497.3734014,Black Diamond
+61,Total Gaseous HCs,light,0.019246043,47766.60392,Black Diamond
+62,Total Gaseous HCs,medium,0.003583173,1444.787346,Black Diamond
+63,VOCs,heavy,0.000247468,497.3734014,Black Diamond
+64,VOCs,light,0.012651299,47766.60392,Black Diamond
+65,VOCs,medium,0.002133474,1444.787346,Black Diamond
+0,Atmospheric CO2,heavy,73.66484988,35996.2292,Bothell
+1,Atmospheric CO2,light,701.0611112,1584686.117,Bothell
+2,Atmospheric CO2,medium,55.93429961,78390.21148,Bothell
+3,CO,heavy,0.123909812,35996.2292,Bothell
+4,CO,light,7.208180497,1584686.117,Bothell
+5,CO,medium,0.755526119,78390.21148,Bothell
+6,CO2 Equivalent,heavy,73.77794042,35996.2292,Bothell
+7,CO2 Equivalent,light,706.0696143,1584686.117,Bothell
+8,CO2 Equivalent,medium,56.95539044,78390.21148,Bothell
+9,Composite NonECPM,heavy,0.002803641,35996.2292,Bothell
+10,Composite NonECPM,light,0.006907723,1584686.117,Bothell
+11,Composite NonECPM,medium,0.00124468,78390.21148,Bothell
+12,Elemental Carbon,heavy,0.009004733,35996.2292,Bothell
+13,Elemental Carbon,light,0.005070402,1584686.117,Bothell
+14,Elemental Carbon,medium,0.001843663,78390.21148,Bothell
+15,H20 Aerosol,heavy,0,35996.2292,Bothell
+16,H20 Aerosol,light,0,1584686.117,Bothell
+17,H20 Aerosol,medium,0,78390.21148,Bothell
+18,Methane,heavy,0.003212933,35996.2292,Bothell
+19,Methane,light,0.049121422,1584686.117,Bothell
+20,Methane,medium,0.011044777,78390.21148,Bothell
+21,N20,heavy,0.000109962,35996.2292,Bothell
+22,N20,light,0.012686441,1584686.117,Bothell
+23,N20,medium,0.00249992,78390.21148,Bothell
+24,NOx,heavy,0.401375976,35996.2292,Bothell
+25,NOx,light,0.800244232,1584686.117,Bothell
+26,NOx,medium,0.14128686,78390.21148,Bothell
+27,Non-methane HCs,heavy,0.013482503,35996.2292,Bothell
+28,Non-methane HCs,light,0.277897647,1584686.117,Bothell
+29,Non-methane HCs,medium,0.042565133,78390.21148,Bothell
+30,PM10 Brakewear,heavy,0,35996.2292,Bothell
+31,PM10 Brakewear,light,0,1584686.117,Bothell
+32,PM10 Brakewear,medium,0,78390.21148,Bothell
+33,PM10 Exhaust,heavy,0.012835279,35996.2292,Bothell
+34,PM10 Exhaust,light,0.013418328,1584686.117,Bothell
+35,PM10 Exhaust,medium,0.003402654,78390.21148,Bothell
+36,PM10 Tirewear,heavy,0,35996.2292,Bothell
+37,PM10 Tirewear,light,0,1584686.117,Bothell
+38,PM10 Tirewear,medium,0,78390.21148,Bothell
+39,PM10 Total,heavy,0.021401833,107988.6876,Bothell
+40,PM10 Total,light,0.10067163,4754058.351,Bothell
+41,PM10 Total,medium,0.009189217,235170.6344,Bothell
+42,PM25 Brakewear,heavy,0,35996.2292,Bothell
+43,PM25 Brakewear,light,0,1584686.117,Bothell
+44,PM25 Brakewear,medium,0,78390.21148,Bothell
+45,PM25 Exhaust,heavy,0.011808375,35996.2292,Bothell
+46,PM25 Exhaust,light,0.011978127,1584686.117,Bothell
+47,PM25 Exhaust,medium,0.003088343,78390.21148,Bothell
+48,PM25 Tirewear,heavy,0,35996.2292,Bothell
+49,PM25 Tirewear,light,0,1584686.117,Bothell
+50,PM25 Tirewear,medium,0,78390.21148,Bothell
+51,PM25 Total,heavy,0.012913404,107988.6876,Bothell
+52,PM25 Total,light,0.023346592,4754058.351,Bothell
+53,PM25 Total,medium,0.003838861,235170.6344,Bothell
+54,Sulfate Particulate,heavy,0.000468378,35996.2292,Bothell
+55,Sulfate Particulate,light,0.000326316,1584686.117,Bothell
+56,Sulfate Particulate,medium,0.000163687,78390.21148,Bothell
+57,Total Energy,heavy,1000898.761,35996.2292,Bothell
+58,Total Energy,light,9749445.157,1584686.117,Bothell
+59,Total Energy,medium,772025.5051,78390.21148,Bothell
+60,Total Gaseous HCs,heavy,0.016695484,35996.2292,Bothell
+61,Total Gaseous HCs,light,0.327268955,1584686.117,Bothell
+62,Total Gaseous HCs,medium,0.053652751,78390.21148,Bothell
+63,VOCs,heavy,0.015196698,35996.2292,Bothell
+64,VOCs,light,0.238236793,1584686.117,Bothell
+65,VOCs,medium,0.036192886,78390.21148,Bothell
+0,Atmospheric CO2,heavy,6.298284276,2956.174177,Burien
+1,Atmospheric CO2,light,210.7345557,452291.5104,Burien
+2,Atmospheric CO2,medium,13.65647599,15470.58742,Burien
+3,CO,heavy,0.012014183,2956.174177,Burien
+4,CO,light,3.073844893,452291.5104,Burien
+5,CO,medium,0.448185463,15470.58742,Burien
+6,CO2 Equivalent,heavy,6.312695995,2956.174177,Burien
+7,CO2 Equivalent,light,213.7615197,452291.5104,Burien
+8,CO2 Equivalent,medium,14.47489053,15470.58742,Burien
+9,Composite NonECPM,heavy,0.000242313,2956.174177,Burien
+10,Composite NonECPM,light,0.003024965,452291.5104,Burien
+11,Composite NonECPM,medium,0.000500996,15470.58742,Burien
+12,Elemental Carbon,heavy,0.000763906,2956.174177,Burien
+13,Elemental Carbon,light,0.002703299,452291.5104,Burien
+14,Elemental Carbon,medium,0.000611466,15470.58742,Burien
+15,H20 Aerosol,heavy,0,2956.174177,Burien
+16,H20 Aerosol,light,0,452291.5104,Burien
+17,H20 Aerosol,medium,0,15470.58742,Burien
+18,Methane,heavy,0.000382658,2956.174177,Burien
+19,Methane,light,0.025755661,452291.5104,Burien
+20,Methane,medium,0.007654317,15470.58742,Burien
+21,N20,heavy,1.63E-05,2956.174177,Burien
+22,N20,light,0.007997144,452291.5104,Burien
+23,N20,medium,0.002104235,15470.58742,Burien
+24,NOx,heavy,0.03507066,2956.174177,Burien
+25,NOx,light,0.269502275,452291.5104,Burien
+26,NOx,medium,0.048159541,15470.58742,Burien
+27,Non-methane HCs,heavy,0.001408202,2956.174177,Burien
+28,Non-methane HCs,light,0.17073057,452291.5104,Burien
+29,Non-methane HCs,medium,0.030108653,15470.58742,Burien
+30,PM10 Brakewear,heavy,0,2956.174177,Burien
+31,PM10 Brakewear,light,0,452291.5104,Burien
+32,PM10 Brakewear,medium,0,15470.58742,Burien
+33,PM10 Exhaust,heavy,0.001093724,2956.174177,Burien
+34,PM10 Exhaust,light,0.006444731,452291.5104,Burien
+35,PM10 Exhaust,medium,0.001239843,15470.58742,Burien
+36,PM10 Tirewear,heavy,0,2956.174177,Burien
+37,PM10 Tirewear,light,0,452291.5104,Burien
+38,PM10 Tirewear,medium,0,15470.58742,Burien
+39,PM10 Total,heavy,0.001989707,8868.522531,Burien
+40,PM10 Total,light,0.029824112,1356874.531,Burien
+41,PM10 Total,medium,0.002278426,46411.76226,Burien
+42,PM25 Brakewear,heavy,0,2956.174177,Burien
+43,PM25 Brakewear,light,0,452291.5104,Burien
+44,PM25 Brakewear,medium,0,15470.58742,Burien
+45,PM25 Exhaust,heavy,0.001006218,2956.174177,Burien
+46,PM25 Exhaust,light,0.005728264,452291.5104,Burien
+47,PM25 Exhaust,medium,0.001112463,15470.58742,Burien
+48,PM25 Tirewear,heavy,0,2956.174177,Burien
+49,PM25 Tirewear,light,0,452291.5104,Burien
+50,PM25 Tirewear,medium,0,15470.58742,Burien
+51,PM25 Total,heavy,0.001121121,8868.522531,Burien
+52,PM25 Total,light,0.008779436,1356874.531,Burien
+53,PM25 Total,medium,0.001247408,46411.76226,Burien
+54,Sulfate Particulate,heavy,4.10E-05,2956.174177,Burien
+55,Sulfate Particulate,light,0.000114851,452291.5104,Burien
+56,Sulfate Particulate,medium,4.19E-05,15470.58742,Burien
+57,Total Energy,heavy,85577.57051,2956.174177,Burien
+58,Total Energy,light,2930678.181,452291.5104,Burien
+59,Total Energy,medium,188625.9393,15470.58742,Burien
+60,Total Gaseous HCs,heavy,0.001790906,2956.174177,Burien
+61,Total Gaseous HCs,light,0.196722446,452291.5104,Burien
+62,Total Gaseous HCs,medium,0.037804025,15470.58742,Burien
+63,VOCs,heavy,0.00145116,2956.174177,Burien
+64,VOCs,light,0.127045797,452291.5104,Burien
+65,VOCs,medium,0.022371159,15470.58742,Burien
+0,Atmospheric CO2,heavy,1.990411957,826.1722116,Carnation
+1,Atmospheric CO2,light,6.597910086,11876.28461,Carnation
+2,Atmospheric CO2,medium,0.470666794,375.067307,Carnation
+3,CO,heavy,0.003722585,826.1722116,Carnation
+4,CO,light,0.12054399,11876.28461,Carnation
+5,CO,medium,0.019411584,375.067307,Carnation
+6,CO2 Equivalent,heavy,1.994302514,826.1722116,Carnation
+7,CO2 Equivalent,light,6.728589146,11876.28461,Carnation
+8,CO2 Equivalent,medium,0.507509024,375.067307,Carnation
+9,Composite NonECPM,heavy,9.16E-05,826.1722116,Carnation
+10,Composite NonECPM,light,0.000120743,11876.28461,Carnation
+11,Composite NonECPM,medium,2.16E-05,375.067307,Carnation
+12,Elemental Carbon,heavy,0.000289968,826.1722116,Carnation
+13,Elemental Carbon,light,0.000111969,11876.28461,Carnation
+14,Elemental Carbon,medium,2.56E-05,375.067307,Carnation
+15,H20 Aerosol,heavy,0,826.1722116,Carnation
+16,H20 Aerosol,light,0,11876.28461,Carnation
+17,H20 Aerosol,medium,0,375.067307,Carnation
+18,Methane,heavy,0.000109976,826.1722116,Carnation
+19,Methane,light,0.001082048,11876.28461,Carnation
+20,Methane,medium,0.000344282,375.067307,Carnation
+21,N20,heavy,3.82E-06,826.1722116,Carnation
+22,N20,light,0.000347751,11876.28461,Carnation
+23,N20,medium,9.48E-05,375.067307,Carnation
+24,NOx,heavy,0.011380817,826.1722116,Carnation
+25,NOx,light,0.009082641,11876.28461,Carnation
+26,NOx,medium,0.001929782,375.067307,Carnation
+27,Non-methane HCs,heavy,0.000405812,826.1722116,Carnation
+28,Non-methane HCs,light,0.007396765,11876.28461,Carnation
+29,Non-methane HCs,medium,0.001347133,375.067307,Carnation
+30,PM10 Brakewear,heavy,0,826.1722116,Carnation
+31,PM10 Brakewear,light,0,11876.28461,Carnation
+32,PM10 Brakewear,medium,0,375.067307,Carnation
+33,PM10 Exhaust,heavy,0.000414789,826.1722116,Carnation
+34,PM10 Exhaust,light,0.000262068,11876.28461,Carnation
+35,PM10 Exhaust,medium,5.26E-05,375.067307,Carnation
+36,PM10 Tirewear,heavy,0,826.1722116,Carnation
+37,PM10 Tirewear,light,0,11876.28461,Carnation
+38,PM10 Tirewear,medium,0,375.067307,Carnation
+39,PM10 Total,heavy,0.000783097,2478.516635,Carnation
+40,PM10 Total,light,0.001147337,35628.85382,Carnation
+41,PM10 Total,medium,0.000100457,1125.201921,Carnation
+42,PM25 Brakewear,heavy,0,826.1722116,Carnation
+43,PM25 Brakewear,light,0,11876.28461,Carnation
+44,PM25 Brakewear,medium,0,375.067307,Carnation
+45,PM25 Exhaust,heavy,0.000381603,826.1722116,Carnation
+46,PM25 Exhaust,light,0.000232712,11876.28461,Carnation
+47,PM25 Exhaust,medium,4.72E-05,375.067307,Carnation
+48,PM25 Tirewear,heavy,0,826.1722116,Carnation
+49,PM25 Tirewear,light,0,11876.28461,Carnation
+50,PM25 Tirewear,medium,0,375.067307,Carnation
+51,PM25 Total,heavy,0.000428604,2478.516635,Carnation
+52,PM25 Total,light,0.000347303,35628.85382,Carnation
+53,PM25 Total,medium,5.33E-05,1125.201921,Carnation
+54,Sulfate Particulate,heavy,1.52E-05,826.1722116,Carnation
+55,Sulfate Particulate,light,4.19E-06,11876.28461,Carnation
+56,Sulfate Particulate,medium,1.75E-06,375.067307,Carnation
+57,Total Energy,heavy,27044.61045,826.1722116,Carnation
+58,Total Energy,light,91757.40143,11876.28461,Carnation
+59,Total Energy,medium,6497.139928,375.067307,Carnation
+60,Total Gaseous HCs,heavy,0.000515791,826.1722116,Carnation
+61,Total Gaseous HCs,light,0.008489541,11876.28461,Carnation
+62,Total Gaseous HCs,medium,0.001693279,375.067307,Carnation
+63,VOCs,heavy,0.000454071,826.1722116,Carnation
+64,VOCs,light,0.005388711,11876.28461,Carnation
+65,VOCs,medium,0.00099374,375.067307,Carnation
+0,Atmospheric CO2,heavy,0.063178428,32.3386273,Clyde Hill
+1,Atmospheric CO2,light,12.56193801,26669.23584,Clyde Hill
+2,Atmospheric CO2,medium,1.510765731,2055.312158,Clyde Hill
+3,CO,heavy,0.000157158,32.3386273,Clyde Hill
+4,CO,light,0.180519474,26669.23584,Clyde Hill
+5,CO,medium,0.030995956,2055.312158,Clyde Hill
+6,CO2 Equivalent,heavy,0.063505904,32.3386273,Clyde Hill
+7,CO2 Equivalent,light,12.74150472,26669.23584,Clyde Hill
+8,CO2 Equivalent,medium,1.561993891,2055.312158,Clyde Hill
+9,Composite NonECPM,heavy,2.25E-06,32.3386273,Clyde Hill
+10,Composite NonECPM,light,0.000178679,26669.23584,Clyde Hill
+11,Composite NonECPM,medium,4.06E-05,2055.312158,Clyde Hill
+12,Elemental Carbon,heavy,7.10E-06,32.3386273,Clyde Hill
+13,Elemental Carbon,light,0.000160482,26669.23584,Clyde Hill
+14,Elemental Carbon,medium,5.48E-05,2055.312158,Clyde Hill
+15,H20 Aerosol,heavy,0,32.3386273,Clyde Hill
+16,H20 Aerosol,light,0,26669.23584,Clyde Hill
+17,H20 Aerosol,medium,0,2055.312158,Clyde Hill
+18,Methane,heavy,7.74E-06,32.3386273,Clyde Hill
+19,Methane,light,0.001519599,26669.23584,Clyde Hill
+20,Methane,medium,0.000501886,2055.312158,Clyde Hill
+21,N20,heavy,4.49E-07,32.3386273,Clyde Hill
+22,N20,light,0.000475117,26669.23584,Clyde Hill
+23,N20,medium,0.000129803,2055.312158,Clyde Hill
+24,NOx,heavy,0.000337028,32.3386273,Clyde Hill
+25,NOx,light,0.015900631,26669.23584,Clyde Hill
+26,NOx,medium,0.004295126,2055.312158,Clyde Hill
+27,Non-methane HCs,heavy,2.19E-05,32.3386273,Clyde Hill
+28,Non-methane HCs,light,0.010095004,26669.23584,Clyde Hill
+29,Non-methane HCs,medium,0.001942928,2055.312158,Clyde Hill
+30,PM10 Brakewear,heavy,0,32.3386273,Clyde Hill
+31,PM10 Brakewear,light,0,26669.23584,Clyde Hill
+32,PM10 Brakewear,medium,0,2055.312158,Clyde Hill
+33,PM10 Exhaust,heavy,1.02E-05,32.3386273,Clyde Hill
+34,PM10 Exhaust,light,0.000381551,26669.23584,Clyde Hill
+35,PM10 Exhaust,medium,0.000105727,2055.312158,Clyde Hill
+36,PM10 Tirewear,heavy,0,32.3386273,Clyde Hill
+37,PM10 Tirewear,light,0,26669.23584,Clyde Hill
+38,PM10 Tirewear,medium,0,2055.312158,Clyde Hill
+39,PM10 Total,heavy,1.51E-05,97.01588189,Clyde Hill
+40,PM10 Total,light,0.001799651,80007.70753,Clyde Hill
+41,PM10 Total,medium,0.000230034,6165.936475,Clyde Hill
+42,PM25 Brakewear,heavy,0,32.3386273,Clyde Hill
+43,PM25 Brakewear,light,0,26669.23584,Clyde Hill
+44,PM25 Brakewear,medium,0,2055.312158,Clyde Hill
+45,PM25 Exhaust,heavy,9.35E-06,32.3386273,Clyde Hill
+46,PM25 Exhaust,light,0.000339161,26669.23584,Clyde Hill
+47,PM25 Exhaust,medium,9.54E-05,2055.312158,Clyde Hill
+48,PM25 Tirewear,heavy,0,32.3386273,Clyde Hill
+49,PM25 Tirewear,light,0,26669.23584,Clyde Hill
+50,PM25 Tirewear,medium,0,2055.312158,Clyde Hill
+51,PM25 Total,heavy,1.00E-05,97.01588189,Clyde Hill
+52,PM25 Total,light,0.000524154,80007.70753,Clyde Hill
+53,PM25 Total,medium,0.000111613,6165.936475,Clyde Hill
+54,Sulfate Particulate,heavy,3.88E-07,32.3386273,Clyde Hill
+55,Sulfate Particulate,light,6.78E-06,26669.23584,Clyde Hill
+56,Sulfate Particulate,medium,4.35E-06,2055.312158,Clyde Hill
+57,Total Energy,heavy,858.4278695,32.3386273,Clyde Hill
+58,Total Energy,light,174698.7471,26669.23584,Clyde Hill
+59,Total Energy,medium,20858.74513,2055.312158,Clyde Hill
+60,Total Gaseous HCs,heavy,2.96E-05,32.3386273,Clyde Hill
+61,Total Gaseous HCs,light,0.01162859,26669.23584,Clyde Hill
+62,Total Gaseous HCs,medium,0.002447245,2055.312158,Clyde Hill
+63,VOCs,heavy,1.59E-05,32.3386273,Clyde Hill
+64,VOCs,light,0.007508076,26669.23584,Clyde Hill
+65,VOCs,medium,0.001501912,2055.312158,Clyde Hill
+0,Atmospheric CO2,heavy,14.22382538,7600.625663,Covington
+1,Atmospheric CO2,light,124.9989625,270806.1487,Covington
+2,Atmospheric CO2,medium,6.388080705,7343.949029,Covington
+3,CO,heavy,0.022109916,7600.625663,Covington
+4,CO,light,1.587110656,270806.1487,Covington
+5,CO,medium,0.194275018,7343.949029,Covington
+6,CO2 Equivalent,heavy,14.24251084,7600.625663,Covington
+7,CO2 Equivalent,light,126.4157111,270806.1487,Covington
+8,CO2 Equivalent,medium,6.738960604,7343.949029,Covington
+9,Composite NonECPM,heavy,0.000467123,7600.625663,Covington
+10,Composite NonECPM,light,0.001550796,270806.1487,Covington
+11,Composite NonECPM,medium,0.000225307,7343.949029,Covington
+12,Elemental Carbon,heavy,0.001522444,7600.625663,Covington
+13,Elemental Carbon,light,0.001303434,270806.1487,Covington
+14,Elemental Carbon,medium,0.000280265,7343.949029,Covington
+15,H20 Aerosol,heavy,0,7600.625663,Covington
+16,H20 Aerosol,light,0,270806.1487,Covington
+17,H20 Aerosol,medium,0,7343.949029,Covington
+18,Methane,heavy,0.000524051,7600.625663,Covington
+19,Methane,light,0.012431795,270806.1487,Covington
+20,Methane,medium,0.003313879,7343.949029,Covington
+21,N20,heavy,1.88E-05,7600.625663,Covington
+22,N20,light,0.003711298,270806.1487,Covington
+23,N20,medium,0.000899445,7343.949029,Covington
+24,NOx,heavy,0.07456581,7600.625663,Covington
+25,NOx,light,0.146848294,270806.1487,Covington
+26,NOx,medium,0.021811213,7343.949029,Covington
+27,Non-methane HCs,heavy,0.002414477,7600.625663,Covington
+28,Non-methane HCs,light,0.079060254,270806.1487,Covington
+29,Non-methane HCs,medium,0.012964387,7343.949029,Covington
+30,PM10 Brakewear,heavy,0,7600.625663,Covington
+31,PM10 Brakewear,light,0,270806.1487,Covington
+32,PM10 Brakewear,medium,0,7343.949029,Covington
+33,PM10 Exhaust,heavy,0.002162588,7600.625663,Covington
+34,PM10 Exhaust,light,0.003207617,270806.1487,Covington
+35,PM10 Exhaust,medium,0.000562807,7343.949029,Covington
+36,PM10 Tirewear,heavy,0,7600.625663,Covington
+37,PM10 Tirewear,light,0,270806.1487,Covington
+38,PM10 Tirewear,medium,0,7343.949029,Covington
+39,PM10 Total,heavy,0.003093907,22801.87699,Covington
+40,PM10 Total,light,0.01806913,812418.446,Covington
+41,PM10 Total,medium,0.001081411,22031.84709,Covington
+42,PM25 Brakewear,heavy,0,7600.625663,Covington
+43,PM25 Brakewear,light,0,270806.1487,Covington
+44,PM25 Brakewear,medium,0,7343.949029,Covington
+45,PM25 Exhaust,heavy,0.001989568,7600.625663,Covington
+46,PM25 Exhaust,light,0.002854231,270806.1487,Covington
+47,PM25 Exhaust,medium,0.000505572,7343.949029,Covington
+48,PM25 Tirewear,heavy,0,7600.625663,Covington
+49,PM25 Tirewear,light,0,270806.1487,Covington
+50,PM25 Tirewear,medium,0,7343.949029,Covington
+51,PM25 Total,heavy,0.002112262,22801.87699,Covington
+52,PM25 Total,light,0.00479122,812418.446,Covington
+53,PM25 Total,medium,0.000572927,22031.84709,Covington
+54,Sulfate Particulate,heavy,7.84E-05,7600.625663,Covington
+55,Sulfate Particulate,light,6.44E-05,270806.1487,Covington
+56,Sulfate Particulate,medium,2.01E-05,7343.949029,Covington
+57,Total Energy,heavy,193258.604,7600.625663,Covington
+58,Total Energy,light,1738340,270806.1487,Covington
+59,Total Energy,medium,88205.56512,7343.949029,Covington
+60,Total Gaseous HCs,heavy,0.002938546,7600.625663,Covington
+61,Total Gaseous HCs,light,0.091592492,270806.1487,Covington
+62,Total Gaseous HCs,medium,0.016295725,7343.949029,Covington
+63,VOCs,heavy,0.002685586,7600.625663,Covington
+64,VOCs,light,0.060928992,270806.1487,Covington
+65,VOCs,medium,0.009691126,7343.949029,Covington
+0,Atmospheric CO2,heavy,3.475261646,1529.426734,Des Moines
+1,Atmospheric CO2,light,123.2891704,243172.3513,Des Moines
+2,Atmospheric CO2,medium,6.918673717,6290.993219,Des Moines
+3,CO,heavy,0.007019804,1529.426734,Des Moines
+4,CO,light,1.873958062,243172.3513,Des Moines
+5,CO,medium,0.266950647,6290.993219,Des Moines
+6,CO2 Equivalent,heavy,3.484241953,1529.426734,Des Moines
+7,CO2 Equivalent,light,125.1661624,243172.3513,Des Moines
+8,CO2 Equivalent,medium,7.419994055,6290.993219,Des Moines
+9,Composite NonECPM,heavy,0.000149488,1529.426734,Des Moines
+10,Composite NonECPM,light,0.001863722,243172.3513,Des Moines
+11,Composite NonECPM,medium,0.000296114,6290.993219,Des Moines
+12,Elemental Carbon,heavy,0.0004699,1529.426734,Des Moines
+13,Elemental Carbon,light,0.001656923,243172.3513,Des Moines
+14,Elemental Carbon,medium,0.000352608,6290.993219,Des Moines
+15,H20 Aerosol,heavy,0,1529.426734,Des Moines
+16,H20 Aerosol,light,0,243172.3513,Des Moines
+17,H20 Aerosol,medium,0,6290.993219,Des Moines
+18,Methane,heavy,0.000239312,1529.426734,Des Moines
+19,Methane,light,0.015854735,243172.3513,Des Moines
+20,Methane,medium,0.00468515,6290.993219,Des Moines
+21,N20,heavy,1.01E-05,1529.426734,Des Moines
+22,N20,light,0.004968433,243172.3513,Des Moines
+23,N20,medium,0.001289246,6290.993219,Des Moines
+24,NOx,heavy,0.0198178,1529.426734,Des Moines
+25,NOx,light,0.155881145,243172.3513,Des Moines
+26,NOx,medium,0.027029791,6290.993219,Des Moines
+27,Non-methane HCs,heavy,0.000828579,1529.426734,Des Moines
+28,Non-methane HCs,light,0.105269441,243172.3513,Des Moines
+29,Non-methane HCs,medium,0.018360885,6290.993219,Des Moines
+30,PM10 Brakewear,heavy,0,1529.426734,Des Moines
+31,PM10 Brakewear,light,0,243172.3513,Des Moines
+32,PM10 Brakewear,medium,0,6290.993219,Des Moines
+33,PM10 Exhaust,heavy,0.000673253,1529.426734,Des Moines
+34,PM10 Exhaust,light,0.003961066,243172.3513,Des Moines
+35,PM10 Exhaust,medium,0.000723704,6290.993219,Des Moines
+36,PM10 Tirewear,heavy,0,1529.426734,Des Moines
+37,PM10 Tirewear,light,0,243172.3513,Des Moines
+38,PM10 Tirewear,medium,0,6290.993219,Des Moines
+39,PM10 Total,heavy,0.001285866,4588.280203,Des Moines
+40,PM10 Total,light,0.01955268,729517.0539,Des Moines
+41,PM10 Total,medium,0.001368415,18872.97966,Des Moines
+42,PM25 Brakewear,heavy,0,1529.426734,Des Moines
+43,PM25 Brakewear,light,0,243172.3513,Des Moines
+44,PM25 Brakewear,medium,0,6290.993219,Des Moines
+45,PM25 Exhaust,heavy,0.000619388,1529.426734,Des Moines
+46,PM25 Exhaust,light,0.003520645,243172.3513,Des Moines
+47,PM25 Exhaust,medium,0.000648722,6290.993219,Des Moines
+48,PM25 Tirewear,heavy,0,1529.426734,Des Moines
+49,PM25 Tirewear,light,0,243172.3513,Des Moines
+50,PM25 Tirewear,medium,0,6290.993219,Des Moines
+51,PM25 Total,heavy,0.000697657,4588.280203,Des Moines
+52,PM25 Total,light,0.005545245,729517.0539,Des Moines
+53,PM25 Total,medium,0.000731791,18872.97966,Des Moines
+54,Sulfate Particulate,heavy,2.51E-05,1529.426734,Des Moines
+55,Sulfate Particulate,light,7.04E-05,243172.3513,Des Moines
+56,Sulfate Particulate,medium,2.40E-05,6290.993219,Des Moines
+57,Total Energy,heavy,47220.48429,1529.426734,Des Moines
+58,Total Energy,light,1714570.83,243172.3513,Des Moines
+59,Total Energy,medium,95535.62385,6290.993219,Des Moines
+60,Total Gaseous HCs,heavy,0.001067919,1529.426734,Des Moines
+61,Total Gaseous HCs,light,0.121269685,243172.3513,Des Moines
+62,Total Gaseous HCs,medium,0.023071325,6290.993219,Des Moines
+63,VOCs,heavy,0.000848952,1529.426734,Des Moines
+64,VOCs,light,0.07836225,243172.3513,Des Moines
+65,VOCs,medium,0.013576825,6290.993219,Des Moines
+0,Atmospheric CO2,heavy,3.217069376,1199.023248,Duvall
+1,Atmospheric CO2,light,24.34714002,36582.80844,Duvall
+2,Atmospheric CO2,medium,1.475393697,972.9313657,Duvall
+3,CO,heavy,0.006514243,1199.023248,Duvall
+4,CO,light,0.415183583,36582.80844,Duvall
+5,CO,medium,0.065113098,972.9313657,Duvall
+6,CO2 Equivalent,heavy,3.224818166,1199.023248,Duvall
+7,CO2 Equivalent,light,24.80910581,36582.80844,Duvall
+8,CO2 Equivalent,medium,1.600947564,972.9313657,Duvall
+9,Composite NonECPM,heavy,0.000152416,1199.023248,Duvall
+10,Composite NonECPM,light,0.000422805,36582.80844,Duvall
+11,Composite NonECPM,medium,7.14E-05,972.9313657,Duvall
+12,Elemental Carbon,heavy,0.000456646,1199.023248,Duvall
+13,Elemental Carbon,light,0.000391228,36582.80844,Duvall
+14,Elemental Carbon,medium,8.32E-05,972.9313657,Duvall
+15,H20 Aerosol,heavy,0,1199.023248,Duvall
+16,H20 Aerosol,light,0,36582.80844,Duvall
+17,H20 Aerosol,medium,0,972.9313657,Duvall
+18,Methane,heavy,0.000211582,1199.023248,Duvall
+19,Methane,light,0.003721675,36582.80844,Duvall
+20,Methane,medium,0.001166908,972.9313657,Duvall
+21,N20,heavy,8.25E-06,1199.023248,Duvall
+22,N20,light,0.001238,36582.80844,Duvall
+23,N20,medium,0.00032343,972.9313657,Duvall
+24,NOx,heavy,0.019385135,1199.023248,Duvall
+25,NOx,light,0.030416746,36582.80844,Duvall
+26,NOx,medium,0.006299317,972.9313657,Duvall
+27,Non-methane HCs,heavy,0.000784354,1199.023248,Duvall
+28,Non-methane HCs,light,0.025429544,36582.80844,Duvall
+29,Non-methane HCs,medium,0.004569038,972.9313657,Duvall
+30,PM10 Brakewear,heavy,0,1199.023248,Duvall
+31,PM10 Brakewear,light,0,36582.80844,Duvall
+32,PM10 Brakewear,medium,0,972.9313657,Duvall
+33,PM10 Exhaust,heavy,0.000662028,1199.023248,Duvall
+34,PM10 Exhaust,light,0.00091616,36582.80844,Duvall
+35,PM10 Exhaust,medium,0.000172609,972.9313657,Duvall
+36,PM10 Tirewear,heavy,0,1199.023248,Duvall
+37,PM10 Tirewear,light,0,36582.80844,Duvall
+38,PM10 Tirewear,medium,0,972.9313657,Duvall
+39,PM10 Total,heavy,0.001315434,3597.069744,Duvall
+40,PM10 Total,light,0.004405647,109748.4253,Duvall
+41,PM10 Total,medium,0.000327287,2918.794097,Duvall
+42,PM25 Brakewear,heavy,0,1199.023248,Duvall
+43,PM25 Brakewear,light,0,36582.80844,Duvall
+44,PM25 Brakewear,medium,0,972.9313657,Duvall
+45,PM25 Exhaust,heavy,0.000609062,1199.023248,Duvall
+46,PM25 Exhaust,light,0.000814034,36582.80844,Duvall
+47,PM25 Exhaust,medium,0.00015462,972.9313657,Duvall
+48,PM25 Tirewear,heavy,0,1199.023248,Duvall
+49,PM25 Tirewear,light,0,36582.80844,Duvall
+50,PM25 Tirewear,medium,0,972.9313657,Duvall
+51,PM25 Total,heavy,0.000692197,3597.069744,Duvall
+52,PM25 Total,light,0.001263073,109748.4253,Duvall
+53,PM25 Total,medium,0.000174395,2918.794097,Duvall
+54,Sulfate Particulate,heavy,2.52E-05,1199.023248,Duvall
+55,Sulfate Particulate,light,1.49E-05,36582.80844,Duvall
+56,Sulfate Particulate,medium,5.63E-06,972.9313657,Duvall
+57,Total Energy,heavy,43713.39247,1199.023248,Duvall
+58,Total Energy,light,338600.707,36582.80844,Duvall
+59,Total Energy,medium,20375.41852,972.9313657,Duvall
+60,Total Gaseous HCs,heavy,0.000995944,1199.023248,Duvall
+61,Total Gaseous HCs,light,0.02918775,36582.80844,Duvall
+62,Total Gaseous HCs,medium,0.005742296,972.9313657,Duvall
+63,VOCs,heavy,0.000868408,1199.023248,Duvall
+64,VOCs,light,0.01860524,36582.80844,Duvall
+65,VOCs,medium,0.003363693,972.9313657,Duvall
+0,Atmospheric CO2,heavy,0.704440695,321.4205894,Enumclaw
+1,Atmospheric CO2,light,46.6647051,87282.01217,Enumclaw
+2,Atmospheric CO2,medium,2.825261631,2485.00098,Enumclaw
+3,CO,heavy,0.001482112,321.4205894,Enumclaw
+4,CO,light,0.720805452,87282.01217,Enumclaw
+5,CO,medium,0.102646393,2485.00098,Enumclaw
+6,CO2 Equivalent,heavy,0.706617865,321.4205894,Enumclaw
+7,CO2 Equivalent,light,47.38621981,87282.01217,Enumclaw
+8,CO2 Equivalent,medium,3.017396857,2485.00098,Enumclaw
+9,Composite NonECPM,heavy,2.99E-05,321.4205894,Enumclaw
+10,Composite NonECPM,light,0.000724164,87282.01217,Enumclaw
+11,Composite NonECPM,medium,0.000118359,2485.00098,Enumclaw
+12,Elemental Carbon,heavy,9.47E-05,321.4205894,Enumclaw
+13,Elemental Carbon,light,0.000635422,87282.01217,Enumclaw
+14,Elemental Carbon,medium,0.000143927,2485.00098,Enumclaw
+15,H20 Aerosol,heavy,0,321.4205894,Enumclaw
+16,H20 Aerosol,light,0,87282.01217,Enumclaw
+17,H20 Aerosol,medium,0,2485.00098,Enumclaw
+18,Methane,heavy,5.59E-05,321.4205894,Enumclaw
+19,Methane,light,0.00610968,87282.01217,Enumclaw
+20,Methane,medium,0.001813339,2485.00098,Enumclaw
+21,N20,heavy,2.61E-06,321.4205894,Enumclaw
+22,N20,light,0.001908677,87282.01217,Enumclaw
+23,N20,medium,0.000492627,2485.00098,Enumclaw
+24,NOx,heavy,0.00395228,321.4205894,Enumclaw
+25,NOx,light,0.058416703,87282.01217,Enumclaw
+26,NOx,medium,0.010829879,2485.00098,Enumclaw
+27,Non-methane HCs,heavy,0.000179825,321.4205894,Enumclaw
+28,Non-methane HCs,light,0.040489322,87282.01217,Enumclaw
+29,Non-methane HCs,medium,0.007057696,2485.00098,Enumclaw
+30,PM10 Brakewear,heavy,0,321.4205894,Enumclaw
+31,PM10 Brakewear,light,0,87282.01217,Enumclaw
+32,PM10 Brakewear,medium,0,2485.00098,Enumclaw
+33,PM10 Exhaust,heavy,0.000135382,321.4205894,Enumclaw
+34,PM10 Exhaust,light,0.00152957,87282.01217,Enumclaw
+35,PM10 Exhaust,medium,0.000292238,2485.00098,Enumclaw
+36,PM10 Tirewear,heavy,0,321.4205894,Enumclaw
+37,PM10 Tirewear,light,0,87282.01217,Enumclaw
+38,PM10 Tirewear,medium,0,2485.00098,Enumclaw
+39,PM10 Total,heavy,0.000242248,964.2617683,Enumclaw
+40,PM10 Total,light,0.007809155,261846.0365,Enumclaw
+41,PM10 Total,medium,0.000583829,7455.002939,Enumclaw
+42,PM25 Brakewear,heavy,0,321.4205894,Enumclaw
+43,PM25 Brakewear,light,0,87282.01217,Enumclaw
+44,PM25 Brakewear,medium,0,2485.00098,Enumclaw
+45,PM25 Exhaust,heavy,0.000124551,321.4205894,Enumclaw
+46,PM25 Exhaust,light,0.001359586,87282.01217,Enumclaw
+47,PM25 Exhaust,medium,0.000262286,2485.00098,Enumclaw
+48,PM25 Tirewear,heavy,0,321.4205894,Enumclaw
+49,PM25 Tirewear,light,0,87282.01217,Enumclaw
+50,PM25 Tirewear,medium,0,2485.00098,Enumclaw
+51,PM25 Total,heavy,0.000138254,964.2617683,Enumclaw
+52,PM25 Total,light,0.002173017,261846.0365,Enumclaw
+53,PM25 Total,medium,0.000299773,7455.002939,Enumclaw
+54,Sulfate Particulate,heavy,5.03E-06,321.4205894,Enumclaw
+55,Sulfate Particulate,light,2.74E-05,87282.01217,Enumclaw
+56,Sulfate Particulate,medium,1.03E-05,2485.00098,Enumclaw
+57,Total Energy,heavy,9571.568795,321.4205894,Enumclaw
+58,Total Energy,light,648963.1357,87282.01217,Enumclaw
+59,Total Energy,medium,38993.37481,2485.00098,Enumclaw
+60,Total Gaseous HCs,heavy,0.000235753,321.4205894,Enumclaw
+61,Total Gaseous HCs,light,0.04665439,87282.01217,Enumclaw
+62,Total Gaseous HCs,medium,0.008880662,2485.00098,Enumclaw
+63,VOCs,heavy,0.000168987,321.4205894,Enumclaw
+64,VOCs,light,0.030276627,87282.01217,Enumclaw
+65,VOCs,medium,0.005243754,2485.00098,Enumclaw
+0,Atmospheric CO2,heavy,281.0957815,146532.7274,Federal Way
+1,Atmospheric CO2,light,928.4694273,2243948.419,Federal Way
+2,Atmospheric CO2,medium,79.11879489,116931.3521,Federal Way
+3,CO,heavy,0.446977301,146532.7274,Federal Way
+4,CO,light,9.685943921,2243948.419,Federal Way
+5,CO,medium,1.174353955,116931.3521,Federal Way
+6,CO2 Equivalent,heavy,281.4729363,146532.7274,Federal Way
+7,CO2 Equivalent,light,935.7185955,2243948.419,Federal Way
+8,CO2 Equivalent,medium,80.85513734,116931.3521,Federal Way
+9,Composite NonECPM,heavy,0.009782202,146532.7274,Federal Way
+10,Composite NonECPM,light,0.009254415,2243948.419,Federal Way
+11,Composite NonECPM,medium,0.00175742,116931.3521,Federal Way
+12,Elemental Carbon,heavy,0.031701636,146532.7274,Federal Way
+13,Elemental Carbon,light,0.007203753,2243948.419,Federal Way
+14,Elemental Carbon,medium,0.002540612,116931.3521,Federal Way
+15,H20 Aerosol,heavy,0,146532.7274,Federal Way
+16,H20 Aerosol,light,0,2243948.419,Federal Way
+17,H20 Aerosol,medium,0,116931.3521,Federal Way
+18,Methane,heavy,0.010750633,146532.7274,Federal Way
+19,Methane,light,0.068096016,2243948.419,Federal Way
+20,Methane,medium,0.017836729,116931.3521,Federal Way
+21,N20,heavy,0.000363962,146532.7274,Federal Way
+22,N20,light,0.01861502,2243948.419,Federal Way
+23,N20,medium,0.004330272,116931.3521,Federal Way
+24,NOx,heavy,1.498045891,146532.7274,Federal Way
+25,NOx,light,1.041784318,2243948.419,Federal Way
+26,NOx,medium,0.199405463,116931.3521,Federal Way
+27,Non-methane HCs,heavy,0.048759741,146532.7274,Federal Way
+28,Non-methane HCs,light,0.404956229,2243948.419,Federal Way
+29,Non-methane HCs,medium,0.068050939,116931.3521,Federal Way
+30,PM10 Brakewear,heavy,0,146532.7274,Federal Way
+31,PM10 Brakewear,light,0,2243948.419,Federal Way
+32,PM10 Brakewear,medium,0,116931.3521,Federal Way
+33,PM10 Exhaust,heavy,0.045091408,146532.7274,Federal Way
+34,PM10 Exhaust,light,0.018469266,2243948.419,Federal Way
+35,PM10 Exhaust,medium,0.004745639,116931.3521,Federal Way
+36,PM10 Tirewear,heavy,0,146532.7274,Federal Way
+37,PM10 Tirewear,light,0,2243948.419,Federal Way
+38,PM10 Tirewear,medium,0,116931.3521,Federal Way
+39,PM10 Total,heavy,0.06872716,439598.1822,Federal Way
+40,PM10 Total,light,0.114102474,6731845.258,Federal Way
+41,PM10 Total,medium,0.010829732,350794.0563,Federal Way
+42,PM25 Brakewear,heavy,0,146532.7274,Federal Way
+43,PM25 Brakewear,light,0,2243948.419,Federal Way
+44,PM25 Brakewear,medium,0,116931.3521,Federal Way
+45,PM25 Exhaust,heavy,0.041483826,146532.7274,Federal Way
+46,PM25 Exhaust,light,0.016458168,2243948.419,Federal Way
+47,PM25 Exhaust,medium,0.004298033,116931.3521,Federal Way
+48,PM25 Tirewear,heavy,0,146532.7274,Federal Way
+49,PM25 Tirewear,light,0,2243948.419,Federal Way
+50,PM25 Tirewear,medium,0,116931.3521,Federal Way
+51,PM25 Total,heavy,0.04456625,439598.1822,Federal Way
+52,PM25 Total,light,0.029015091,6731845.258,Federal Way
+53,PM25 Total,medium,0.005095229,350794.0563,Federal Way
+54,Sulfate Particulate,heavy,0.001636408,146532.7274,Federal Way
+55,Sulfate Particulate,light,0.000428725,2243948.419,Federal Way
+56,Sulfate Particulate,medium,0.000219932,116931.3521,Federal Way
+57,Total Energy,heavy,3819264.785,146532.7274,Federal Way
+58,Total Energy,light,12912021.76,2243948.419,Federal Way
+59,Total Energy,medium,1092060.029,116931.3521,Federal Way
+60,Total Gaseous HCs,heavy,0.059510455,146532.7274,Federal Way
+61,Total Gaseous HCs,light,0.473495801,2243948.419,Federal Way
+62,Total Gaseous HCs,medium,0.085964757,116931.3521,Federal Way
+63,VOCs,heavy,0.05523455,146532.7274,Federal Way
+64,VOCs,light,0.32865425,2243948.419,Federal Way
+65,VOCs,medium,0.054740284,116931.3521,Federal Way
+0,Atmospheric CO2,heavy,0.121879484,60.12484103,Hunts Point
+1,Atmospheric CO2,light,12.31590246,31411.23263,Hunts Point
+2,Atmospheric CO2,medium,2.093669079,3292.420601,Hunts Point
+3,CO,heavy,0.000211851,60.12484103,Hunts Point
+4,CO,light,0.103841661,31411.23263,Hunts Point
+5,CO,medium,0.016990226,3292.420601,Hunts Point
+6,CO2 Equivalent,heavy,0.122099637,60.12484103,Hunts Point
+7,CO2 Equivalent,light,12.37750301,31411.23263,Hunts Point
+8,CO2 Equivalent,medium,2.110149981,3292.420601,Hunts Point
+9,Composite NonECPM,heavy,4.77E-06,60.12484103,Hunts Point
+10,Composite NonECPM,light,9.30E-05,31411.23263,Hunts Point
+11,Composite NonECPM,medium,3.55E-05,3292.420601,Hunts Point
+12,Elemental Carbon,heavy,1.55E-05,60.12484103,Hunts Point
+13,Elemental Carbon,light,6.76E-05,31411.23263,Hunts Point
+14,Elemental Carbon,medium,5.91E-05,3292.420601,Hunts Point
+15,H20 Aerosol,heavy,0,60.12484103,Hunts Point
+16,H20 Aerosol,light,0,31411.23263,Hunts Point
+17,H20 Aerosol,medium,0,3292.420601,Hunts Point
+18,Methane,heavy,6.08E-06,60.12484103,Hunts Point
+19,Methane,light,0.000636428,31411.23263,Hunts Point
+20,Methane,medium,0.00021996,3292.420601,Hunts Point
+21,N20,heavy,2.29E-07,60.12484103,Hunts Point
+22,N20,light,0.000153351,31411.23263,Hunts Point
+23,N20,medium,3.69E-05,3292.420601,Hunts Point
+24,NOx,heavy,0.000660768,60.12484103,Hunts Point
+25,NOx,light,0.012386539,31411.23263,Hunts Point
+26,NOx,medium,0.004492075,3292.420601,Hunts Point
+27,Non-methane HCs,heavy,2.33E-05,60.12484103,Hunts Point
+28,Non-methane HCs,light,0.003363065,31411.23263,Hunts Point
+29,Non-methane HCs,medium,0.000781148,3292.420601,Hunts Point
+30,PM10 Brakewear,heavy,0,60.12484103,Hunts Point
+31,PM10 Brakewear,light,0,31411.23263,Hunts Point
+32,PM10 Brakewear,medium,0,3292.420601,Hunts Point
+33,PM10 Exhaust,heavy,2.20E-05,60.12484103,Hunts Point
+34,PM10 Exhaust,light,0.00017982,31411.23263,Hunts Point
+35,PM10 Exhaust,medium,0.000103749,3292.420601,Hunts Point
+36,PM10 Tirewear,heavy,0,60.12484103,Hunts Point
+37,PM10 Tirewear,light,0,31411.23263,Hunts Point
+38,PM10 Tirewear,medium,0,3292.420601,Hunts Point
+39,PM10 Total,heavy,3.58E-05,180.3745231,Hunts Point
+40,PM10 Total,light,0.001592001,94233.6979,Hunts Point
+41,PM10 Total,medium,0.000314063,9877.261803,Hunts Point
+42,PM25 Brakewear,heavy,0,60.12484103,Hunts Point
+43,PM25 Brakewear,light,0,31411.23263,Hunts Point
+44,PM25 Brakewear,medium,0,3292.420601,Hunts Point
+45,PM25 Exhaust,heavy,2.02E-05,60.12484103,Hunts Point
+46,PM25 Exhaust,light,0.000160686,31411.23263,Hunts Point
+47,PM25 Exhaust,medium,9.46E-05,3292.420601,Hunts Point
+48,PM25 Tirewear,heavy,0,60.12484103,Hunts Point
+49,PM25 Tirewear,light,0,31411.23263,Hunts Point
+50,PM25 Tirewear,medium,0,3292.420601,Hunts Point
+51,PM25 Total,heavy,2.20E-05,180.3745231,Hunts Point
+52,PM25 Total,light,0.000345982,94233.6979,Hunts Point
+53,PM25 Total,medium,0.000122029,9877.261803,Hunts Point
+54,Sulfate Particulate,heavy,7.97E-07,60.12484103,Hunts Point
+55,Sulfate Particulate,light,4.94E-06,31411.23263,Hunts Point
+56,Sulfate Particulate,medium,5.73E-06,3292.420601,Hunts Point
+57,Total Energy,heavy,1655.99347,60.12484103,Hunts Point
+58,Total Energy,light,171274.1727,31411.23263,Hunts Point
+59,Total Energy,medium,28894.73782,3292.420601,Hunts Point
+60,Total Gaseous HCs,heavy,2.93E-05,60.12484103,Hunts Point
+61,Total Gaseous HCs,light,0.004001885,31411.23263,Hunts Point
+62,Total Gaseous HCs,medium,0.001001523,3292.420601,Hunts Point
+63,VOCs,heavy,2.49E-05,60.12484103,Hunts Point
+64,VOCs,light,0.003036897,31411.23263,Hunts Point
+65,VOCs,medium,0.000753787,3292.420601,Hunts Point
+0,Atmospheric CO2,heavy,26.41323727,13984.83747,Issaquah
+1,Atmospheric CO2,light,428.8996824,995194.9902,Issaquah
+2,Atmospheric CO2,medium,24.50413663,32560.05247,Issaquah
+3,CO,heavy,0.040200182,13984.83747,Issaquah
+4,CO,light,4.446955553,995194.9902,Issaquah
+5,CO,medium,0.445062637,32560.05247,Issaquah
+6,CO2 Equivalent,heavy,26.44664484,13984.83747,Issaquah
+7,CO2 Equivalent,light,432.149515,995194.9902,Issaquah
+8,CO2 Equivalent,medium,25.21732033,32560.05247,Issaquah
+9,Composite NonECPM,heavy,0.000803364,13984.83747,Issaquah
+10,Composite NonECPM,light,0.004270615,995194.9902,Issaquah
+11,Composite NonECPM,medium,0.000634405,32560.05247,Issaquah
+12,Elemental Carbon,heavy,0.002580825,13984.83747,Issaquah
+13,Elemental Carbon,light,0.003240776,995194.9902,Issaquah
+14,Elemental Carbon,medium,0.000874563,32560.05247,Issaquah
+15,H20 Aerosol,heavy,0,13984.83747,Issaquah
+16,H20 Aerosol,light,0,995194.9902,Issaquah
+17,H20 Aerosol,medium,0,32560.05247,Issaquah
+18,Methane,heavy,0.000923503,13984.83747,Issaquah
+19,Methane,light,0.030742495,995194.9902,Issaquah
+20,Methane,medium,0.007164055,32560.05247,Issaquah
+21,N20,heavy,3.46E-05,13984.83747,Issaquah
+22,N20,light,0.00832707,995194.9902,Issaquah
+23,N20,medium,0.001792227,32560.05247,Issaquah
+24,NOx,heavy,0.1388254,13984.83747,Issaquah
+25,NOx,light,0.474148175,995194.9902,Issaquah
+26,NOx,medium,0.067216683,32560.05247,Issaquah
+27,Non-methane HCs,heavy,0.004462263,13984.83747,Issaquah
+28,Non-methane HCs,light,0.180086596,995194.9902,Issaquah
+29,Non-methane HCs,medium,0.027376857,32560.05247,Issaquah
+30,PM10 Brakewear,heavy,0,13984.83747,Issaquah
+31,PM10 Brakewear,light,0,995194.9902,Issaquah
+32,PM10 Brakewear,medium,0,32560.05247,Issaquah
+33,PM10 Exhaust,heavy,0.003678489,13984.83747,Issaquah
+34,PM10 Exhaust,light,0.00842672,995194.9902,Issaquah
+35,PM10 Exhaust,medium,0.00166927,32560.05247,Issaquah
+36,PM10 Tirewear,heavy,0,13984.83747,Issaquah
+37,PM10 Tirewear,light,0,995194.9902,Issaquah
+38,PM10 Tirewear,medium,0,32560.05247,Issaquah
+39,PM10 Total,heavy,0.005145927,41954.51242,Issaquah
+40,PM10 Total,light,0.055266103,2985584.971,Issaquah
+41,PM10 Total,medium,0.003844952,97680.15741,Issaquah
+42,PM25 Brakewear,heavy,0,13984.83747,Issaquah
+43,PM25 Brakewear,light,0,995194.9902,Issaquah
+44,PM25 Brakewear,medium,0,32560.05247,Issaquah
+45,PM25 Exhaust,heavy,0.003384188,13984.83747,Issaquah
+46,PM25 Exhaust,light,0.007511392,995194.9902,Issaquah
+47,PM25 Exhaust,medium,0.001508969,32560.05247,Issaquah
+48,PM25 Tirewear,heavy,0,13984.83747,Issaquah
+49,PM25 Tirewear,light,0,995194.9902,Issaquah
+50,PM25 Tirewear,medium,0,32560.05247,Issaquah
+51,PM25 Total,heavy,0.003578322,41954.51242,Issaquah
+52,PM25 Total,light,0.013637687,2985584.971,Issaquah
+53,PM25 Total,medium,0.001791702,97680.15741,Issaquah
+54,Sulfate Particulate,heavy,0.000135314,13984.83747,Issaquah
+55,Sulfate Particulate,light,0.000201152,995194.9902,Issaquah
+56,Sulfate Particulate,medium,7.44E-05,32560.05247,Issaquah
+57,Total Energy,heavy,358874.8159,13984.83747,Issaquah
+58,Total Energy,light,5964609.613,995194.9902,Issaquah
+59,Total Energy,medium,338172.0625,32560.05247,Issaquah
+60,Total Gaseous HCs,heavy,0.005385799,13984.83747,Issaquah
+61,Total Gaseous HCs,light,0.211018508,995194.9902,Issaquah
+62,Total Gaseous HCs,medium,0.034573839,32560.05247,Issaquah
+63,VOCs,heavy,0.004963351,13984.83747,Issaquah
+64,VOCs,light,0.148041835,995194.9902,Issaquah
+65,VOCs,medium,0.02151518,32560.05247,Issaquah
+0,Atmospheric CO2,heavy,0.681930453,273.1359062,Kenmore
+1,Atmospheric CO2,light,161.810424,312094.5262,Kenmore
+2,Atmospheric CO2,medium,8.656412233,8462.798772,Kenmore
+3,CO,heavy,0.001810251,273.1359062,Kenmore
+4,CO,light,1.98923784,312094.5262,Kenmore
+5,CO,medium,0.232748973,8462.798772,Kenmore
+6,CO2 Equivalent,heavy,0.685387448,273.1359062,Kenmore
+7,CO2 Equivalent,light,163.573396,312094.5262,Kenmore
+8,CO2 Equivalent,medium,9.074918437,8462.798772,Kenmore
+9,Composite NonECPM,heavy,3.03E-05,273.1359062,Kenmore
+10,Composite NonECPM,light,0.001957972,312094.5262,Kenmore
+11,Composite NonECPM,medium,0.000301204,8462.798772,Kenmore
+12,Elemental Carbon,heavy,9.14E-05,273.1359062,Kenmore
+13,Elemental Carbon,light,0.001605224,312094.5262,Kenmore
+14,Elemental Carbon,medium,0.000386437,8462.798772,Kenmore
+15,H20 Aerosol,heavy,0,273.1359062,Kenmore
+16,H20 Aerosol,light,0,312094.5262,Kenmore
+17,H20 Aerosol,medium,0,8462.798772,Kenmore
+18,Methane,heavy,8.46E-05,273.1359062,Kenmore
+19,Methane,light,0.015349809,312094.5262,Kenmore
+20,Methane,medium,0.004066902,8462.798772,Kenmore
+21,N20,heavy,4.50E-06,273.1359062,Kenmore
+22,N20,light,0.004628218,312094.5262,Kenmore
+23,N20,medium,0.001063209,8462.798772,Kenmore
+24,NOx,heavy,0.004033625,273.1359062,Kenmore
+25,NOx,light,0.176341916,312094.5262,Kenmore
+26,NOx,medium,0.028552218,8462.798772,Kenmore
+27,Non-methane HCs,heavy,0.00024727,273.1359062,Kenmore
+28,Non-methane HCs,light,0.095970502,312094.5262,Kenmore
+29,Non-methane HCs,medium,0.015629336,8462.798772,Kenmore
+30,PM10 Brakewear,heavy,0,273.1359062,Kenmore
+31,PM10 Brakewear,light,0,312094.5262,Kenmore
+32,PM10 Brakewear,medium,0,8462.798772,Kenmore
+33,PM10 Exhaust,heavy,0.000132299,273.1359062,Kenmore
+34,PM10 Exhaust,light,0.004001451,312094.5262,Kenmore
+35,PM10 Exhaust,medium,0.000763295,8462.798772,Kenmore
+36,PM10 Tirewear,heavy,0,273.1359062,Kenmore
+37,PM10 Tirewear,light,0,312094.5262,Kenmore
+38,PM10 Tirewear,medium,0,8462.798772,Kenmore
+39,PM10 Total,heavy,0.000275399,819.4077185,Kenmore
+40,PM10 Total,light,0.026786298,936283.5785,Kenmore
+41,PM10 Total,medium,0.001812385,25388.39632,Kenmore
+42,PM25 Brakewear,heavy,0,273.1359062,Kenmore
+43,PM25 Brakewear,light,0,312094.5262,Kenmore
+44,PM25 Brakewear,medium,0,8462.798772,Kenmore
+45,PM25 Exhaust,heavy,0.000121714,273.1359062,Kenmore
+46,PM25 Exhaust,light,0.003563197,312094.5262,Kenmore
+47,PM25 Exhaust,medium,0.000687641,8462.798772,Kenmore
+48,PM25 Tirewear,heavy,0,273.1359062,Kenmore
+49,PM25 Tirewear,light,0,312094.5262,Kenmore
+50,PM25 Tirewear,medium,0,8462.798772,Kenmore
+51,PM25 Total,heavy,0.00013992,819.4077185,Kenmore
+52,PM25 Total,light,0.00651232,936283.5785,Kenmore
+53,PM25 Total,medium,0.000822283,25388.39632,Kenmore
+54,Sulfate Particulate,heavy,5.18E-06,273.1359062,Kenmore
+55,Sulfate Particulate,light,8.38E-05,312094.5262,Kenmore
+56,Sulfate Particulate,medium,3.09E-05,8462.798772,Kenmore
+57,Total Energy,heavy,9266.13567,273.1359062,Kenmore
+58,Total Energy,light,2250265.919,312094.5262,Kenmore
+59,Total Energy,medium,119466.3149,8462.798772,Kenmore
+60,Total Gaseous HCs,heavy,0.000331924,273.1359062,Kenmore
+61,Total Gaseous HCs,light,0.111436316,312094.5262,Kenmore
+62,Total Gaseous HCs,medium,0.019716401,8462.798772,Kenmore
+63,VOCs,heavy,0.000207007,273.1359062,Kenmore
+64,VOCs,light,0.075322887,312094.5262,Kenmore
+65,VOCs,medium,0.01192133,8462.798772,Kenmore
+0,Atmospheric CO2,heavy,265.1603845,131872.9991,Kent
+1,Atmospheric CO2,light,1325.563795,3044650.15,Kent
+2,Atmospheric CO2,medium,112.5802234,156260.7313,Kent
+3,CO,heavy,0.441687158,131872.9991,Kent
+4,CO,light,13.70311769,3044650.15,Kent
+5,CO,medium,1.602833705,156260.7313,Kent
+6,CO2 Equivalent,heavy,265.5582282,131872.9991,Kent
+7,CO2 Equivalent,light,1335.727877,3044650.15,Kent
+8,CO2 Equivalent,medium,114.9423534,156260.7313,Kent
+9,Composite NonECPM,heavy,0.009825471,131872.9991,Kent
+10,Composite NonECPM,light,0.013094048,3044650.15,Kent
+11,Composite NonECPM,medium,0.002564429,156260.7313,Kent
+12,Elemental Carbon,heavy,0.031536265,131872.9991,Kent
+13,Elemental Carbon,light,0.010040422,3044650.15,Kent
+14,Elemental Carbon,medium,0.003746502,156260.7313,Kent
+15,H20 Aerosol,heavy,0,131872.9991,Kent
+16,H20 Aerosol,light,0,3044650.15,Kent
+17,H20 Aerosol,medium,0,156260.7313,Kent
+18,Methane,heavy,0.011297516,131872.9991,Kent
+19,Methane,light,0.095506362,3044650.15,Kent
+20,Methane,medium,0.024947687,156260.7313,Kent
+21,N20,heavy,0.000387357,131872.9991,Kent
+22,N20,light,0.026096477,3044650.15,Kent
+23,N20,medium,0.0058337,156260.7313,Kent
+24,NOx,heavy,1.441234231,131872.9991,Kent
+25,NOx,light,1.429895854,3044650.15,Kent
+26,NOx,medium,0.284118633,156260.7313,Kent
+27,Non-methane HCs,heavy,0.048557087,131872.9991,Kent
+28,Non-methane HCs,light,0.559880748,3044650.15,Kent
+29,Non-methane HCs,medium,0.093709314,156260.7313,Kent
+30,PM10 Brakewear,heavy,0,131872.9991,Kent
+31,PM10 Brakewear,light,0,3044650.15,Kent
+32,PM10 Brakewear,medium,0,156260.7313,Kent
+33,PM10 Exhaust,heavy,0.044958704,131872.9991,Kent
+34,PM10 Exhaust,light,0.025949243,3044650.15,Kent
+35,PM10 Exhaust,medium,0.00696064,156260.7313,Kent
+36,PM10 Tirewear,heavy,0,131872.9991,Kent
+37,PM10 Tirewear,light,0,3044650.15,Kent
+38,PM10 Tirewear,medium,0,156260.7313,Kent
+39,PM10 Total,heavy,0.074105247,395618.9972,Kent
+40,PM10 Total,light,0.182696964,9133950.449,Kent
+41,PM10 Total,medium,0.01775287,468782.1938,Kent
+42,PM25 Brakewear,heavy,0,131872.9991,Kent
+43,PM25 Brakewear,light,0,3044650.15,Kent
+44,PM25 Brakewear,medium,0,156260.7313,Kent
+45,PM25 Exhaust,heavy,0.041361728,131872.9991,Kent
+46,PM25 Exhaust,light,0.023134474,3044650.15,Kent
+47,PM25 Exhaust,medium,0.006310932,156260.7313,Kent
+48,PM25 Tirewear,heavy,0,131872.9991,Kent
+49,PM25 Tirewear,light,0,3044650.15,Kent
+50,PM25 Tirewear,medium,0,156260.7313,Kent
+51,PM25 Total,heavy,0.045127407,395618.9972,Kent
+52,PM25 Total,light,0.043598069,9133950.449,Kent
+53,PM25 Total,medium,0.007713094,468782.1938,Kent
+54,Sulfate Particulate,heavy,0.001643366,131872.9991,Kent
+55,Sulfate Particulate,light,0.000617115,3044650.15,Kent
+56,Sulfate Particulate,medium,0.000336859,156260.7313,Kent
+57,Total Energy,heavy,3602786.309,131872.9991,Kent
+58,Total Energy,light,18434269.25,3044650.15,Kent
+59,Total Energy,medium,1553516.527,156260.7313,Kent
+60,Total Gaseous HCs,heavy,0.059854718,131872.9991,Kent
+61,Total Gaseous HCs,light,0.655970363,3044650.15,Kent
+62,Total Gaseous HCs,medium,0.118758383,156260.7313,Kent
+63,VOCs,heavy,0.054889058,131872.9991,Kent
+64,VOCs,light,0.46140758,3044650.15,Kent
+65,VOCs,medium,0.076659905,156260.7313,Kent
+0,Atmospheric CO2,heavy,100.2142504,51178.8797,Kirkland
+1,Atmospheric CO2,light,834.6408253,1900136.735,Kirkland
+2,Atmospheric CO2,medium,70.903811,99141.83246,Kirkland
+3,CO,heavy,0.163301485,51178.8797,Kirkland
+4,CO,light,8.996593577,1900136.735,Kirkland
+5,CO,medium,1.126035664,99141.83246,Kirkland
+6,CO2 Equivalent,heavy,100.3585554,51178.8797,Kirkland
+7,CO2 Equivalent,light,841.7886081,1900136.735,Kirkland
+8,CO2 Equivalent,medium,72.62933473,99141.83246,Kirkland
+9,Composite NonECPM,heavy,0.00362195,51178.8797,Kirkland
+10,Composite NonECPM,light,0.008560988,1900136.735,Kirkland
+11,Composite NonECPM,medium,0.001669227,99141.83246,Kirkland
+12,Elemental Carbon,heavy,0.011726365,51178.8797,Kirkland
+13,Elemental Carbon,light,0.006883064,1900136.735,Kirkland
+14,Elemental Carbon,medium,0.002394829,99141.83246,Kirkland
+15,H20 Aerosol,heavy,0,51178.8797,Kirkland
+16,H20 Aerosol,light,0,1900136.735,Kirkland
+17,H20 Aerosol,medium,0,99141.83246,Kirkland
+18,Methane,heavy,0.004091231,51178.8797,Kirkland
+19,Methane,light,0.065367433,1900136.735,Kirkland
+20,Methane,medium,0.017696203,99141.83246,Kirkland
+21,N20,heavy,0.00014107,51178.8797,Kirkland
+22,N20,light,0.018503553,1900136.735,Kirkland
+23,N20,medium,0.004305778,99141.83246,Kirkland
+24,NOx,heavy,0.536947331,51178.8797,Kirkland
+25,NOx,light,0.911635154,1900136.735,Kirkland
+26,NOx,medium,0.183905108,99141.83246,Kirkland
+27,Non-methane HCs,heavy,0.017749443,51178.8797,Kirkland
+28,Non-methane HCs,light,0.394570028,1900136.735,Kirkland
+29,Non-methane HCs,medium,0.067466455,99141.83246,Kirkland
+30,PM10 Brakewear,heavy,0,51178.8797,Kirkland
+31,PM10 Brakewear,light,0,1900136.735,Kirkland
+32,PM10 Brakewear,medium,0,99141.83246,Kirkland
+33,PM10 Exhaust,heavy,0.016683058,51178.8797,Kirkland
+34,PM10 Exhaust,light,0.017330925,1900136.735,Kirkland
+35,PM10 Exhaust,medium,0.004488879,99141.83246,Kirkland
+36,PM10 Tirewear,heavy,0,51178.8797,Kirkland
+37,PM10 Tirewear,light,0,1900136.735,Kirkland
+38,PM10 Tirewear,medium,0,99141.83246,Kirkland
+39,PM10 Total,heavy,0.026163839,153536.6391,Kirkland
+40,PM10 Total,light,0.117719158,5700410.206,Kirkland
+41,PM10 Total,medium,0.011100593,297425.4974,Kirkland
+42,PM25 Brakewear,heavy,0,51178.8797,Kirkland
+43,PM25 Brakewear,light,0,1900136.735,Kirkland
+44,PM25 Brakewear,medium,0,99141.83246,Kirkland
+45,PM25 Exhaust,heavy,0.015348313,51178.8797,Kirkland
+46,PM25 Exhaust,light,0.015444054,1900136.735,Kirkland
+47,PM25 Exhaust,medium,0.004064057,99141.83246,Kirkland
+48,PM25 Tirewear,heavy,0,51178.8797,Kirkland
+49,PM25 Tirewear,light,0,1900136.735,Kirkland
+50,PM25 Tirewear,medium,0,99141.83246,Kirkland
+51,PM25 Total,heavy,0.016579672,153536.6391,Kirkland
+52,PM25 Total,light,0.028539053,5700410.206,Kirkland
+53,PM25 Total,medium,0.004923946,297425.4974,Kirkland
+54,Sulfate Particulate,heavy,0.000605531,51178.8797,Kirkland
+55,Sulfate Particulate,light,0.000388354,1900136.735,Kirkland
+56,Sulfate Particulate,medium,0.000206304,99141.83246,Kirkland
+57,Total Energy,heavy,1361619.963,51178.8797,Kirkland
+58,Total Energy,light,11607186.22,1900136.735,Kirkland
+59,Total Energy,medium,978688.8966,99141.83246,Kirkland
+60,Total Gaseous HCs,heavy,0.021840758,51178.8797,Kirkland
+61,Total Gaseous HCs,light,0.460379858,1900136.735,Kirkland
+62,Total Gaseous HCs,medium,0.085239549,99141.83246,Kirkland
+63,VOCs,heavy,0.019918576,51178.8797,Kirkland
+64,VOCs,light,0.317823845,1900136.735,Kirkland
+65,VOCs,medium,0.054155735,99141.83246,Kirkland
+0,Atmospheric CO2,heavy,0.647313932,258.0505415,Lake Forest Park
+1,Atmospheric CO2,light,108.6737964,195155.5079,Lake Forest Park
+2,Atmospheric CO2,medium,6.159826171,5982.235899,Lake Forest Park
+3,CO,heavy,0.001579284,258.0505415,Lake Forest Park
+4,CO,light,1.269129079,195155.5079,Lake Forest Park
+5,CO,medium,0.145066175,5982.235899,Lake Forest Park
+6,CO2 Equivalent,heavy,0.649939633,258.0505415,Lake Forest Park
+7,CO2 Equivalent,light,109.7955942,195155.5079,Lake Forest Park
+8,CO2 Equivalent,medium,6.416755672,5982.235899,Lake Forest Park
+9,Composite NonECPM,heavy,2.86E-05,258.0505415,Lake Forest Park
+10,Composite NonECPM,light,0.001258996,195155.5079,Lake Forest Park
+11,Composite NonECPM,medium,0.000200836,5982.235899,Lake Forest Park
+12,Elemental Carbon,heavy,8.71E-05,258.0505415,Lake Forest Park
+13,Elemental Carbon,light,0.00101746,195155.5079,Lake Forest Park
+14,Elemental Carbon,medium,0.000264685,5982.235899,Lake Forest Park
+15,H20 Aerosol,heavy,0,258.0505415,Lake Forest Park
+16,H20 Aerosol,light,0,195155.5079,Lake Forest Park
+17,H20 Aerosol,medium,0,5982.235899,Lake Forest Park
+18,Methane,heavy,6.63E-05,258.0505415,Lake Forest Park
+19,Methane,light,0.009644628,195155.5079,Lake Forest Park
+20,Methane,medium,0.002542359,5982.235899,Lake Forest Park
+21,N20,heavy,3.25E-06,258.0505415,Lake Forest Park
+22,N20,light,0.002955476,195155.5079,Lake Forest Park
+23,N20,medium,0.000648897,5982.235899,Lake Forest Park
+24,NOx,heavy,0.003862237,258.0505415,Lake Forest Park
+25,NOx,light,0.111591317,195155.5079,Lake Forest Park
+26,NOx,medium,0.019259404,5982.235899,Lake Forest Park
+27,Non-methane HCs,heavy,0.000207868,258.0505415,Lake Forest Park
+28,Non-methane HCs,light,0.059606447,195155.5079,Lake Forest Park
+29,Non-methane HCs,medium,0.009668462,5982.235899,Lake Forest Park
+30,PM10 Brakewear,heavy,0,258.0505415,Lake Forest Park
+31,PM10 Brakewear,light,0,195155.5079,Lake Forest Park
+32,PM10 Brakewear,medium,0,5982.235899,Lake Forest Park
+33,PM10 Exhaust,heavy,0.00012579,258.0505415,Lake Forest Park
+34,PM10 Exhaust,light,0.002554783,195155.5079,Lake Forest Park
+35,PM10 Exhaust,medium,0.000515758,5982.235899,Lake Forest Park
+36,PM10 Tirewear,heavy,0,258.0505415,Lake Forest Park
+37,PM10 Tirewear,light,0,195155.5079,Lake Forest Park
+38,PM10 Tirewear,medium,0,5982.235899,Lake Forest Park
+39,PM10 Total,heavy,0.000276908,774.1516244,Lake Forest Park
+40,PM10 Total,light,0.018611116,585466.5238,Lake Forest Park
+41,PM10 Total,medium,0.001334181,17946.7077,Lake Forest Park
+42,PM25 Brakewear,heavy,0,258.0505415,Lake Forest Park
+43,PM25 Brakewear,light,0,195155.5079,Lake Forest Park
+44,PM25 Brakewear,medium,0,5982.235899,Lake Forest Park
+45,PM25 Exhaust,heavy,0.000115726,258.0505415,Lake Forest Park
+46,PM25 Exhaust,light,0.002276455,195155.5079,Lake Forest Park
+47,PM25 Exhaust,medium,0.00046552,5982.235899,Lake Forest Park
+48,PM25 Tirewear,heavy,0,258.0505415,Lake Forest Park
+49,PM25 Tirewear,light,0,195155.5079,Lake Forest Park
+50,PM25 Tirewear,medium,0,5982.235899,Lake Forest Park
+51,PM25 Total,heavy,0.00013492,774.1516244,Lake Forest Park
+52,PM25 Total,light,0.004348988,585466.5238,Lake Forest Park
+53,PM25 Total,medium,0.000570342,17946.7077,Lake Forest Park
+54,Sulfate Particulate,heavy,4.89E-06,258.0505415,Lake Forest Park
+55,Sulfate Particulate,light,5.53E-05,195155.5079,Lake Forest Park
+56,Sulfate Particulate,medium,2.23E-05,5982.235899,Lake Forest Park
+57,Total Energy,heavy,8795.771905,258.0505415,Lake Forest Park
+58,Total Energy,light,1511310.525,195155.5079,Lake Forest Park
+59,Total Energy,medium,85002.31235,5982.235899,Lake Forest Park
+60,Total Gaseous HCs,heavy,0.000274151,258.0505415,Lake Forest Park
+61,Total Gaseous HCs,light,0.069320461,195155.5079,Lake Forest Park
+62,Total Gaseous HCs,medium,0.012222881,5982.235899,Lake Forest Park
+63,VOCs,heavy,0.000192053,258.0505415,Lake Forest Park
+64,VOCs,light,0.047404232,195155.5079,Lake Forest Park
+65,VOCs,medium,0.007485884,5982.235899,Lake Forest Park
+0,Atmospheric CO2,heavy,1.603971107,715.1685382,Maple Valley
+1,Atmospheric CO2,light,90.93690304,173675.0895,Maple Valley
+2,Atmospheric CO2,medium,5.168480035,4553.60205,Maple Valley
+3,CO,heavy,0.003430865,715.1685382,Maple Valley
+4,CO,light,1.454378503,173675.0895,Maple Valley
+5,CO,medium,0.2155618,4553.60205,Maple Valley
+6,CO2 Equivalent,heavy,1.608960739,715.1685382,Maple Valley
+7,CO2 Equivalent,light,92.44292377,173675.0895,Maple Valley
+8,CO2 Equivalent,medium,5.576897777,4553.60205,Maple Valley
+9,Composite NonECPM,heavy,6.72E-05,715.1685382,Maple Valley
+10,Composite NonECPM,light,0.001456408,173675.0895,Maple Valley
+11,Composite NonECPM,medium,0.000232035,4553.60205,Maple Valley
+12,Elemental Carbon,heavy,0.000210557,715.1685382,Maple Valley
+13,Elemental Carbon,light,0.00131648,173675.0895,Maple Valley
+14,Elemental Carbon,medium,0.00027264,4553.60205,Maple Valley
+15,H20 Aerosol,heavy,0,715.1685382,Maple Valley
+16,H20 Aerosol,light,0,173675.0895,Maple Valley
+17,H20 Aerosol,medium,0,4553.60205,Maple Valley
+18,Methane,heavy,0.000128482,715.1685382,Maple Valley
+19,Methane,light,0.012536766,173675.0895,Maple Valley
+20,Methane,medium,0.003791118,4553.60205,Maple Valley
+21,N20,heavy,5.97E-06,715.1685382,Maple Valley
+22,N20,light,0.004001972,173675.0895,Maple Valley
+23,N20,medium,0.00105249,4553.60205,Maple Valley
+24,NOx,heavy,0.009109701,715.1685382,Maple Valley
+25,NOx,light,0.11742853,173675.0895,Maple Valley
+26,NOx,medium,0.021054675,4553.60205,Maple Valley
+27,Non-methane HCs,heavy,0.000421815,715.1685382,Maple Valley
+28,Non-methane HCs,light,0.084347872,173675.0895,Maple Valley
+29,Non-methane HCs,medium,0.014899865,4553.60205,Maple Valley
+30,PM10 Brakewear,heavy,0,715.1685382,Maple Valley
+31,PM10 Brakewear,light,0,173675.0895,Maple Valley
+32,PM10 Brakewear,medium,0,4553.60205,Maple Valley
+33,PM10 Exhaust,heavy,0.000301909,715.1685382,Maple Valley
+34,PM10 Exhaust,light,0.003120683,173675.0895,Maple Valley
+35,PM10 Exhaust,medium,0.000563574,4553.60205,Maple Valley
+36,PM10 Tirewear,heavy,0,715.1685382,Maple Valley
+37,PM10 Tirewear,light,0,173675.0895,Maple Valley
+38,PM10 Tirewear,medium,0,4553.60205,Maple Valley
+39,PM10 Total,heavy,0.000575052,2145.505615,Maple Valley
+40,PM10 Total,light,0.014340399,521025.2685,Maple Valley
+41,PM10 Total,medium,0.001013054,13660.80615,Maple Valley
+42,PM25 Brakewear,heavy,0,715.1685382,Maple Valley
+43,PM25 Brakewear,light,0,173675.0895,Maple Valley
+44,PM25 Brakewear,medium,0,4553.60205,Maple Valley
+45,PM25 Exhaust,heavy,0.000277754,715.1685382,Maple Valley
+46,PM25 Exhaust,light,0.002772887,173675.0895,Maple Valley
+47,PM25 Exhaust,medium,0.000504675,4553.60205,Maple Valley
+48,PM25 Tirewear,heavy,0,715.1685382,Maple Valley
+49,PM25 Tirewear,light,0,173675.0895,Maple Valley
+50,PM25 Tirewear,medium,0,4553.60205,Maple Valley
+51,PM25 Total,heavy,0.000312669,2145.505615,Maple Valley
+52,PM25 Total,light,0.004229622,521025.2685,Maple Valley
+53,PM25 Total,medium,0.000562623,13660.80615,Maple Valley
+54,Sulfate Particulate,heavy,1.14E-05,715.1685382,Maple Valley
+55,Sulfate Particulate,light,5.34E-05,173675.0895,Maple Valley
+56,Sulfate Particulate,medium,1.78E-05,4553.60205,Maple Valley
+57,Total Energy,heavy,21794.20275,715.1685382,Maple Valley
+58,Total Energy,light,1264658.782,173675.0895,Maple Valley
+59,Total Energy,medium,71379.95514,4553.60205,Maple Valley
+60,Total Gaseous HCs,heavy,0.000550321,715.1685382,Maple Valley
+61,Total Gaseous HCs,light,0.097003998,173675.0895,Maple Valley
+62,Total Gaseous HCs,medium,0.018711728,4553.60205,Maple Valley
+63,VOCs,heavy,0.000403325,715.1685382,Maple Valley
+64,VOCs,light,0.062135941,173675.0895,Maple Valley
+65,VOCs,medium,0.010957039,4553.60205,Maple Valley
+0,Atmospheric CO2,heavy,0.373677793,155.1494295,Medina
+1,Atmospheric CO2,light,46.76276724,94590.95973,Medina
+2,Atmospheric CO2,medium,7.447355334,9398.471303,Medina
+3,CO,heavy,0.000785362,155.1494295,Medina
+4,CO,light,0.430408589,94590.95973,Medina
+5,CO,medium,0.072471506,9398.471303,Medina
+6,CO2 Equivalent,heavy,0.374704996,155.1494295,Medina
+7,CO2 Equivalent,light,47.1068622,94590.95973,Medina
+8,CO2 Equivalent,medium,7.541283244,9398.471303,Medina
+9,Composite NonECPM,heavy,1.66E-05,155.1494295,Medina
+10,Composite NonECPM,light,0.00038999,94590.95973,Medina
+11,Composite NonECPM,medium,0.000147085,9398.471303,Medina
+12,Elemental Carbon,heavy,5.16E-05,155.1494295,Medina
+13,Elemental Carbon,light,0.000326505,94590.95973,Medina
+14,Elemental Carbon,medium,0.000239869,9398.471303,Medina
+15,H20 Aerosol,heavy,0,155.1494295,Medina
+16,H20 Aerosol,light,0,94590.95973,Medina
+17,H20 Aerosol,medium,0,9398.471303,Medina
+18,Methane,heavy,2.73E-05,155.1494295,Medina
+19,Methane,light,0.003083323,94590.95973,Medina
+20,Methane,medium,0.001146493,9398.471303,Medina
+21,N20,heavy,1.16E-06,155.1494295,Medina
+22,N20,light,0.000896103,94590.95973,Medina
+23,N20,medium,0.000219009,9398.471303,Medina
+24,NOx,heavy,0.002169232,155.1494295,Medina
+25,NOx,light,0.042440495,94590.95973,Medina
+26,NOx,medium,0.01695595,9398.471303,Medina
+27,Non-methane HCs,heavy,9.26E-05,155.1494295,Medina
+28,Non-methane HCs,light,0.017788119,94590.95973,Medina
+29,Non-methane HCs,medium,0.004142161,9398.471303,Medina
+30,PM10 Brakewear,heavy,0,155.1494295,Medina
+31,PM10 Brakewear,light,0,94590.95973,Medina
+32,PM10 Brakewear,medium,0,9398.471303,Medina
+33,PM10 Exhaust,heavy,7.41E-05,155.1494295,Medina
+34,PM10 Exhaust,light,0.000801819,94590.95973,Medina
+35,PM10 Exhaust,medium,0.000424513,9398.471303,Medina
+36,PM10 Tirewear,heavy,0,155.1494295,Medina
+37,PM10 Tirewear,light,0,94590.95973,Medina
+38,PM10 Tirewear,medium,0,9398.471303,Medina
+39,PM10 Total,heavy,0.000146948,465.4482884,Medina
+40,PM10 Total,light,0.00839548,283772.8792,Medina
+41,PM10 Total,medium,0.001557686,28195.41391,Medina
+42,PM25 Brakewear,heavy,0,155.1494295,Medina
+43,PM25 Brakewear,light,0,94590.95973,Medina
+44,PM25 Brakewear,medium,0,9398.471303,Medina
+45,PM25 Exhaust,heavy,6.82E-05,155.1494295,Medina
+46,PM25 Exhaust,light,0.000716495,94590.95973,Medina
+47,PM25 Exhaust,medium,0.000386954,9398.471303,Medina
+48,PM25 Tirewear,heavy,0,155.1494295,Medina
+49,PM25 Tirewear,light,0,94590.95973,Medina
+50,PM25 Tirewear,medium,0,9398.471303,Medina
+51,PM25 Total,heavy,7.75E-05,465.4482884,Medina
+52,PM25 Total,light,0.001697244,283772.8792,Medina
+53,PM25 Total,medium,0.000532446,28195.41391,Medina
+54,Sulfate Particulate,heavy,2.80E-06,155.1494295,Medina
+55,Sulfate Particulate,light,1.90E-05,94590.95973,Medina
+56,Sulfate Particulate,medium,2.32E-05,9398.471303,Medina
+57,Total Energy,heavy,5077.442577,155.1494295,Medina
+58,Total Energy,light,650322.8134,94590.95973,Medina
+59,Total Energy,medium,102793.0366,9398.471303,Medina
+60,Total Gaseous HCs,heavy,0.000119906,155.1494295,Medina
+61,Total Gaseous HCs,light,0.020887941,94590.95973,Medina
+62,Total Gaseous HCs,medium,0.005291522,9398.471303,Medina
+63,VOCs,heavy,9.47E-05,155.1494295,Medina
+64,VOCs,light,0.015141526,94590.95973,Medina
+65,VOCs,medium,0.003822488,9398.471303,Medina
+0,Atmospheric CO2,heavy,20.09439319,9895.176006,Mercer Island
+1,Atmospheric CO2,light,324.6182991,765829.5394,Mercer Island
+2,Atmospheric CO2,medium,27.53723107,39825.61656,Mercer Island
+3,CO,heavy,0.034235137,9895.176006,Mercer Island
+4,CO,light,3.109816356,765829.5394,Mercer Island
+5,CO,medium,0.361323354,39825.61656,Mercer Island
+6,CO2 Equivalent,heavy,20.12662048,9895.176006,Mercer Island
+7,CO2 Equivalent,light,326.8858623,765829.5394,Mercer Island
+8,CO2 Equivalent,medium,28.0490858,39825.61656,Mercer Island
+9,Composite NonECPM,heavy,0.00076062,9895.176006,Mercer Island
+10,Composite NonECPM,light,0.002926691,765829.5394,Mercer Island
+11,Composite NonECPM,medium,0.000582008,39825.61656,Mercer Island
+12,Elemental Carbon,heavy,0.002445904,9895.176006,Mercer Island
+13,Elemental Carbon,light,0.002277961,765829.5394,Mercer Island
+14,Elemental Carbon,medium,0.000871282,39825.61656,Mercer Island
+15,H20 Aerosol,heavy,0,9895.176006,Mercer Island
+16,H20 Aerosol,light,0,765829.5394,Mercer Island
+17,H20 Aerosol,medium,0,39825.61656,Mercer Island
+18,Methane,heavy,0.000908542,9895.176006,Mercer Island
+19,Methane,light,0.021417283,765829.5394,Mercer Island
+20,Methane,medium,0.005456677,39825.61656,Mercer Island
+21,N20,heavy,3.19E-05,9895.176006,Mercer Island
+22,N20,light,0.005813071,765829.5394,Mercer Island
+23,N20,medium,0.001259847,39825.61656,Mercer Island
+24,NOx,heavy,0.109574229,9895.176006,Mercer Island
+25,NOx,light,0.340519162,765829.5394,Mercer Island
+26,NOx,medium,0.066871283,39825.61656,Mercer Island
+27,Non-methane HCs,heavy,0.003772433,9895.176006,Mercer Island
+28,Non-methane HCs,light,0.123740269,765829.5394,Mercer Island
+29,Non-methane HCs,medium,0.020611386,39825.61656,Mercer Island
+30,PM10 Brakewear,heavy,0,9895.176006,Mercer Island
+31,PM10 Brakewear,light,0,765829.5394,Mercer Island
+32,PM10 Brakewear,medium,0,39825.61656,Mercer Island
+33,PM10 Exhaust,heavy,0.003485375,9895.176006,Mercer Island
+34,PM10 Exhaust,light,0.005833567,765829.5394,Mercer Island
+35,PM10 Exhaust,medium,0.001601635,39825.61656,Mercer Island
+36,PM10 Tirewear,heavy,0,9895.176006,Mercer Island
+37,PM10 Tirewear,light,0,765829.5394,Mercer Island
+38,PM10 Tirewear,medium,0,39825.61656,Mercer Island
+39,PM10 Total,heavy,0.005888226,29685.52802,Mercer Island
+40,PM10 Total,light,0.044023373,2297488.618,Mercer Island
+41,PM10 Total,medium,0.004240708,119476.8497,Mercer Island
+42,PM25 Brakewear,heavy,0,9895.176006,Mercer Island
+43,PM25 Brakewear,light,0,765829.5394,Mercer Island
+44,PM25 Brakewear,medium,0,39825.61656,Mercer Island
+45,PM25 Exhaust,heavy,0.003206523,9895.176006,Mercer Island
+46,PM25 Exhaust,light,0.005204654,765829.5394,Mercer Island
+47,PM25 Exhaust,medium,0.00145329,39825.61656,Mercer Island
+48,PM25 Tirewear,heavy,0,9895.176006,Mercer Island
+49,PM25 Tirewear,light,0,765829.5394,Mercer Island
+50,PM25 Tirewear,medium,0,39825.61656,Mercer Island
+51,PM25 Total,heavy,0.003516285,29685.52802,Mercer Island
+52,PM25 Total,light,0.010194429,2297488.618,Mercer Island
+53,PM25 Total,medium,0.001796525,119476.8497,Mercer Island
+54,Sulfate Particulate,heavy,0.000127414,9895.176006,Mercer Island
+55,Sulfate Particulate,light,0.000141384,765829.5394,Mercer Island
+56,Sulfate Particulate,medium,7.78E-05,39825.61656,Mercer Island
+57,Total Energy,heavy,273026.9513,9895.176006,Mercer Island
+58,Total Energy,light,4514401.451,765829.5394,Mercer Island
+59,Total Energy,medium,380118.5288,39825.61656,Mercer Island
+60,Total Gaseous HCs,heavy,0.004681,9895.176006,Mercer Island
+61,Total Gaseous HCs,light,0.145280052,765829.5394,Mercer Island
+62,Total Gaseous HCs,medium,0.026089351,39825.61656,Mercer Island
+63,VOCs,heavy,0.004214077,9895.176006,Mercer Island
+64,VOCs,light,0.10348397,765829.5394,Mercer Island
+65,VOCs,medium,0.017130733,39825.61656,Mercer Island
+0,Atmospheric CO2,heavy,67.11630862,27183.31701,Milton
+1,Atmospheric CO2,light,169.0584166,332798.1019,Milton
+2,Atmospheric CO2,medium,17.27781313,20474.9126,Milton
+3,CO,heavy,0.131836703,27183.31701,Milton
+4,CO,light,1.597368707,332798.1019,Milton
+5,CO,medium,0.189453197,20474.9126,Milton
+6,CO2 Equivalent,heavy,67.25980137,27183.31701,Milton
+7,CO2 Equivalent,light,170.282347,332798.1019,Milton
+8,CO2 Equivalent,medium,17.52905846,20474.9126,Milton
+9,Composite NonECPM,heavy,0.002931605,27183.31701,Milton
+10,Composite NonECPM,light,0.001592028,332798.1019,Milton
+11,Composite NonECPM,medium,0.000381116,20474.9126,Milton
+12,Elemental Carbon,heavy,0.008914362,27183.31701,Milton
+13,Elemental Carbon,light,0.001179827,332798.1019,Milton
+14,Elemental Carbon,medium,0.000588117,20474.9126,Milton
+15,H20 Aerosol,heavy,0,27183.31701,Milton
+16,H20 Aerosol,light,0,332798.1019,Milton
+17,H20 Aerosol,medium,0,20474.9126,Milton
+18,Methane,heavy,0.00400771,27183.31701,Milton
+19,Methane,light,0.011080187,332798.1019,Milton
+20,Methane,medium,0.002906691,20474.9126,Milton
+21,N20,heavy,0.000145374,27183.31701,Milton
+22,N20,light,0.003177519,332798.1019,Milton
+23,N20,medium,0.000599268,20474.9126,Milton
+24,NOx,heavy,0.398034853,27183.31701,Milton
+25,NOx,light,0.168170835,332798.1019,Milton
+26,NOx,medium,0.041689741,20474.9126,Milton
+27,Non-methane HCs,heavy,0.015637364,27183.31701,Milton
+28,Non-methane HCs,light,0.061827673,332798.1019,Milton
+29,Non-methane HCs,medium,0.010890365,20474.9126,Milton
+30,PM10 Brakewear,heavy,0,27183.31701,Milton
+31,PM10 Brakewear,light,0,332798.1019,Milton
+32,PM10 Brakewear,medium,0,20474.9126,Milton
+33,PM10 Exhaust,heavy,0.012876148,27183.31701,Milton
+34,PM10 Exhaust,light,0.003099737,332798.1019,Milton
+35,PM10 Exhaust,medium,0.001064176,20474.9126,Milton
+36,PM10 Tirewear,heavy,0,27183.31701,Milton
+37,PM10 Tirewear,light,0,332798.1019,Milton
+38,PM10 Tirewear,medium,0,20474.9126,Milton
+39,PM10 Total,heavy,0.026975397,81549.95102,Milton
+40,PM10 Total,light,0.02786933,998394.3058,Milton
+41,PM10 Total,medium,0.003546297,61424.73781,Milton
+42,PM25 Brakewear,heavy,0,27183.31701,Milton
+43,PM25 Brakewear,light,0,332798.1019,Milton
+44,PM25 Brakewear,medium,0,20474.9126,Milton
+45,PM25 Exhaust,heavy,0.011845971,27183.31701,Milton
+46,PM25 Exhaust,light,0.002771854,332798.1019,Milton
+47,PM25 Exhaust,medium,0.000969234,20474.9126,Milton
+48,PM25 Tirewear,heavy,0,27183.31701,Milton
+49,PM25 Tirewear,light,0,332798.1019,Milton
+50,PM25 Tirewear,medium,0,20474.9126,Milton
+51,PM25 Total,heavy,0.013639478,81549.95102,Milton
+52,PM25 Total,light,0.005972891,998394.3058,Milton
+53,PM25 Total,medium,0.001287613,61424.73781,Milton
+54,Sulfate Particulate,heavy,0.000490836,27183.31701,Milton
+55,Sulfate Particulate,light,7.58E-05,332798.1019,Milton
+56,Sulfate Particulate,medium,5.56E-05,20474.9126,Milton
+57,Total Energy,heavy,911971.5427,27183.31701,Milton
+58,Total Energy,light,2351063.036,332798.1019,Milton
+59,Total Energy,medium,238472.5003,20474.9126,Milton
+60,Total Gaseous HCs,heavy,0.019645091,27183.31701,Milton
+61,Total Gaseous HCs,light,0.072956314,332798.1019,Milton
+62,Total Gaseous HCs,medium,0.013805393,20474.9126,Milton
+63,VOCs,heavy,0.017764103,27183.31701,Milton
+64,VOCs,light,0.054571371,332798.1019,Milton
+65,VOCs,medium,0.009978648,20474.9126,Milton
+0,Atmospheric CO2,heavy,14.04526967,4136.217986,Newcastle
+1,Atmospheric CO2,light,105.4879121,172035.3627,Newcastle
+2,Atmospheric CO2,medium,10.08144734,8221.329094,Newcastle
+3,CO,heavy,0.034486412,4136.217986,Newcastle
+4,CO,light,1.161725353,172035.3627,Newcastle
+5,CO,medium,0.162985258,8221.329094,Newcastle
+6,CO2 Equivalent,heavy,14.09103059,4136.217986,Newcastle
+7,CO2 Equivalent,light,106.5985148,172035.3627,Newcastle
+8,CO2 Equivalent,medium,10.36427627,8221.329094,Newcastle
+9,Composite NonECPM,heavy,0.000662101,4136.217986,Newcastle
+10,Composite NonECPM,light,0.001162539,172035.3627,Newcastle
+11,Composite NonECPM,medium,0.000280604,8221.329094,Newcastle
+12,Elemental Carbon,heavy,0.001899946,4136.217986,Newcastle
+13,Elemental Carbon,light,0.00098368,172035.3627,Newcastle
+14,Elemental Carbon,medium,0.000390127,8221.329094,Newcastle
+15,H20 Aerosol,heavy,0,4136.217986,Newcastle
+16,H20 Aerosol,light,0,172035.3627,Newcastle
+17,H20 Aerosol,medium,0,8221.329094,Newcastle
+18,Methane,heavy,0.001245709,4136.217986,Newcastle
+19,Methane,light,0.009269602,172035.3627,Newcastle
+20,Methane,medium,0.002938488,8221.329094,Newcastle
+21,N20,heavy,4.90E-05,4136.217986,Newcastle
+22,N20,light,0.002948868,172035.3627,Newcastle
+23,N20,medium,0.000702566,8221.329094,Newcastle
+24,NOx,heavy,0.094290368,4136.217986,Newcastle
+25,NOx,light,0.101380096,172035.3627,Newcastle
+26,NOx,medium,0.02689481,8221.329094,Newcastle
+27,Non-methane HCs,heavy,0.004689848,4136.217986,Newcastle
+28,Non-methane HCs,light,0.057479585,172035.3627,Newcastle
+29,Non-methane HCs,medium,0.010936035,8221.329094,Newcastle
+30,PM10 Brakewear,heavy,0,4136.217986,Newcastle
+31,PM10 Brakewear,light,0,172035.3627,Newcastle
+32,PM10 Brakewear,medium,0,8221.329094,Newcastle
+33,PM10 Exhaust,heavy,0.002784856,4136.217986,Newcastle
+34,PM10 Exhaust,light,0.002406641,172035.3627,Newcastle
+35,PM10 Exhaust,medium,0.000739238,8221.329094,Newcastle
+36,PM10 Tirewear,heavy,0,4136.217986,Newcastle
+37,PM10 Tirewear,light,0,172035.3627,Newcastle
+38,PM10 Tirewear,medium,0,8221.329094,Newcastle
+39,PM10 Total,heavy,0.008584579,12408.65396,Newcastle
+40,PM10 Total,light,0.019893782,516106.0881,Newcastle
+41,PM10 Total,medium,0.002582118,24663.98728,Newcastle
+42,PM25 Brakewear,heavy,0,4136.217986,Newcastle
+43,PM25 Brakewear,light,0,172035.3627,Newcastle
+44,PM25 Brakewear,medium,0,8221.329094,Newcastle
+45,PM25 Exhaust,heavy,0.002562044,4136.217986,Newcastle
+46,PM25 Exhaust,light,0.00214622,172035.3627,Newcastle
+47,PM25 Exhaust,medium,0.000670731,8221.329094,Newcastle
+48,PM25 Tirewear,heavy,0,4136.217986,Newcastle
+49,PM25 Tirewear,light,0,172035.3627,Newcastle
+50,PM25 Tirewear,medium,0,8221.329094,Newcastle
+51,PM25 Total,heavy,0.003293076,12408.65396,Newcastle
+52,PM25 Total,light,0.004393576,516106.0881,Newcastle
+53,PM25 Total,medium,0.000905033,24663.98728,Newcastle
+54,Sulfate Particulate,heavy,0.000114048,4136.217986,Newcastle
+55,Sulfate Particulate,light,5.10E-05,172035.3627,Newcastle
+56,Sulfate Particulate,medium,3.64E-05,8221.329094,Newcastle
+57,Total Energy,heavy,190863.8739,4136.217986,Newcastle
+58,Total Energy,light,1467014.248,172035.3627,Newcastle
+59,Total Energy,medium,139223.0855,8221.329094,Newcastle
+60,Total Gaseous HCs,heavy,0.005935579,4136.217986,Newcastle
+61,Total Gaseous HCs,light,0.066815429,172035.3627,Newcastle
+62,Total Gaseous HCs,medium,0.013886033,8221.329094,Newcastle
+63,VOCs,heavy,0.005297909,4136.217986,Newcastle
+64,VOCs,light,0.045837732,172035.3627,Newcastle
+65,VOCs,medium,0.009033573,8221.329094,Newcastle
+0,Atmospheric CO2,heavy,0.513909877,248.4869873,Normandy Park
+1,Atmospheric CO2,light,27.50492507,57029.34502,Normandy Park
+2,Atmospheric CO2,medium,1.413743252,1259.112672,Normandy Park
+3,CO,heavy,0.00101721,248.4869873,Normandy Park
+4,CO,light,0.431008213,57029.34502,Normandy Park
+5,CO,medium,0.062611018,1259.112672,Normandy Park
+6,CO2 Equivalent,heavy,0.515327641,248.4869873,Normandy Park
+7,CO2 Equivalent,light,27.94340414,57029.34502,Normandy Park
+8,CO2 Equivalent,medium,1.532890834,1259.112672,Normandy Park
+9,Composite NonECPM,heavy,2.05E-05,248.4869873,Normandy Park
+10,Composite NonECPM,light,0.000429571,57029.34502,Normandy Park
+11,Composite NonECPM,medium,6.56E-05,1259.112672,Normandy Park
+12,Elemental Carbon,heavy,6.55E-05,248.4869873,Normandy Park
+13,Elemental Carbon,light,0.000387028,57029.34502,Normandy Park
+14,Elemental Carbon,medium,7.61E-05,1259.112672,Normandy Park
+15,H20 Aerosol,heavy,0,248.4869873,Normandy Park
+16,H20 Aerosol,light,0,57029.34502,Normandy Park
+17,H20 Aerosol,medium,0,1259.112672,Normandy Park
+18,Methane,heavy,3.66E-05,248.4869873,Normandy Park
+19,Methane,light,0.003683651,57029.34502,Normandy Park
+20,Methane,medium,0.001099502,1259.112672,Normandy Park
+21,N20,heavy,1.69E-06,248.4869873,Normandy Park
+22,N20,light,0.001162355,57029.34502,Normandy Park
+23,N20,medium,0.000307587,1259.112672,Normandy Park
+24,NOx,heavy,0.002813956,248.4869873,Normandy Park
+25,NOx,light,0.036183515,57029.34502,Normandy Park
+26,NOx,medium,0.005936185,1259.112672,Normandy Park
+27,Non-methane HCs,heavy,0.000122818,248.4869873,Normandy Park
+28,Non-methane HCs,light,0.024737451,57029.34502,Normandy Park
+29,Non-methane HCs,medium,0.004335008,1259.112672,Normandy Park
+30,PM10 Brakewear,heavy,0,248.4869873,Normandy Park
+31,PM10 Brakewear,light,0,57029.34502,Normandy Park
+32,PM10 Brakewear,medium,0,1259.112672,Normandy Park
+33,PM10 Exhaust,heavy,9.34E-05,248.4869873,Normandy Park
+34,PM10 Exhaust,light,0.000919109,57029.34502,Normandy Park
+35,PM10 Exhaust,medium,0.000158373,1259.112672,Normandy Park
+36,PM10 Tirewear,heavy,0,248.4869873,Normandy Park
+37,PM10 Tirewear,light,0,57029.34502,Normandy Park
+38,PM10 Tirewear,medium,0,1259.112672,Normandy Park
+39,PM10 Total,heavy,0.000158066,745.4609618,Normandy Park
+40,PM10 Total,light,0.003937984,171088.035,Normandy Park
+41,PM10 Total,medium,0.00026456,3777.338017,Normandy Park
+42,PM25 Brakewear,heavy,0,248.4869873,Normandy Park
+43,PM25 Brakewear,light,0,57029.34502,Normandy Park
+44,PM25 Brakewear,medium,0,1259.112672,Normandy Park
+45,PM25 Exhaust,heavy,8.59E-05,248.4869873,Normandy Park
+46,PM25 Exhaust,light,0.000816599,57029.34502,Normandy Park
+47,PM25 Exhaust,medium,0.000141681,1259.112672,Normandy Park
+48,PM25 Tirewear,heavy,0,248.4869873,Normandy Park
+49,PM25 Tirewear,light,0,57029.34502,Normandy Park
+50,PM25 Tirewear,medium,0,1259.112672,Normandy Park
+51,PM25 Total,heavy,9.43E-05,745.4609618,Normandy Park
+52,PM25 Total,light,0.001210572,171088.035,Normandy Park
+53,PM25 Total,medium,0.000155423,3777.338017,Normandy Park
+54,Sulfate Particulate,heavy,3.44E-06,248.4869873,Normandy Park
+55,Sulfate Particulate,light,1.58E-05,57029.34502,Normandy Park
+56,Sulfate Particulate,medium,4.77E-06,1259.112672,Normandy Park
+57,Total Energy,heavy,6982.677579,248.4869873,Normandy Park
+58,Total Energy,light,382510.0602,57029.34502,Normandy Park
+59,Total Energy,medium,19527.18532,1259.112672,Normandy Park
+60,Total Gaseous HCs,heavy,0.000159435,248.4869873,Normandy Park
+61,Total Gaseous HCs,light,0.028456147,57029.34502,Normandy Park
+62,Total Gaseous HCs,medium,0.005440601,1259.112672,Normandy Park
+63,VOCs,heavy,0.000117244,248.4869873,Normandy Park
+64,VOCs,light,0.018218252,57029.34502,Normandy Park
+65,VOCs,medium,0.003173415,1259.112672,Normandy Park
+0,Atmospheric CO2,heavy,20.82833043,6875.095786,North Bend
+1,Atmospheric CO2,light,57.10662594,95579.17691,North Bend
+2,Atmospheric CO2,medium,2.01050708,1614.392412,North Bend
+3,CO,heavy,0.04298253,6875.095786,North Bend
+4,CO,light,0.629554805,95579.17691,North Bend
+5,CO,medium,0.065450608,1614.392412,North Bend
+6,CO2 Equivalent,heavy,20.8821759,6875.095786,North Bend
+7,CO2 Equivalent,light,57.68632334,95579.17691,North Bend
+8,CO2 Equivalent,medium,2.133461714,1614.392412,North Bend
+9,Composite NonECPM,heavy,0.000864987,6875.095786,North Bend
+10,Composite NonECPM,light,0.000634039,95579.17691,North Bend
+11,Composite NonECPM,medium,7.87E-05,1614.392412,North Bend
+12,Elemental Carbon,heavy,0.002450042,6875.095786,North Bend
+13,Elemental Carbon,light,0.00051581,95579.17691,North Bend
+14,Elemental Carbon,medium,9.65E-05,1614.392412,North Bend
+15,H20 Aerosol,heavy,0,6875.095786,North Bend
+16,H20 Aerosol,light,0,95579.17691,North Bend
+17,H20 Aerosol,medium,0,1614.392412,North Bend
+18,Methane,heavy,0.001451648,6875.095786,North Bend
+19,Methane,light,0.004834582,95579.17691,North Bend
+20,Methane,medium,0.001162583,1614.392412,North Bend
+21,N20,heavy,5.89E-05,6875.095786,North Bend
+22,N20,light,0.001539512,95579.17691,North Bend
+23,N20,medium,0.000315074,1614.392412,North Bend
+24,NOx,heavy,0.132257169,6875.095786,North Bend
+25,NOx,light,0.056448188,95579.17691,North Bend
+26,NOx,medium,0.007195375,1614.392412,North Bend
+27,Non-methane HCs,heavy,0.005916268,6875.095786,North Bend
+28,Non-methane HCs,light,0.029924873,95579.17691,North Bend
+29,Non-methane HCs,medium,0.004515783,1614.392412,North Bend
+30,PM10 Brakewear,heavy,0,6875.095786,North Bend
+31,PM10 Brakewear,light,0,95579.17691,North Bend
+32,PM10 Brakewear,medium,0,1614.392412,North Bend
+33,PM10 Exhaust,heavy,0.003603319,6875.095786,North Bend
+34,PM10 Exhaust,light,0.001289804,95579.17691,North Bend
+35,PM10 Exhaust,medium,0.000194957,1614.392412,North Bend
+36,PM10 Tirewear,heavy,0,6875.095786,North Bend
+37,PM10 Tirewear,light,0,95579.17691,North Bend
+38,PM10 Tirewear,medium,0,1614.392412,North Bend
+39,PM10 Total,heavy,0.009486472,20625.28736,North Bend
+40,PM10 Total,light,0.009329128,286737.5307,North Bend
+41,PM10 Total,medium,0.000438296,4843.177236,North Bend
+42,PM25 Brakewear,heavy,0,6875.095786,North Bend
+43,PM25 Brakewear,light,0,95579.17691,North Bend
+44,PM25 Brakewear,medium,0,1614.392412,North Bend
+45,PM25 Exhaust,heavy,0.003315031,6875.095786,North Bend
+46,PM25 Exhaust,light,0.00114985,95579.17691,North Bend
+47,PM25 Exhaust,medium,0.000175243,1614.392412,North Bend
+48,PM25 Tirewear,heavy,0,6875.095786,North Bend
+49,PM25 Tirewear,light,0,95579.17691,North Bend
+50,PM25 Tirewear,medium,0,1614.392412,North Bend
+51,PM25 Total,heavy,0.00405748,20625.28736,North Bend
+52,PM25 Total,light,0.002184746,286737.5307,North Bend
+53,PM25 Total,medium,0.000206334,4843.177236,North Bend
+54,Sulfate Particulate,heavy,0.000144625,6875.095786,North Bend
+55,Sulfate Particulate,light,2.80E-05,95579.17691,North Bend
+56,Sulfate Particulate,medium,7.18E-06,1614.392412,North Bend
+57,Total Energy,heavy,283023.8695,6875.095786,North Bend
+58,Total Energy,light,794187.9938,95579.17691,North Bend
+59,Total Energy,medium,27764.26557,1614.392412,North Bend
+60,Total Gaseous HCs,heavy,0.007367916,6875.095786,North Bend
+61,Total Gaseous HCs,light,0.034794137,95579.17691,North Bend
+62,Total Gaseous HCs,medium,0.005684393,1614.392412,North Bend
+63,VOCs,heavy,0.006716395,6875.095786,North Bend
+64,VOCs,light,0.023831168,95579.17691,North Bend
+65,VOCs,medium,0.003390152,1614.392412,North Bend
+0,Atmospheric CO2,heavy,38.20804407,18380.5764,Pacific
+1,Atmospheric CO2,light,116.9485157,259646.717,Pacific
+2,Atmospheric CO2,medium,13.3438485,18787.12285,Pacific
+3,CO,heavy,0.066092044,18380.5764,Pacific
+4,CO,light,1.089691451,259646.717,Pacific
+5,CO,medium,0.136539112,18787.12285,Pacific
+6,CO2 Equivalent,heavy,38.26965341,18380.5764,Pacific
+7,CO2 Equivalent,light,117.6945928,259646.717,Pacific
+8,CO2 Equivalent,medium,13.508454,18787.12285,Pacific
+9,Composite NonECPM,heavy,0.00147028,18380.5764,Pacific
+10,Composite NonECPM,light,0.001069121,259646.717,Pacific
+11,Composite NonECPM,medium,0.000266727,18787.12285,Pacific
+12,Elemental Carbon,heavy,0.004693778,18380.5764,Pacific
+13,Elemental Carbon,light,0.000769837,259646.717,Pacific
+14,Elemental Carbon,medium,0.000416757,18787.12285,Pacific
+15,H20 Aerosol,heavy,0,18380.5764,Pacific
+16,H20 Aerosol,light,0,259646.717,Pacific
+17,H20 Aerosol,medium,0,18787.12285,Pacific
+18,Methane,heavy,0.001753034,18380.5764,Pacific
+19,Methane,light,0.007165283,259646.717,Pacific
+20,Methane,medium,0.001947508,18787.12285,Pacific
+21,N20,heavy,5.97E-05,18380.5764,Pacific
+22,N20,light,0.001902644,259646.717,Pacific
+23,N20,medium,0.000388993,18787.12285,Pacific
+24,NOx,heavy,0.211191124,18380.5764,Pacific
+25,NOx,light,0.123511054,259646.717,Pacific
+26,NOx,medium,0.031315901,18787.12285,Pacific
+27,Non-methane HCs,heavy,0.007328353,18380.5764,Pacific
+28,Non-methane HCs,light,0.039673816,259646.717,Pacific
+29,Non-methane HCs,medium,0.007181435,18787.12285,Pacific
+30,PM10 Brakewear,heavy,0,18380.5764,Pacific
+31,PM10 Brakewear,light,0,259646.717,Pacific
+32,PM10 Brakewear,medium,0,18787.12285,Pacific
+33,PM10 Exhaust,heavy,0.006700109,18380.5764,Pacific
+34,PM10 Exhaust,light,0.002058154,259646.717,Pacific
+35,PM10 Exhaust,medium,0.000750722,18787.12285,Pacific
+36,PM10 Tirewear,heavy,0,18380.5764,Pacific
+37,PM10 Tirewear,light,0,259646.717,Pacific
+38,PM10 Tirewear,medium,0,18787.12285,Pacific
+39,PM10 Total,heavy,0.011904838,55141.72921,Pacific
+40,PM10 Total,light,0.016351115,778940.1509,Pacific
+41,PM10 Total,medium,0.002188181,56361.36854,Pacific
+42,PM25 Brakewear,heavy,0,18380.5764,Pacific
+43,PM25 Brakewear,light,0,259646.717,Pacific
+44,PM25 Brakewear,medium,0,18787.12285,Pacific
+45,PM25 Exhaust,heavy,0.006164059,18380.5764,Pacific
+46,PM25 Exhaust,light,0.001838959,259646.717,Pacific
+47,PM25 Exhaust,medium,0.000683484,18787.12285,Pacific
+48,PM25 Tirewear,heavy,0,18380.5764,Pacific
+49,PM25 Tirewear,light,0,259646.717,Pacific
+50,PM25 Tirewear,medium,0,18787.12285,Pacific
+51,PM25 Total,heavy,0.006832575,55141.72921,Pacific
+52,PM25 Total,light,0.003700158,778940.1509,Pacific
+53,PM25 Total,medium,0.000869647,56361.36854,Pacific
+54,Sulfate Particulate,heavy,0.000246714,18380.5764,Pacific
+55,Sulfate Particulate,light,5.29E-05,259646.717,Pacific
+56,Sulfate Particulate,medium,3.93E-05,18787.12285,Pacific
+57,Total Energy,heavy,519145.4187,18380.5764,Pacific
+58,Total Energy,light,1626376.4,259646.717,Pacific
+59,Total Energy,medium,184155.8257,18787.12285,Pacific
+60,Total Gaseous HCs,heavy,0.009081395,18380.5764,Pacific
+61,Total Gaseous HCs,light,0.046870381,259646.717,Pacific
+62,Total Gaseous HCs,medium,0.009134379,18787.12285,Pacific
+63,VOCs,heavy,0.008318852,18380.5764,Pacific
+64,VOCs,light,0.035010051,259646.717,Pacific
+65,VOCs,medium,0.006491573,18787.12285,Pacific
+0,Atmospheric CO2,heavy,167.7618377,76463.25228,Renton
+1,Atmospheric CO2,light,1223.230925,2695207.494,Renton
+2,Atmospheric CO2,medium,106.6870606,139682.7347,Renton
+3,CO,heavy,0.300847018,76463.25228,Renton
+4,CO,light,12.35698451,2695207.494,Renton
+5,CO,medium,1.444672212,139682.7347,Renton
+6,CO2 Equivalent,heavy,168.0596014,76463.25228,Renton
+7,CO2 Equivalent,light,1232.477657,2695207.494,Renton
+8,CO2 Equivalent,medium,108.816968,139682.7347,Renton
+9,Composite NonECPM,heavy,0.006889531,76463.25228,Renton
+10,Composite NonECPM,light,0.011753168,2695207.494,Renton
+11,Composite NonECPM,medium,0.002429802,139682.7347,Renton
+12,Elemental Carbon,heavy,0.021826322,76463.25228,Renton
+13,Elemental Carbon,light,0.009051655,2695207.494,Renton
+14,Elemental Carbon,medium,0.003609347,139682.7347,Renton
+15,H20 Aerosol,heavy,0,76463.25228,Renton
+16,H20 Aerosol,light,0,2695207.494,Renton
+17,H20 Aerosol,medium,0,139682.7347,Renton
+18,Methane,heavy,0.008424004,76463.25228,Renton
+19,Methane,light,0.086130415,2695207.494,Renton
+20,Methane,medium,0.023004955,139682.7347,Renton
+21,N20,heavy,0.000292368,76463.25228,Renton
+22,N20,light,0.023804299,2695207.494,Renton
+23,N20,medium,0.00521746,139682.7347,Renton
+24,NOx,heavy,0.943050408,76463.25228,Renton
+25,NOx,light,1.264561415,2695207.494,Renton
+26,NOx,medium,0.266110152,139682.7347,Renton
+27,Non-methane HCs,heavy,0.033481011,76463.25228,Renton
+28,Non-methane HCs,light,0.50082107,2695207.494,Renton
+29,Non-methane HCs,medium,0.085662274,139682.7347,Renton
+30,PM10 Brakewear,heavy,0,76463.25228,Renton
+31,PM10 Brakewear,light,0,2695207.494,Renton
+32,PM10 Brakewear,medium,0,139682.7347,Renton
+33,PM10 Exhaust,heavy,0.031213096,76463.25228,Renton
+34,PM10 Exhaust,light,0.023323936,2695207.494,Renton
+35,PM10 Exhaust,medium,0.006653562,139682.7347,Renton
+36,PM10 Tirewear,heavy,0,76463.25228,Renton
+37,PM10 Tirewear,light,0,2695207.494,Renton
+38,PM10 Tirewear,medium,0,139682.7347,Renton
+39,PM10 Total,heavy,0.057472242,229389.7568,Renton
+40,PM10 Total,light,0.183449934,8085622.481,Renton
+41,PM10 Total,medium,0.019277776,419048.2041,Renton
+42,PM25 Brakewear,heavy,0,76463.25228,Renton
+43,PM25 Brakewear,light,0,2695207.494,Renton
+44,PM25 Brakewear,medium,0,139682.7347,Renton
+45,PM25 Exhaust,heavy,0.028715844,76463.25228,Renton
+46,PM25 Exhaust,light,0.020804828,2695207.494,Renton
+47,PM25 Exhaust,medium,0.006039149,139682.7347,Renton
+48,PM25 Tirewear,heavy,0,76463.25228,Renton
+49,PM25 Tirewear,light,0,2695207.494,Renton
+50,PM25 Tirewear,medium,0,139682.7347,Renton
+51,PM25 Total,heavy,0.032077608,229389.7568,Renton
+52,PM25 Total,light,0.04162913,8085622.481,Renton
+53,PM25 Total,medium,0.007668717,419048.2041,Renton
+54,Sulfate Particulate,heavy,0.001151206,76463.25228,Renton
+55,Sulfate Particulate,light,0.000560715,2695207.494,Renton
+56,Sulfate Particulate,medium,0.000331207,139682.7347,Renton
+57,Total Energy,heavy,2279450.884,76463.25228,Renton
+58,Total Energy,light,17011166.24,2695207.494,Renton
+59,Total Energy,medium,1472301.131,139682.7347,Renton
+60,Total Gaseous HCs,heavy,0.041905118,76463.25228,Renton
+61,Total Gaseous HCs,light,0.587453496,2695207.494,Renton
+62,Total Gaseous HCs,medium,0.108754485,139682.7347,Renton
+63,VOCs,heavy,0.037755404,76463.25228,Renton
+64,VOCs,light,0.417244403,2695207.494,Renton
+65,VOCs,medium,0.071523087,139682.7347,Renton
+0,Atmospheric CO2,heavy,1.717260567,778.9613092,Sammamish
+1,Atmospheric CO2,light,222.3581584,434437.9304,Sammamish
+2,Atmospheric CO2,medium,11.68314567,9612.942658,Sammamish
+3,CO,heavy,0.004399891,778.9613092,Sammamish
+4,CO,light,3.736911476,434437.9304,Sammamish
+5,CO,medium,0.563380896,9612.942658,Sammamish
+6,CO2 Equivalent,heavy,1.725832684,778.9613092,Sammamish
+7,CO2 Equivalent,light,226.2928887,434437.9304,Sammamish
+8,CO2 Equivalent,medium,12.76394273,9612.942658,Sammamish
+9,Composite NonECPM,heavy,7.29E-05,778.9613092,Sammamish
+10,Composite NonECPM,light,0.003728293,434437.9304,Sammamish
+11,Composite NonECPM,medium,0.000580091,9612.942658,Sammamish
+12,Elemental Carbon,heavy,0.000228162,778.9613092,Sammamish
+13,Elemental Carbon,light,0.003420678,434437.9304,Sammamish
+14,Elemental Carbon,medium,0.000660815,9612.942658,Sammamish
+15,H20 Aerosol,heavy,0,778.9613092,Sammamish
+16,H20 Aerosol,light,0,434437.9304,Sammamish
+17,H20 Aerosol,medium,0,9612.942658,Sammamish
+18,Methane,heavy,0.000208394,778.9613092,Sammamish
+19,Methane,light,0.03271376,434437.9304,Sammamish
+20,Methane,medium,0.009940105,9612.942658,Sammamish
+21,N20,heavy,1.13E-05,778.9613092,Sammamish
+22,N20,light,0.010459156,434437.9304,Sammamish
+23,N20,medium,0.002792957,9612.942658,Sammamish
+24,NOx,heavy,0.00967777,778.9613092,Sammamish
+25,NOx,light,0.298235918,434437.9304,Sammamish
+26,NOx,medium,0.051612424,9612.942658,Sammamish
+27,Non-methane HCs,heavy,0.000587318,778.9613092,Sammamish
+28,Non-methane HCs,light,0.221856786,434437.9304,Sammamish
+29,Non-methane HCs,medium,0.039245659,9612.942658,Sammamish
+30,PM10 Brakewear,heavy,0,778.9613092,Sammamish
+31,PM10 Brakewear,light,0,434437.9304,Sammamish
+32,PM10 Brakewear,medium,0,9612.942658,Sammamish
+33,PM10 Exhaust,heavy,0.000327247,778.9613092,Sammamish
+34,PM10 Exhaust,light,0.008048514,434437.9304,Sammamish
+35,PM10 Exhaust,medium,0.001388335,9612.942658,Sammamish
+36,PM10 Tirewear,heavy,0,778.9613092,Sammamish
+37,PM10 Tirewear,light,0,434437.9304,Sammamish
+38,PM10 Tirewear,medium,0,9612.942658,Sammamish
+39,PM10 Total,heavy,0.000590977,2336.883927,Sammamish
+40,PM10 Total,light,0.034846644,1303313.791,Sammamish
+41,PM10 Total,medium,0.002288266,28838.82798,Sammamish
+42,PM25 Brakewear,heavy,0,778.9613092,Sammamish
+43,PM25 Brakewear,light,0,434437.9304,Sammamish
+44,PM25 Brakewear,medium,0,9612.942658,Sammamish
+45,PM25 Exhaust,heavy,0.000301065,778.9613092,Sammamish
+46,PM25 Exhaust,light,0.007148971,434437.9304,Sammamish
+47,PM25 Exhaust,medium,0.001240906,9612.942658,Sammamish
+48,PM25 Tirewear,heavy,0,778.9613092,Sammamish
+49,PM25 Tirewear,light,0,434437.9304,Sammamish
+50,PM25 Tirewear,medium,0,9612.942658,Sammamish
+51,PM25 Total,heavy,0.00033488,2336.883927,Sammamish
+52,PM25 Total,light,0.010632866,1303313.791,Sammamish
+53,PM25 Total,medium,0.001357109,28838.82798,Sammamish
+54,Sulfate Particulate,heavy,1.25E-05,778.9613092,Sammamish
+55,Sulfate Particulate,light,0.000133238,434437.9304,Sammamish
+56,Sulfate Particulate,medium,4.02E-05,9612.942658,Sammamish
+57,Total Energy,heavy,23333.50719,778.9613092,Sammamish
+58,Total Energy,light,3092333.525,434437.9304,Sammamish
+59,Total Energy,medium,161404.1565,9612.942658,Sammamish
+60,Total Gaseous HCs,heavy,0.000795774,778.9613092,Sammamish
+61,Total Gaseous HCs,light,0.254889673,434437.9304,Sammamish
+62,Total Gaseous HCs,medium,0.049241228,9612.942658,Sammamish
+63,VOCs,heavy,0.000463535,778.9613092,Sammamish
+64,VOCs,light,0.162235525,434437.9304,Sammamish
+65,VOCs,medium,0.028640706,9612.942658,Sammamish
+0,Atmospheric CO2,heavy,143.7138075,72302.82054,SeaTac
+1,Atmospheric CO2,light,571.9563803,1391709.277,SeaTac
+2,Atmospheric CO2,medium,54.93946861,81826.33712,SeaTac
+3,CO,heavy,0.234960531,72302.82054,SeaTac
+4,CO,light,5.029295789,1391709.277,SeaTac
+5,CO,medium,0.532295739,81826.33712,SeaTac
+6,CO2 Equivalent,heavy,143.9177463,72302.82054,SeaTac
+7,CO2 Equivalent,light,574.9776612,1391709.277,SeaTac
+8,CO2 Equivalent,medium,55.55950123,81826.33712,SeaTac
+9,Composite NonECPM,heavy,0.005307473,72302.82054,SeaTac
+10,Composite NonECPM,light,0.004667305,1391709.277,SeaTac
+11,Composite NonECPM,medium,0.001037699,81826.33712,SeaTac
+12,Elemental Carbon,heavy,0.01714057,72302.82054,SeaTac
+13,Elemental Carbon,light,0.003282837,1391709.277,SeaTac
+14,Elemental Carbon,medium,0.001640333,81826.33712,SeaTac
+15,H20 Aerosol,heavy,0,72302.82054,SeaTac
+16,H20 Aerosol,light,0,1391709.277,SeaTac
+17,H20 Aerosol,medium,0,81826.33712,SeaTac
+18,Methane,heavy,0.005841128,72302.82054,SeaTac
+19,Methane,light,0.031114224,1391709.277,SeaTac
+20,Methane,medium,0.007454482,81826.33712,SeaTac
+21,N20,heavy,0.000194511,72302.82054,SeaTac
+22,N20,light,0.007529134,1391709.277,SeaTac
+23,N20,medium,0.001455255,81826.33712,SeaTac
+24,NOx,heavy,0.774497996,72302.82054,SeaTac
+25,NOx,light,0.586983959,1391709.277,SeaTac
+26,NOx,medium,0.124156509,81826.33712,SeaTac
+27,Non-methane HCs,heavy,0.025358407,72302.82054,SeaTac
+28,Non-methane HCs,light,0.164852279,1391709.277,SeaTac
+29,Non-methane HCs,medium,0.026985257,81826.33712,SeaTac
+30,PM10 Brakewear,heavy,0,72302.82054,SeaTac
+31,PM10 Brakewear,light,0,1391709.277,SeaTac
+32,PM10 Brakewear,medium,0,81826.33712,SeaTac
+33,PM10 Exhaust,heavy,0.024400201,72302.82054,SeaTac
+34,PM10 Exhaust,light,0.008900228,1391709.277,SeaTac
+35,PM10 Exhaust,medium,0.002941673,81826.33712,SeaTac
+36,PM10 Tirewear,heavy,0,72302.82054,SeaTac
+37,PM10 Tirewear,light,0,1391709.277,SeaTac
+38,PM10 Tirewear,medium,0,81826.33712,SeaTac
+39,PM10 Total,heavy,0.039000998,216908.4616,SeaTac
+40,PM10 Total,light,0.074739122,4175127.831,SeaTac
+41,PM10 Total,medium,0.00828661,245479.0114,SeaTac
+42,PM25 Brakewear,heavy,0,72302.82054,SeaTac
+43,PM25 Brakewear,light,0,1391709.277,SeaTac
+44,PM25 Brakewear,medium,0,81826.33712,SeaTac
+45,PM25 Exhaust,heavy,0.022448035,72302.82054,SeaTac
+46,PM25 Exhaust,light,0.007950143,1391709.277,SeaTac
+47,PM25 Exhaust,medium,0.002678032,81826.33712,SeaTac
+48,PM25 Tirewear,heavy,0,72302.82054,SeaTac
+49,PM25 Tirewear,light,0,1391709.277,SeaTac
+50,PM25 Tirewear,medium,0,81826.33712,SeaTac
+51,PM25 Total,heavy,0.024339871,216908.4616,SeaTac
+52,PM25 Total,light,0.016566789,4175127.831,SeaTac
+53,PM25 Total,medium,0.003373575,245479.0114,SeaTac
+54,Sulfate Particulate,heavy,0.000886128,72302.82054,SeaTac
+55,Sulfate Particulate,light,0.000244811,1391709.277,SeaTac
+56,Sulfate Particulate,medium,0.000158206,81826.33712,SeaTac
+57,Total Energy,heavy,1952656.439,72302.82054,SeaTac
+58,Total Energy,light,7954018.456,1391709.277,SeaTac
+59,Total Energy,medium,758068.7913,81826.33712,SeaTac
+60,Total Gaseous HCs,heavy,0.031199562,72302.82054,SeaTac
+61,Total Gaseous HCs,light,0.19608739,1391709.277,SeaTac
+62,Total Gaseous HCs,medium,0.03446075,81826.33712,SeaTac
+63,VOCs,heavy,0.028779643,72302.82054,SeaTac
+64,VOCs,light,0.147709134,1391709.277,SeaTac
+65,VOCs,medium,0.024251106,81826.33712,SeaTac
+0,Atmospheric CO2,heavy,521.4048768,248324.4445,Seattle
+1,Atmospheric CO2,light,4906.049723,10499355.14,Seattle
+2,Atmospheric CO2,medium,427.7406839,542835.9522,Seattle
+3,CO,heavy,0.909194201,248324.4445,Seattle
+4,CO,light,57.61370232,10499355.14,Seattle
+5,CO,medium,7.758460114,542835.9522,Seattle
+6,CO2 Equivalent,heavy,522.2908179,248324.4445,Seattle
+7,CO2 Equivalent,light,4955.726091,10499355.14,Seattle
+8,CO2 Equivalent,medium,440.3078517,542835.9522,Seattle
+9,Composite NonECPM,heavy,0.020639705,248324.4445,Seattle
+10,Composite NonECPM,light,0.055575744,10499355.14,Seattle
+11,Composite NonECPM,medium,0.011203186,542835.9522,Seattle
+12,Elemental Carbon,heavy,0.065951978,248324.4445,Seattle
+13,Elemental Carbon,light,0.046212796,10499355.14,Seattle
+14,Elemental Carbon,medium,0.015643743,542835.9522,Seattle
+15,H20 Aerosol,heavy,0,248324.4445,Seattle
+16,H20 Aerosol,light,0,10499355.14,Seattle
+17,H20 Aerosol,medium,0,542835.9522,Seattle
+18,Methane,heavy,0.024959075,248324.4445,Seattle
+19,Methane,light,0.440383994,10499355.14,Seattle
+20,Methane,medium,0.127264858,542835.9522,Seattle
+21,N20,heavy,0.000879141,248324.4445,Seattle
+22,N20,light,0.129758208,10499355.14,Seattle
+23,N20,medium,0.031495395,542835.9522,Seattle
+24,NOx,heavy,2.878111912,248324.4445,Seattle
+25,NOx,light,5.432551397,10499355.14,Seattle
+26,NOx,medium,1.175246207,542835.9522,Seattle
+27,Non-methane HCs,heavy,0.100570778,248324.4445,Seattle
+28,Non-methane HCs,light,2.739138807,10499355.14,Seattle
+29,Non-methane HCs,medium,0.485444333,542835.9522,Seattle
+30,PM10 Brakewear,heavy,0,248324.4445,Seattle
+31,PM10 Brakewear,light,0,10499355.14,Seattle
+32,PM10 Brakewear,medium,0,542835.9522,Seattle
+33,PM10 Exhaust,heavy,0.094122046,248324.4445,Seattle
+34,PM10 Exhaust,light,0.114294696,10499355.14,Seattle
+35,PM10 Exhaust,medium,0.029684521,542835.9522,Seattle
+36,PM10 Tirewear,heavy,0,248324.4445,Seattle
+37,PM10 Tirewear,light,0,10499355.14,Seattle
+38,PM10 Tirewear,medium,0,542835.9522,Seattle
+39,PM10 Total,heavy,0.163203835,744973.3336,Seattle
+40,PM10 Total,light,0.755741829,31498065.41,Seattle
+41,PM10 Total,medium,0.076363132,1628507.857,Seattle
+42,PM25 Brakewear,heavy,0,248324.4445,Seattle
+43,PM25 Brakewear,light,0,10499355.14,Seattle
+44,PM25 Brakewear,medium,0,542835.9522,Seattle
+45,PM25 Exhaust,heavy,0.086591673,248324.4445,Seattle
+46,PM25 Exhaust,light,0.101788563,10499355.14,Seattle
+47,PM25 Exhaust,medium,0.026846931,542835.9522,Seattle
+48,PM25 Tirewear,heavy,0,248324.4445,Seattle
+49,PM25 Tirewear,light,0,10499355.14,Seattle
+50,PM25 Tirewear,medium,0,542835.9522,Seattle
+51,PM25 Total,heavy,0.095473173,744973.3336,Seattle
+52,PM25 Total,light,0.185164911,31498065.41,Seattle
+53,PM25 Total,medium,0.032880153,1628507.857,Seattle
+54,Sulfate Particulate,heavy,0.003447385,248324.4445,Seattle
+55,Sulfate Particulate,light,0.002402173,10499355.14,Seattle
+56,Sulfate Particulate,medium,0.001331947,542835.9522,Seattle
+57,Total Energy,heavy,7084486.485,248324.4445,Seattle
+58,Total Energy,light,68227545.75,10499355.14,Seattle
+59,Total Energy,medium,5903967.426,542835.9522,Seattle
+60,Total Gaseous HCs,heavy,0.125530507,248324.4445,Seattle
+61,Total Gaseous HCs,light,3.182807585,10499355.14,Seattle
+62,Total Gaseous HCs,medium,0.613280083,542835.9522,Seattle
+63,VOCs,heavy,0.112290438,248324.4445,Seattle
+64,VOCs,light,2.155894233,10499355.14,Seattle
+65,VOCs,medium,0.384939796,542835.9522,Seattle
+0,Atmospheric CO2,heavy,65.90717575,31909.12004,Shoreline
+1,Atmospheric CO2,light,504.4871899,1118107.701,Shoreline
+2,Atmospheric CO2,medium,38.97021029,52343.52276,Shoreline
+3,CO,heavy,0.113314039,31909.12004,Shoreline
+4,CO,light,5.465330923,1118107.701,Shoreline
+5,CO,medium,0.657944407,52343.52276,Shoreline
+6,CO2 Equivalent,heavy,66.01379243,31909.12004,Shoreline
+7,CO2 Equivalent,light,508.8721907,1118107.701,Shoreline
+8,CO2 Equivalent,medium,40.00660127,52343.52276,Shoreline
+9,Composite NonECPM,heavy,0.002549692,31909.12004,Shoreline
+10,Composite NonECPM,light,0.005202678,1118107.701,Shoreline
+11,Composite NonECPM,medium,0.000958131,52343.52276,Shoreline
+12,Elemental Carbon,heavy,0.008160835,31909.12004,Shoreline
+13,Elemental Carbon,light,0.004194683,1118107.701,Shoreline
+14,Elemental Carbon,medium,0.00136129,52343.52276,Shoreline
+15,H20 Aerosol,heavy,0,31909.12004,Shoreline
+16,H20 Aerosol,light,0,1118107.701,Shoreline
+17,H20 Aerosol,medium,0,52343.52276,Shoreline
+18,Methane,heavy,0.003021195,31909.12004,Shoreline
+19,Methane,light,0.039911209,1118107.701,Shoreline
+20,Methane,medium,0.010555831,52343.52276,Shoreline
+21,N20,heavy,0.000104329,31909.12004,Shoreline
+22,N20,light,0.011366904,1118107.701,Shoreline
+23,N20,medium,0.002592275,52343.52276,Shoreline
+24,NOx,heavy,0.361640594,31909.12004,Shoreline
+25,NOx,light,0.542198146,1118107.701,Shoreline
+26,NOx,medium,0.103641097,52343.52276,Shoreline
+27,Non-methane HCs,heavy,0.012419485,31909.12004,Shoreline
+28,Non-methane HCs,light,0.240816927,1118107.701,Shoreline
+29,Non-methane HCs,medium,0.04028369,52343.52276,Shoreline
+30,PM10 Brakewear,heavy,0,31909.12004,Shoreline
+31,PM10 Brakewear,light,0,1118107.701,Shoreline
+32,PM10 Brakewear,medium,0,52343.52276,Shoreline
+33,PM10 Exhaust,heavy,0.011641955,31909.12004,Shoreline
+34,PM10 Exhaust,light,0.010544236,1118107.701,Shoreline
+35,PM10 Exhaust,medium,0.00256315,52343.52276,Shoreline
+36,PM10 Tirewear,heavy,0,31909.12004,Shoreline
+37,PM10 Tirewear,light,0,1118107.701,Shoreline
+38,PM10 Tirewear,medium,0,52343.52276,Shoreline
+39,PM10 Total,heavy,0.019901884,95727.36011,Shoreline
+40,PM10 Total,light,0.075205822,3354323.102,Shoreline
+41,PM10 Total,medium,0.006464387,157030.5683,Shoreline
+42,PM25 Brakewear,heavy,0,31909.12004,Shoreline
+43,PM25 Brakewear,light,0,1118107.701,Shoreline
+44,PM25 Brakewear,medium,0,52343.52276,Shoreline
+45,PM25 Exhaust,heavy,0.010710523,31909.12004,Shoreline
+46,PM25 Exhaust,light,0.009397363,1118107.701,Shoreline
+47,PM25 Exhaust,medium,0.002319421,52343.52276,Shoreline
+48,PM25 Tirewear,heavy,0,31909.12004,Shoreline
+49,PM25 Tirewear,light,0,1118107.701,Shoreline
+50,PM25 Tirewear,medium,0,52343.52276,Shoreline
+51,PM25 Total,heavy,0.011774148,95727.36011,Shoreline
+52,PM25 Total,light,0.017813325,3354323.102,Shoreline
+53,PM25 Total,medium,0.00282531,157030.5683,Shoreline
+54,Sulfate Particulate,heavy,0.000426546,31909.12004,Shoreline
+55,Sulfate Particulate,light,0.00023601,1118107.701,Shoreline
+56,Sulfate Particulate,medium,0.000116176,52343.52276,Shoreline
+57,Total Energy,heavy,895498.7803,31909.12004,Shoreline
+58,Total Energy,light,7015795.751,1118107.701,Shoreline
+59,Total Energy,medium,537917.2981,52343.52276,Shoreline
+60,Total Gaseous HCs,heavy,0.01544073,31909.12004,Shoreline
+61,Total Gaseous HCs,light,0.280996399,1118107.701,Shoreline
+62,Total Gaseous HCs,medium,0.050886147,52343.52276,Shoreline
+63,VOCs,heavy,0.013957416,31909.12004,Shoreline
+64,VOCs,light,0.194370395,1118107.701,Shoreline
+65,VOCs,medium,0.032146239,52343.52276,Shoreline
+0,Atmospheric CO2,heavy,4.090414479,1066.04127,Skykomish
+1,Atmospheric CO2,light,2.335238404,3373.871187,Skykomish
+2,Atmospheric CO2,medium,0.070086225,38.44078203,Skykomish
+3,CO,heavy,0.009686937,1066.04127,Skykomish
+4,CO,light,0.020128382,3373.871187,Skykomish
+5,CO,medium,0.001513266,38.44078203,Skykomish
+6,CO2 Equivalent,heavy,4.103908538,1066.04127,Skykomish
+7,CO2 Equivalent,light,2.353324543,3373.871187,Skykomish
+8,CO2 Equivalent,medium,0.072989396,38.44078203,Skykomish
+9,Composite NonECPM,heavy,0.00019401,1066.04127,Skykomish
+10,Composite NonECPM,light,2.08E-05,3373.871187,Skykomish
+11,Composite NonECPM,medium,2.38E-06,38.44078203,Skykomish
+12,Elemental Carbon,heavy,0.000521783,1066.04127,Skykomish
+13,Elemental Carbon,light,1.57E-05,3373.871187,Skykomish
+14,Elemental Carbon,medium,3.11E-06,38.44078203,Skykomish
+15,H20 Aerosol,heavy,0,1066.04127,Skykomish
+16,H20 Aerosol,light,0,3373.871187,Skykomish
+17,H20 Aerosol,medium,0,38.44078203,Skykomish
+18,Methane,heavy,0.000360183,1066.04127,Skykomish
+19,Methane,light,0.000142954,3373.871187,Skykomish
+20,Methane,medium,2.88E-05,38.44078203,Skykomish
+21,N20,heavy,1.51E-05,1066.04127,Skykomish
+22,N20,light,4.87E-05,3373.871187,Skykomish
+23,N20,medium,7.32E-06,38.44078203,Skykomish
+24,NOx,heavy,0.028081398,1066.04127,Skykomish
+25,NOx,light,0.001855256,3373.871187,Skykomish
+26,NOx,medium,0.000216024,38.44078203,Skykomish
+27,Non-methane HCs,heavy,0.001434465,1066.04127,Skykomish
+28,Non-methane HCs,light,0.000828652,3373.871187,Skykomish
+29,Non-methane HCs,medium,0.000106964,38.44078203,Skykomish
+30,PM10 Brakewear,heavy,0,1066.04127,Skykomish
+31,PM10 Brakewear,light,0,3373.871187,Skykomish
+32,PM10 Brakewear,medium,0,38.44078203,Skykomish
+33,PM10 Exhaust,heavy,0.000778043,1066.04127,Skykomish
+34,PM10 Exhaust,light,4.08E-05,3373.871187,Skykomish
+35,PM10 Exhaust,medium,6.07E-06,38.44078203,Skykomish
+36,PM10 Tirewear,heavy,0,1066.04127,Skykomish
+37,PM10 Tirewear,light,0,3373.871187,Skykomish
+38,PM10 Tirewear,medium,0,38.44078203,Skykomish
+39,PM10 Total,heavy,0.002309306,3198.123811,Skykomish
+40,PM10 Total,light,0.000385164,10121.61356,Skykomish
+41,PM10 Total,medium,1.83E-05,115.3223461,Skykomish
+42,PM25 Brakewear,heavy,0,1066.04127,Skykomish
+43,PM25 Brakewear,light,0,3373.871187,Skykomish
+44,PM25 Brakewear,medium,0,38.44078203,Skykomish
+45,PM25 Exhaust,heavy,0.000715793,1066.04127,Skykomish
+46,PM25 Exhaust,light,3.64E-05,3373.871187,Skykomish
+47,PM25 Exhaust,medium,5.49E-06,38.44078203,Skykomish
+48,PM25 Tirewear,heavy,0,1066.04127,Skykomish
+49,PM25 Tirewear,light,0,3373.871187,Skykomish
+50,PM25 Tirewear,medium,0,38.44078203,Skykomish
+51,PM25 Total,heavy,0.000908595,3198.123811,Skykomish
+52,PM25 Total,light,8.06E-05,10121.61356,Skykomish
+53,PM25 Total,medium,7.04E-06,115.3223461,Skykomish
+54,Sulfate Particulate,heavy,3.23E-05,1066.04127,Skykomish
+55,Sulfate Particulate,light,1.02E-06,3373.871187,Skykomish
+56,Sulfate Particulate,medium,2.89E-07,38.44078203,Skykomish
+57,Total Energy,heavy,55586.11682,1066.04127,Skykomish
+58,Total Energy,light,32476.67658,3373.871187,Skykomish
+59,Total Energy,medium,967.546569,38.44078203,Skykomish
+60,Total Gaseous HCs,heavy,0.001794645,1066.04127,Skykomish
+61,Total Gaseous HCs,light,0.000972345,3373.871187,Skykomish
+62,Total Gaseous HCs,medium,0.000135931,38.44078203,Skykomish
+63,VOCs,heavy,0.001633998,1066.04127,Skykomish
+64,VOCs,light,0.000711587,3373.871187,Skykomish
+65,VOCs,medium,8.42E-05,38.44078203,Skykomish
+0,Atmospheric CO2,heavy,4.541925055,2107.96592,Snoqualmie
+1,Atmospheric CO2,light,49.782951,95871.65572,Snoqualmie
+2,Atmospheric CO2,medium,2.824904186,2457.819094,Snoqualmie
+3,CO,heavy,0.008387519,2107.96592,Snoqualmie
+4,CO,light,0.786009825,95871.65572,Snoqualmie
+5,CO,medium,0.114983235,2457.819094,Snoqualmie
+6,CO2 Equivalent,heavy,4.550916937,2107.96592,Snoqualmie
+7,CO2 Equivalent,light,50.58816856,95871.65572,Snoqualmie
+8,CO2 Equivalent,medium,3.042708496,2457.819094,Snoqualmie
+9,Composite NonECPM,heavy,0.000184224,2107.96592,Snoqualmie
+10,Composite NonECPM,light,0.000799676,95871.65572,Snoqualmie
+11,Composite NonECPM,medium,0.000125718,2457.819094,Snoqualmie
+12,Elemental Carbon,heavy,0.000584324,2107.96592,Snoqualmie
+13,Elemental Carbon,light,0.000708937,95871.65572,Snoqualmie
+14,Elemental Carbon,medium,0.000148903,2457.819094,Snoqualmie
+15,H20 Aerosol,heavy,0,2107.96592,Snoqualmie
+16,H20 Aerosol,light,0,95871.65572,Snoqualmie
+17,H20 Aerosol,medium,0,2457.819094,Snoqualmie
+18,Methane,heavy,0.000249212,2107.96592,Snoqualmie
+19,Methane,light,0.006740174,95871.65572,Snoqualmie
+20,Methane,medium,0.002027271,2457.819094,Snoqualmie
+21,N20,heavy,9.25E-06,2107.96592,Snoqualmie
+22,N20,light,0.002136759,95871.65572,Snoqualmie
+23,N20,medium,0.000560816,2457.819094,Snoqualmie
+24,NOx,heavy,0.025461164,2107.96592,Snoqualmie
+25,NOx,light,0.064521781,95871.65572,Snoqualmie
+26,NOx,medium,0.011418679,2457.819094,Snoqualmie
+27,Non-methane HCs,heavy,0.000957265,2107.96592,Snoqualmie
+28,Non-methane HCs,light,0.045221837,95871.65572,Snoqualmie
+29,Non-methane HCs,medium,0.00794446,2457.819094,Snoqualmie
+30,PM10 Brakewear,heavy,0,2107.96592,Snoqualmie
+31,PM10 Brakewear,light,0,95871.65572,Snoqualmie
+32,PM10 Brakewear,medium,0,2457.819094,Snoqualmie
+33,PM10 Exhaust,heavy,0.000835384,2107.96592,Snoqualmie
+34,PM10 Exhaust,light,0.001697773,95871.65572,Snoqualmie
+35,PM10 Exhaust,medium,0.000306521,2457.819094,Snoqualmie
+36,PM10 Tirewear,heavy,0,2107.96592,Snoqualmie
+37,PM10 Tirewear,light,0,95871.65572,Snoqualmie
+38,PM10 Tirewear,medium,0,2457.819094,Snoqualmie
+39,PM10 Total,heavy,0.001548739,6323.897761,Snoqualmie
+40,PM10 Total,light,0.007491041,287614.9671,Snoqualmie
+41,PM10 Total,medium,0.000549368,7373.457281,Snoqualmie
+42,PM25 Brakewear,heavy,0,2107.96592,Snoqualmie
+43,PM25 Brakewear,light,0,95871.65572,Snoqualmie
+44,PM25 Brakewear,medium,0,2457.819094,Snoqualmie
+45,PM25 Exhaust,heavy,0.000768547,2107.96592,Snoqualmie
+46,PM25 Exhaust,light,0.001508613,95871.65572,Snoqualmie
+47,PM25 Exhaust,medium,0.000274621,2457.819094,Snoqualmie
+48,PM25 Tirewear,heavy,0,2107.96592,Snoqualmie
+49,PM25 Tirewear,light,0,95871.65572,Snoqualmie
+50,PM25 Tirewear,medium,0,2457.819094,Snoqualmie
+51,PM25 Total,heavy,0.000859908,6323.897761,Snoqualmie
+52,PM25 Total,light,0.002261987,287614.9671,Snoqualmie
+53,PM25 Total,medium,0.000305935,7373.457281,Snoqualmie
+54,Sulfate Particulate,heavy,3.09E-05,2107.96592,Snoqualmie
+55,Sulfate Particulate,light,2.97E-05,95871.65572,Snoqualmie
+56,Sulfate Particulate,medium,9.97E-06,2457.819094,Snoqualmie
+57,Total Energy,heavy,61713.54169,2107.96592,Snoqualmie
+58,Total Energy,light,692333.4954,95871.65572,Snoqualmie
+59,Total Energy,medium,39002.26978,2457.819094,Snoqualmie
+60,Total Gaseous HCs,heavy,0.00120649,2107.96592,Snoqualmie
+61,Total Gaseous HCs,light,0.05202556,95871.65572,Snoqualmie
+62,Total Gaseous HCs,medium,0.009982777,2457.819094,Snoqualmie
+63,VOCs,heavy,0.001048156,2107.96592,Snoqualmie
+64,VOCs,light,0.033425965,95871.65572,Snoqualmie
+65,VOCs,medium,0.005846518,2457.819094,Snoqualmie
+0,Atmospheric CO2,heavy,211.1222048,106156.382,Tukwila
+1,Atmospheric CO2,light,796.8164831,1962324.823,Tukwila
+2,Atmospheric CO2,medium,86.79596272,131495.1165,Tukwila
+3,CO,heavy,0.348348056,106156.382,Tukwila
+4,CO,light,6.363898963,1962324.823,Tukwila
+5,CO,medium,0.672265659,131495.1165,Tukwila
+6,CO2 Equivalent,heavy,211.426371,106156.382,Tukwila
+7,CO2 Equivalent,light,800.1368455,1962324.823,Tukwila
+8,CO2 Equivalent,medium,87.42754479,131495.1165,Tukwila
+9,Composite NonECPM,heavy,0.00757053,106156.382,Tukwila
+10,Composite NonECPM,light,0.005886737,1962324.823,Tukwila
+11,Composite NonECPM,medium,0.001505208,131495.1165,Tukwila
+12,Elemental Carbon,heavy,0.024286174,106156.382,Tukwila
+13,Elemental Carbon,light,0.003886646,1962324.823,Tukwila
+14,Elemental Carbon,medium,0.002463561,131495.1165,Tukwila
+15,H20 Aerosol,heavy,0,106156.382,Tukwila
+16,H20 Aerosol,light,0,1962324.823,Tukwila
+17,H20 Aerosol,medium,0,131495.1165,Tukwila
+18,Methane,heavy,0.008664352,106156.382,Tukwila
+19,Methane,light,0.036341023,1962324.823,Tukwila
+20,Methane,medium,0.00865928,131495.1165,Tukwila
+21,N20,heavy,0.000294037,106156.382,Tukwila
+22,N20,light,0.008095607,1962324.823,Tukwila
+23,N20,medium,0.001392892,131495.1165,Tukwila
+24,NOx,heavy,1.144362598,106156.382,Tukwila
+25,NOx,light,0.801145528,1962324.823,Tukwila
+26,NOx,medium,0.186614642,131495.1165,Tukwila
+27,Non-methane HCs,heavy,0.038260543,106156.382,Tukwila
+28,Non-methane HCs,light,0.177634689,1962324.823,Tukwila
+29,Non-methane HCs,medium,0.030134961,131495.1165,Tukwila
+30,PM10 Brakewear,heavy,0,106156.382,Tukwila
+31,PM10 Brakewear,light,0,1962324.823,Tukwila
+32,PM10 Brakewear,medium,0,131495.1165,Tukwila
+33,PM10 Exhaust,heavy,0.034627074,106156.382,Tukwila
+34,PM10 Exhaust,light,0.01092686,1962324.823,Tukwila
+35,PM10 Exhaust,medium,0.004350007,131495.1165,Tukwila
+36,PM10 Tirewear,heavy,0,106156.382,Tukwila
+37,PM10 Tirewear,light,0,1962324.823,Tukwila
+38,PM10 Tirewear,medium,0,131495.1165,Tukwila
+39,PM10 Total,heavy,0.057156203,318469.1459,Tukwila
+40,PM10 Total,light,0.097602293,5886974.468,Tukwila
+41,PM10 Total,medium,0.012728997,394485.3494,Tukwila
+42,PM25 Brakewear,heavy,0,106156.382,Tukwila
+43,PM25 Brakewear,light,0,1962324.823,Tukwila
+44,PM25 Brakewear,medium,0,131495.1165,Tukwila
+45,PM25 Exhaust,heavy,0.031856692,106156.382,Tukwila
+46,PM25 Exhaust,light,0.009773382,1962324.823,Tukwila
+47,PM25 Exhaust,medium,0.00396877,131495.1165,Tukwila
+48,PM25 Tirewear,heavy,0,106156.382,Tukwila
+49,PM25 Tirewear,light,0,1962324.823,Tukwila
+50,PM25 Tirewear,medium,0,131495.1165,Tukwila
+51,PM25 Total,heavy,0.034769149,318469.1459,Tukwila
+52,PM25 Total,light,0.021132757,5886974.468,Tukwila
+53,PM25 Total,medium,0.005059113,394485.3494,Tukwila
+54,Sulfate Particulate,heavy,0.001271279,106156.382,Tukwila
+55,Sulfate Particulate,light,0.000328233,1962324.823,Tukwila
+56,Sulfate Particulate,medium,0.000247029,131495.1165,Tukwila
+57,Total Energy,heavy,2868558.108,106156.382,Tukwila
+58,Total Energy,light,11081087.2,1962324.823,Tukwila
+59,Total Energy,medium,1197596.419,131495.1165,Tukwila
+60,Total Gaseous HCs,heavy,0.046924918,106156.382,Tukwila
+61,Total Gaseous HCs,light,0.214059051,1962324.823,Tukwila
+62,Total Gaseous HCs,medium,0.038808733,131495.1165,Tukwila
+63,VOCs,heavy,0.043504313,106156.382,Tukwila
+64,VOCs,light,0.170206946,1962324.823,Tukwila
+65,VOCs,medium,0.029477801,131495.1165,Tukwila
+0,Atmospheric CO2,heavy,12.33298867,6225.023827,Woodinville
+1,Atmospheric CO2,light,160.8423859,361617.9903,Woodinville
+2,Atmospheric CO2,medium,10.26397933,13621.88722,Woodinville
+3,CO,heavy,0.020105455,6225.023827,Woodinville
+4,CO,light,1.596216749,361617.9903,Woodinville
+5,CO,medium,0.155494113,13621.88722,Woodinville
+6,CO2 Equivalent,heavy,12.35110218,6225.023827,Woodinville
+7,CO2 Equivalent,light,161.9807614,361617.9903,Woodinville
+8,CO2 Equivalent,medium,10.50091919,13621.88722,Woodinville
+9,Composite NonECPM,heavy,0.000436126,6225.023827,Woodinville
+10,Composite NonECPM,light,0.001517471,361617.9903,Woodinville
+11,Composite NonECPM,medium,0.000246081,13621.88722,Woodinville
+12,Elemental Carbon,heavy,0.001388455,6225.023827,Woodinville
+13,Elemental Carbon,light,0.001134849,361617.9903,Woodinville
+14,Elemental Carbon,medium,0.000353964,13621.88722,Woodinville
+15,H20 Aerosol,heavy,0,6225.023827,Woodinville
+16,H20 Aerosol,light,0,361617.9903,Woodinville
+17,H20 Aerosol,medium,0,13621.88722,Woodinville
+18,Methane,heavy,0.000506661,6225.023827,Woodinville
+19,Methane,light,0.010824717,361617.9903,Woodinville
+20,Methane,medium,0.00248117,13621.88722,Woodinville
+21,N20,heavy,1.83E-05,6225.023827,Woodinville
+22,N20,light,0.002912087,361617.9903,Woodinville
+23,N20,medium,0.00058695,13621.88722,Woodinville
+24,NOx,heavy,0.066583827,6225.023827,Woodinville
+25,NOx,light,0.167276214,361617.9903,Woodinville
+26,NOx,medium,0.026569909,13621.88722,Woodinville
+27,Non-methane HCs,heavy,0.00224671,6225.023827,Woodinville
+28,Non-methane HCs,light,0.06184508,361617.9903,Woodinville
+29,Non-methane HCs,medium,0.009319346,13621.88722,Woodinville
+30,PM10 Brakewear,heavy,0,6225.023827,Woodinville
+31,PM10 Brakewear,light,0,361617.9903,Woodinville
+32,PM10 Brakewear,medium,0,13621.88722,Woodinville
+33,PM10 Exhaust,heavy,0.001983253,6225.023827,Woodinville
+34,PM10 Exhaust,light,0.002973057,361617.9903,Woodinville
+35,PM10 Exhaust,medium,0.000662136,13621.88722,Woodinville
+36,PM10 Tirewear,heavy,0,6225.023827,Woodinville
+37,PM10 Tirewear,light,0,361617.9903,Woodinville
+38,PM10 Tirewear,medium,0,13621.88722,Woodinville
+39,PM10 Total,heavy,0.003080291,18675.07148,Woodinville
+40,PM10 Total,light,0.023168493,1084853.971,Woodinville
+41,PM10 Total,medium,0.001714725,40865.66167,Woodinville
+42,PM25 Brakewear,heavy,0,6225.023827,Woodinville
+43,PM25 Brakewear,light,0,361617.9903,Woodinville
+44,PM25 Brakewear,medium,0,13621.88722,Woodinville
+45,PM25 Exhaust,heavy,0.001824581,6225.023827,Woodinville
+46,PM25 Exhaust,light,0.00265232,361617.9903,Woodinville
+47,PM25 Exhaust,medium,0.000600045,13621.88722,Woodinville
+48,PM25 Tirewear,heavy,0,6225.023827,Woodinville
+49,PM25 Tirewear,light,0,361617.9903,Woodinville
+50,PM25 Tirewear,medium,0,13621.88722,Woodinville
+51,PM25 Total,heavy,0.001967157,18675.07148,Woodinville
+52,PM25 Total,light,0.005282724,1084853.971,Woodinville
+53,PM25 Total,medium,0.00073639,40865.66167,Woodinville
+54,Sulfate Particulate,heavy,7.28E-05,6225.023827,Woodinville
+55,Sulfate Particulate,light,7.38E-05,361617.9903,Woodinville
+56,Sulfate Particulate,medium,3.18E-05,13621.88722,Woodinville
+57,Total Energy,heavy,167570.3065,6225.023827,Woodinville
+58,Total Energy,light,2236789.582,361617.9903,Woodinville
+59,Total Energy,medium,141631.3907,13621.88722,Woodinville
+60,Total Gaseous HCs,heavy,0.002753382,6225.023827,Woodinville
+61,Total Gaseous HCs,light,0.072729009,361617.9903,Woodinville
+62,Total Gaseous HCs,medium,0.011810809,13621.88722,Woodinville
+63,VOCs,heavy,0.002520186,6225.023827,Woodinville
+64,VOCs,light,0.052176943,361617.9903,Woodinville
+65,VOCs,medium,0.00756888,13621.88722,Woodinville
+0,Atmospheric CO2,heavy,0.09567469,42.665054,Yarrow Point
+1,Atmospheric CO2,light,10.50946441,22468.27393,Yarrow Point
+2,Atmospheric CO2,medium,1.686248316,2276.703645,Yarrow Point
+3,CO,heavy,0.000197517,42.665054,Yarrow Point
+4,CO,light,0.111679873,22468.27393,Yarrow Point
+5,CO,medium,0.019914727,2276.703645,Yarrow Point
+6,CO2 Equivalent,heavy,0.095948874,42.665054,Yarrow Point
+7,CO2 Equivalent,light,10.60704961,22468.27393,Yarrow Point
+8,CO2 Equivalent,medium,1.714156739,2276.703645,Yarrow Point
+9,Composite NonECPM,heavy,3.98E-06,42.665054,Yarrow Point
+10,Composite NonECPM,light,0.000104121,22468.27393,Yarrow Point
+11,Composite NonECPM,medium,3.48E-05,2276.703645,Yarrow Point
+12,Elemental Carbon,heavy,1.24E-05,42.665054,Yarrow Point
+13,Elemental Carbon,light,9.01E-05,22468.27393,Yarrow Point
+14,Elemental Carbon,medium,5.38E-05,2276.703645,Yarrow Point
+15,H20 Aerosol,heavy,0,42.665054,Yarrow Point
+16,H20 Aerosol,light,0,22468.27393,Yarrow Point
+17,H20 Aerosol,medium,0,2276.703645,Yarrow Point
+18,Methane,heavy,7.10E-06,42.665054,Yarrow Point
+19,Methane,light,0.00085021,22468.27393,Yarrow Point
+20,Methane,medium,0.00030971,2276.703645,Yarrow Point
+21,N20,heavy,3.24E-07,42.665054,Yarrow Point
+22,N20,light,0.000256158,22468.27393,Yarrow Point
+23,N20,medium,6.77E-05,2276.703645,Yarrow Point
+24,NOx,heavy,0.000540426,42.665054,Yarrow Point
+25,NOx,light,0.010809717,22468.27393,Yarrow Point
+26,NOx,medium,0.003986323,2276.703645,Yarrow Point
+27,Non-methane HCs,heavy,2.39E-05,42.665054,Yarrow Point
+28,Non-methane HCs,light,0.005251633,22468.27393,Yarrow Point
+29,Non-methane HCs,medium,0.001151674,2276.703645,Yarrow Point
+30,PM10 Brakewear,heavy,0,42.665054,Yarrow Point
+31,PM10 Brakewear,light,0,22468.27393,Yarrow Point
+32,PM10 Brakewear,medium,0,2276.703645,Yarrow Point
+33,PM10 Exhaust,heavy,1.78E-05,42.665054,Yarrow Point
+34,PM10 Exhaust,light,0.000217936,22468.27393,Yarrow Point
+35,PM10 Exhaust,medium,9.74E-05,2276.703645,Yarrow Point
+36,PM10 Tirewear,heavy,0,42.665054,Yarrow Point
+37,PM10 Tirewear,light,0,22468.27393,Yarrow Point
+38,PM10 Tirewear,medium,0,2276.703645,Yarrow Point
+39,PM10 Total,heavy,3.31E-05,127.995162,Yarrow Point
+40,PM10 Total,light,0.001639852,67404.8218,Yarrow Point
+41,PM10 Total,medium,0.00030321,6830.110935,Yarrow Point
+42,PM25 Brakewear,heavy,0,42.665054,Yarrow Point
+43,PM25 Brakewear,light,0,22468.27393,Yarrow Point
+44,PM25 Brakewear,medium,0,2276.703645,Yarrow Point
+45,PM25 Exhaust,heavy,1.64E-05,42.665054,Yarrow Point
+46,PM25 Exhaust,light,0.00019427,22468.27393,Yarrow Point
+47,PM25 Exhaust,medium,8.86E-05,2276.703645,Yarrow Point
+48,PM25 Tirewear,heavy,0,42.665054,Yarrow Point
+49,PM25 Tirewear,light,0,22468.27393,Yarrow Point
+50,PM25 Tirewear,medium,0,2276.703645,Yarrow Point
+51,PM25 Total,heavy,1.84E-05,127.995162,Yarrow Point
+52,PM25 Total,light,0.000378761,67404.8218,Yarrow Point
+53,PM25 Total,medium,0.000115117,6830.110935,Yarrow Point
+54,Sulfate Particulate,heavy,6.70E-07,42.665054,Yarrow Point
+55,Sulfate Particulate,light,4.58E-06,22468.27393,Yarrow Point
+56,Sulfate Particulate,medium,4.95E-06,2276.703645,Yarrow Point
+57,Total Energy,heavy,1299.983048,42.665054,Yarrow Point
+58,Total Energy,light,146154.7807,22468.27393,Yarrow Point
+59,Total Energy,medium,23277.3611,2276.703645,Yarrow Point
+60,Total Gaseous HCs,heavy,3.10E-05,42.665054,Yarrow Point
+61,Total Gaseous HCs,light,0.006107941,22468.27393,Yarrow Point
+62,Total Gaseous HCs,medium,0.001462444,2276.703645,Yarrow Point
+63,VOCs,heavy,2.32E-05,42.665054,Yarrow Point
+64,VOCs,light,0.00418402,22468.27393,Yarrow Point
+65,VOCs,medium,0.000992405,2276.703645,Yarrow Point
+0,Atmospheric CO2,heavy,12.73290551,6271.535695,Redmond
+1,Atmospheric CO2,light,575.108893,1256315.631,Redmond
+2,Atmospheric CO2,medium,35.69245934,44381.53596,Redmond
+3,CO,heavy,0.022610331,6271.535695,Redmond
+4,CO,light,6.415447838,1256315.631,Redmond
+5,CO,medium,0.714635721,44381.53596,Redmond
+6,CO2 Equivalent,heavy,12.75731993,6271.535695,Redmond
+7,CO2 Equivalent,light,580.2432446,1256315.631,Redmond
+8,CO2 Equivalent,medium,36.88029163,44381.53596,Redmond
+9,Composite NonECPM,heavy,0.000459676,6271.535695,Redmond
+10,Composite NonECPM,light,0.006203583,1256315.631,Redmond
+11,Composite NonECPM,medium,0.000996284,44381.53596,Redmond
+12,Elemental Carbon,heavy,0.001461775,6271.535695,Redmond
+13,Elemental Carbon,light,0.004900576,1256315.631,Redmond
+14,Elemental Carbon,medium,0.001355618,44381.53596,Redmond
+15,H20 Aerosol,heavy,0,6271.535695,Redmond
+16,H20 Aerosol,light,0,1256315.631,Redmond
+17,H20 Aerosol,medium,0,44381.53596,Redmond
+18,Methane,heavy,0.000657794,6271.535695,Redmond
+19,Methane,light,0.046723881,1256315.631,Redmond
+20,Methane,medium,0.01184977,44381.53596,Redmond
+21,N20,heavy,2.67E-05,6271.535695,Redmond
+22,N20,light,0.013310093,1256315.631,Redmond
+23,N20,medium,0.002991914,44381.53596,Redmond
+24,NOx,heavy,0.069529496,6271.535695,Redmond
+25,NOx,light,0.630427194,1256315.631,Redmond
+26,NOx,medium,0.102378496,44381.53596,Redmond
+27,Non-methane HCs,heavy,0.002598365,6271.535695,Redmond
+28,Non-methane HCs,light,0.28258677,1256315.631,Redmond
+29,Non-methane HCs,medium,0.045281368,44381.53596,Redmond
+30,PM10 Brakewear,heavy,0,6271.535695,Redmond
+31,PM10 Brakewear,light,0,1256315.631,Redmond
+32,PM10 Brakewear,medium,0,44381.53596,Redmond
+33,PM10 Exhaust,heavy,0.002088548,6271.535695,Redmond
+34,PM10 Exhaust,light,0.012463123,1256315.631,Redmond
+35,PM10 Exhaust,medium,0.002603655,44381.53596,Redmond
+36,PM10 Tirewear,heavy,0,6271.535695,Redmond
+37,PM10 Tirewear,light,0,1256315.631,Redmond
+38,PM10 Tirewear,medium,0,44381.53596,Redmond
+39,PM10 Total,heavy,0.003555853,18814.60709,Redmond
+40,PM10 Total,light,0.083490711,3768946.893,Redmond
+41,PM10 Total,medium,0.006195577,133144.6079,Redmond
+42,PM25 Brakewear,heavy,0,6271.535695,Redmond
+43,PM25 Brakewear,light,0,1256315.631,Redmond
+44,PM25 Brakewear,medium,0,44381.53596,Redmond
+45,PM25 Exhaust,heavy,0.00192145,6271.535695,Redmond
+46,PM25 Exhaust,light,0.011104161,1256315.631,Redmond
+47,PM25 Exhaust,medium,0.002351903,44381.53596,Redmond
+48,PM25 Tirewear,heavy,0,6271.535695,Redmond
+49,PM25 Tirewear,light,0,1256315.631,Redmond
+50,PM25 Tirewear,medium,0,44381.53596,Redmond
+51,PM25 Total,heavy,0.002110605,18814.60709,Redmond
+52,PM25 Total,light,0.02035186,3768946.893,Redmond
+53,PM25 Total,medium,0.002816634,133144.6079,Redmond
+54,Sulfate Particulate,heavy,7.77E-05,6271.535695,Redmond
+55,Sulfate Particulate,light,0.000279946,1256315.631,Redmond
+56,Sulfate Particulate,medium,0.000113853,44381.53596,Redmond
+57,Total Energy,heavy,173005.671,6271.535695,Redmond
+58,Total Energy,light,7997906.23,1256315.631,Redmond
+59,Total Energy,medium,492563.3014,44381.53596,Redmond
+60,Total Gaseous HCs,heavy,0.00325622,6271.535695,Redmond
+61,Total Gaseous HCs,light,0.329629429,1256315.631,Redmond
+62,Total Gaseous HCs,medium,0.057186552,44381.53596,Redmond
+63,VOCs,heavy,0.002753579,6271.535695,Redmond
+64,VOCs,light,0.227185422,1256315.631,Redmond
+65,VOCs,medium,0.035334235,44381.53596,Redmond

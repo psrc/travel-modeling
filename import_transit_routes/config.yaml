@@ -1,0 +1,39 @@
+# Type of data source that holds source data- valid choices are 'enterprise_gdb' or 'file_gdb'
+
+emme_project_path: W:\gis\projects\OSM\Transit\Transit_2022\EMME\emme_networks\emme_networks.emp
+
+output_dir: W:\gis\projects\OSM\Transit\Transit_2022\outputs
+
+gtfs_dir: W:\gis\projects\OSM\Transit\Transit_2022\gtfs\combined_spring_2022
+
+prj_file: W:\gis\projects\OSM\Transit\Transit_2022\scripts\state_plane.prj
+
+agency_ids: ['29', '97', '40', '1', '23', 'kt', '3', '40', 'WSF']
+
+#agency_ids: ['29']
+
+time_of_day: MD
+
+start_time: 0:01
+
+end_time: '23:59'
+
+date: 20220330
+
+service_ids: [1]
+
+# leave empty unless only specific routes are to be imported 
+route_list: []
+
+# The following should be filled out if using an 'enterprise_gdb' connection
+server: AWS-Prod-SQL\Sockeye
+
+database: OSMTest
+
+version: "'DBO.Kris2'"
+
+
+# The following should be filled out if using a 'file_gdb' as data_source
+
+file_gdb_path: T:/2021September/Stefan/network.gdb
+
