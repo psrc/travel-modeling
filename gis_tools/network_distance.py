@@ -4,6 +4,9 @@ import numpy as np
 import pandas as pd
 from scipy.spatial import cKDTree
 
+# Specify survey years to be included
+year_list = [2017,2019,2021]
+
 def find_nearest(gdA, gdB):
     """ Find nearest value between two geodataframes.
         Returns "dist" for distance between nearest points.
@@ -54,13 +57,13 @@ conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=AWS-PROD-SQL\Socke
 sql_conn = pyodbc.connect(conn_string)
 df = pd.read_sql(sql='select * from HHSurvey.v_persons', con=sql_conn)
 # Select persons with work locations and filter for associated households
-df = df[df['survey_year'] == 2021]
+df = df[df['survey_year'].isin(year_list)]
 df = df[~df['work_lat'].isnull()]
 
 # Load household lat/lng data
 #df_hh = pd.read_sql(sql='select household_id, final_home_lng, final_home_lat from HHSurvey.households_2021', con=sql_conn)
 df_hh = pd.read_sql(sql='select * from HHSurvey.v_households', con=sql_conn)
-df_hh = df_hh[df_hh['survey_year'] == 2021]
+df_hh = df_hh[df_hh['survey_year'].isin(year_list)]
 df_hh = df_hh[df_hh['household_id'].isin(df['household_id'])]
 
 # Load work lat and lng as geoDataFrame, convert from WSG84 to WA State Plane projection
@@ -93,9 +96,14 @@ df_result = df[['person_id','node','household_id']].merge(df_home[['node','house
 def shortest_dist(a, b, net):
     return net.shortest_path_length(a, b, imp_name=None)
 
+# Remove any null values
+print(str(len(df_result[df_result['node_home'].isnull()])) + " records skipped for null home values")
+df_result = df_result[~df_result['node_home'].isnull()]
+print(str(len(df_result[df_result['node_work'].isnull()])) + " records skipped for null work values")
+df_result = df_result[~df_result['node_work'].isnull()]
 df_result['home_to_work_distance'] = df_result.apply(lambda x: shortest_dist(x.node_home, x.node_work, net), axis=1)
 
 # Convert to miles
 df_result['home_to_work_distance'] = df_result['home_to_work_distance']/5280.0
 
-df_result.to_csv(r'T:\2022September\Brice\survey_2021_home_work_distance.csv')
+df_result.to_csv(r'T:\2022September\Brice\survey_17_19_21_home_work_distance.csv')
