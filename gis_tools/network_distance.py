@@ -59,6 +59,8 @@ df = pd.read_sql(sql='select * from HHSurvey.v_persons', con=sql_conn)
 # Select persons with work locations and filter for associated households
 df = df[df['survey_year'].isin(year_list)]
 df = df[~df['work_lat'].isnull()]
+# Only include work locations within the region
+df = df[df['work_county'].isin(['KING','KITSAP','PIERCE','SNOHOMISH'])]
 
 # Load household lat/lng data
 #df_hh = pd.read_sql(sql='select household_id, final_home_lng, final_home_lat from HHSurvey.households_2021', con=sql_conn)
@@ -106,4 +108,4 @@ df_result['home_to_work_distance'] = df_result.apply(lambda x: shortest_dist(x.n
 # Convert to miles
 df_result['home_to_work_distance'] = df_result['home_to_work_distance']/5280.0
 
-df_result.to_csv(r'T:\2022September\Brice\survey_17_19_21_home_work_distance.csv')
+df_result.to_csv(r'T:\2022October\Brice\survey_17_19_21_home_work_distance.csv')
