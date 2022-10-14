@@ -1,0 +1,67 @@
+,pollutant_name,veh_type,total_daily_tons,vmt,city
+0,Atmospheric CO2,heavy,1.656403318285382,948.8508235774888,Bainbridge Island
+1,Atmospheric CO2,light,101.33695662717513,259657.60331526192,Bainbridge Island
+2,Atmospheric CO2,medium,7.421929719772321,9330.367511597025,Bainbridge Island
+3,CO,heavy,0.0029813188819318,948.8508235774888,Bainbridge Island
+4,CO,light,1.2837647152594789,259657.60331526192,Bainbridge Island
+5,CO,medium,0.1384528268914284,9330.367511597025,Bainbridge Island
+6,CO2 Equivalent,heavy,1.665582742285607,948.8508235774888,Bainbridge Island
+7,CO2 Equivalent,light,102.57207938474032,259657.60331526192,Bainbridge Island
+8,CO2 Equivalent,medium,7.767608528623939,9330.367511597025,Bainbridge Island
+9,Composite NonECPM,heavy,1.825111414033695e-05,948.8508235774888,Bainbridge Island
+10,Composite NonECPM,light,0.00131115907369,259657.60331526192,Bainbridge Island
+11,Composite NonECPM,medium,0.0002266395048277,9330.367511597025,Bainbridge Island
+12,Elemental Carbon,heavy,4.07667931296094e-05,948.8508235774888,Bainbridge Island
+13,Elemental Carbon,light,0.0020527514219171,259657.60331526192,Bainbridge Island
+14,Elemental Carbon,medium,0.0002899588080928,9330.367511597025,Bainbridge Island
+15,H20 Aerosol,heavy,0.0,948.8508235774888,Bainbridge Island
+16,H20 Aerosol,light,0.0,259657.60331526192,Bainbridge Island
+17,H20 Aerosol,medium,0.0,9330.367511597025,Bainbridge Island
+18,Methane,heavy,0.0002555850352742,948.8508235774888,Bainbridge Island
+19,Methane,light,0.0107536150391421,259657.60331526192,Bainbridge Island
+20,Methane,medium,0.0044926225189275,9330.367511597025,Bainbridge Island
+21,N20,heavy,9.370267307883404e-06,948.8508235774888,Bainbridge Island
+22,N20,light,0.0032425504580066,259657.60331526192,Bainbridge Island
+23,N20,medium,0.0007831020273425,9330.367511597025,Bainbridge Island
+24,NOx,heavy,0.004726454504194,948.8508235774888,Bainbridge Island
+25,NOx,light,0.0766440572109928,259657.60331526192,Bainbridge Island
+26,NOx,medium,0.0160220668200959,9330.367511597025,Bainbridge Island
+27,Non-methane HCs,heavy,0.0001999443755398,948.8508235774888,Bainbridge Island
+28,Non-methane HCs,light,0.0743142620611043,259657.60331526192,Bainbridge Island
+29,Non-methane HCs,medium,0.0133970571832988,9330.367511597025,Bainbridge Island
+30,PM10 Brakewear,heavy,0.0,948.8508235774888,Bainbridge Island
+31,PM10 Brakewear,light,0.0,259657.60331526192,Bainbridge Island
+32,PM10 Brakewear,medium,0.0,9330.367511597025,Bainbridge Island
+33,PM10 Exhaust,heavy,6.4153590965409e-05,948.8508235774888,Bainbridge Island
+34,PM10 Exhaust,light,0.0037978362867897,259657.60331526192,Bainbridge Island
+35,PM10 Exhaust,medium,0.0005821466379781,9330.367511597025,Bainbridge Island
+36,PM10 Tirewear,heavy,0.0,948.8508235774888,Bainbridge Island
+37,PM10 Tirewear,light,0.0,259657.60331526192,Bainbridge Island
+38,PM10 Tirewear,medium,0.0,9330.367511597025,Bainbridge Island
+39,PM10 Total,heavy,0.0002779657173281,2846.552470732466,Bainbridge Island
+40,PM10 Total,light,0.0176701249228137,778972.8099457858,Bainbridge Island
+41,PM10 Total,medium,0.0013049451808708,27991.102534791076,Bainbridge Island
+42,PM25 Brakewear,heavy,0.0,948.8508235774888,Bainbridge Island
+43,PM25 Brakewear,light,0.0,259657.60331526192,Bainbridge Island
+44,PM25 Brakewear,medium,0.0,9330.367511597025,Bainbridge Island
+45,PM25 Exhaust,heavy,5.901786553116711e-05,948.8508235774888,Bainbridge Island
+46,PM25 Exhaust,light,0.0033639119413719,259657.60331526192,Bainbridge Island
+47,PM25 Exhaust,medium,0.000516598164438,9330.367511597025,Bainbridge Island
+48,PM25 Tirewear,heavy,0.0,948.8508235774888,Bainbridge Island
+49,PM25 Tirewear,light,0.0,259657.60331526192,Bainbridge Island
+50,PM25 Tirewear,medium,0.0,9330.367511597025,Bainbridge Island
+51,PM25 Total,heavy,8.665237910160495e-05,2846.552470732466,Bainbridge Island
+52,PM25 Total,light,0.0051744763463081,778972.8099457858,Bainbridge Island
+53,PM25 Total,medium,0.0006103223457498,27991.102534791076,Bainbridge Island
+54,Sulfate Particulate,heavy,9.756423927434256e-06,948.8508235774888,Bainbridge Island
+55,Sulfate Particulate,light,7.029905757291138e-05,259657.60331526192,Bainbridge Island
+56,Sulfate Particulate,medium,2.207936454543943e-05,9330.367511597025,Bainbridge Island
+57,Total Energy,heavy,22529.398590069217,948.8508235774888,Bainbridge Island
+58,Total Energy,light,1408939.2530758036,259657.60331526192,Bainbridge Island
+59,Total Energy,medium,102564.72705702744,9330.367511597025,Bainbridge Island
+60,Total Gaseous HCs,heavy,0.000455587814969,948.8508235774888,Bainbridge Island
+61,Total Gaseous HCs,light,0.0851734566175792,259657.60331526192,Bainbridge Island
+62,Total Gaseous HCs,medium,0.0179067229703573,9330.367511597025,Bainbridge Island
+63,VOCs,heavy,0.0001378032930192,948.8508235774888,Bainbridge Island
+64,VOCs,light,0.0588425842748052,259657.60331526192,Bainbridge Island
+65,VOCs,medium,0.0091866994309287,9330.367511597025,Bainbridge Island
