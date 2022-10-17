@@ -10,7 +10,7 @@ import subprocess
 #create_xml = False
 #create_db = True
 
-db_tag = '07_19_2021'
+db_tag = '10_17_2022'
 year_list = ['2018','2030','2040','2050']
 
 county_id_dict = {
@@ -23,7 +23,7 @@ county_id_dict = {
 
 for year in year_list:
     for county in county_id_dict.keys():
-        for veh_type in ['light','medium','heavy','all']:
+        for veh_type in ['light','medium','heavy','transit','all']:
             et = xml.etree.ElementTree.parse(r'Y:\Air Quality\RTP_2022\MOVES3\batch_input_database_creation\templates\batch_input_template_'+veh_type+'.xml')
             root = et.getroot()
             # Set the county name, description, database name (for MOVES inputs), and year

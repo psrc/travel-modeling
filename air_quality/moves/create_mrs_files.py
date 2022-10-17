@@ -24,7 +24,7 @@ import xml.etree.ElementTree
 # Inputs are 3 template files, created in MOVES for 3 vehicle type classes (light, medium, heavy)
 template_dir = r'Y:\Air Quality\RTP_2022\moves_run_spec_templates'
 output_dir = r'Y:\Air Quality\RTP_2022\moves_run_specs'
-db_tag = '07_19_2021'    # set database tag to match input databases created
+db_tag = '10_17_2022'    # set database tag to match input databases created
 year_list = ['2018','2030','2040','2050']
 
 county_id_dict = {
@@ -36,7 +36,7 @@ county_id_dict = {
 # Iterate through each year, county, and vehicle type and update XML
 for year in year_list:
     for county in ['King','Kitsap','Pierce','Snohomish']:
-        for veh_type in ['light','medium','heavy','all']:
+        for veh_type in ['light','medium','heavy','transit','all']:
             et = xml.etree.ElementTree.parse(os.path.join(template_dir,'template_'+veh_type+'.mrs'))
             root = et.getroot()
             for i in root.iter('geographicselection'):
