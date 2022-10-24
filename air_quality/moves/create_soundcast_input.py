@@ -4,12 +4,12 @@ import os
 import pandas as pd
 
 input_dir = r'Y:\Air Quality\RTP_2022\MOVES3\rates'
-output_dir = r'T:\2021July\brice'
+output_dir = r'T:\2022October\brice'
 
 # Work through each County
 county_list = ['King','Kitsap','Pierce','Snohomish']
 year_list = ['2018','2030','2040','2050']
-year_list = ['2018','2050']
+#year_list = ['2018','2050']
 
 
 df_running = pd.DataFrame()
@@ -18,8 +18,7 @@ df_start = pd.DataFrame()
 for year in year_list:
     print(year)
     for county in county_list:
-        #for veh_type in ['light','medium','heavy']:
-         for veh_type in ['all']:
+        for veh_type in ['light','medium','heavy','transit']:
             fname = county.lower() + '_' + year + '_' + veh_type + '.csv'
             df = pd.read_csv(os.path.join(input_dir,county,fname))
             df['year'] = year
