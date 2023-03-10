@@ -8,15 +8,16 @@ from pymssql import connect
 
 path_bldgs_file = r'W:\gis\projects\parcelization\buildings_2018.csv' 
 path_gq_file = r'W:\gis\projects\parcelization\gq_2018.csv' 
+prcl_pt_filename = 'parcels_urbansim_2018_pts'
 
 path_block_shp = 'block2020'
 geoid_col = 'GEOID20'
 publication_id = '8'
 
-ofm_year = '2022'
+ofm_year = '2020'
 
-out_dir = r'J:\Staff\Christy\OFM\parcelizer'
-#out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2020-10-02\parcelized'
+#out_dir = r'J:\Staff\Christy\OFM\parcelizer'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2020-10-02\parcelized'
 out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2022.shp'
 
 # functions ----
@@ -107,7 +108,7 @@ def blocks_with_parcels_and_est_without_byrunits(prcls_to_blks_shp, prcls_units,
 # process ----
 
 # spatial join parcels & blocks NEW
-prcls_elmergeo_sub = read_elmergeo_shapefile('parcels_urbansim_2018_pts', ['parcel_id', 'geometry'])
+prcls_elmergeo_sub = read_elmergeo_shapefile(prcl_pt_filename, ['parcel_id', 'geometry'])
 prcls_elmergeo_sub = prcls_elmergeo_sub.set_crs("EPSG:2285")
 prcls_elmergeo_sub = prcls_elmergeo_sub.to_crs("EPSG:2285")
 prcls_elmergeo_sub = prcls_elmergeo_sub.rename(columns = {'parcel_id' : 'PSRC_ID'})
