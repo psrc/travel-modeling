@@ -13,9 +13,9 @@ path_block_shp = 'block2020'
 geoid_col = 'GEOID20'
 publication_id = '8'
 
-ofm_year = '2021'
+ofm_year = '2022'
 
-out_dir = r'C:\Users\clam\Desktop\parcelization\data'
+out_dir = r'J:\Staff\Christy\OFM\parcelizer'
 #out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2020-10-02\parcelized'
 out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2022.shp'
 
@@ -161,7 +161,7 @@ new_prcls_to_blks['bldg_sqft'].fillna(0.0, inplace = True)
 new_prcls_to_blks.loc[new_prcls_to_blks['PSRC_ID'].isin(dummy_prcls_id), 'residential_units'] = 1.0
 
 # set number of units to 1 for blocks with estimates and parcels but no base year units
-new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_with_parcels_est_without_byrunits['GEOID10']), 'residential_units'] = 1.0
+new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_with_parcels_est_without_byrunits[geoid_col]), 'residential_units'] = 1.0
 
 # allocate block estimates to parcels
 new_prcls_to_blks['total_units'] = new_prcls_to_blks.groupby(geoid_col)['residential_units'].transform('sum')
