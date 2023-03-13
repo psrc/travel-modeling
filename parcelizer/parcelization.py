@@ -172,7 +172,7 @@ new_prcls_to_blks['proportion'] = new_prcls_to_blks.residential_units / new_prcl
 raw_gqlu = pd.read_csv(path_gq_file)
 blks_with_gq = ofm_df[ofm_df['GQ'] > 0]
 
-# blocks and parcels with GQ land use with GQ estimates
+# blocks and parcels with GQ land use with GQ estimates, with building sqft
 prcls_with_gq_est_gqlu = new_prcls_to_blks[(new_prcls_to_blks['PSRC_ID'].isin(raw_gqlu['parcel_id'])) & (new_prcls_to_blks[geoid_col].isin(blks_with_gq[geoid_col]))]
 blks_prcls_with_gq_est_gqlu = prcls_with_gq_est_gqlu[geoid_col].unique()
 
@@ -181,7 +181,7 @@ new_prcls_to_blks.loc[new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_s
 
 blks_acctd = prcls_with_gq_est_gqlu_sqft[geoid_col].unique()
 
-# blocks and parcels without GQ land use with GQ estimates
+# blocks and parcels with GQ land use with GQ estimates, without building sqft
 blks_not_acctd = [x for x in blks_prcls_with_gq_est_gqlu if x not in blks_acctd]
 
 prcls_with_gq_est_gqlu_no_sqft = prcls_with_gq_est_gqlu[prcls_with_gq_est_gqlu[geoid_col].isin(blks_not_acctd)] # from this list need to know if each block contains resunits
@@ -192,7 +192,7 @@ blks_not_acctd_with_units = blks_not_acctd_units_cnt[blks_not_acctd_units_cnt['r
 new_prcls_to_blks.loc[(new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_no_sqft['PSRC_ID'])) & (new_prcls_to_blks[geoid_col].isin(blks_not_acctd_zero_units[geoid_col])), 'gq_numerator'] = 1.0
 new_prcls_to_blks.loc[(new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_no_sqft['PSRC_ID'])) & (new_prcls_to_blks[geoid_col].isin(blks_not_acctd_with_units[geoid_col])),'gq_numerator'] = new_prcls_to_blks['residential_units']
 
-# remainder of blocks with GQ estimates 
+# remainder of blocks with GQ estimates, no GQ land use
 blks_rmning = blks_with_gq[~blks_with_gq[geoid_col].isin(blks_prcls_with_gq_est_gqlu)]
 prcls_rmning_check = new_prcls_to_blks[new_prcls_to_blks[geoid_col].isin(blks_rmning[geoid_col])]
 blks_rmning_check_summary = prcls_rmning_check.groupby(geoid_col)['bldg_sqft','residential_units'].sum().reset_index()
