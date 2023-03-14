@@ -17,7 +17,7 @@ publication_id = '8'
 ofm_year = '2020'
 
 #out_dir = r'J:\Staff\Christy\OFM\parcelizer'
-out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2020-10-02\parcelized'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2022-10-21\parcelized'
 out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2022.shp'
 
 # functions ----
