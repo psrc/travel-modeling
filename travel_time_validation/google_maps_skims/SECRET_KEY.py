@@ -1,1 +1,1 @@
-secret_key = 'AIzaSyBIkbX6o6WjNqYp0uZa0uu1vmE_EUl-oow'
+secret_key = ''
