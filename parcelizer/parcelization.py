@@ -12,13 +12,11 @@ prcl_pt_filename = 'parcels_urbansim_2018_pts'
 
 path_block_shp = 'block2020'
 geoid_col = 'GEOID20'
-publication_id = '8'
+publication_id = '9'
 
-ofm_year = '2020'
+ofm_years = list(range(2020, 2024))
 
-#out_dir = r'J:\Staff\Christy\OFM\parcelizer'
-out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2022-10-21\parcelized'
-out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2022.shp'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2023-10-13\parcelized'
 
 # functions ----
 
@@ -107,119 +105,123 @@ def blocks_with_parcels_and_est_without_byrunits(prcls_to_blks_shp, prcls_units,
 
 # process ----
 
-# spatial join parcels & blocks NEW
-prcls_elmergeo_sub = read_elmergeo_shapefile(prcl_pt_filename, ['parcel_id', 'geometry'])
-prcls_elmergeo_sub = prcls_elmergeo_sub.set_crs("EPSG:2285")
-prcls_elmergeo_sub = prcls_elmergeo_sub.to_crs("EPSG:2285")
-prcls_elmergeo_sub = prcls_elmergeo_sub.rename(columns = {'parcel_id' : 'PSRC_ID'})
+for y in ofm_years:
+    ofm_year = str(y)
+    out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2023.shp'
 
-blks_sub = read_elmergeo_shapefile(path_block_shp, [geoid_col.lower(), 'geometry'])
-blks_sub = blks_sub.set_crs("EPSG:2285")
-blks_sub = blks_sub.to_crs("EPSG:2285")
+    # spatial join parcels & blocks NEW
+    prcls_elmergeo_sub = read_elmergeo_shapefile(prcl_pt_filename, ['parcel_id', 'geometry'])
+    prcls_elmergeo_sub = prcls_elmergeo_sub.set_crs("EPSG:2285")
+    prcls_elmergeo_sub = prcls_elmergeo_sub.to_crs("EPSG:2285")
+    prcls_elmergeo_sub = prcls_elmergeo_sub.rename(columns = {'parcel_id' : 'PSRC_ID'})
 
-prcls_to_blks = gpd.sjoin(prcls_elmergeo_sub, blks_sub, op = 'within', how = 'left')
+    blks_sub = read_elmergeo_shapefile(path_block_shp, [geoid_col.lower(), 'geometry'])
+    blks_sub = blks_sub.set_crs("EPSG:2285")
+    blks_sub = blks_sub.to_crs("EPSG:2285")
 
-# assemble baseyear units 
-raw_bldgs = pd.read_csv(path_bldgs_file)
-keep_cols = ['parcel_id', 'residential_units']
-prcls_units = raw_bldgs.filter(keep_cols).groupby('parcel_id').sum().reset_index()
-prcls_units = prcls_units.rename(columns = {'parcel_id' : 'PSRC_ID'})
+    prcls_to_blks = gpd.sjoin(prcls_elmergeo_sub, blks_sub, op = 'within', how = 'left')
 
-#### non residential sqft, sqft_per_unit
-#raw_bldgs, bldg_sqft = sqft_per_unit * residential_units + non res sqft, agg by prclid, join with prcls_units 
-keep_cols_sqft = ['parcel_id', 'non_residential_sqft', 'sqft_per_unit', 'residential_units']
-prcls_sqft = raw_bldgs.filter(keep_cols_sqft)
-prcls_sqft['bldg_sqft'] = prcls_sqft['sqft_per_unit']*prcls_sqft['residential_units'] + prcls_sqft['non_residential_sqft']
-prcls_sqft = prcls_sqft.filter(['parcel_id', 'bldg_sqft']).groupby('parcel_id').sum().reset_index()
-prcls_sqft = prcls_sqft.rename(columns = {'parcel_id' : 'PSRC_ID'})
+    # assemble baseyear units 
+    raw_bldgs = pd.read_csv(path_bldgs_file)
+    keep_cols = ['parcel_id', 'residential_units']
+    prcls_units = raw_bldgs.filter(keep_cols).groupby('parcel_id').sum().reset_index()
+    prcls_units = prcls_units.rename(columns = {'parcel_id' : 'PSRC_ID'})
 
-# assess which blocks need dummy parcels or need to evenly distribute
-ofm_df = query_and_tidy_ofm_estimates(ofm_year, publication_id)
-blks_with_est_without_parcels = blocks_with_est_without_parcels(prcls_to_blks, ofm_df) ### CHECK
-blks_with_parcels_est_without_byrunits = blocks_with_parcels_and_est_without_byrunits(prcls_to_blks, prcls_units, ofm_df)
+    #### non residential sqft, sqft_per_unit
+    #raw_bldgs, bldg_sqft = sqft_per_unit * residential_units + non res sqft, agg by prclid, join with prcls_units 
+    keep_cols_sqft = ['parcel_id', 'non_residential_sqft', 'sqft_per_unit', 'residential_units']
+    prcls_sqft = raw_bldgs.filter(keep_cols_sqft)
+    prcls_sqft['bldg_sqft'] = prcls_sqft['sqft_per_unit']*prcls_sqft['residential_units'] + prcls_sqft['non_residential_sqft']
+    prcls_sqft = prcls_sqft.filter(['parcel_id', 'bldg_sqft']).groupby('parcel_id').sum().reset_index()
+    prcls_sqft = prcls_sqft.rename(columns = {'parcel_id' : 'PSRC_ID'})
 
-# create dummy parcels for block groups that have estimates but no parcels
-dummy_prcls = blks_sub[blks_sub[geoid_col].isin(blks_with_est_without_parcels[geoid_col])] 
-dummy_prcls['geometry'] = dummy_prcls['geometry'].centroid
-start_id = prcls_to_blks['PSRC_ID'].max() + 1
-rows = len(dummy_prcls)
-dummy_prcls_id = [1.0 * n for n in range(int(start_id), int((start_id + rows)))]
-dummy_prcls['PSRC_ID'] = dummy_prcls_id
+    # assess which blocks need dummy parcels or need to evenly distribute
+    ofm_df = query_and_tidy_ofm_estimates(ofm_year, publication_id)
+    blks_with_est_without_parcels = blocks_with_est_without_parcels(prcls_to_blks, ofm_df) ### CHECK
+    blks_with_parcels_est_without_byrunits = blocks_with_parcels_and_est_without_byrunits(prcls_to_blks, prcls_units, ofm_df)
 
-# add dummy parcels
-new_prcls_to_blks = gpd.GeoDataFrame(pd.concat([prcls_to_blks, dummy_prcls], sort = False)) 
+    # create dummy parcels for block groups that have estimates but no parcels
+    dummy_prcls = blks_sub[blks_sub[geoid_col].isin(blks_with_est_without_parcels[geoid_col])] 
+    dummy_prcls['geometry'] = dummy_prcls['geometry'].centroid
+    start_id = prcls_to_blks['PSRC_ID'].max() + 1
+    rows = len(dummy_prcls)
+    dummy_prcls_id = [1.0 * n for n in range(int(start_id), int((start_id + rows)))]
+    dummy_prcls['PSRC_ID'] = dummy_prcls_id
 
-# add OFM estimates to shapefile
-new_prcls_to_blks = new_prcls_to_blks.merge(ofm_df, how = 'left')
+    # add dummy parcels
+    new_prcls_to_blks = gpd.GeoDataFrame(pd.concat([prcls_to_blks, dummy_prcls], sort = False)) 
 
-# add units and bldg sqft to parcels_blocks
-new_prcls_to_blks = new_prcls_to_blks.merge(prcls_sqft, how = 'left')
-new_prcls_to_blks = new_prcls_to_blks.merge(prcls_units, how = 'left')
-new_prcls_to_blks['residential_units'].fillna(0.0, inplace = True)
-new_prcls_to_blks['bldg_sqft'].fillna(0.0, inplace = True)
+    # add OFM estimates to shapefile
+    new_prcls_to_blks = new_prcls_to_blks.merge(ofm_df, how = 'left')
 
-# set number of units to 1 for dummy parcels
-new_prcls_to_blks.loc[new_prcls_to_blks['PSRC_ID'].isin(dummy_prcls_id), 'residential_units'] = 1.0
+    # add units and bldg sqft to parcels_blocks
+    new_prcls_to_blks = new_prcls_to_blks.merge(prcls_sqft, how = 'left')
+    new_prcls_to_blks = new_prcls_to_blks.merge(prcls_units, how = 'left')
+    new_prcls_to_blks['residential_units'].fillna(0.0, inplace = True)
+    new_prcls_to_blks['bldg_sqft'].fillna(0.0, inplace = True)
 
-# set number of units to 1 for blocks with estimates and parcels but no base year units
-new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_with_parcels_est_without_byrunits[geoid_col]), 'residential_units'] = 1.0
+    # set number of units to 1 for dummy parcels
+    new_prcls_to_blks.loc[new_prcls_to_blks['PSRC_ID'].isin(dummy_prcls_id), 'residential_units'] = 1.0
 
-# allocate block estimates to parcels
-new_prcls_to_blks['total_units'] = new_prcls_to_blks.groupby(geoid_col)['residential_units'].transform('sum')
-new_prcls_to_blks['proportion'] = new_prcls_to_blks.residential_units / new_prcls_to_blks.total_units
+    # set number of units to 1 for blocks with estimates and parcels but no base year units
+    new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_with_parcels_est_without_byrunits[geoid_col]), 'residential_units'] = 1.0
 
-# evaluate GQ 
-raw_gqlu = pd.read_csv(path_gq_file)
-blks_with_gq = ofm_df[ofm_df['GQ'] > 0]
+    # allocate block estimates to parcels
+    new_prcls_to_blks['total_units'] = new_prcls_to_blks.groupby(geoid_col)['residential_units'].transform('sum')
+    new_prcls_to_blks['proportion'] = new_prcls_to_blks.residential_units / new_prcls_to_blks.total_units
 
-# blocks and parcels with GQ land use with GQ estimates, with building sqft
-prcls_with_gq_est_gqlu = new_prcls_to_blks[(new_prcls_to_blks['PSRC_ID'].isin(raw_gqlu['parcel_id'])) & (new_prcls_to_blks[geoid_col].isin(blks_with_gq[geoid_col]))]
-blks_prcls_with_gq_est_gqlu = prcls_with_gq_est_gqlu[geoid_col].unique()
+    # evaluate GQ 
+    raw_gqlu = pd.read_csv(path_gq_file)
+    blks_with_gq = ofm_df[ofm_df['GQ'] > 0]
 
-prcls_with_gq_est_gqlu_sqft = prcls_with_gq_est_gqlu[prcls_with_gq_est_gqlu['bldg_sqft'] > 0]
-new_prcls_to_blks.loc[new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_sqft['PSRC_ID']), 'gq_numerator'] = new_prcls_to_blks['bldg_sqft']
+    # blocks and parcels with GQ land use with GQ estimates, with building sqft
+    prcls_with_gq_est_gqlu = new_prcls_to_blks[(new_prcls_to_blks['PSRC_ID'].isin(raw_gqlu['parcel_id'])) & (new_prcls_to_blks[geoid_col].isin(blks_with_gq[geoid_col]))]
+    blks_prcls_with_gq_est_gqlu = prcls_with_gq_est_gqlu[geoid_col].unique()
 
-blks_acctd = prcls_with_gq_est_gqlu_sqft[geoid_col].unique()
+    prcls_with_gq_est_gqlu_sqft = prcls_with_gq_est_gqlu[prcls_with_gq_est_gqlu['bldg_sqft'] > 0]
+    new_prcls_to_blks.loc[new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_sqft['PSRC_ID']), 'gq_numerator'] = new_prcls_to_blks['bldg_sqft']
 
-# blocks and parcels with GQ land use with GQ estimates, without building sqft
-blks_not_acctd = [x for x in blks_prcls_with_gq_est_gqlu if x not in blks_acctd]
+    blks_acctd = prcls_with_gq_est_gqlu_sqft[geoid_col].unique()
 
-prcls_with_gq_est_gqlu_no_sqft = prcls_with_gq_est_gqlu[prcls_with_gq_est_gqlu[geoid_col].isin(blks_not_acctd)] # from this list need to know if each block contains resunits
-blks_not_acctd_units_cnt = prcls_with_gq_est_gqlu_no_sqft.groupby(geoid_col)['residential_units'].sum().reset_index() # create summary table to see where to impute resunits
-blks_not_acctd_zero_units = blks_not_acctd_units_cnt[blks_not_acctd_units_cnt['residential_units'] == 0]
-blks_not_acctd_with_units = blks_not_acctd_units_cnt[blks_not_acctd_units_cnt['residential_units'] > 0]
+    # blocks and parcels with GQ land use with GQ estimates, without building sqft
+    blks_not_acctd = [x for x in blks_prcls_with_gq_est_gqlu if x not in blks_acctd]
 
-new_prcls_to_blks.loc[(new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_no_sqft['PSRC_ID'])) & (new_prcls_to_blks[geoid_col].isin(blks_not_acctd_zero_units[geoid_col])), 'gq_numerator'] = 1.0
-new_prcls_to_blks.loc[(new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_no_sqft['PSRC_ID'])) & (new_prcls_to_blks[geoid_col].isin(blks_not_acctd_with_units[geoid_col])),'gq_numerator'] = new_prcls_to_blks['residential_units']
+    prcls_with_gq_est_gqlu_no_sqft = prcls_with_gq_est_gqlu[prcls_with_gq_est_gqlu[geoid_col].isin(blks_not_acctd)] # from this list need to know if each block contains resunits
+    blks_not_acctd_units_cnt = prcls_with_gq_est_gqlu_no_sqft.groupby(geoid_col)['residential_units'].sum().reset_index() # create summary table to see where to impute resunits
+    blks_not_acctd_zero_units = blks_not_acctd_units_cnt[blks_not_acctd_units_cnt['residential_units'] == 0]
+    blks_not_acctd_with_units = blks_not_acctd_units_cnt[blks_not_acctd_units_cnt['residential_units'] > 0]
 
-# remainder of blocks with GQ estimates, no GQ land use
-blks_rmning = blks_with_gq[~blks_with_gq[geoid_col].isin(blks_prcls_with_gq_est_gqlu)]
-prcls_rmning_check = new_prcls_to_blks[new_prcls_to_blks[geoid_col].isin(blks_rmning[geoid_col])]
-blks_rmning_check_summary = prcls_rmning_check.groupby(geoid_col)['bldg_sqft','residential_units'].sum().reset_index()
+    new_prcls_to_blks.loc[(new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_no_sqft['PSRC_ID'])) & (new_prcls_to_blks[geoid_col].isin(blks_not_acctd_zero_units[geoid_col])), 'gq_numerator'] = 1.0
+    new_prcls_to_blks.loc[(new_prcls_to_blks['PSRC_ID'].isin(prcls_with_gq_est_gqlu_no_sqft['PSRC_ID'])) & (new_prcls_to_blks[geoid_col].isin(blks_not_acctd_with_units[geoid_col])),'gq_numerator'] = new_prcls_to_blks['residential_units']
 
-blks_rmning_with_gq_est_bldgsqft = blks_rmning_check_summary[blks_rmning_check_summary['bldg_sqft'] > 0] 
-new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_rmning_with_gq_est_bldgsqft[geoid_col]), 'gq_numerator'] = new_prcls_to_blks['bldg_sqft'] 
+    # remainder of blocks with GQ estimates, no GQ land use
+    blks_rmning = blks_with_gq[~blks_with_gq[geoid_col].isin(blks_prcls_with_gq_est_gqlu)]
+    prcls_rmning_check = new_prcls_to_blks[new_prcls_to_blks[geoid_col].isin(blks_rmning[geoid_col])]
+    blks_rmning_check_summary = prcls_rmning_check.groupby(geoid_col)['bldg_sqft','residential_units'].sum().reset_index()
 
-blks_rmning_with_gq_est_no_bldgsqft_resunits = blks_rmning_check_summary[(blks_rmning_check_summary['bldg_sqft'] == 0) & (blks_rmning_check_summary['residential_units'] > 0)]
-new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_rmning_with_gq_est_no_bldgsqft_resunits[geoid_col]), 'gq_numerator'] = new_prcls_to_blks['residential_units']
+    blks_rmning_with_gq_est_bldgsqft = blks_rmning_check_summary[blks_rmning_check_summary['bldg_sqft'] > 0] 
+    new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_rmning_with_gq_est_bldgsqft[geoid_col]), 'gq_numerator'] = new_prcls_to_blks['bldg_sqft'] 
 
-blks_rmning_with_gq_est_no_bldgsqft_no_resunits = blks_rmning_check_summary[(blks_rmning_check_summary['bldg_sqft'] == 0) & (blks_rmning_check_summary['residential_units'] == 0)]
-new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_rmning_with_gq_est_no_bldgsqft_no_resunits[geoid_col]), 'gq_numerator'] = 1.0
+    blks_rmning_with_gq_est_no_bldgsqft_resunits = blks_rmning_check_summary[(blks_rmning_check_summary['bldg_sqft'] == 0) & (blks_rmning_check_summary['residential_units'] > 0)]
+    new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_rmning_with_gq_est_no_bldgsqft_resunits[geoid_col]), 'gq_numerator'] = new_prcls_to_blks['residential_units']
 
-new_prcls_to_blks['gq_denominator'] = new_prcls_to_blks.groupby(geoid_col)['gq_numerator'].transform('sum')
-new_prcls_to_blks['gq_proportion'] = new_prcls_to_blks['gq_numerator'] / new_prcls_to_blks['gq_denominator'] 
-new_prcls_to_blks['parcel_gq'] = new_prcls_to_blks['gq_proportion'] * new_prcls_to_blks['GQ']
-new_prcls_to_blks['parcel_gq'].fillna(0.0, inplace = True)
+    blks_rmning_with_gq_est_no_bldgsqft_no_resunits = blks_rmning_check_summary[(blks_rmning_check_summary['bldg_sqft'] == 0) & (blks_rmning_check_summary['residential_units'] == 0)]
+    new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_rmning_with_gq_est_no_bldgsqft_no_resunits[geoid_col]), 'gq_numerator'] = 1.0
 
-# other estimates
-estimate_types = ['HHP', 'HU', 'OHU']
-for type in estimate_types:
-    new_colname = 'parcel_' + type.lower()
-    new_prcls_to_blks[new_colname] = new_prcls_to_blks['proportion'] * new_prcls_to_blks[type]
-    new_prcls_to_blks[new_colname].fillna(0.0, inplace = True)
+    new_prcls_to_blks['gq_denominator'] = new_prcls_to_blks.groupby(geoid_col)['gq_numerator'].transform('sum')
+    new_prcls_to_blks['gq_proportion'] = new_prcls_to_blks['gq_numerator'] / new_prcls_to_blks['gq_denominator'] 
+    new_prcls_to_blks['parcel_gq'] = new_prcls_to_blks['gq_proportion'] * new_prcls_to_blks['GQ']
+    new_prcls_to_blks['parcel_gq'].fillna(0.0, inplace = True)
 
-# create Total Population estimate
-new_prcls_to_blks['parcel_totpop'] = new_prcls_to_blks['parcel_hhp'] + new_prcls_to_blks['parcel_gq']
+    # other estimates
+    estimate_types = ['HHP', 'HU', 'OHU']
+    for type in estimate_types:
+        new_colname = 'parcel_' + type.lower()
+        new_prcls_to_blks[new_colname] = new_prcls_to_blks['proportion'] * new_prcls_to_blks[type]
+        new_prcls_to_blks[new_colname].fillna(0.0, inplace = True)
 
-# create shapefile
-new_prcls_to_blks.to_file(os.path.join(out_dir, out_file)) # takes approx. 11 mins to write to file
+    # create Total Population estimate
+    new_prcls_to_blks['parcel_totpop'] = new_prcls_to_blks['parcel_hhp'] + new_prcls_to_blks['parcel_gq']
+
+    # create shapefile
+    new_prcls_to_blks.to_file(os.path.join(out_dir, out_file)) # takes approx. 11 mins to write to file
