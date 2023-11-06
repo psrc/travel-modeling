@@ -26,26 +26,7 @@ from shapely import wkt
 import logging
 import logcontroller
 import datetime
-
-####################################
-# Input Parameters
-####################################
-
-# Load Survey Data from Elmer or use CSV
-use_elmer = False
-survey_year = '(2017, 2019)'
-
-# If not using Elmer, specify CSV location
-survey_input_dir = r'R:\e2projects_two\2023_base_year\2017_2019_survey\elmer'
-
-# Output directory
-output_dir = r'R:\e2projects_two\2023_base_year\2017_2019_survey'
-
-# Spatial join trip lat/lng values to shapefile of parcels
-lat_lng_crs = 'epsg:4326'
-
-# Set parcel file location
-parcel_file_dir = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\rtp_2018\parcels_urbansim.txt'
+from lookup import *
 
 if use_elmer:
     conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=AWS-PROD-SQL\Sockeye; DATABASE=Elmer; trusted_connection=yes"
@@ -460,7 +441,6 @@ def main():
     # Join selected fields back to the original person file
     person_orig_update = person_original.merge(person[person_loc_fields+['person_id']], on='person_id', how='left')
     person_orig_update[person_loc_fields] = person_orig_update[person_loc_fields].fillna(-1).astype('int')
-
 
     # Write to file
     person_orig_update.to_csv(os.path.join(output_dir,'geolocated_person.csv'), index=False)

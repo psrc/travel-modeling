@@ -1,3 +1,54 @@
+########################################
+# General Configuration Settings
+########################################
+
+# Project Output Directory
+output_dir = r'R:\e2projects_two\2018_base_year\survey\daysim_format\revised'
+
+######################################
+# Locate Parcels Config
+######################################
+# Load Survey Data from Elmer or use CSV
+use_elmer = False
+survey_year = '(2017, 2019)'
+
+# If not using Elmer, specify CSV location
+survey_input_dir = r'R:\e2projects_two\2023_base_year\2017_2019_survey\elmer'
+
+# Spatial join trip lat/lng values to shapefile of parcels
+lat_lng_crs = 'epsg:4326'
+
+# Set parcel file location
+parcel_file_dir = r'R:\e2projects_two\SoundCast\Inputs\dev\landuse\2018\rtp_2018\parcels_urbansim.txt'
+
+######################################
+# Daysim Conversion Config
+######################################
+
+# Geolocated directory
+input_dir = r'R:\e2projects_two\2023_base_year\2017_2019_survey'
+
+debug_tours = False
+write_debug_files = True
+
+# Flexible column names, given that these may change in future surveys
+hhno = 'household_id'
+hownrent = 'rent_own'
+hrestype = 'res_type'
+hhincome = 'hhincome_detailed'
+hhtaz = 'final_home_taz'
+hhparcel = 'final_home_parcel'
+hhexpfac = 'hh_wt_revised'
+hhwkrs = 'numworkers'
+hhvehs = 'vehicle_count'
+pno = 'pernum'
+
+# Heirarchy order for tour mode, per DaySim docs: https://www.psrc.org/sites/default/files/2015psrc-modechoiceautomodels.pdf
+# Drive to Transit > Walk to Transit > School Bus > HOV3+ > HOV2 > SOV > Bike > Walk > Other
+drive_transit_i = 0
+walk_transit_i = 0
+mode_heirarchy = [6,8,9,5,4,3,2,1,10]
+
 # Weights
 person_weight_col = 'hh_weight_2017_2019'
 hh_weight_col = 'hh_weight_2017_2019'
@@ -7,9 +58,14 @@ trip_weight_col = 'trip_weight_2017_2019'
 employment_full_time = "Employed full time (35+ hours/week, paid)"
 employment_part_time = "Employed part time (fewer than 35 hours/week, paid)"
 employment_retired = 'Retired'
+employment_selfemployed = 'Self-employed'
 employment_homemaker = 'Homemaker'
 employment_volunteer = 'Unpaid volunteer or intern'
 not_employed = 'Not currently employed'
+
+# Hours worked
+full_time_hours_list = ['31-40 hours','41–50 hours','More than 50 hours',
+                        'More than 50 hours', '31-34 hours']
 
 # Worker
 is_worker = "1+ job(s) (including part-time)"
@@ -77,10 +133,10 @@ age_map = {
 }
 
 gender_map = {
-    "Male": 1,    # male: male
-    "Female": 2,    # female: female
-    "Another": 9,    # another: missing
-    "Prefer not to answer": 9     # prefer not to answer: missing
+    "Male": 1,    
+    "Female": 2,
+    "Another": 9,
+    "Prefer not to answer": 9
 }
 
 pstyp_map = {
@@ -101,25 +157,31 @@ mode_dict = {
     'Other': 10
     }
 
+# FIXME: usual commute mode should consider occupancy from observed work trips
+# FIXME: usual commute transit mode should include drive to transit (assuming all walk to transit currently)
 commute_mode_dict = {
-    1: 3, # SOV
-    2: 4, # HOV (2 or 3)
-    3: 4, # HOV (2 or 3)
-    4: 3, # Motorcycle, assume drive alone 
-    5: 5, # vanpool, assume HOV3+
-    6: 2, # bike
-    7: 1, # walk
-    8: 6, # bus -> transit
-    9: 10, # private bus -> other
-    10: 10, # paratransit -> other
-    11: 6, # commuter rail
-    12: 6, # urban rail
-    13: 6, # streetcar
-    14: 6, # ferry
-    15: 10, # taxi -> other
-    16: 9, # TNC
-    17: 10, # plane -> other
-    97: 10 # other
+    'null': 0,
+    'Bus (public transit)': 6, 
+    'Private bus or shuttle': 6,
+    'Drive alone': 3, 
+    'Vanpool': 5, # assume hov3
+    'Walk, jog, or wheelchair': 1,
+    'Bicycle or e-bike': 2, 
+    'Commuter rail (Sounder, Amtrak)': 6,
+    'Airplane or helicopter': 0,
+    'Carpool with other people not in household (may also include household members)': 5,  # assume hov3
+    'Urban rail (Link light rail, monorail)': 6,
+    'Carpool ONLY with other household members': 4,   # assume HH carpool is hov2
+    'Other hired service (Uber, Lyft, or other smartphone-app car service)': 0,
+    'Motorcycle/moped/scooter':3, 
+    'Ferry or water taxi': 6, 
+    'Streetcar': 6,
+    'Taxi (e.g., Yellow Cab)': 0, 
+    'Paratransit': 6,
+    'Other (e.g. skateboard)': 0, 
+    'Missing: Skip Logic': 0,
+    'Scooter or e-scooter (e.g., Lime, Bird, Razor)': 0,
+    'Motorcycle/moped': 3
     }
 
 day_map = {
@@ -192,8 +254,86 @@ income_map = {
    'Prefer not to answer': -1
 }
 
+hhsize_map = {
+    '1 person': 1, 
+    '2 people': 2, 
+    '3 people': 3, 
+    '4 people': 4, 
+    '5 people': 5, 
+    '6 people': 6,
+    '7 people': 7,
+    '8 people': 8, 
+    '9 people': 9
+}
+
+hhvehs_map = {
+    '0 (no vehicles)': 0,
+    '1 vehicle': 1, 
+    '2 vehicles': 2, 
+    '3 vehicles': 3,
+    '4 vehicles': 4, 
+    '5 vehicles': 5, 
+    '6 vehicles': 6, 
+    '7 vehicles': 7,
+    '8+ vehicles': 8
+}
+
 transit_mode_list = ['Ferry or water taxi',
                      'Commuter rail (Sounder, Amtrak)',
                      'Urban Rail (e.g., Link light rail, monorail)',
                      'Bus (public transit)',
                      'Other rail (e.g., streetcar)']
+
+######################################
+# Attach Skims Config
+######################################
+
+h5output = 'survey2021.h5'
+version_tag = 'P21'
+
+bike_speed = 10 # miles per hour
+walk_speed = 3 # miles per hour
+
+# lookup for departure time to skim times
+tod_dict = {
+	0: '20to5',
+	1: '20to5',
+	2: '20to5',
+	3: '20to5',
+	4: '20to5',
+	5: '5to6',
+	6: '6to7',
+	7: '7to8',
+	8: '8to9',
+	9: '9to10',
+	10: '10to14',
+	11: '10to14',
+	12: '10to14',
+	13: '10to14',
+	14: '14to15',
+	15: '15to16',
+	16: '16to17',
+	17: '17to18',
+	18: '18to20',
+	19: '18to20',
+	20: '20to5',
+	21: '20to5',
+	22: '20to5',
+	23: '20to5',
+	24: '20to5'
+}
+
+# Create an ID to match skim naming method
+skim_mode_dict = {
+	1: 'walk',
+	2: 'bike',
+	3: 'sov',
+	4: 'hov2',
+	5: 'hov3',
+	6: 'ivtwa',	# transit in-vehicle time
+	7: 'sov',
+	8: 'sov',   # assign school bus as sov
+	9: 'sov',	# assign other as sov
+	10: 'sov',	# assign other as sov
+	-99: 'sv'
+}

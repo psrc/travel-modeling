@@ -18,8 +18,9 @@ from time import time
 import datetime
 import os, sys, errno
 sys.path.append(os.getcwd())
+from lookup import output_dir
 
-main_log_file = 'log.txt'
+main_log_file = os.path.join(output_dir,'log.txt')                 
 
 def setup_custom_logger(name):
     # create dir for main log file if it doesn't exist
