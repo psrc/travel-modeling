@@ -4,7 +4,8 @@ The methods used in this repository vary from those used in previous analyses, b
 
 ## Repository Directory
 Input data are stored in the **data** folder. These include the following files:
-- **port_model_data.csv**: data generated from [Soundcast](https://github.com/psrc/soundcast) that includes truck trips between ports and locations in region, average trip distances and speed. (See Kris Overby for more information.)
+- **port_model_data.csv**
+    - data generated from [Soundcast](https://github.com/psrc/soundcast) that includes truck trips between ports and locations in region, average trip distances and speed. (See Kris Overby for more information.)
 - **port_provided_truck_trips.csv**
     - data supplied by Starcrest that includes total truck trips generated annually from each port location.
 - **emissions_rates**
