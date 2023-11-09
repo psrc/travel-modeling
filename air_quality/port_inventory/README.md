@@ -32,7 +32,7 @@ as well as more information on how the data was developed.
 
 Inventory calculations are based on observed trip data, model behaviors, and emissions rates. Starcrest has provided annual truck trips from each port, which is the main controlling 
 value for an analysis year. These data are converted to an average daily total, which are multiplied against a distribution of trips between each port and surrounding areas, 
-which is provided by Soundcast. The distribution of trips represents a modeled base year and measures the percent of total trips from a port origin to various desination geographies
+which is provided by Soundcast. The distribution of trips represents a modeled base year and measures the percent of total trips from a port origin to various destination geographies
 throughout the region (as defined in previous analyses). For each of those origin-destination pairs, an average distance and an average speed is calculated. The average speed is used to 
 select an emissions rate of grams per mile (which varies by speed and other factors such as facility type and hour, which are kept constant). Multiplying average distance by trips yields VMT, which
 generates the daily grams for each origin-destination pair of each port and for all pollutants. Further details and assumptions are outlined within the notebook and in the spreadsheet results. 
