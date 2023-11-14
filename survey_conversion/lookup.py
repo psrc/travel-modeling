@@ -36,6 +36,7 @@ hhno = 'household_id'
 hownrent = 'rent_own'
 hrestype = 'res_type'
 hhincome = 'hhincome_detailed'
+hhsize = 'hhsize'
 hhtaz = 'final_home_taz'
 hhparcel = 'final_home_parcel'
 hhexpfac = 'hh_wt_revised'
@@ -53,6 +54,10 @@ mode_heirarchy = [6,8,9,5,4,3,2,1,10]
 person_weight_col = 'hh_weight_2017_2019'
 hh_weight_col = 'hh_weight_2017_2019'
 trip_weight_col = 'trip_weight_2017_2019'
+
+##############################
+# Person
+##############################
 
 # Employment
 employment_full_time = "Employed full time (35+ hours/week, paid)"
@@ -143,6 +148,17 @@ pstyp_map = {
     'No, not a student': 0,
     'Full-time student': 1,
     'Part-time student': 2
+}
+
+pptyp_map = {
+    'hhftw': 1,
+    'hhptw': 2,
+    'hhret': 3,
+    'hhoad': 4,
+    'hhuni': 5,
+    'hhhsc': 6,
+    'hh515': 7,
+    'hhcu5': 8
 }
 
 mode_dict = {
@@ -337,3 +353,12 @@ skim_mode_dict = {
 	10: 'sov',	# assign other as sov
 	-99: 'sv'
 }
+
+##############################
+# Output columns
+##############################
+
+trip_cols = ['hhno','pno','tsvid','day','mode','opurp','dpurp','deptm',
+            'otaz','opcl','dtaz','dpcl','oadtyp','dadtyp',
+            'arrtm','trexpfac','travcost','travtime','travdist',
+        'pathtype','mode_acc','dorp','endacttm','trip_id','person_id'] 

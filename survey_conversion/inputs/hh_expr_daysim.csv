@@ -1,0 +1,11 @@
+﻿index,table ,filter,result_col,result_value,description
+1,hh,:,hhexpfac,hh[hh_weight_col],
+2,hh,:,hhno,hh['household_id'],
+3,hh,:,hownrent,hh[hownrent].map(hownrent_map) ,
+4,hh,:,hrestype,hh[hrestype].map(hhrestype_map) ,
+5,hh,:,hhincome,hh[hhincome].map(income_map),
+6,hh,:,hhsize,hh[hhsize].map(hhsize_map),
+7,hh,:,hhvehs,hh[hhvehs].map(hhvehs_map),
+8,hh,:,hhtaz,hh[hhtaz],
+9,hh,:,hhparcel,hh[hhparcel],
+10,hh,:,samptype,1,
