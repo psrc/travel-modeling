@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import datetime
+import toml
 import urllib
 import pyodbc
 import pandas as pd
@@ -9,12 +10,12 @@ from sqlalchemy.engine import URL
 import logging
 import logcontroller
 pd.options.mode.chained_assignment = None  # default='warn'
-# Import local module variables
-from lookup import *
+
+config = toml.load('configuration.toml')
 
 # Start log file
-logger = logcontroller.setup_custom_logger('main_logger')
-logger.info('--------------------NEW RUN STARTING--------------------')
+logger = logcontroller.setup_custom_logger('convert_format_logger.txt')
+logger.info('--------------------convert_format.py STARTING--------------------')
 start_time = datetime.datetime.now()
 
 
@@ -25,7 +26,7 @@ def apply_filter(df, df_name, filter, msg):
     
     return df[filter]
 
-def assign_tour_mode(_df, tour_dict, tour_id, mode_heirarchy=mode_heirarchy):
+def assign_tour_mode(_df, tour_dict, tour_id, mode_heirarchy=config['mode_heirarchy']):
     """ Get a list of transit modes and identify primary mode
         Primary mode is the first one from a heirarchy list found in the tour.   """
     mode_list = _df['mode'].value_counts().index.astype('int').values
@@ -52,8 +53,8 @@ def assign_tour_mode(_df, tour_dict, tour_id, mode_heirarchy=mode_heirarchy):
 def process_person_file(person):
     """ Create Daysim-formatted person file. """
 
-    # Calculate fields using an expression file
-    expr_df = pd.read_csv(r'inputs\person_expr_daysim.csv')
+    # Calculate fields using an expression file; delimiter only includes commas outside of parentheses
+    expr_df = pd.read_csv(r'inputs\person_expr_daysim.csv', delimiter=',(?![^\(]*[\)])')
 
     for index, row in expr_df.iterrows():
         expr = 'person.loc[' + row['filter'] + ', "' + row['result_col'] + '"] = ' + str(row['result_value'])
@@ -107,13 +108,13 @@ def process_household_file(hh, person):
                             hhid_col='hhno', wt_col='psexpfac')
     
     # Workers by type in household
-    for hh_field, pwtyp_filter in pwtyp_map.items():
+    for hh_field, pwtyp_filter in config['pwtyp_map'].items():
         hh = total_persons_to_hh(hh, person, daysim_field=hh_field, 
                              filter_field='pwtyp', filter_field_list=[pwtyp_filter],
                              hhid_col='hhno', wt_col='psexpfac')
     
     # Person by type in houseohld
-    for hh_field, pptyp_filter in pptyp_map.items():
+    for hh_field, pptyp_filter in config['pptyp_map'].items():
         hh = total_persons_to_hh(hh, person, daysim_field=hh_field, 
                              filter_field='pptyp', filter_field_list=[pptyp_filter],
                              hhid_col='hhno', wt_col='psexpfac')
@@ -194,7 +195,7 @@ def process_trip_file(trip, person):
     # FIXME: Note that this field doesn't exist for some trips, should really be analyzed by grouping on the trip day or tour
     trip['pathtype'] = 1
     for index, row in trip.iterrows():
-        if len([i for i in list(row[['mode_1','mode_2','mode_3','mode_4']].values) if i in transit_mode_list]):
+        if len([i for i in list(row[['mode_1','mode_2','mode_3','mode_4']].values) if i in config['transit_mode_list']]):
 
             # ferry or water taxi
             if 'Ferry or water taxi' in row[['mode_1','mode_2','mode_3','mode_4']].values:
@@ -216,6 +217,10 @@ def process_trip_file(trip, person):
         trip = apply_filter(trip, 'trips', -trip[col].isnull(), col+' is null')
 
     # Write to file
+    trip_cols = ['hhno','pno','tsvid','day','mode','opurp','dpurp','deptm',
+            'otaz','opcl','dtaz','dpcl','oadtyp','dadtyp',
+            'arrtm','trexpfac','travcost','travtime','travdist',
+        'pathtype','mode_acc','dorp','endacttm','trip_id','person_id'] 
     trip = trip[trip_cols]
 
     return trip
@@ -627,7 +632,7 @@ def build_tour_file(trip, person):
     _filter = -trip['trip_id'].isin(bad_trips)
     logger.info(f'Dropped {len(trip[~_filter])} total trips due to tour issues ')
     trip = trip[_filter]
-    pd.DataFrame(bad_trips).T.to_csv(os.path.join(output_dir,'bad_trips.csv'))
+    pd.DataFrame(bad_trips).T.to_csv(os.path.join(config['output_dir'],'bad_trips.csv'))
 
     # Export columns in proper order
     tour_cols = ['hhno','pno','day','tour','jtindex','parent','subtrs','pdpurp','tlvorig',
@@ -774,7 +779,7 @@ def process_person_day(tour, person, trip, hh, person_day_original_df):
 
 # Get subtours
 
-def main(): 
+def convert_format(): 
 
     # Load Person Day data from Elmer
     conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=AWS-PROD-SQL\Sockeye; DATABASE=Elmer; trusted_connection=yes"
@@ -782,14 +787,14 @@ def main():
     params = urllib.parse.quote_plus(conn_string)
     engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
-    person_day_original_df = pd.read_sql(sql='SELECT household_id, person_id, pernum, dayofweek, numtrips, svy_complete, telework_time FROM HHSurvey.v_days WHERE survey_year IN ' + survey_year, con=engine)
-    person_day_original_df['day'] = person_day_original_df['dayofweek'].map(day_map)
+    person_day_original_df = pd.read_sql(sql='SELECT household_id, person_id, pernum, dayofweek, numtrips, svy_complete, telework_time FROM HHSurvey.v_days WHERE survey_year IN ' + config['survey_year'], con=engine)
+    person_day_original_df['day'] = person_day_original_df['dayofweek'].map(config['day_map'])
 
-    if not debug_tours:
+    if not config['debug_tours']:
         # Load geolocated survey data
-        trip_original_df = pd.read_csv(os.path.join(input_dir,'geolocated_trip.csv'))
-        hh_original_df = pd.read_csv(os.path.join(input_dir,'geolocated_hh.csv'))
-        person_original_df = pd.read_csv(os.path.join(input_dir,'geolocated_person.csv'))
+        trip_original_df = pd.read_csv(os.path.join(config['input_dir'],'geolocated_trip.csv'))
+        hh_original_df = pd.read_csv(os.path.join(config['input_dir'],'geolocated_hh.csv'))
+        person_original_df = pd.read_csv(os.path.join(config['input_dir'],'geolocated_person.csv'))
 
         # Recode person, household, and trip data
         person = process_person_file(person_original_df)
@@ -835,15 +840,15 @@ def main():
         hh.rename(columns={'new_hhno': 'hhno'}, inplace=True)
         trip.rename(columns={'new_hhno': 'hhno'}, inplace=True)
         
-        if write_debug_files == True:
+        if config['write_debug_files'] == True:
         # Temporarily write file to disk so we can reload for debugging
-            person.to_csv(os.path.join(output_dir,'daysim_person.csv'))
-            hh.to_csv(os.path.join(output_dir,'daysim_hh.csv'))
-            trip.to_csv(os.path.join(output_dir,'daysim_trip.csv'))
+            person.to_csv(os.path.join(config['output_dir'],'daysim_person.csv'))
+            hh.to_csv(os.path.join(config['output_dir'],'daysim_hh.csv'))
+            trip.to_csv(os.path.join(config['output_dir'],'daysim_trip.csv'))
     else:
-        person = pd.read_csv(os.path.join(output_dir,'daysim_person.csv'))
-        hh = pd.read_csv(os.path.join(output_dir,'daysim_hh.csv'))
-        trip = pd.read_csv(os.path.join(output_dir,'daysim_trip.csv'))
+        person = pd.read_csv(os.path.join(config['output_dir'],'daysim_person.csv'))
+        hh = pd.read_csv(os.path.join(config['output_dir'],'daysim_hh.csv'))
+        trip = pd.read_csv(os.path.join(config['output_dir'],'daysim_trip.csv'))
 
     # Make sure trips are properly ordered, where deptm is increasing for each person's travel day
     trip['person_id_int'] = trip['person_id'].astype('int')
@@ -880,13 +885,10 @@ def main():
                         '_household_day': household_day, '_person_day': person_day}.items():
         print(df_name)
 
-        df.to_csv(os.path.join(output_dir,df_name+'.tsv'), index=False, sep='\t')
+        df.to_csv(os.path.join(config['output_dir'],df_name+'.tsv'), index=False, sep='\t')
 
     # Conclude log
     end_time = datetime.datetime.now()
     elapsed_total = end_time - start_time
-    logger.info('--------------------RUN ENDING--------------------')
-    logger.info('TOTAL RUN TIME %s'  % str(elapsed_total))
-
-if __name__ == '__main__':
-    main()
+    logger.info('--------------------convert_format.py ENDING--------------------')
+    logger.info('convert_format.py RUN TIME %s'  % str(elapsed_total))

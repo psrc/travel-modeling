@@ -1,38 +1,23 @@
 import locate_parcels
-import process_survey
+import convert_format
 import attach_skims
-import yaml
+import data_validation
 import configuration
 import os
-from pathlib import Path
-from EmmeProject import *
+import toml
 
-file = Path().joinpath(configuration.args.configs_dir, "config.yaml")
-config = yaml.safe_load(open(file))
+config = toml.load('configuration.toml')
 
-project_path = os.path.join(
-    config["project_path"], "projects/LoadTripTables/LoadTripTables.emp"
-)
-my_project = EmmeProject(project_path)
-if config["build_supplemental_skims"]:
-    supplemental_skims.create_supplemental_skims(
-        my_project,
-        Path(config["supplemental_skim_file_path"]),
-        Path(config["assigmment_spec_file_path"]),
-        config["time_period_lookup"],
-    )
-if config["run_park_and_ride"]:
-    park_and_ride.run_park_and_ride(
-        my_project,
-        Path(config["supplemental_skim_file_path"]),
-        Path(config["assigmment_spec_file_path"]),
-        config["time_period_lookup"],
-        Path(config["project_path"]),
-    )
-if config["build_skims"]:
-    skims = skims.create_skims(
-        my_project, config["skim_file_path"], config["time_period_lookup"]
-    )
+if config["run_locate_parcels"]:
+    locate_parcels.locate_parcels()
 
+if config["run_convert_format"]:
+    convert_format.convert_format()
+
+if config["run_data_validation"]:
+    data_validation.data_validation()
+
+if config["run_attach_skims"]:
+    attach_skims.attach_skims()
 
 print("done")

@@ -150,14 +150,15 @@ person_day_schema = pa.DataFrameSchema(
     },
     coerce=True)
 
-df_tour = pd.read_csv(os.path.join(config['survey_1_dir'],'_tour.tsv'), sep='\t')
-df_person = pd.read_csv(os.path.join(config['survey_1_dir'],'_person.tsv'), sep='\t')
-df_trip = pd.read_csv(os.path.join(config['survey_1_dir'],'_trip.tsv'), sep='\t')
-df_person_day = pd.read_csv(os.path.join(config['survey_1_dir'],'_person_day.tsv'), sep='\t')
-df_hh = pd.read_csv(os.path.join(config['survey_1_dir'],'_household.tsv'), sep='\t')
+def data_validation():
+    df_tour = pd.read_csv(os.path.join(config['survey_1_dir'],'_tour.tsv'), sep='\t')
+    df_person = pd.read_csv(os.path.join(config['survey_1_dir'],'_person.tsv'), sep='\t')
+    df_trip = pd.read_csv(os.path.join(config['survey_1_dir'],'_trip.tsv'), sep='\t')
+    df_person_day = pd.read_csv(os.path.join(config['survey_1_dir'],'_person_day.tsv'), sep='\t')
+    df_hh = pd.read_csv(os.path.join(config['survey_1_dir'],'_household.tsv'), sep='\t')
 
-df_tour = tours_schema.validate(df_tour)
-df_trip = trips_schema.validate(df_trip)
-df_person_day = person_day_schema.validate(df_person_day)
-df_person = person_schema.validate(df_person)
-df_hh = household_schema.validate(df_hh)
+    df_tour = tours_schema.validate(df_tour)
+    df_trip = trips_schema.validate(df_trip)
+    df_person_day = person_day_schema.validate(df_person_day)
+    df_person = person_schema.validate(df_person)
+    df_hh = household_schema.validate(df_hh)
