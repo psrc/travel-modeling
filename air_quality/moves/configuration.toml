@@ -1,0 +1,40 @@
+# Input includes set of MOVES input CSV files that will be updated with model years
+input_dir = 'Y:/Air Quality/Puget Sound Emissions Inventory (Port)/forecast_year_input_data/updated_port_data/2016_truck_dist'
+working_dir =  'Y:/Air Quality/Puget Sound Emissions Inventory (Port)'
+base_year = '2021'    # File
+year_list = ['2016']
+description = 'Puget Sound Emissions Inventory 2016, MOVES3'
+
+#template_dir = 'Y:/Air Quality/Puget Sound Emissions Inventory (Port)/moves_run_specifications_templates'
+#output_dir = 'Y:/Air Quality/Puget Sound Emissions Inventory (Port)/moves_run_specifications/2016'
+
+db_tag = '11_27_2023'
+
+run_create_moves_input_data = true
+run_create_input_database_xml = true
+run_create_mrs_files = true
+
+vehicle_type_list = ['heavy']
+county_list = ['King','Pierce','Snohomish']
+
+[county_id_dict] 
+'King'= '53033'
+'Kitsap'= '53035'
+'Pierce'= '53053'
+'Snohomish'= '53061'
+
+[fname_dict] 
+'sourceTypeAgeDistribution'= 'sourcetypeagedistribution'
+'FuelUsageFraction'= 'Default_fuelusagefraction'
+'zoneMonthHour'= 'Default_zonemonthhour'
+'roadTypeDistribution'= 'roadtypedistribution'
+'sourceTypeYear'= 'sourcetypeyear'
+'HPMSVtypeYear'= 'hpmsvtypeyear'
+'monthVMTFraction'= 'monthvmtfraction'
+'IMCoverage'= 'imcoverage'
+'avgSpeedDistribution'= 'Default_avgspeeddistribution_'
+'FuelSupply'= 'Region500000000_Default_fuelsupply_'
+'FuelFormulation'='Default_fuelformulation_'
+'AVFT'= 'Default_avft_'
+'dayVMTFraction'= 'WA_dayvmtfraction_2008.csv'
+'hourVMTFraction'= 'WA_hourvmtfraction_2008.csv'

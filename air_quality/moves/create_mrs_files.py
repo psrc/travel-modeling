@@ -20,38 +20,37 @@ import os
 import shutil
 import pandas as pd
 import xml.etree.ElementTree
+import toml
 
-# Inputs are 3 template files, created in MOVES for 3 vehicle type classes (light, medium, heavy)
-template_dir = r'Y:\Air Quality\RTP_2022\moves_run_spec_templates'
-output_dir = r'Y:\Air Quality\RTP_2022\moves_run_specs'
-db_tag = '10_17_2022'    # set database tag to match input databases created
-year_list = ['2018','2030','2040','2050']
+def create_mrs_files():
+    # Inputs are 3 template files, created in MOVES for 3 vehicle type classes (light, medium, heavy)
+    config = toml.load('configuration.toml')
 
-county_id_dict = {
-    'King': '53033',
-    'Kitsap': '53035',
-    'Pierce': '53053',
-    'Snohomish': '53061'}
 
-# Iterate through each year, county, and vehicle type and update XML
-for year in year_list:
-    for county in ['King','Kitsap','Pierce','Snohomish']:
-        for veh_type in ['light','medium','heavy','transit','all']:
-            et = xml.etree.ElementTree.parse(os.path.join(template_dir,'template_'+veh_type+'.mrs'))
-            root = et.getroot()
-            for i in root.iter('geographicselection'):
-                i.set('key',county_id_dict[county])
-                i.set('description',county + ' County - ' + county_id_dict[county])
-            for i in root.iter('outputdatabase'):
-                i.set('databasename',county+'_out_'+veh_type+'_'+year+'_'+db_tag)
-            for i in root.iter('scaleinputdatabase'):
-                i.set('databasename',county+'_in_'+veh_type+'_'+year+'_'+db_tag)
-            for i in root.iter('description'):
-                i.text = 'Puget Sound Regional \nRTP 2022 \nRegional Emissions Analysis \nAnalysis year '+year
-            for order in root.iter('timespan'):
-                for child in order:
-                    if child.tag == 'year':
-                        child.set('key',year)
 
-            et.write(os.path.join(output_dir,county+'_'+year+'_'+veh_type+'.mrs'))
+
+    # Iterate through each year, county, and vehicle type and update XML
+    for year in config["year_list"]:
+        if not os.path.exists(os.path.join(config["working_dir"],"moves_run_specifications",year)):
+            os.makedirs(os.path.join(config["working_dir"],"moves_run_specifications",year))
+        for county in config["county_list"]:
+            for veh_type in ['heavy']:
+                et = xml.etree.ElementTree.parse(os.path.join(config["working_dir"],
+                                                            "moves_run_specifications_templates",'template_'+veh_type+'.mrs'))
+                root = et.getroot()
+                for i in root.iter('geographicselection'):
+                    i.set('key',config["county_id_dict"][county])
+                    i.set('description',county + ' County - ' + config["county_id_dict"][county])
+                for i in root.iter('outputdatabase'):
+                    i.set('databasename',county+'_out_'+veh_type+'_'+year+'_'+config["db_tag"])
+                for i in root.iter('scaleinputdatabase'):
+                    i.set('databasename',county+'_in_'+veh_type+'_'+year+'_'+config["db_tag"])
+                for i in root.iter('description'):
+                    i.text = config['description']
+                for order in root.iter('timespan'):
+                    for child in order:
+                        if child.tag == 'year':
+                            child.set('key',year)
+
+                et.write(os.path.join(config["working_dir"],"moves_run_specifications",year,county+'_'+year+'_'+veh_type+'.mrs'))
 
