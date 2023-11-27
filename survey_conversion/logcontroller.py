@@ -17,10 +17,14 @@ from functools import wraps
 from time import time
 import datetime
 import os, sys, errno
+import toml
+from pathlib import Path
+import configuration
 sys.path.append(os.getcwd())
-from lookup import output_dir
 
-main_log_file = os.path.join(output_dir,'log.txt')                 
+config = toml.load('configuration.toml')
+
+# main_log_file = os.path.join(config['output_dir'],'log.txt')                 
 
 def setup_custom_logger(name):
     # create dir for main log file if it doesn't exist
@@ -29,7 +33,7 @@ def setup_custom_logger(name):
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    logging.basicConfig(filename=main_log_file,format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    logging.basicConfig(filename=os.path.join(config['output_dir'], name),format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     handler = logging.StreamHandler()
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)

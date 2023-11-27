@@ -5,8 +5,6 @@
 # multiple filter tiers can be applied (e.g., first find parcel with students; for parcels with high distances, 
 # use a looser criteria like a parcel with service jobs, followed by parcels with household population.)
 
-# Requires Python 3 for geopandas
-
 import os, sys
 import pandas as pd
 import geopandas as gpd
@@ -26,25 +24,14 @@ from shapely import wkt
 import logging
 import logcontroller
 import datetime
-from lookup import *
+import toml
+import configuration
+pd.options.mode.chained_assignment = None  # default='warn'
 
-if use_elmer:
-    conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=AWS-PROD-SQL\Sockeye; DATABASE=Elmer; trusted_connection=yes"
-    sql_conn = pyodbc.connect(conn_string)
-    params = urllib.parse.quote_plus(conn_string)
-    engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+config = toml.load('configuration.toml')
 
-    trip_original = pd.read_sql(sql='SELECT * FROM HHSurvey.v_trips WHERE survey_year IN ' + survey_year, con=engine)
-    person_original = pd.read_sql(sql='SELECT * FROM HHSurvey.v_persons WHERE survey_year IN ' + survey_year, con=engine)
-    hh_original = pd.read_sql(sql='SELECT * FROM HHSurvey.v_households WHERE survey_year IN ' + survey_year, con=engine)  
-else:
-    trip_original = pd.read_csv(os.path.join(survey_input_dir,'trip.csv'))
-    person_original = pd.read_csv(os.path.join(survey_input_dir,'person.csv'))
-    hh_original = pd.read_csv(os.path.join(survey_input_dir,'hh.csv'))
-
-
-logger = logcontroller.setup_custom_logger('locate_parcels_logger')
-logger.info('--------------------NEW RUN STARTING--------------------')
+logger = logcontroller.setup_custom_logger('locate_parcels_logger.txt')
+logger.info('--------------------locate_parcels.py STARTING--------------------')
 start_time = datetime.datetime.now()
 
 def nearest_neighbor(df_parcel_coord, df_trip_coord):
@@ -60,13 +47,16 @@ def nearest_neighbor(df_parcel_coord, df_trip_coord):
     return kdt_parcels.query(df_trip_coord, k=1)
 
 def locate_parcel(_parcel_df, df, xcoord_col, ycoord_col, parcel_filter=None, df_filter=None):
-    """ Find nearest parcel for a trip end, return parcelid and distance (assuming consistent xy projection)
+    """ Find nearest parcel to XY coordinate. Returns distance between parcel node and points, and selected parcel ID
+
         Inputs:
-        - parcel_df: full list of parcels with x and y cols (xcoord_p, ycoordp)
-        - trip: record to be located
-        - trip_filter: filter on which trips to consider
-        - parcel_filter: filter for candidate parcels
-        - trip_end_type: either 'o' or 'd' to designate origin or destination 
+        - _parcel_df: full parcels dataset
+        - df: records to be located
+        - xcoord_col and ycood_col: column names of x and y coordinates
+        - parcel_filter: filter to be applied to _parcels_df to generate candidate parcels
+        - df_filter: filter on point-level data
+
+        Returns: 2 lists: (1) distance between nearest parcel [_dist] and (2) index of nearest parcel [_ix]
     """
 
     if parcel_filter is not None:
@@ -86,8 +76,6 @@ def locate_person_parcels(person, parcel_df, df_taz):
     person_results  = person.copy() # Make local copy for storing resulting joins
 
     parcel_df['total_students'] = parcel_df[['stugrd_p','stuhgh_p','stuuni_p']].sum(axis=1)
-
-    # For records 
 
     # Find parcels for person fields
     filter_dict_list = [{
@@ -121,10 +109,10 @@ def locate_person_parcels(person, parcel_df, df_taz):
 
         # Convert GPS Coordinates to State Plane
         gdf = gpd.GeoDataFrame(person[person_filter], geometry=gpd.points_from_xy(person[person_filter][varname+'_lng'], person[person_filter][varname+'_lat']))
-        gdf.crs = {'init' :lat_lng_crs}
+        gdf.crs = config['lat_lng_crs']
         gdf[varname+'_lng_gps'] = gdf[varname+'_lng']
         gdf[varname+'_lat_gps'] = gdf[varname+'_lat']
-        gdf = gdf.to_crs({'init': 'epsg:2285'})    # convert to state plane WA 
+        gdf = gdf.to_crs(config['wa_state_plane_crs'])    # convert to state plane WA 
 
         # Spatial join between region taz file and person file
         gdf = gpd.sjoin(gdf, df_taz)
@@ -135,7 +123,7 @@ def locate_person_parcels(person, parcel_df, df_taz):
         gdf[varname+'_lat_fips_4601'] = xy_field[:,1]
 
         # Return: (_dist) the distance to the closest parcel that meets given critera,
-        # (_ix) list of the indices of parcel IDs from (_df), which is the filtered set of candidate parcels
+        #         (_ix) list of the indices of parcel IDs from (_df), which is the filtered set of candidate parcels
         _dist, _ix = locate_parcel(parcel_df[parcel_filter], df=gdf, xcoord_col=varname+'_lng_fips_4601', ycoord_col=varname+'_lat_fips_4601')
 
         # Assign values to person df, extracting from the filtered set of parcels (_df)
@@ -204,10 +192,10 @@ def locate_hh_parcels(hh, parcel_df, df_taz):
 
         # Convert GPS Coordinates to State Plane
         gdf = gpd.GeoDataFrame(hh[hh_filter], geometry=gpd.points_from_xy(hh[hh_filter][varname+'_lng'], hh[hh_filter][varname+'_lat']))
-        gdf.crs = {'init' :lat_lng_crs}
+        gdf.crs = config['lat_lng_crs']
         gdf[varname+'_lng_gps'] = gdf[varname+'_lng']
         gdf[varname+'_lat_gps'] = gdf[varname+'_lat']
-        gdf = gdf.to_crs({'init': 'epsg:2285'})    # convert to state plane WA 
+        gdf = gdf.to_crs(config['wa_state_plane_crs'])    # convert to state plane WA 
 
         # Spatial join between region taz file and person file
         gdf = gpd.sjoin(gdf, df_taz)
@@ -276,8 +264,8 @@ def locate_trip_parcels(trip, parcel_df, df_taz):
 
         gdf = gpd.GeoDataFrame(
             trip, geometry=gpd.points_from_xy(trip[lng_field], trip[lat_field]))
-        gdf.crs = {'init' :lat_lng_crs}
-        gdf = gdf.to_crs({'init': 'epsg:2285'})    # convert to state plane WA 
+        gdf.crs = config['lat_lng_crs']
+        gdf = gdf.to_crs(config['wa_state_plane_crs'])    # convert to state plane WA 
         
         # Spatial join between region taz file and trip file
         gdf = gpd.sjoin(gdf, df_taz)
@@ -400,28 +388,42 @@ def load_elmer_geo(con, table_name):
 
     return gdf
 
-def main():
+def locate_parcels():
 
-    # Load taz shapefile
+    if config['use_elmer']:
+        conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=AWS-PROD-SQL\Sockeye; DATABASE=Elmer; trusted_connection=yes"
+        sql_conn = pyodbc.connect(conn_string)
+        params = urllib.parse.quote_plus(conn_string)
+        engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+
+        trip_original = pd.read_sql(sql='SELECT * FROM HHSurvey.v_trips WHERE survey_year IN ' + config['survey_year'], con=engine)
+        person_original = pd.read_sql(sql='SELECT * FROM HHSurvey.v_persons WHERE survey_year IN ' + config['survey_year'], con=engine)
+        hh_original = pd.read_sql(sql='SELECT * FROM HHSurvey.v_households WHERE survey_year IN ' + config['survey_year'], con=engine)  
+    else:
+        trip_original = pd.read_csv(os.path.join(config['survey_input_dir'],'trip.csv'))
+        person_original = pd.read_csv(os.path.join(config['survey_input_dir'],'person.csv'))
+        hh_original = pd.read_csv(os.path.join(config['survey_input_dir'],'hh.csv'))
+
+    # Load TAZ shapefile from ElmerGeo
     con = connect('AWS-Prod-SQL\Sockeye', database="ElmerGeo")
     df_taz = load_elmer_geo(con, "taz2010")
     con.close()
-    df_taz.crs = {'init' :' epsg:2285'}
+    df_taz.crs = config['wa_state_plane_crs']
 
     # Load parcel data
-    parcel_df = pd.read_csv(parcel_file_dir, delim_whitespace=True)
+    parcel_df = pd.read_csv(config['parcel_file_dir'], delim_whitespace=True)
     
     ##################################################
-    # Process household records
+    # Process Household Records
     ##################################################
     
     hh_new = locate_hh_parcels(hh_original.copy(), parcel_df, df_taz)
 
     # Write to file
-    hh_new.to_csv(os.path.join(output_dir,'geolocated_hh.csv'), index=False)
+    hh_new.to_csv(os.path.join(config['output_dir'],'geolocated_hh.csv'), index=False)
 
     ###################################################
-    # Process person records
+    # Process Person Records
     ###################################################
 
     # Merge with household records to get school/work lat and long, to filter people who home school and work at home
@@ -432,8 +434,8 @@ def main():
 
     # For people that work from home, assign work parcel as household parcel
     # Join this person file back to original person file to get workplace
-    person.loc[person['workplace'] == 3, 'work_parcel'] = person['final_home_parcel']
-    person.loc[person['workplace'] == 3, 'work_taz'] = person['final_home_taz']
+    person.loc[person['workplace'].isin(config['usual_workplace_home']), 'work_parcel'] = person['final_home_parcel']
+    person.loc[person['workplace'].isin(config['usual_workplace_home']), 'work_taz'] = person['final_home_taz']
 
     person_loc_fields = ['school_loc_parcel','school_loc_taz', 'work_parcel','work_taz','prev_work_parcel','prev_work_taz',
                         'school_loc_parcel_distance','work_parcel_distance','prev_work_parcel_distance']
@@ -443,10 +445,10 @@ def main():
     person_orig_update[person_loc_fields] = person_orig_update[person_loc_fields].fillna(-1).astype('int')
 
     # Write to file
-    person_orig_update.to_csv(os.path.join(output_dir,'geolocated_person.csv'), index=False)
+    person_orig_update.to_csv(os.path.join(config['output_dir'],'geolocated_person.csv'), index=False)
     
     ##################################################
-    # Process trip records
+    # Process Trip Records
     ##################################################
     
     trip = locate_trip_parcels(trip_original.copy(), parcel_df, df_taz)
@@ -457,7 +459,10 @@ def main():
     trip_original_updated['otaz'].fillna(-1,inplace=True)
 
     # Write to file
-    trip_original_updated.to_csv(os.path.join(output_dir,'geolocated_trip.csv'), index=False)
+    trip_original_updated.to_csv(os.path.join(config['output_dir'],'geolocated_trip.csv'), index=False)
 
-if __name__ =="__main__":
-    main()
+    # Conclude log
+    end_time = datetime.datetime.now()
+    elapsed_total = end_time - start_time
+    logger.info('--------------------locate_parcels.py ENDING--------------------')
+    logger.info('locate_parcels.py RUN TIME %s'  % str(elapsed_total))

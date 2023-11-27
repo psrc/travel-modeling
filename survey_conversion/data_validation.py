@@ -55,16 +55,16 @@ trips_schema = pa.DataFrameSchema(
         "otaz": Column(int, nullable=False),
         "dpcl": Column(int, nullable=False),
         "dtaz": Column(int, nullable=False),
-        "mode": Column(int, Check.isin([1,2,3,4,5,6,8,9]), nullable=False),
+        "mode": Column(int, Check.isin([1,2,3,4,5,6,8,9,10]), nullable=False),
         "pathtype": Column(int,  Check.isin([0,1,2,3,4,5,6,7]), nullable=False),
         "dorp": Column(int,Check.isin([1,2,3,9]), nullable=False),
         "deptm": Column(int, nullable=False),
         "arrtm": Column(int, nullable=False),
-        "endacttm": Column(int, nullable=False),
+        # "endacttm": Column(int, nullable=False),    # Note: this should be non-null for 2023
         "travtime": Column(float, nullable=False),
         "travcost": Column(float, nullable=False),
         "travdist": Column(float, nullable=False),
-        "toexpfac": Column(float, nullable=False),
+        "trexpfac": Column(float, nullable=False),
     },
     coerce=True
 )
@@ -82,15 +82,13 @@ household_schema = pa.DataFrameSchema(
         "hhuni": Column(int, nullable=False),
         "hhhsc": Column(int, nullable=False),
         "hh515": Column(int, nullable=False),
-        "hhcu15": Column(int, nullable=False),
         "hhcu5": Column(int, nullable=False),
         "hhincome": Column(int, nullable=False),
         "hownrent": Column(int, Check.isin([1,2,3,9]), nullable=False),
         "hrestype": Column(int, Check.isin([1,2,3,4,5,6,9]), nullable=False),
         "hhtaz": Column(int, nullable=False),
         "hhparcel": Column(int, nullable=False),
-        "hhepxfac": Column(float, nullable=False),
-        "samptyp": Column(int, nullable=False),
+        "hhexpfac": Column(float, nullable=False),
     },
     coerce=True)
 
@@ -111,11 +109,11 @@ person_schema = pa.DataFrameSchema(
         "pstaz": Column(int, nullable=False),
         "psautime": Column(float, nullable=False),
         "psaudist": Column(float, nullable=False),
-        # "puwmode": Column(int, Check.isin([0,1,2,3,4,5,6,7]), nullable=False),
+        "puwmode": Column(int, Check.isin([0,1,2,3,4,5,6,7]), nullable=False),
         "puwarrp": Column(int, nullable=False),
         "puwdepp": Column(int, nullable=False),
         "ptpass": Column(int, Check.isin([0,1]), nullable=False),
-        # "ppaidprk": Column(int, Check.isin([0,1]), nullable=False),
+        "ppaidprk": Column(int, Check.isin([0,1]), nullable=False),
         "psexpfac": Column(float, nullable=False),
     },
     coerce=True)
@@ -152,14 +150,15 @@ person_day_schema = pa.DataFrameSchema(
     },
     coerce=True)
 
-df_tour = pd.read_csv(os.path.join(config['survey_1_dir'],'_tour.tsv'), sep='\t')
-df_person = pd.read_csv(os.path.join(config['survey_1_dir'],'_person.tsv'), sep='\t')
-df_trip = pd.read_csv(os.path.join(config['survey_1_dir'],'_trip.tsv'), sep='\t')
-df_person_day = pd.read_csv(os.path.join(config['survey_1_dir'],'_person_day.tsv'), sep='\t')
-df_hh = pd.read_csv(os.path.join(config['survey_1_dir'],'_household.tsv'), sep='\t')
+def data_validation():
+    df_tour = pd.read_csv(os.path.join(config['survey_1_dir'],'_tour.tsv'), sep='\t')
+    df_person = pd.read_csv(os.path.join(config['survey_1_dir'],'_person.tsv'), sep='\t')
+    df_trip = pd.read_csv(os.path.join(config['survey_1_dir'],'_trip.tsv'), sep='\t')
+    df_person_day = pd.read_csv(os.path.join(config['survey_1_dir'],'_person_day.tsv'), sep='\t')
+    df_hh = pd.read_csv(os.path.join(config['survey_1_dir'],'_household.tsv'), sep='\t')
 
-df_tour = tours_schema.validate(df_tour)
-# df_trip = trips_schema.validate(df_trip)
-df_person_day = person_day_schema.validate(df_person_day)
-df_person = person_schema.validate(df_person)
-df_hh = household_schema.validate(df_hh)
+    df_tour = tours_schema.validate(df_tour)
+    df_trip = trips_schema.validate(df_trip)
+    df_person_day = person_day_schema.validate(df_person_day)
+    df_person = person_schema.validate(df_person)
+    df_hh = household_schema.validate(df_hh)
