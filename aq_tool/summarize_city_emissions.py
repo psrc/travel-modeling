@@ -4,6 +4,7 @@
 import os, shutil
 import pandas as pd
 from input_configuration import base_year
+from standard_summary_configuration import past_years
 
 rootdir = r'output\2018'
 output_dir = r'output\2018\interpolations'
@@ -36,6 +37,18 @@ for subdir, dirs, files in os.walk(rootdir):
         df['vmt'] = df['interzonal_vmt'] + df['intrazonal_vmt']
         df = df.groupby(['pollutant_name','veh_type']).sum()[['total_daily_tons','vmt']].reset_index()
 
+        # Interpolate for past years using HPMS data
+        for year in past_years:
+            # Get VMT scale for each year
+            base_vmt = df_hpms.loc[df_hpms['year'] == int(base_year), county].values[0]
+            past_vmt = df_hpms.loc[df_hpms['year'] == year, county].values[0]
+            vmt_diff = (base_vmt-past_vmt)/base_vmt
+
+            # Apply the County VMT difference between the future year and the model year to calculate local VMT impacts
+            df['total_daily_tons_'+str(year)] = df['total_daily_tons'] + df['total_daily_tons']*vmt_diff
+            df['vmt_'+str(year)] = df['vmt'] + df['vmt']*vmt_diff
+
+        # Interpolate for future years using HPMS data
         # Get list of all years beyond model base year
         future_years = df_hpms[df_hpms.year > int(base_year)].year.to_list()
         for year in future_years:
@@ -66,7 +79,7 @@ for subdir, dirs, files in os.walk(rootdir):
     
 
         # export VMT summary
-        year_list = [str(base_year)]+[str(i) for i in future_years]+[str(extrapolated_year)+'*']
+        year_list = [str(i) for i in past_years]+[str(base_year)]+[str(i) for i in future_years]+[str(extrapolated_year)+'*']
         df_vmt = df[['veh_type']+['vmt_' + i for i in year_list]].groupby('veh_type').first()
         df_vmt = df_vmt.reset_index()
 

@@ -1,3 +1,6 @@
+# Include years before model base years for interpolation of final results
+past_years = [2017]
+
 #################################### NETWORK SUMMARY ####################################
 
 network_results_path = r'outputs/network/network_results.csv'
