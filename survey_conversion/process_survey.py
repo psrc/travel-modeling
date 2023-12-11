@@ -6,7 +6,7 @@ import configuration
 import os
 import toml
 
-config = toml.load('configuration.toml')
+config = toml.load("configuration.toml")
 
 if config["run_locate_parcels"]:
     locate_parcels.locate_parcels()

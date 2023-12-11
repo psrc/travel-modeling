@@ -3,25 +3,26 @@ import toml
 import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor
 
-config = toml.load(os.path.join(os.getcwd(), 'summary_configuration.toml'))
+config = toml.load(os.path.join(os.getcwd(), "summary_configuration.toml"))
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
 def run_ipynb(sheet_name, nb_path):
-    with open(nb_path + r'/' + sheet_name + ".ipynb") as f:
+    with open(nb_path + r"/" + sheet_name + ".ipynb") as f:
         nb = nbformat.read(f, as_version=4)
         if sys.version_info > (3, 0):
-            py_version = 'python3'
+            py_version = "python3"
         else:
-            py_version = 'python2'
+            py_version = "python2"
         ep = ExecutePreprocessor(timeout=1500, kernel_name=py_version)
-        ep.preprocess(nb, {'metadata': {'path': nb_path + r'/'}})
-        with open(nb_path+r'/'+sheet_name+".ipynb", 'wt') as f:
+        ep.preprocess(nb, {"metadata": {"path": nb_path + r"/"}})
+        with open(nb_path + r"/" + sheet_name + ".ipynb", "wt") as f:
             nbformat.write(nb, f)
     print(sheet_name + " validation notebook created")
 
 
 def main():
-    for sheet_name in config['summary_list']:
+    for sheet_name in config["summary_list"]:
         run_ipynb(sheet_name, CURRENT_DIR)
 
     # render quarto book
@@ -37,5 +38,5 @@ def main():
     #            os.path.join(os.getcwd(),config['p_output_dir'],"validation-notebook")))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
