@@ -228,7 +228,7 @@ def process_trip_file(trip, person):
 def build_tour_file(trip, person):
     """ Generate tours from Daysim-formatted trip records by iterating through person-days. """
 
-    # Keep track
+    # Keep track of error types
     error_dict = {
         "first O and last D are not home": 0,
         "different number of tour starts and ends at home": 0,
@@ -254,7 +254,7 @@ def build_tour_file(trip, person):
     # Iterate through each unique person's days
     iterator = 0
     for person_id in trip['unique_person_id'].value_counts().index.values:
-    # for person_id in ['1711465931']:
+    # for person_id in ['19101051331']:
         print(str(iterator))
         person_df = trip.loc[trip['unique_person_id'] == person_id]
 
@@ -331,13 +331,9 @@ def build_tour_file(trip, person):
                 # Household and person info
                 for col in ['hhno','household_id_elmer','pno','person_id','unique_person_id']:
                      tour_dict[tour_id][col] = _df.iloc[0][col]
-                # tour_dict[tour_id]['hhno'] = _df.iloc[0]['hhno']
-                # tour_dict[tour_id]['household_id_elmer'] = _df.iloc[0]['household_id_elmer']
-                # tour_dict[tour_id]['pno'] = _df.iloc[0]['pno']
+
                 tour_dict[tour_id]['day'] = day
                 tour_dict[tour_id]['tour'] = local_tour_id
-                # tour_dict[tour_id]['person_id'] = _df.iloc[0]['person_id']
-                # tour_dict[tour_id]['unique_person_id'] = _df.iloc[0]['unique_person_id']
 
                 # For sets with only 2 trips, the halves are simply the first and second trips
                 if len(_df) == 2:
@@ -437,7 +433,7 @@ def build_tour_file(trip, person):
                                         # for tour with only two records, there will always be two halves with tseg = 1 for both
                                         trip.loc[trip['trip_id'] == subtour_df.iloc[0]['trip_id'], 'half'] = 1
                                         trip.loc[trip['trip_id'] == subtour_df.iloc[-1]['trip_id'], 'half'] = 2
-                                        trip.loc[trip['trip_id'].isin(_df['trip_id']),'tseg'] = 1
+                                        trip.loc[trip['trip_id'].isin(subtour_df['trip_id']),'tseg'] = 1
 
                                     # If subtour length > 2, find the primary purpose
                                     else:
@@ -465,9 +461,12 @@ def build_tour_file(trip, person):
                                         trip.loc[trip['trip_id'].isin(subtour_df.loc[0:primary_subtour_purp_index].trip_id),'half'] = 1
                                         trip.loc[trip['trip_id'].isin(subtour_df.loc[primary_subtour_purp_index+1:].trip_id),'half'] = 2
 
-                                        # set trip segment within half tours
-                                        trip.loc[trip['trip_id'].isin(subtour_df.loc[0:primary_subtour_purp_index].trip_id),'tseg'] = range(1,len(subtour_df.loc[0:primary_subtour_purp_index])+1)
-                                        trip.loc[trip['trip_id'].isin(subtour_df.loc[primary_subtour_purp_index+1:].trip_id),'tseg'] = range(1,len(subtour_df.loc[primary_subtour_purp_index+1:])+1)
+                                        # set trip segment within half tour segments
+                                        # Calculate local range of half segments
+                                        first_half_range = range(1,len(subtour_df.loc[0:primary_subtour_purp_index])+1) # range starting at 1 to length of trips until primary stop in subtour (+1 to include the primary trip row)
+                                        second_half_range = range(1,len(subtour_df.loc[primary_subtour_purp_index+1:])+1) # range from trip after primary stop row to end of subtour (+1 for range fcn)
+                                        trip.loc[trip['trip_id'].isin(subtour_df.loc[0:primary_subtour_purp_index].trip_id),'tseg'] = first_half_range
+                                        trip.loc[trip['trip_id'].isin(subtour_df.loc[primary_subtour_purp_index+1:].trip_id),'tseg'] = second_half_range
 
                                         # Departure/arrival times
                                         tour_dict[subtour_id]['tlvdest'] = subtour_df.loc[primary_subtour_purp_index]['deptm']
@@ -616,19 +615,19 @@ def build_tour_file(trip, person):
 
     tour = pd.DataFrame.from_dict(tour_dict, orient='index')
 
+    # After tour file is created, apply expression files
+    expr_df = pd.read_csv(r'inputs\tour_expr_daysim.csv')
 
-    for col in ['jtindex', 'phtindx1', 'phtindx2', 'fhtindx1', 'fhtindx2']:
-        tour[col] = 0
-
-    for col in ['tautotime', 'tautocost', 'tautodist']:
-        tour[col] = -1
+    for index, row in expr_df.iterrows():
+        expr = 'tour.loc[' + row['filter'] + ', "' + row['result_col'] + '"] = ' + str(row['result_value'])
+        print(row['index'])
+        exec(expr)
 
     # Assign weight toexpfac as hhexpfac (getting it from psexpfac, which is the same as hhexpfac)
     tour = tour.merge(person[['unique_person_id','psexpfac']], on='unique_person_id', how='left')
     tour.rename(columns={'psexpfac':'toexpfac'}, inplace=True)
 
     # remove the trips that weren't included in the tour file
-    
     _filter = -trip['trip_id'].isin(bad_trips)
     logger.info(f'Dropped {len(trip[~_filter])} total trips due to tour issues ')
     trip = trip[_filter]
@@ -777,8 +776,6 @@ def process_person_day(tour, person, trip, hh, person_day_original_df):
 
     return pday
 
-# Get subtours
-
 def convert_format(): 
 
     # Load Person Day data from Elmer
@@ -800,6 +797,9 @@ def convert_format():
         person = process_person_file(person_original_df)
         hh = process_household_file(hh_original_df, person)
         trip = process_trip_file(trip_original_df, person)
+
+        # Write mapping between original trip_id and tsvid used on they survey
+        trip[['trip_id','tsvid']].to_csv(os.path.join(config['output_dir'],'trip_id_tsvid_mapping.csv'))
 
         # TEMPORARY FOR DEBUGGING
         # trip = trip.iloc[1:1000]
@@ -876,7 +876,7 @@ def convert_format():
     trip['day'] = 1
     tour['day'] = 1
     household_day['day'] = 1
-    household_day['dow'] = 'MON'
+    household_day['dow'] = 1
     person_day['day'] = 1
 
     trip[['travdist','travcost','travtime']] = "-1.00"

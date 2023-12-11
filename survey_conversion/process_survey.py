@@ -20,4 +20,7 @@ if config["run_data_validation"]:
 if config["run_attach_skims"]:
     attach_skims.attach_skims()
 
+if config["run_data_validation"]:
+    data_validation.data_validation()
+
 print("done")

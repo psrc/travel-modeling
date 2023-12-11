@@ -5,7 +5,7 @@ import toml
 import pandera as pa
 from pandera import Column, Check
 
-config = toml.load(os.path.join(os.getcwd(),'summary', 'summary_configuration.toml'))
+config = toml.load('configuration.toml')
 
 tours_schema = pa.DataFrameSchema(
     {
@@ -13,6 +13,7 @@ tours_schema = pa.DataFrameSchema(
         "pno": Column(int, nullable=False),
         "day": Column(int, nullable=False),
         "tour": Column(int, nullable=False),
+        "jtindex": Column(int, nullable=False),
         "parent": Column(int, nullable=False),
         "subtrs": Column(int, nullable=False),
         "pdpurp": Column(int, Check.isin([1,2,3,4,5,6,7,10]), nullable=False), 
@@ -28,12 +29,16 @@ tours_schema = pa.DataFrameSchema(
         "tdtaz": Column(int, nullable=False),
         "tmodetp": Column(int, Check.isin([1,2,3,4,5,6,8,9,10]), nullable=False),
         "tpathtp": Column(int,  Check.isin([1,3,4,6,7]), nullable=False),
-        "tautocost": Column(float, nullable=False),
-        "tautocost": Column(float, nullable=False),
-        "tautodist": Column(float, nullable=False),
         "tripsh1": Column(int, nullable=False),
         "tripsh2": Column(int, nullable=False),
+        "phtindx1": Column(int, nullable=False),
+        "phtindx2": Column(int, nullable=False),
+        "fhtindx1": Column(int, nullable=False),
+        "fhtindx2": Column(int, nullable=False),
         "toexpfac": Column(float, nullable=False),
+        "tautotime": Column(float, nullable=False),
+        "tautocost": Column(float, nullable=False),
+        "tautodist": Column(float, nullable=False),
     },
     coerce=True
 )
@@ -52,19 +57,19 @@ trips_schema = pa.DataFrameSchema(
         "oadtyp": Column(int, Check.isin([1,2,3,4,5,6]), nullable=False),
         "dadtyp": Column(int, Check.isin([1,2,3,4,5,6]), nullable=False),
         "opcl": Column(int, nullable=False),
-        "otaz": Column(int, nullable=False),
         "dpcl": Column(int, nullable=False),
+        "otaz": Column(int, nullable=False),
         "dtaz": Column(int, nullable=False),
         "mode": Column(int, Check.isin([1,2,3,4,5,6,8,9,10]), nullable=False),
         "pathtype": Column(int,  Check.isin([0,1,2,3,4,5,6,7]), nullable=False),
         "dorp": Column(int,Check.isin([1,2,3,9]), nullable=False),
         "deptm": Column(int, nullable=False),
         "arrtm": Column(int, nullable=False),
-        # "endacttm": Column(int, nullable=False),    # Note: this should be non-null for 2023
+        "endacttm": Column("Int32", default=0, nullable=True),    # FIXME : this should be non-null for 2023
+        "trexpfac": Column(float, nullable=False),
         "travtime": Column(float, nullable=False),
         "travcost": Column(float, nullable=False),
         "travdist": Column(float, nullable=False),
-        "trexpfac": Column(float, nullable=False),
     },
     coerce=True
 )
@@ -89,6 +94,7 @@ household_schema = pa.DataFrameSchema(
         "hhtaz": Column(int, nullable=False),
         "hhparcel": Column(int, nullable=False),
         "hhexpfac": Column(float, nullable=False),
+        "samptype": Column(int, nullable=False)
     },
     coerce=True)
 
@@ -102,19 +108,21 @@ person_schema = pa.DataFrameSchema(
         "pwtyp": Column(int, Check.isin([0,1,2]), nullable=False),
         "pwpcl": Column(int, nullable=False),
         "pwtaz": Column(int, nullable=False),
-        "pwautime": Column(float, nullable=False),
-        "pwaudist": Column(float, nullable=False),
         "pstyp": Column(int, Check.isin([0,1,2]), nullable=False),
         "pspcl": Column(int, nullable=False),
         "pstaz": Column(int, nullable=False),
-        "psautime": Column(float, nullable=False),
-        "psaudist": Column(float, nullable=False),
-        "puwmode": Column(int, Check.isin([0,1,2,3,4,5,6,7]), nullable=False),
-        "puwarrp": Column(int, nullable=False),
-        "puwdepp": Column(int, nullable=False),
         "ptpass": Column(int, Check.isin([0,1]), nullable=False),
         "ppaidprk": Column(int, Check.isin([0,1]), nullable=False),
+        "pdiary": Column(int, Check.isin([0,1]), nullable=False),
+        "pproxy": Column(int, Check.isin([0,1]), nullable=False),
         "psexpfac": Column(float, nullable=False),
+        "puwmode": Column(int, Check.isin([0,1,2,3,4,5,6,7,9]), nullable=False),
+        "puwarrp": Column(int, nullable=False),
+        "puwdepp": Column(int, nullable=False),
+        "pwautime": Column(float, nullable=False),
+        "pwaudist": Column(float, nullable=False),
+        "psautime": Column(float, nullable=False),
+        "psaudist": Column(float, nullable=False),
     },
     coerce=True)
 
@@ -122,6 +130,7 @@ person_day_schema = pa.DataFrameSchema(
     {
         "hhno": Column(int, nullable=False),
         "pno": Column(int, nullable=False),
+        "day": Column(int, nullable=False),
         "beghom": Column(int, nullable=False),
         "endhom": Column(int, nullable=False),
         "hbtours": Column(int, nullable=False),
@@ -140,25 +149,40 @@ person_day_schema = pa.DataFrameSchema(
         "scstops": Column(int, nullable=False),
         "esstops": Column(int, nullable=False),
         "pbstops": Column(int, nullable=False),
-        "shstops": Column(float, nullable=False),
-        "mlstops": Column(float, nullable=False),
-        "sostops": Column(float, nullable=False),
-        "restops": Column(float, nullable=False),
-        "mestops": Column(float, nullable=False),
+        "shstops": Column(int, nullable=False),
+        "mlstops": Column(int, nullable=False),
+        "sostops": Column(int, nullable=False),
+        "restops": Column(int, nullable=False),
+        "mestops": Column(int, nullable=False),
         "wkathome": Column(int, nullable=False),
         "pdexpfac": Column(float, nullable=False),
     },
     coerce=True)
 
-def data_validation():
-    df_tour = pd.read_csv(os.path.join(config['survey_1_dir'],'_tour.tsv'), sep='\t')
-    df_person = pd.read_csv(os.path.join(config['survey_1_dir'],'_person.tsv'), sep='\t')
-    df_trip = pd.read_csv(os.path.join(config['survey_1_dir'],'_trip.tsv'), sep='\t')
-    df_person_day = pd.read_csv(os.path.join(config['survey_1_dir'],'_person_day.tsv'), sep='\t')
-    df_hh = pd.read_csv(os.path.join(config['survey_1_dir'],'_household.tsv'), sep='\t')
+household_day_schema = pa.DataFrameSchema(
+    {
+        "hhno": Column(int, nullable=False),
+        "day": Column(int, nullable=False),
+        "dow": Column(int, nullable=False),
+        "jttours": Column(int, nullable=False),
+        "phtours": Column(int, nullable=False),
+        "fhtours": Column(int, nullable=False),
+        "hdexpfac": Column(float, nullable=False),
+    },
+    coerce=True)
 
-    df_tour = tours_schema.validate(df_tour)
-    df_trip = trips_schema.validate(df_trip)
-    df_person_day = person_day_schema.validate(df_person_day)
-    df_person = person_schema.validate(df_person)
-    df_hh = household_schema.validate(df_hh)
+def read_validate_write(fname, schema):
+    """Load survey file, apply schema, and overwrite results."""
+
+    df = pd.read_csv(os.path.join(config['output_dir'],'_'+fname+'.tsv'), sep='\t')
+    df = schema.validate(df)
+    df[schema.columns.keys()].to_csv(os.path.join(config['output_dir'],'_'+fname+'.tsv'), index=False, sep='\t')
+
+def data_validation():
+
+    read_validate_write('tour', tours_schema)
+    read_validate_write('trip', trips_schema)
+    read_validate_write('person', person_schema)
+    read_validate_write('household', household_schema)
+    read_validate_write('person_day', person_day_schema)
+    read_validate_write('household_day', household_day_schema)

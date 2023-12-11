@@ -1,7 +1,7 @@
 ﻿index,table,filter,result_col,result_value,description
 1,trip,:,hhno,trip['household_id'],
 2,trip,:,trexpfac,trip['trip_weight_2017_2019'],
-3,trip,:,tsvid,trip['trip_id'],
+3,trip,:,tsvid,range(len(trip)),original trip_id is too long for daysim so reset values; We can export the mapping between tsvid and trip_id in the script
 4,trip,:,opurp,trip['origin_purpose'].map(config['purpose_map']).fillna(-1).astype('int'),
 5,trip,:,dpurp,trip['dest_purpose'].map(config['purpose_map']).fillna(-1).astype('int'),
 6,trip,:,dorp,trip['driver'].map(config['dorp_map']),
