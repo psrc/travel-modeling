@@ -1,0 +1,6 @@
+County Group,Year,Season,Pollutant,Unit,Speed (mph),LDV,MDV,HDV
+"King County, Washington",2040,Winter,CO,g/mi,0.0,1.14612,7.64737,18.8529
+"King County, Washington",2040,Summer,CO2e,g/mi,0.0,2280.92,3978.79,6746.7
+"King County, Washington",2040,Summer,NOx,g/mi,0.0,0.0695972,7.18188,47.1166
+"King County, Washington",2040,Winter,PM2.5,g/mi,0.0,0.00948476,0.0169653,0.209152
+"King County, Washington",2040,Summer,VOC,g/mi,0.0,0.0509331,0.331335,1.22278
