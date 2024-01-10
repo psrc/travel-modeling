@@ -127,7 +127,7 @@ def evaluate_emissions(_gdf_shp, taz_gdf, model_year, df_running_rates):
     _df.rename(columns={'new_length': 'length',
                     'length': 'original_length'}, inplace=True)
 
-    
+
 
     df_interzonal_vmt = calculate_interzonal_vmt(_df)
     df_interzonal = calculate_interzonal_emissions(df_interzonal_vmt, df_running_rates)
