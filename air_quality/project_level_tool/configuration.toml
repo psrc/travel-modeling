@@ -1,0 +1,7 @@
+survey_year_17_19 = '(2017, 2019)'
+weight_col_17_19 = 'hh_weight_2017_2019'
+trip_weight_col_17_19 = 'trip_adult_weight_2017_2019'
+
+survey_year_21 = '(2021)'
+weight_col_21 = 'hh_weight_2021'
+trip_weight_col_21 = 'trip_respondent_weight_2021'
