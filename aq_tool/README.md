@@ -19,6 +19,6 @@ This script is much less complicated than the city-level analyses because no geo
 - running_co2.csv
 - running_vmt.csv
 
-Outputs consistent with the 2023/2024 data request from Cascadia/BKR are available in the [outputs/interpolated/King] folder in this repository (https://github.com/psrc/travel-modeling/tree/master/aq_tool/output/interpolated/King). 
+Outputs consistent with the 2023/2024 data request from Cascadia/BKR are available in the [outputs/interpolated/King](https://github.com/psrc/travel-modeling/tree/master/aq_tool/output/interpolated/King) folder in this repository . 
 
 Note, that for consistency with older data, this script separates light-duty emissions by SOV, HOV2, and HOV3 designations. The default of this approach also uses metric tons instead of tons (as assumed in the RTP, for example). 
