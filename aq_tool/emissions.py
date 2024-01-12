@@ -17,7 +17,58 @@ def grams_to_tons(value, metric_tons=False):
 
     return value
 
-def calculate_interzonal_vmt(df):
+def select_seasons(df):
+    # Select the month to use for each pollutant; some rates are used for winter or summer depending
+    # on when the impacts are at a maximum due to temperature.
+
+    df_summer = df[df['pollutantID'].isin(summer_list)]
+    df_summer = df_summer[df_summer['monthID'] == 7]
+    df_winter = df[~df['pollutantID'].isin(summer_list)]
+    df_winter = df_winter[df_winter['monthID'] == 1]
+    df = df_winter.append(df_summer)
+
+    return df
+
+def load_rates(year, fname):
+
+    # df = pd.read_sql('SELECT * FROM running_emission_rates_by_veh_type WHERE year=='+year, con=conn)
+    df = pd.read_csv(fname)
+    df['year'] = df['year'].astype('str')
+    df = df[df['year'] == str(year)]
+    df.rename(columns={'ratePerDistance': 'grams_per_mile'}, inplace=True)
+    
+    df = select_seasons(df)
+
+    return df
+
+def load_start_rates(year, fname):
+
+    df = pd.read_csv(fname)    
+    df['year'] = df['year'].astype('str')
+    df = df[df['year'] == str(year)]
+    # Select winter rates for pollutants other than those listed in summer_list
+    df = select_seasons(df)
+
+    # Sum total emissions across all times of day, by county, for each pollutant
+    df = df.groupby(['pollutantID','county','veh_type']).sum()[['ratePerVehicle']].reset_index()
+
+    return df
+
+def interpolate_rates(df, col, lower_bound_year, upper_bound_year, analysis_year):
+
+    # Calculate share of change in span between lower_bound_year and analysis year
+    scale_value = (int(analysis_year)-int(lower_bound_year))/(int(upper_bound_year)-int(lower_bound_year))
+
+    # Calculate difference between upper_bound_year value and lower_bound_year_value
+    df[col+'_diff'] = (df[col+upper_bound_year]-df[col+lower_bound_year])
+    # Calculate interpolation as lower_bound_year value plus the scale_value times the total difference
+    # E.g., if lower_bound_year is 2020 and upper_bound_year is 2030, scale_value would be 0.5 for analysis year of 2025
+    # 2025 value = 2020 value + 0.5*(2030 value - 2020 value)
+    df[col] = df[col+lower_bound_year] + (df[col+'_diff'])*scale_value
+
+    return df
+
+def calculate_interzonal_vmt(df, hpms_scale=1):
     """ Calcualte inter-zonal running emission rates from network outputs (df)
     """
 
@@ -40,15 +91,15 @@ def calculate_interzonal_vmt(df):
 
     # Calculate VMT by bus, SOV, HOV2, HOV3+, medium truck, heavy truck
     df['sov_vol'] = df['@sov_inc1']+df['@sov_inc2']+df['@sov_inc3']
-    df['sov_vmt'] = df['sov_vol']*df['length']
+    df['sov_vmt'] = df['sov_vol']*df['length']*hpms_scale
     df['hov2_vol'] = df['@hov2_inc1']+df['@hov2_inc2']+df['@hov2_inc3']
-    df['hov2_vmt'] = df['hov2_vol']*df['length']
+    df['hov2_vmt'] = df['hov2_vol']*df['length']*hpms_scale
     df['hov3_vol'] = df['@hov3_inc1']+df['@hov3_inc2']+df['@hov3_inc3']
-    df['hov3_vmt'] = df['hov3_vol']*df['length']
+    df['hov3_vmt'] = df['hov3_vol']*df['length']*hpms_scale
     df['tnc_vmt'] = df['@tnc_inc1']+df['@tnc_inc2']+df['@tnc_inc3']
-    df['bus_vmt'] = df['@bveh']*df['length']
-    df['medium_truck_vmt'] = df['@mveh']*df['length']
-    df['heavy_truck_vmt'] = df['@hveh']*df['length']
+    df['bus_vmt'] = df['@bveh']*df['length']*hpms_scale
+    df['medium_truck_vmt'] = df['@mveh']*df['length']*hpms_scale
+    df['heavy_truck_vmt'] = df['@hveh']*df['length']*hpms_scale
 
     # Convert TOD periods into hours used in emission rate files
     df['hourId'] = df['tod'].map(tod_lookup).astype('int')
@@ -142,7 +193,7 @@ def calculate_interzonal_emissions(df, df_rates, group_light_vehs=True):
 
     return df
 
-def calculate_intrazonal_vmt(df_iz, conn):
+def calculate_intrazonal_vmt(df_iz, conn, hpms_scale=1):
 
     # df_iz = pd.read_csv(r'outputs/network/iz_vol.csv')
 
@@ -160,11 +211,11 @@ def calculate_intrazonal_vmt(df_iz, conn):
         df_iz['heavytruck_'+tod+'_vol'] = df_iz['heavy_truck_'+tod]
 
 	    # Calculate VMT as intrazonal distance times volumes 
-        df_iz['sov_'+tod+'_vmt'] = df_iz['sov_'+tod+'_vol']*df_iz['izdist']
-        df_iz['hov2_'+tod+'_vmt'] = df_iz['hov2_'+tod+'_vol']*df_iz['izdist']
-        df_iz['hov3_'+tod+'_vmt'] = df_iz['hov3_'+tod+'_vol']*df_iz['izdist']
-        df_iz['mediumtruck_'+tod+'_vmt'] = df_iz['mediumtruck_'+tod+'_vol']*df_iz['izdist']
-        df_iz['heavytruck_'+tod+'_vmt'] = df_iz['heavytruck_'+tod+'_vol']*df_iz['izdist']
+        df_iz['sov_'+tod+'_vmt'] = df_iz['sov_'+tod+'_vol']*df_iz['izdist']*hpms_scale
+        df_iz['hov2_'+tod+'_vmt'] = df_iz['hov2_'+tod+'_vol']*df_iz['izdist']*hpms_scale
+        df_iz['hov3_'+tod+'_vmt'] = df_iz['hov3_'+tod+'_vol']*df_iz['izdist']*hpms_scale
+        df_iz['mediumtruck_'+tod+'_vmt'] = df_iz['mediumtruck_'+tod+'_vol']*df_iz['izdist']*hpms_scale
+        df_iz['heavytruck_'+tod+'_vmt'] = df_iz['heavytruck_'+tod+'_vol']*df_iz['izdist']*hpms_scale
 	
     # Group totals by vehicle type, time-of-day, and county
     df = df_iz.groupby('geog_name').sum().T
@@ -194,112 +245,34 @@ def calculate_intrazonal_vmt(df_iz, conn):
 
     return df
 
-def calculate_intrazonal_vmt(df_iz, conn):
 
-    # Map each zone to county
-    county_df = pd.read_sql('SELECT * FROM taz_geography', con=conn)
-    df_iz = pd.merge(df_iz, county_df, how='left', on='taz')
-
-    # Sum up SOV, HOV2, and HOV3 volumes across user classes 1, 2, and 3 by time of day
-    # Calculate VMT for these trips too; rename truck volumes for clarity
-    for tod in tod_lookup.keys():
-        df_iz['sov_'+tod+'_vol'] = df_iz['sov_inc1_'+tod]+df_iz['sov_inc2_'+tod]+df_iz['sov_inc3_'+tod]
-        df_iz['hov2_'+tod+'_vol'] = df_iz['hov2_inc1_'+tod]+df_iz['hov2_inc2_'+tod]+df_iz['hov2_inc3_'+tod]
-        df_iz['hov3_'+tod+'_vol'] = df_iz['hov3_inc1_'+tod]+df_iz['hov3_inc2_'+tod]+df_iz['hov3_inc3_'+tod]
-        df_iz['mediumtruck_'+tod+'_vol'] = df_iz['medium_truck_'+tod]
-        df_iz['heavytruck_'+tod+'_vol'] = df_iz['heavy_truck_'+tod]
-
-	    # Calculate VMT as intrazonal distance times volumes 
-        df_iz['sov_'+tod+'_vmt'] = df_iz['sov_'+tod+'_vol']*df_iz['izdist']
-        df_iz['hov2_'+tod+'_vmt'] = df_iz['hov2_'+tod+'_vol']*df_iz['izdist']
-        df_iz['hov3_'+tod+'_vmt'] = df_iz['hov3_'+tod+'_vol']*df_iz['izdist']
-        df_iz['mediumtruck_'+tod+'_vmt'] = df_iz['mediumtruck_'+tod+'_vol']*df_iz['izdist']
-        df_iz['heavytruck_'+tod+'_vmt'] = df_iz['heavytruck_'+tod+'_vol']*df_iz['izdist']
-	
-    # Group totals by vehicle type, time-of-day, and county
-    df = df_iz.groupby('geog_name').sum().T
-    df.reset_index(inplace=True)
-    df = df[df['index'].apply(lambda row: 'vmt' in row)]
-    # df.columns = ['index','King','Kitsap','Pierce','Snohomish']
-    df.rename(columns={'King County': 'King',
-                        'Kitsap County': 'Kitsap',
-                        'Pierce County': 'Pierce',
-                        'Snohomish County': 'Snohomish'}, inplace=True)
-
-    # Calculate total VMT by time of day and vehicle type
-    # Ugly dataframe reformatting to unstack data
-    df['tod'] = df['index'].apply(lambda row: row.split('_')[1])
-    df['vehicle_type'] = df['index'].apply(lambda row: row.split('_')[0])
-    df.drop('index', axis=1,inplace=True)
-    df.index = df[['tod','vehicle_type']]
-    df.drop(['tod','vehicle_type'],axis=1,inplace=True)
-    df = pd.DataFrame(df.unstack()).reset_index()
-    df['tod'] = df['level_1'].apply(lambda row: row[0])
-    df['vehicle_type'] = df['level_1'].apply(lambda row: row[1])
-    df.drop('level_1', axis=1, inplace=True)
-    df.columns = ['geog_name','VMT','tod','vehicle_type']
-
-    # Use hourly periods from emission rate files
-    df['hourId'] = df['tod'].map(tod_lookup).astype('int')
-
-    # Export this file for use with other rate calculations
-    # Includes total VMT for each group for which rates are available
-    # df.to_csv(r'outputs/emissions/intrazonal_vmt_grouped.csv', index=False)
-
-    return df
-
-def calculate_start_emissions(conn, intersect_gdf, model_year, df_veh, parcel_geog, df_hh, start_rates_df, df_bus_veh):
+def calculate_start_emissions_county(conn, tot_veh, start_rates_df, df_bus_veh):
     """ Calculate start emissions based on vehicle population by county and year. """
-    
-    # We were also scaling all types of vehicles based on household vehicle ownership (light)
-    # FIXME: find a way to scale trucks based on truck trips
 
-    tot_veh = df_hh['hhvehs'].sum()
-    # Scale total county vehicles owned to match model
+    # Load observed base year vehicle populations by county
+    df_veh = pd.read_sql('SELECT * FROM vehicle_population WHERE year=='+base_year, con=conn)
+
+    # Scale county vehicles by total change
     tot_veh_model_base_year = 3007056
     veh_scale = 1.0+(tot_veh - tot_veh_model_base_year)/tot_veh_model_base_year
     df_veh['vehicles'] = df_veh['vehicles']*veh_scale
-
-    # Select total vehicles by county within the intersected geographies
-    # This will indetify the shares of vehicles per county from the spatial joined data
-    df_hh = df_hh.merge(parcel_geog, left_on='hhparcel', right_on='ParcelID')    # join hh data to parcels
-    _df_hh = df_hh[df_hh['hhparcel'].isin(intersect_gdf['PARCELID'])]    # Intersect with filtered geographic data
-    _hh_vehs = _df_hh.groupby('CountyName').sum()[['hhvehs']]    # Get total vehicles by county within filtered geog
     
-    # Calculate percent of vehicles in each county for filtered geog versus full results by county
-    county_tot_vehs = df_hh.groupby('CountyName').sum()[['hhvehs']].reset_index()
-    subset_vehs = _df_hh.groupby('CountyName').sum()[['hhvehs']].reset_index()
-    county_subset_shares = county_tot_vehs.merge(subset_vehs, on='CountyName', how='left', suffixes=['_tot', '_subset']).fillna(0)
-    county_subset_shares['hhvehs_share'] = county_subset_shares['hhvehs_subset']/county_subset_shares['hhvehs_tot']
-    county_subset_shares['CountyName'] = county_subset_shares['CountyName'].str.lower()
-
-    # Apply shares to the total vehicles df; results are scaled # of vehicles from filtered geog within each county
-    df_veh = df_veh.merge(county_subset_shares[['CountyName','hhvehs_share']], left_on='county', right_on='CountyName', how='left')
-    df_veh['vehicles'] = df_veh['vehicles'] *df_veh['hhvehs_share']
-
-    # Join with rates to calculate total emissions
-    print(model_year)
-
     df = pd.merge(df_veh, start_rates_df, left_on=['type','county'],right_on=['veh_type','county'])
     df['start_grams'] = df['vehicles']*df['ratePerVehicle'] 
-    df['start_tons'] = grams_to_tons(df['start_grams'], metric_tons=True)
+    df['start_tons'] = grams_to_tons(df['start_grams'])
     df = df.groupby(['pollutantID','veh_type','county']).sum().reset_index()
 
     # Calculate bus start emissions
     # Load data taken from NTD that reports number of bus vehicles "operated in maximum service"
     tot_buses = df_bus_veh['bus_vehicles_in_service'].sum()
-
     df_bus = start_rates_df[start_rates_df['veh_type'] == 'transit']
-  
-    # Scale start emissions by total households in study area
-    # Very hard to determine starting impact of buses
-    bus_scale = len(_df_hh)/len(df_hh)
-    df_bus['start_grams'] = df_bus['ratePerVehicle']*tot_buses*bus_scale
-    df_bus['start_tons'] = grams_to_tons(df_bus['start_grams'], metric_tons=True)
+    df_bus['start_grams'] = df_bus['ratePerVehicle']*tot_buses
+    df_bus['start_tons'] = grams_to_tons(df_bus['start_grams'])
     df_bus = df_bus.groupby(['pollutantID','county']).sum().reset_index()
     df_bus['veh_type'] = 'transit'
 
     df = df.append(df_bus)
+
     return df
 
 def calculate_intrazonal_emissions(df_intra, df_running_rates):
