@@ -1,0 +1,27 @@
+project:
+  type: book
+  output-dir: "validation-notebook"
+  
+book:
+  title: "Dayim Estimation Results"
+  sidebar:
+    logo: PSRClogo2016path.png
+
+  chapters:
+    - index.qmd
+    - auto_ownership_validation.ipynb
+
+format:
+  html:
+    mainfont: Poppins
+    theme: 
+      light: [cosmo, custom.scss]
+      dark: [darkly, custom.scss]
+    echo: false
+    code-tools: true
+
+toc: true
+
+
+
+

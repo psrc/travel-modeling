@@ -8,8 +8,11 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "daysim_conversion.py",
+            // "program": "attach_skims.py",
+            // "program": "convert_format.py",
+            // "program": "data_validation.py",
             // "program": "locate_parcels.py",
+            "program": "process_survey.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }

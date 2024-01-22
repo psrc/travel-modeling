@@ -1,4 +1,4 @@
-# Copyright [2014] [Puget Sound Regional Council]
+# Copyright [2023] [Puget Sound Regional Council]
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,9 +25,6 @@ sys.path.append(os.getcwd())
 
 config = toml.load("configuration.toml")
 
-# main_log_file = os.path.join(config['output_dir'],'log.txt')
-
-
 def setup_custom_logger(name):
     # create dir for main log file if it doesn't exist
     try:
@@ -45,7 +42,6 @@ def setup_custom_logger(name):
     logger.setLevel(logging.INFO)
     logger.addHandler(handler)
     return logger
-
 
 def timed(f):
     @wraps(f)
