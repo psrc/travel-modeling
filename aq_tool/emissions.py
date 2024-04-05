@@ -179,6 +179,7 @@ def calculate_interzonal_emissions(df, df_rates, group_light_vehs=True):
     veh_type_map = {'sov': 'light',
                     'hov2': 'light',
                     'hov3': 'light',
+                    'light': 'light',
                     'medium': 'medium',
                     'heavy': 'heavy',
                     'transit': 'transit'}
