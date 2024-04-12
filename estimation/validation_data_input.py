@@ -7,7 +7,7 @@ import plotly.express as px
 config = toml.load(os.path.join(os.getcwd(), 'validation_configuration.toml'))
 
 # Read data for model and survey data
-def get_data(df_name, col_list=None):
+def get_data(df_name, survey_data_path, col_list=None):
 
     if col_list is None:
         model_cols = None
@@ -21,7 +21,7 @@ def get_data(df_name, col_list=None):
     model['source'] = "model"
 
     # survey data
-    survey = pd.read_csv(os.path.join(config['survey_dir'], '_'+df_name+'.tsv'), sep='\t', usecols=model_cols)
+    survey = pd.read_csv(os.path.join(survey_data_path, '_'+df_name+'.tsv'), sep='\t', usecols=model_cols)
     survey['source'] = "survey"
 
     df = pd.concat([model, survey])

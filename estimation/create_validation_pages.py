@@ -8,6 +8,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def run_ipynb(sheet_name, nb_path):
+    print("create " + sheet_name + " summary")
     with open(nb_path + r"/" + sheet_name + ".ipynb") as f:
         nb = nbformat.read(f, as_version=4)
         if sys.version_info > (3, 0):
