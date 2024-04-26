@@ -11,10 +11,12 @@ book:
 
   chapters:
     - index.qmd
+    - validation_scripts/telecommute.ipynb
     - validation_scripts/auto_ownership.ipynb
     - part: "Tour Mode Choice"
       chapters:
         - validation_scripts/work_tour_mode.ipynb
+        - validation_scripts/school_tour_mode.ipynb
         - validation_scripts/escort_tour_mode.ipynb
 
 
