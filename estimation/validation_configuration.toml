@@ -20,8 +20,9 @@ summary_list = ['validation_scripts/telecommute',
                 'validation_scripts/auto_ownership',
                 'validation_scripts/work_tour_mode',
                 'validation_scripts/school_tour_mode',
-                'validation_scripts/escort_tour_mode']
-#summary_list = ['validation_scripts/telecommute']
+                'validation_scripts/escort_tour_mode',
+                'validation_scripts/other_home_based_tour_mode']
+#summary_list = ['validation_scripts/other_home_based_tour_mode']
 
 # color palatte for plots
 psrc_color = ["#91268F", "#8CC63E", "#00A7A0", "#F05A28", "#4C4C4C", "#630460", "#9f3913", "#588527", "#00716c", "#3e4040"]
