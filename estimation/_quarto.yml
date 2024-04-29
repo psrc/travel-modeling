@@ -13,6 +13,7 @@ book:
     - index.qmd
     - validation_scripts/telecommute.ipynb
     - validation_scripts/auto_ownership.ipynb
+    - validation_scripts/work_location.ipynb
     - part: "Tour Mode Choice"
       chapters:
         - validation_scripts/work_tour_mode.ipynb
