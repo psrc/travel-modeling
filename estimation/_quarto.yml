@@ -13,14 +13,17 @@ book:
     - index.qmd
     - validation_scripts/telecommute.ipynb
     - validation_scripts/auto_ownership.ipynb
-    - validation_scripts/work_location.ipynb
+    - validation_scripts/transit_pass_ownership.ipynb
+    - part: "Location Choice"
+      chapters:
+        - validation_scripts/work_location.ipynb
+        - validation_scripts/school_location.ipynb
     - part: "Tour Mode Choice"
       chapters:
         - validation_scripts/work_tour_mode.ipynb
         - validation_scripts/school_tour_mode.ipynb
         - validation_scripts/escort_tour_mode.ipynb
         - validation_scripts/other_home_based_tour_mode.ipynb
-
 
 format:
   html:
