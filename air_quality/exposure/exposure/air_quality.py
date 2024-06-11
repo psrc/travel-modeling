@@ -3,18 +3,18 @@ import numpy as np
 
 ################################ Load Files
 # Air quality output produced from Soundcast scripts\summarize\standard\air_quality script
-aq_rates = pd.read_csv(r'L:\T2040\soundcast_2014\outputs\aq_2014_july.csv')
+aq_rates = pd.read_csv(r'R:\e2projects_two\SoundCast\Inputs\db_inputs\running_emission_rates_by_veh_type.csv')
 
 # Activity results are at parcel level - aggregate to block level for now
-block_parcel_lookup = pd.read_csv(r'R:\aq\new_parcel_block_lookup.txt')
+block_parcel_lookup = pd.read_csv(r'R:\e2projects_two\aq\new_parcel_block_lookup.txt')
 
 # Load intersection of blocks and network components (replace with parcel intersect in future)
 # This was done in GIS, as an intersect between edges_0 and a layer of block centroids buffered at 500 ft.
 # Ideally do this in code with geopandas
-block_network = pd.read_csv(r'R:\aq\block_network_intersect.txt')
+block_network = pd.read_csv(r'R:\e2projects_two\aq\block_network_intersect.txt')
 
 # Use trip records to create activity patterns for each simulated person in the region
-df = pd.read_csv('_trip.tsv', sep='\t')   # Daysim standard output
+df = pd.read_csv(r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast\outputs\daysim\_trip.tsv', sep='\t')   # Daysim standard output
 
 ################################
 # Start script
@@ -40,7 +40,7 @@ activity['activity_index'] = 0
 # Group trips by person_id and iterate through each row of grouped results to get activities
 max_trips_per_person = df['total_trips'].max()    # There are some people with 32 trips per day, may want to limit this...
 
-for i in xrange(2,max_trips_per_person+1):    # Start with the second trip since we alreayd calculated the first
+for i in range(2,max_trips_per_person+1):    # Start with the second trip since we alreayd calculated the first
 #     print i
     current_trip = df.groupby(['person_id']).nth(n=i-1)[['opcl','dpcl','arrtm','deptm','total_trips']].reset_index()
     activity_row = current_trip[['person_id','opcl','deptm']]    
@@ -161,7 +161,7 @@ def total_activity_emissions(df, zone_num, emissions_type, begin_hour, begin_hou
     # Calculate totals for interim hours if necessary
     interim_total = 0
     if end_hour-begin_hour>1:
-        for hour in xrange(begin_hour+1,end_hour):
+        for hour in range(begin_hour+1,end_hour):
             interim_total +=  df[(df[geography_field] == zone_num) & (df.hourId == hour)][emissions_type].values[0]
             
     activity_total = first_hour_total + interim_total + last_hour_total
@@ -175,9 +175,9 @@ def total_activity_emissions(df, zone_num, emissions_type, begin_hour, begin_hou
 df = activity[activity['GEOID10'].isin(pd.unique(hourly_emissions_total['GEOID10']))]
 
 results = []
-print len(df)
+print(len(df))
 for index, row in df.iterrows():
-    print index
+    print(index)
     tot_emissions = total_activity_emissions(df, zone_num=row['GEOID10'], emissions_type='1_total_grams', 
                                 begin_hour=row['begin_hour'], begin_hour_share=row['begin_hour_fraction'], 
                                 end_hour=row['end_hour'], end_hour_share=row['end_hour_fraction'])

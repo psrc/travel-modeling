@@ -8,7 +8,10 @@ from shapely import wkt
 import geopandas as gpd
 import time
 
-create_activity = False
+run_create_activity = False
+run_join_shapefile = False
+run_calculate_emissions = True
+load_existing = False
 
 # For each person, find out their time spent at different locations (activity pattern)
 
@@ -65,7 +68,7 @@ facility_type_lookup = {
         }
 
 def create_activity():
-    run_dir = r'L:\RTP_2022\final_runs\sc_2018_rtp_final\soundcast'
+    run_dir = r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast'
 
     df = pd.read_csv(os.path.join(run_dir,'outputs/daysim/_trip.tsv'), delim_whitespace=True,
                      usecols=['hhno','pno','opcl','dpcl','arrtm','deptm','trexpfac'])
@@ -73,6 +76,7 @@ def create_activity():
 
     ################################
     # Start script
+    ################################
 
     # Generate unique person ID field 
     df['person_id'] = df['hhno'].astype('str') + '_' + df['pno'].astype('str')
@@ -190,14 +194,14 @@ def read_from_sde(connection_string, feature_class_name, version,
     
     return gdf
 
-def join_shapefile():
+def join_shapefile(activity):
 
     connection_string = 'mssql+pyodbc://AWS-PROD-SQL\Sockeye/ElmerGeo?driver=SQL Server?Trusted_Connection=yes'
     crs = {'init' : 'EPSG:2285'}
     version = "'DBO.Default'"
     gdf_shp = read_from_sde(connection_string, 'blockgrp2020', version, crs=crs, is_table=False)
 
-    run_dir_18 = r'L:\RTP_2022\final_runs\sc_2018_rtp_final\soundcast'
+    run_dir_18 = r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast'
     parcel_18 = pd.read_csv(os.path.join(run_dir_18,'inputs\scenario\landuse\parcels_urbansim.txt'), delim_whitespace=True)
 
     # Load parcel centroids as geodataframe
@@ -251,13 +255,13 @@ def join_shapefile():
 # Get total emissions for each of the intersecting links
 ######################################################
 
-def calculate_emissions():
+def calculate_emissions(activity, gdf_joined):
 
     # List of vehicle types to include in results; note that bus is included here but not for intrazonals
     vehicle_type_list = ['sov','hov2','hov3','bus','medium_truck','heavy_truck']
 
     # Load link-level volumes and join to intersected network links
-    model_path = r'C:\workspace\sc_2040_rtp_final\soundcast'
+    model_path =  r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast'
     df = pd.read_csv(os.path.join(model_path,r'outputs/network/network_results.csv'))
 
 
@@ -315,7 +319,7 @@ def calculate_emissions():
     from sqlalchemy import create_engine
     ############## FIXME: make model year and model run locaton configurable
     model_year = '2018'
-    conn = create_engine('sqlite:///C:/workspace/sc_2040_rtp_final/soundcast/inputs/db/soundcast_inputs.db')
+    conn = create_engine('sqlite:///L:/RTP_2022/final_runs/sc_rtp_2018_final/soundcast/inputs/db/soundcast_inputs.db')
     ########################
 
     # Load running emission rates by vehicle type, for the model year
@@ -412,19 +416,18 @@ def total_activity_emissions(df, zone_num, emissions_type, begin_hour, begin_hou
     
     return activity_total
 
-run_create_activity = False
-run_join_shapefile = False
-run_calculate_emissions = False
-load_existing = True
-
 if run_create_activity:
     activity = create_activity()
+else:
+    activity = pd.read_csv('activity.csv')
 
 if run_join_shapefile:
-    gdf_joined = join_shapefile()
+    gdf_joined = join_shapefile(activity)
+else:
+    gdf_joined = gpd.read_file('gdf_joined.shp')
 
 if run_calculate_emissions:
-    parcel_tot_df = calculate_emissions()
+    parcel_tot_df = calculate_emissions(activity, gdf_joined)
 
 if load_existing:
     parcel_tot_df = pd.read_csv(r'C:\workspace\travel-modeling\air_quality\exposure\exposure\parcel_tot_df.csv')
