@@ -17,10 +17,10 @@ from emissions import *
 run_dir = r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast'
 run_dir_2030 = r'L:\RTP_2022\final_runs\sc_rtp_2030_final\soundcast'
 model_year = '2018'    # Make sure to update this since rates used are based on this value
-county_name = 'King'
+county_name = 'Snohomish'
 annualization_factor = 290
 
-analysis_year_list = ['2018','2019','2020','2021','2022']
+analysis_year_list = ['2018','2019','2020','2021','2022','2023']
 lower_bound_year = '2018'
 upper_bound_year = '2030'
 produce_emissions = True

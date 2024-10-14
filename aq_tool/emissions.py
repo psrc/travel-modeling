@@ -276,6 +276,54 @@ def calculate_start_emissions_county(conn, tot_veh, start_rates_df, df_bus_veh):
 
     return df
 
+def calculate_start_emissions_city(conn, intersect_gdf, model_year):
+    """ Calculate start emissions based on vehicle population by county and year. """
+
+    # Load observed base year vehicle populations by county
+    df_veh = pd.read_sql('SELECT * FROM vehicle_population WHERE year=='+base_year, con=conn)
+    
+    # Load parcel to county geographic lookup
+    parcel_geog = pd.read_sql("SELECT ParcelID, CountyName FROM parcel_"+str(base_year)+"_geography", con=conn) 
+    # Scale all vehicles by difference between base year and modeled total vehicles owned from auto onwership model
+    df_hh = pd.read_csv(r'outputs/daysim/_household.tsv', delim_whitespace=True, usecols=['hhvehs','hhparcel'])
+    tot_veh = df_hh['hhvehs'].sum()
+    # Scale total county vehicles owned to match model
+    tot_veh_model_base_year = 3007056
+    veh_scale = 1.0+(tot_veh - tot_veh_model_base_year)/tot_veh_model_base_year
+    df_veh['vehicles'] = df_veh['vehicles']*veh_scale
+    # Select total vehicles by county within the intersected geographies
+    # This will indetify the shares of vehicles per county from the spatial joined data
+    df_hh = df_hh.merge(parcel_geog, left_on='hhparcel', right_on='ParcelID')    # join hh data to parcels
+    _df_hh = df_hh[df_hh['hhparcel'].isin(intersect_gdf['PARCELID'])]    # Intersect with filtered geographic data
+    _hh_vehs = _df_hh.groupby('CountyName').sum()[['hhvehs']]    # Get total vehicles by county within filtered geog
+    
+    # Calculate percent of vehicles in each county for filtered geog versus full results by county
+    county_tot_vehs = df_hh.groupby('CountyName').sum()[['hhvehs']].reset_index()
+    subset_vehs = _df_hh.groupby('CountyName').sum()[['hhvehs']].reset_index()
+    county_subset_shares = county_tot_vehs.merge(subset_vehs, on='CountyName', how='left', suffixes=['_tot', '_subset']).fillna(0)
+    county_subset_shares['hhvehs_share'] = county_subset_shares['hhvehs_subset']/county_subset_shares['hhvehs_tot']
+    county_subset_shares['CountyName'] = county_subset_shares['CountyName'].str.lower()
+    # Apply shares to the total vehicles df; results are scaled # of vehicles from filtered geog within each county
+    df_veh = df_veh.merge(county_subset_shares[['CountyName','hhvehs_share']], left_on='county', right_on='CountyName', how='left')
+    df_veh['vehicles'] = df_veh['vehicles'] *df_veh['hhvehs_share']
+    # Join with rates to calculate total emissions
+    print(model_year)
+    start_rates_df = pd.read_sql('SELECT * FROM start_emission_rates_by_veh_type WHERE year=='+model_year, con=conn)
+    # Select winter rates for pollutants other than those listed in summer_list
+    df_summer = start_rates_df[start_rates_df['pollutantID'].isin(summer_list)]
+    df_summer = df_summer[df_summer['monthID'] == 7]
+    df_winter = start_rates_df[~start_rates_df['pollutantID'].isin(summer_list)]
+    df_winter = df_winter[df_winter['monthID'] == 1]
+    start_rates_df = df_winter.append(df_summer)
+    # Sum total emissions across all times of day, by county, for each pollutant
+    start_rates_df = start_rates_df.groupby(['pollutantID','county','veh_type']).sum()[['ratePerVehicle']].reset_index()
+    df = pd.merge(df_veh, start_rates_df, left_on=['type','county'],right_on=['veh_type','county'])
+    df['start_grams'] = df['vehicles']*df['ratePerVehicle'] 
+    df['start_tons'] = grams_to_tons(df['start_grams'])
+    df = df.groupby(['pollutantID','veh_type','county']).sum().reset_index()
+
+    return df
+
 def calculate_intrazonal_emissions(df_intra, df_running_rates):
     """ Summarize intrazonal emissions by vehicle type. """
 
