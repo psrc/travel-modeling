@@ -8,13 +8,13 @@ from pymssql import connect
 
 pd.options.display.float_format = '{:.5f}'.format
 
-vintage_year = 2023
-years = list(range(2020, 2024))
+vintage_year = 2024
+years = list(range(2010, 2020))
 geoid_col = 'GEOID20'
-publication_id = '9'
+publication_id = '11'
 
 # open shapefiles in output dir
-out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2023-10-13\parcelized'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2024-10-16\parcelized'
 
 def sqlconn(dbname):
     # create Elmer connection

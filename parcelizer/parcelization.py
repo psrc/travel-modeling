@@ -12,11 +12,11 @@ prcl_pt_filename = 'parcels_urbansim_2018_pts'
 
 path_block_shp = 'block2020'
 geoid_col = 'GEOID20'
-publication_id = '9'
+publication_id = '11'
 
-ofm_years = list(range(2020, 2024))
+ofm_years = list(range(2010, 2020))
 
-out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2023-10-13\parcelized'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2024-10-16\parcelized'
 
 # functions ----
 
@@ -107,7 +107,7 @@ def blocks_with_parcels_and_est_without_byrunits(prcls_to_blks_shp, prcls_units,
 
 for y in ofm_years:
     ofm_year = str(y)
-    out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2023.shp'
+    out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2024.shp'
 
     # spatial join parcels & blocks NEW
     prcls_elmergeo_sub = read_elmergeo_shapefile(prcl_pt_filename, ['parcel_id', 'geometry'])
