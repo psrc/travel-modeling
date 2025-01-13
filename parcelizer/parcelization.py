@@ -119,7 +119,8 @@ for y in ofm_years:
     blks_sub = blks_sub.set_crs("EPSG:2285")
     blks_sub = blks_sub.to_crs("EPSG:2285")
 
-    prcls_to_blks = gpd.sjoin(prcls_elmergeo_sub, blks_sub, op = 'within', how = 'left')
+    prcls_to_blks = gpd.sjoin(prcls_elmergeo_sub, blks_sub, predicate = 'within', how = 'left') # use with Python 3.12.7
+    # prcls_to_blks = gpd.sjoin(prcls_elmergeo_sub, blks_sub, op = 'within', how = 'left') #op depreciated in gpd 1.0.0
 
     # assemble baseyear units 
     raw_bldgs = pd.read_csv(path_bldgs_file)
@@ -169,7 +170,7 @@ for y in ofm_years:
     # allocate block estimates to parcels
     new_prcls_to_blks['total_units'] = new_prcls_to_blks.groupby(geoid_col)['residential_units'].transform('sum')
     new_prcls_to_blks['proportion'] = new_prcls_to_blks.residential_units / new_prcls_to_blks.total_units
-
+    # new_prcls_to_blks.to_csv(r'C:\Users\CLam\github\travel-modeling\parcelizer\new_prcls_to_blks_172.csv', index=False) 
     # evaluate GQ 
     raw_gqlu = pd.read_csv(path_gq_file)
     blks_with_gq = ofm_df[ofm_df['GQ'] > 0]
@@ -197,7 +198,8 @@ for y in ofm_years:
     # remainder of blocks with GQ estimates, no GQ land use
     blks_rmning = blks_with_gq[~blks_with_gq[geoid_col].isin(blks_prcls_with_gq_est_gqlu)]
     prcls_rmning_check = new_prcls_to_blks[new_prcls_to_blks[geoid_col].isin(blks_rmning[geoid_col])]
-    blks_rmning_check_summary = prcls_rmning_check.groupby(geoid_col)['bldg_sqft','residential_units'].sum().reset_index()
+    # blks_rmning_check_summary = prcls_rmning_check.groupby(geoid_col)['bldg_sqft','residential_units'].sum().reset_index() # works with python 3.9
+    blks_rmning_check_summary = prcls_rmning_check.groupby(geoid_col)[['bldg_sqft','residential_units']].sum().reset_index() # works with python 3.12.7
 
     blks_rmning_with_gq_est_bldgsqft = blks_rmning_check_summary[blks_rmning_check_summary['bldg_sqft'] > 0] 
     new_prcls_to_blks.loc[new_prcls_to_blks[geoid_col].isin(blks_rmning_with_gq_est_bldgsqft[geoid_col]), 'gq_numerator'] = new_prcls_to_blks['bldg_sqft'] 
