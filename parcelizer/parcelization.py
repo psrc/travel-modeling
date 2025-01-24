@@ -22,7 +22,8 @@ out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2024-10-16\parcelized'
 
 def sqlconn(dbname):
     # create Elmer connection
-    con = pyodbc.connect('DRIVER={SQL Server};SERVER=AWS-PROD-SQL\SOCKEYE;DATABASE=' + dbname + ';trusted_connection=true')
+    conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=SQLserver; DATABASE=Elmer; trusted_connection=yes"
+    con = pyodbc.connect(conn_string)
     return(con)
 
 def query_tblOfmSaep(year, publication_id):
@@ -100,7 +101,8 @@ def blocks_with_parcels_and_est_without_byrunits(prcls_to_blks_shp, prcls_units,
     df = summarize_blocks_prcls_units(prcls_to_blks_shp, prcls_units)
     df_sub = df[df['residential_units'] == 0]
     df_sub_join = pd.merge(df_sub, ofm_df_single_year, how = 'left') 
-    df_sub_join_est = df_sub_join[df_sub_join['HU'] > 0]
+    df_sub_join_est = df_sub_join[(df_sub_join['HU'] > 0) | ((df_sub_join['HHP'] > 0) & (df_sub_join['HU'] == 0))]
+    #df_sub_join_est = df_sub_join[df_sub_join['HU'] > 0] # OLD; excluded two blocks in 2015 that had pop & hhp but 0 HU
     return(df_sub_join_est)
 
 # process ----
@@ -170,7 +172,7 @@ for y in ofm_years:
     # allocate block estimates to parcels
     new_prcls_to_blks['total_units'] = new_prcls_to_blks.groupby(geoid_col)['residential_units'].transform('sum')
     new_prcls_to_blks['proportion'] = new_prcls_to_blks.residential_units / new_prcls_to_blks.total_units
-    # new_prcls_to_blks.to_csv(r'C:\Users\CLam\github\travel-modeling\parcelizer\new_prcls_to_blks_172.csv', index=False) 
+  
     # evaluate GQ 
     raw_gqlu = pd.read_csv(path_gq_file)
     blks_with_gq = ofm_df[ofm_df['GQ'] > 0]
@@ -227,3 +229,4 @@ for y in ofm_years:
 
     # create shapefile
     new_prcls_to_blks.to_file(os.path.join(out_dir, out_file)) # takes approx. 11 mins to write to file
+    # print("Finished!")
