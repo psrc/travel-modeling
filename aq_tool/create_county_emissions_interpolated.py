@@ -17,7 +17,7 @@ from emissions import *
 run_dir = r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast'
 run_dir_2030 = r'L:\RTP_2022\final_runs\sc_rtp_2030_final\soundcast'
 model_year = '2018'    # Make sure to update this since rates used are based on this value
-county_name = 'Snohomish'
+county_name = 'King'
 annualization_factor = 290
 
 analysis_year_list = ['2018','2019','2020','2021','2022','2023']
@@ -52,7 +52,7 @@ def evaluate_emissions(df_network, hpms_scale, model_year, df_running_rates, df_
     df_intrazonal = calculate_intrazonal_emissions(df_intrazonal_vmt, df_running_rates)
 
     start_emissions_df = calculate_start_emissions_county(conn, hh_veh_year, df_start_rates, df_bus_veh)
-    start_emissions_df = start_emissions_df[start_emissions_df['county'] == 'king']
+    start_emissions_df = start_emissions_df[start_emissions_df['county'] == county_name.lower()]
 
     # Write all results to file
     return df_intrazonal, df_interzonal, start_emissions_df
@@ -212,5 +212,6 @@ if summarize_results:
 final_output_dir = os.path.join(os.getcwd(),'output', 'interpolated', county_name)  
 vmt_results_df.to_csv(os.path.join(final_output_dir,'running_vmt.csv'))
 co2e_results_df.to_csv(os.path.join(final_output_dir,'running_co2e.csv'))
-start_co2e_results_df = start_co2e_results_df*annualization_factor
-start_co2e_results_df.to_csv(os.path.join(final_output_dir,'start_co2e_annual.csv'))
+start_co2e_results_df.to_csv(os.path.join(final_output_dir,'start_co2e.csv'))
+annual_start_co2e_results_df = start_co2e_results_df*annualization_factor
+annual_start_co2e_results_df.to_csv(os.path.join(final_output_dir,'start_co2e_annual.csv'))
