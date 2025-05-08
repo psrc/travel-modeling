@@ -26,31 +26,29 @@ def create_mrs_files():
     # Inputs are 3 template files, created in MOVES for 3 vehicle type classes (light, medium, heavy)
     config = toml.load('configuration.toml')
 
-
-
-
     # Iterate through each year, county, and vehicle type and update XML
     for year in config["year_list"]:
         if not os.path.exists(os.path.join(config["working_dir"],"moves_run_specifications",year)):
             os.makedirs(os.path.join(config["working_dir"],"moves_run_specifications",year))
         for county in config["county_list"]:
-            for veh_type in ['heavy']:
-                et = xml.etree.ElementTree.parse(os.path.join(config["working_dir"],
-                                                            "moves_run_specifications_templates",'template_'+veh_type+'.mrs'))
-                root = et.getroot()
-                for i in root.iter('geographicselection'):
-                    i.set('key',config["county_id_dict"][county])
-                    i.set('description',county + ' County - ' + config["county_id_dict"][county])
-                for i in root.iter('outputdatabase'):
-                    i.set('databasename',county+'_out_'+veh_type+'_'+year+'_'+config["db_tag"])
-                for i in root.iter('scaleinputdatabase'):
-                    i.set('databasename',county+'_in_'+veh_type+'_'+year+'_'+config["db_tag"])
-                for i in root.iter('description'):
-                    i.text = config['description']
-                for order in root.iter('timespan'):
-                    for child in order:
-                        if child.tag == 'year':
-                            child.set('key',year)
+            if county != 'cnty_independent':
+                for veh_type in config['vehicle_type_list']:
+                    et = xml.etree.ElementTree.parse(os.path.join(config["working_dir"],
+                                                                "moves_run_specifications_templates",'template_'+veh_type+'.mrs'))
+                    root = et.getroot()
+                    for i in root.iter('geographicselection'):
+                        i.set('key',config["county_id_dict"][county])
+                        i.set('description',county + ' County - ' + config["county_id_dict"][county])
+                    for i in root.iter('outputdatabase'):
+                        i.set('databasename',county+'_out_'+veh_type+'_'+year+'_'+config["db_tag"])
+                    for i in root.iter('scaleinputdatabase'):
+                        i.set('databasename',county+'_in_'+veh_type+'_'+year+'_'+config["db_tag"])
+                    for i in root.iter('description'):
+                        i.text = config['description']
+                    for order in root.iter('timespan'):
+                        for child in order:
+                            if child.tag == 'year':
+                                child.set('key',year)
 
-                et.write(os.path.join(config["working_dir"],"moves_run_specifications",year,county+'_'+year+'_'+veh_type+'.mrs'))
+                    et.write(os.path.join(config["working_dir"],"moves_run_specifications",year,county+'_'+year+'_'+veh_type+'.mrs'))
 
