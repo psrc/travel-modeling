@@ -9,7 +9,7 @@ import time
 
 # Location of CSV input files to become database tables
 db_input_dir = r'R:\e2projects_two\SoundCast\Inputs\db_inputs'
-db_output_name = r'C:\workspace\soundcast_inputs_2023.db'
+db_output_name = r'R:\e2projects_two\SoundCast\Inputs\dev\db\soundcast_inputs_2023.db'
 
 start_time = time.time()
 
