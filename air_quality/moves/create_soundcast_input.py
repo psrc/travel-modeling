@@ -3,12 +3,12 @@
 import os
 import pandas as pd
 
-input_dir = r'Y:\Air Quality\RTP_2022\MOVES3\rates'
-output_dir = r'T:\2022October\brice'
+input_dir = r'Y:\Air Quality\2026_2050_RTP\moves_outputs'
+output_dir = r'Y:\Air Quality\2026_2050_RTP\moves_outputs\soundcast'
 
 # Work through each County
 county_list = ['King','Kitsap','Pierce','Snohomish']
-year_list = ['2018','2030','2040','2050']
+year_list = ['2023','2035','2050']
 #year_list = ['2018','2050']
 
 
@@ -19,12 +19,13 @@ for year in year_list:
     print(year)
     for county in county_list:
         for veh_type in ['light','medium','heavy','transit']:
+        # for veh_type in ['light','medium','heavy']:
             fname = county.lower() + '_' + year + '_' + veh_type + '.csv'
             df = pd.read_csv(os.path.join(input_dir,county,fname))
             df['year'] = year
             df['county'] = county.lower()
             df['veh_type'] = veh_type
-            df_running = df_running.append(df)
+            df_running = pd.concat([df_running,df])
 
             fname = county.lower() + '_' + year + '_' + veh_type + '_starts.csv'
             df = pd.read_csv(os.path.join(input_dir,county,fname))            
@@ -32,7 +33,7 @@ for year in year_list:
             df['county'] = county.lower()
             df['veh_type'] = veh_type
             #df.rename(columns={'sum(ratePerDistance)':'ratePerVehicle'}, inplace=True)
-            df_start = df_start.append(df)
+            df_start = pd.concat([df_start,df])
 
 df_running.rename(columns={'avgSpeed': 'avgSpeedBinID'}, inplace=True)
 df_running['year'] = df_running['year'].astype('int')

@@ -29,11 +29,10 @@ def create_input_database_xml():
                             child.set('key',year)
 
 
-
-                # for all county-specific tages
-                for tag in ['sourceTypeAgeDistribution','FuelUsageFraction','zoneMonthHour',
+                # for all county-specific tags
+                for tag in ['sourceTypeAgeDistribution','IMCoverage',
                             'roadTypeDistribution','sourceTypeYear','HPMSVtypeYear',
-                            'monthVMTFraction','IMCoverage']:
+                            'monthVMTFraction','AVFT','zoneMonthHour','FuelUsageFraction']:
                     for i in root.iter(tag):
                         # i[0].text = 'Y:\\Air Quality\\Puget Sound Emissions Inventory (Port)\\forecast_year_input_data\\'+year+'\\'+county+'\\'+county+'_'+fname_dict[tag]+'_'+year+'.csv'
                         i[0].text = os.path.join(config["working_dir"], "forecast_year_input_data", year, county, county+"_"+config["fname_dict"][tag]+"_"+year+".csv")
@@ -41,10 +40,11 @@ def create_input_database_xml():
                 # for generic tags
                 if "cnty_independent" in config['county_list']:
                     for tag in ['avgSpeedDistribution','FuelSupply','FuelFormulation',
-                                'AVFT','dayVMTFraction','hourVMTFraction']:
+                                'dayVMTFraction','hourVMTFraction',
+                                ]:
                         for i in root.iter(tag):
                             # i[0].text = 'Y:\\Air Quality\\Puget Sound Emissions Inventory (Port)\\forecast_year_input_data\\'+year+'\\cnty_independent\\'+fname_dict[tag]+year+'.csv'
-                            i[0].text = os.path.join(config["working_dir"], "forecast_year_input_data", year, "cnty_independent", config["fname_dict"][tag]+year+".csv")
+                            i[0].text = os.path.join(config["working_dir"], "forecast_year_input_data", year, "cnty_independent", config["fname_dict"][tag]+"_"+year+".csv")
 
                 # et.write(r'Y:\Air Quality\Puget Sound Emissions Inventory (Port)\batch_input_database_creation\\'+county+'_'+year+'_'+veh_type+'.xml')
                 et.write(os.path.join(config["working_dir"], "batch_input_database_creation", county+'_'+year+'_'+veh_type+".xml"))
