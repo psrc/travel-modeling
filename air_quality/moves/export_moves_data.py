@@ -4,7 +4,7 @@ import pandas as pd
 import sqlalchemy
 
 
-output_dir = r'Y:\Air Quality\2026_2050_RTP\moves_outputs'
+output_dir = r'Y:\Air Quality\2026_2050_RTP\scenarios\2040_full_light_duty_EV\moves_outputs'
 
 hostname = 'localhost'
 username = 'moves'
@@ -19,18 +19,19 @@ password = 'moves'
 #2050: 
 #db_suffix = '_01_16_21'
 #2040 and 2018: 
-db_suffix = '_05_06_25'
+db_suffix = '_05_12_25_scenario_1'
 # 2030 (no suffix used)
 #db_suffix = ''
 
-for year in ['2023','2035','2050']:
+for year in ['2035','2050']:
     for county in ['king','kitsap','pierce','snohomish']:
         _dir = os.path.join(output_dir,county.capitalize())
         if not os.path.exists(_dir):
             os.makedirs(_dir)
     #for county in ['king']:
         #for veh_type in ['light','medium','heavy']:
-        for veh_type in ['light','heavy','medium','transit']:
+        # for veh_type in ['light','heavy','medium','transit']:
+        for veh_type in ['light']:
             database = county + '_out_' + veh_type + '_' + year + db_suffix
             # Running emissions
             _query = "SELECT pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID, ratePerDistance FROM rateperdistance GROUP BY pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID"
@@ -45,13 +46,3 @@ for year in ['2023','2035','2050']:
             _query = 'SELECT * FROM ratepervehicle'
             df = pd.read_sql(_query, con=e)
             df.to_csv(os.path.join(output_dir,county.capitalize(),county+'_'+year+'_'+veh_type+'_starts.csv'), index=False)
-
-
-
-#database  = 'pierce_2030_out_medium'
-#_query = "SELECT pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID, sum(ratePerDistance) FROM rateperdistance GROUP BY pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID;"
-#conn = MySQLdb.connect( host=hostname, user=username, passwd=password, db=database )
-#cur = conn.cursor()
-#cur.execute(_query)
-
-#df = pd.read_sql(_query, con=conn)
