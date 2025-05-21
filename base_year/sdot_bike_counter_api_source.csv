@@ -1,0 +1,11 @@
+Location,api_key,Date,Total Count (some have ped counts included),NB,SB,EB,WB,(Out of service) Data Last Updated,last_year
+Fremont Bridge,65db-xm6k,date,fremont_bridge,fremont_bridge_nb,fremont_bridge_sb,,,,2023
+Spokane St,upms-nr8w,date,spokane_st_bridge_total,,,east,west,,2023
+2nd Ave Cycle Track North of Marion St,avwm-i8ym,date,_2nd_ave_cycletrack,nb,sb,,,,2023
+Burke Gilman Trail north of NE 70th St,2z5v-ecg8,date,bgt_north_of_ne_70th_total,bike_north,bike_south,,,,2023
+NW 58th St Greenway at 22nd Ave NW,47yq-6ugv,date,nw_58th_st_greenway_st_22nd_ave_nw_total,,,east,west,8/18/2022,2022
+39th Ave NE Greenway at NE 62nd St,3h7e-f49s,date,_39th_ave_ne_greenway_at_ne_62nd_st_total,north,south,,,6/1/2018,2018
+MTS Trail west of I-90 Bridge,u38e-ybnc,date,mts_trl_west_of_i_90_bridge_total,,,bike_east,bike_west,1/13/2022,2021
+Chief Sealth Trail North of Thistle,uh8h-bme7,date,chief_sealth_trl_north_of_thistle_total,bike_north,bike_south,,,11/12/2021,2021
+Broadway Cycle Track North Of E Union St,j4vh-b42a,date,broadway_cycle_track_north_of_e_union_st_total,nb,sb,,,11/12/2021,2021
+Elliott Bay Trail in Myrtle Edwards Park,4qej-qvrz,date,eilliott_bay_trail_in_myrtle_edwards_park_total,bike_north,bike_south,,,,2022
