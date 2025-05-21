@@ -4,16 +4,16 @@ import os
 import pandas as pd
 
 input_dir = r'Y:\Air Quality\2026_2050_RTP\scenarios\2040_full_light_duty_EV\moves_outputs'
-output_dir = r'Y:\Air Quality\2026_2050_RTP\scenarios\2040_full_light_duty_EV\moves_outputs\soundcast'
+output_dir = r'Y:\Air Quality\2026_2050_RTP\fuel_economy\moves_runs\outputs\soundcast'
 
 # We can process scenario outputs for targeted years only with outputs from different MOVES runs
 # To only run for a full set of inputs, set scenario_def_file = None
 # scenario_def_file = None
-scenario_def_file = r'Y:\Air Quality\2026_2050_RTP\scenarios\2040_full_light_duty_EV\scenario_definition.csv'
+scenario_def_file = r'Y:\Air Quality\2026_2050_RTP\fuel_economy\moves_runs\inputs\scenario_definition.csv'
 
 # Work through each County
 county_list = ['King','Kitsap','Pierce','Snohomish']
-year_list = ['2023','2035','2050']
+year_list = ['2050']
 
 if scenario_def_file is not None:
 

@@ -4,7 +4,7 @@ import pandas as pd
 import sqlalchemy
 
 
-output_dir = r'Y:\Air Quality\2026_2050_RTP\scenarios\2040_full_light_duty_EV\moves_outputs'
+output_dir = r'Y:\Air Quality\2026_2050_RTP\fuel_economy\moves_runs\outputs'
 
 hostname = 'localhost'
 username = 'moves'
@@ -19,12 +19,12 @@ password = 'moves'
 #2050: 
 #db_suffix = '_01_16_21'
 #2040 and 2018: 
-db_suffix = '_05_12_25_scenario_1'
+db_suffix = '_05_19_25_NO_EVS'
 # 2030 (no suffix used)
 #db_suffix = ''
 
-for year in ['2035','2050']:
-    for county in ['king','kitsap','pierce','snohomish']:
+for year in ['2050']:
+    for county in ['king']:
         _dir = os.path.join(output_dir,county.capitalize())
         if not os.path.exists(_dir):
             os.makedirs(_dir)
