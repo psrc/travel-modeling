@@ -1,18 +1,20 @@
 # Input includes set of MOVES input CSV files that will be updated with model years
-input_dir = 'Y:/Air Quality/2026_2050_RTP/scenarios/2040_full_light_duty_EV/2023_MOVES_inputs_revised'
-working_dir =  'Y:/Air Quality/2026_2050_RTP/scenarios/2040_full_light_duty_EV'
+input_dir = 'Y:/Air Quality/2026_2050_RTP/wa_dept_of_ecology_data/2023_MOVES_inputs_original'
+working_dir =  'Y:/Air Quality/2026_2050_RTP/moves_outputs'
 base_year = '2023'    # File
-year_list = ['2035','2050']
+year_list = ['2023','2035','2050']
 description = 'RTP 2026-2050'
 
-db_tag = '05_12_25_scenario_1'
+db_tag = '05_21_25'
 
 run_create_moves_input_data = true
 run_create_input_database_xml = true
 run_create_mrs_files = true
 
-vehicle_type_list = ['light']
-county_list = ['King','Kitsap','Pierce','Snohomish','cnty_independent']
+age_distribution_inputs = 'Y:/Air Quality/2026_2050_RTP/moves_inputs_2023/age_distribution'
+
+vehicle_type_list = ['light','medium','heavy']
+county_list = ['King']
 
 [county_id_dict] 
 'King'= '53033'
