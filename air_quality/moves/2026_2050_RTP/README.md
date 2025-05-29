@@ -7,11 +7,15 @@ Ecology provided county-specific and default data (in the “cnty_independent”
 ## AVFT (EVs)
 Input assumptions on annual registrations by fuel type (e.g., gasoline, diesel, EV) from Ecology did not match presumed WA state law, so PSRC developed adoption trends to match these. See the [input notebook](https://github.com/psrc/travel-modeling/blob/master/air_quality/moves/2026_2050_RTP/2026_2050_RTP_Scenario_Inputs.ipynb) for the detailed process and assumptions used. The output of that notebook is a MOVES input file for King County `Y:\Air Quality\2026_2050_RTP\moves_inputs_2023\avft\wa_state_policy\King_avft.csv`, which is used in place of Ecology's inputs. This input is specified in the [configuration file](https://github.com/psrc/travel-modeling/blob/master/air_quality/moves/2026_2050_RTP/configuration.toml) in the `avft_file_dir` parameter.
 
+![newplot](https://github.com/user-attachments/assets/00a3f02b-8bc5-4ba1-88c9-b7d2675c87e6)
+
 ## Age Distribution
 EPA provides a tool to generate an age distribution reflecting observed trends, but in a smoothed trend following algorithms used for its default data. Age distributions were generated for 2035 and 2050 and made available here: Y:\Air Quality\2026_2050_RTP\moves_inputs_2023\age_distribution. These smoothed age distributions are used because they reduce the impacts of past abnormalities that should not necessarily be repeated in the future (e.g., large dip in vehicle sales in the 2008-2010 recession shouldn't mean that we expect a dip in 15-year old vehicles in 2050). To use these modified age distribution files, set their location in the [configuration file](https://github.com/psrc/travel-modeling/blob/master/air_quality/moves/2026_2050_RTP/configuration.toml) via the `age_distribution_inputs` parameter.
 
 ## Fleet Mix
 AVFT and age distribution data are used to determine the share of EVs in the fleet over time. AVFT represents annual registration shares of vehicles by fuel type, which is used to determine the share of EVs in the full fleet (by light, medium, and heavy types) for a given year. This calculation is done alongside the generation of AVFT inputs in the [2026_2050_RTP_Scenario_Inputs notebook](https://github.com/psrc/travel-modeling/blob/master/air_quality/moves/2026_2050_RTP/2026_2050_RTP_Scenario_Inputs.ipynb). The result of this fleet mix is an input into the RTP's financial analysis, since it impacts the number of vehicles paying EV registration fees and non-EVs paying taxes on fuel consumed. The fleet mix results are available here: `Y:\Air Quality\2026_2050_RTP\moves_inputs_2023\avft\wa_state_policy\ev_fleet_shares_by_vehicle_type.csv`
+
+![image](https://github.com/user-attachments/assets/3c4e853f-55de-49ef-94a6-6fa7e5bc5f84)
 
 
 ### PSRC Revisions to Ecology Data
