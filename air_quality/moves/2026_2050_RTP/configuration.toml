@@ -5,11 +5,14 @@ base_year = '2023'    # File
 year_list = ['2023','2035','2050']
 description = 'RTP 2026-2050'
 
-db_tag = '05_23_25'
+db_tag = '05_27_25'
 
-run_create_moves_input_data = true
-run_create_input_database_xml = true
-run_create_mrs_files = true
+# Specify modules to run from run_all.py
+run_create_moves_input_data = false
+run_create_input_database_xml = false
+run_create_mrs_files = false
+run_export_moves_data = true
+run_create_soundcast_input = true
 
 # Optional future age distribution files generated from Excel tool
 # Comment out if using base year age distribution assumptions for future years
@@ -19,6 +22,8 @@ avft_file_dir = "Y:/Air Quality/2026_2050_RTP/moves_inputs_2023/avft/wa_state_po
 
 vehicle_type_list = ['light','medium','heavy','transit']
 county_list = ['King']
+
+scenario_def_file = false
 
 [county_id_dict] 
 'King'= '53033'

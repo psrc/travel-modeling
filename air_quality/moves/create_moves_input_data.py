@@ -33,16 +33,16 @@ def create_moves_input_data(config):
 
                 df.to_csv(os.path.join(config['working_dir'],'forecast_year_input_data',year,county,output_fname),index=False)
 
-        if year != config['base_year'] and 'age_distribution_inputs' in config.keys():
-            # Copy manually-generated age distribution files if available
-            fname = os.path.join(config['age_distribution_inputs'],f'{county}_sourcetypeagedistribution_{year}.csv')
-            if os.path.exists(fname):
-                # copy file to forecast year directory
-                shutil.copy(fname, os.path.join(config['working_dir'],'forecast_year_input_data',year,county,f'{county}_sourcetypeagedistribution_{year}.csv'))
+            if year != config['base_year'] and 'age_distribution_inputs' in config.keys():
+                # Copy manually-generated age distribution files if available
+                fname = os.path.join(config['age_distribution_inputs'],f'{county}_sourcetypeagedistribution_{year}.csv')
+                if os.path.exists(fname):
+                    # copy file to forecast year directory
+                    shutil.copy(fname, os.path.join(config['working_dir'],'forecast_year_input_data',year,county,f'{county}_sourcetypeagedistribution_{year}.csv'))
 
-        # Copy modified AVFT file if available
-        if 'avft_file_dir' in config.keys():
-            fname = os.path.join(config['avft_file_dir'],"King_avft_2023.csv")
-            if os.path.exists(fname):
-                # copy file to forecast year directory
-                shutil.copy(fname, os.path.join(config['working_dir'],'forecast_year_input_data',year,"King",f"King_avft_2023.csv"))
+            # Copy modified AVFT file if available
+            if 'avft_file_dir' in config.keys():
+                fname = os.path.join(config['avft_file_dir'],county+"_avft.csv")
+                if os.path.exists(fname):
+                    # copy file to forecast year directory
+                    shutil.copy(fname, os.path.join(config['working_dir'],'forecast_year_input_data',year,county,f"{county}_avft_{year}.csv"))

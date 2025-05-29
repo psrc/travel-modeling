@@ -29,9 +29,11 @@ def create_input_database_xml(config):
 
 
                 # for all county-specific tags
-                for tag in ['sourceTypeAgeDistribution','IMCoverage',
+                county_tags = ['sourceTypeAgeDistribution','IMCoverage',
                             'roadTypeDistribution','sourceTypeYear','HPMSVtypeYear',
-                            'monthVMTFraction','AVFT','zoneMonthHour','FuelUsageFraction']:
+                            'monthVMTFraction','zoneMonthHour','FuelUsageFraction','AVFT']
+                
+                for tag in county_tags:
                     for i in root.iter(tag):
                         i[0].text = os.path.join(config["working_dir"], "forecast_year_input_data", year, county, county+"_"+config["fname_dict"][tag]+"_"+year+".csv")
 
