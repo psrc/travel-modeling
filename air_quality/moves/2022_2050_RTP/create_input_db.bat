@@ -1,0 +1,1 @@
+for %%X in (T:\2023November\brice\*.xml) do ant dbimporter -Dimport=%%X

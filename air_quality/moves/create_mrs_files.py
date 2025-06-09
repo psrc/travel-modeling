@@ -22,9 +22,7 @@ import pandas as pd
 import xml.etree.ElementTree
 import toml
 
-def create_mrs_files():
-    # Inputs are 3 template files, created in MOVES for 3 vehicle type classes (light, medium, heavy)
-    config = toml.load('configuration.toml')
+def create_mrs_files(config):
 
     # Iterate through each year, county, and vehicle type and update XML
     for year in config["year_list"]:

@@ -3,55 +3,34 @@ import os
 import pandas as pd
 import sqlalchemy
 
-
-output_dir = r'Y:\Air Quality\2026_2050_RTP\moves_outputs'
-
-hostname = 'localhost'
-username = 'moves'
-password = 'moves'
-
-#e = sqlalchemy.create_engine('mariadb+pymysql://moves:moves@localhost:3307/king_out_medium_2050_07_19_2021')
-#df = pd.read_sql('SELECT * FROM rateperdistance', e)
+def export_moves_data(config):
+    """
+    Export MOVES data to CSV files for specified years and counties.
+    """
 
 
+    # Assume default database connection parameters
+    hostname = 'localhost'
+    username = 'moves'
+    password = 'moves'
 
-# Different suffixes were used for each year group's output db name
-#2050: 
-#db_suffix = '_01_16_21'
-#2040 and 2018: 
-db_suffix = '_05_06_25'
-# 2030 (no suffix used)
-#db_suffix = ''
+    for year in config["year_list"]:
+        for county in config["county_list"]:
+            _dir = os.path.join(config["working_dir"],county)
+            if not os.path.exists(_dir):
+                os.makedirs(_dir)
+            for veh_type in config["vehicle_type_list"]:
+                database = county.lower() + '_out_' + veh_type + '_' + year + "_" + config["db_tag"]
+                # Running emissions
+                _query = "SELECT pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID, ratePerDistance FROM rateperdistance GROUP BY pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID"
 
-for year in ['2023','2035','2050']:
-    for county in ['king','kitsap','pierce','snohomish']:
-        _dir = os.path.join(output_dir,county.capitalize())
-        if not os.path.exists(_dir):
-            os.makedirs(_dir)
-    #for county in ['king']:
-        #for veh_type in ['light','medium','heavy']:
-        for veh_type in ['light','heavy','medium','transit']:
-            database = county + '_out_' + veh_type + '_' + year + db_suffix
-            # Running emissions
-            _query = "SELECT pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID, ratePerDistance FROM rateperdistance GROUP BY pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID"
+                e = sqlalchemy.create_engine('mariadb+pymysql://moves:moves@localhost:3306/'+database)
+                df = pd.read_sql(_query, con=e)
 
-            e = sqlalchemy.create_engine('mariadb+pymysql://moves:moves@localhost:3306/'+database)
-            df = pd.read_sql(_query, con=e)
+                #df = pd.read_sql(_query, con=conn)
+                df.to_csv(os.path.join(config["working_dir"],county,county+'_'+year+'_'+veh_type+'.csv'), index=False)
 
-            #df = pd.read_sql(_query, con=conn)
-            df.to_csv(os.path.join(output_dir,county.capitalize(),county+'_'+year+'_'+veh_type+'.csv'), index=False)
-
-            # Start emissions
-            _query = 'SELECT * FROM ratepervehicle'
-            df = pd.read_sql(_query, con=e)
-            df.to_csv(os.path.join(output_dir,county.capitalize(),county+'_'+year+'_'+veh_type+'_starts.csv'), index=False)
-
-
-
-#database  = 'pierce_2030_out_medium'
-#_query = "SELECT pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID, sum(ratePerDistance) FROM rateperdistance GROUP BY pollutantID, sourceTypeID, roadTypeID, avgSpeedBinID, hourID, dayID, monthID, linkID;"
-#conn = MySQLdb.connect( host=hostname, user=username, passwd=password, db=database )
-#cur = conn.cursor()
-#cur.execute(_query)
-
-#df = pd.read_sql(_query, con=conn)
+                # Start emissions
+                _query = 'SELECT * FROM ratepervehicle'
+                df = pd.read_sql(_query, con=e)
+                df.to_csv(os.path.join(config["working_dir"],county,county+'_'+year+'_'+veh_type+'_starts.csv'), index=False)
