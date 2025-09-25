@@ -2,6 +2,11 @@
 # PSRC provides county-level emissions and VMT estimates and local jurisdictions
 # further scale results by local VMT.
 
+# Note that totals for counties may not exactly match regional totals but should be close.
+# Some network links extend beyond county boundaries, so vehicle emissions for county totals will be less than regional totals.
+# Bus start emissions exclude Sound Transit buses, which operate regionally and can't easily be assigned to a single county.
+# Differences should however be less than 1%. 
+
 import os
 import toml
 from sqlalchemy import create_engine
