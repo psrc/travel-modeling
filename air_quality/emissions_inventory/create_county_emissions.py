@@ -7,7 +7,7 @@
 # Bus start emissions exclude Sound Transit buses, which operate regionally and can't easily be assigned to a single county.
 # Differences should however be less than 1%. 
 
-import os
+import os, sys
 import toml
 from sqlalchemy import create_engine
 import pandas as pd
@@ -18,32 +18,17 @@ from emissions import *
 # Settings
 ###############################################################
 
-# Set root of model run to analyze AND the model year
-# Note that we need to use the full path and not the drive shortcut to be able to load sqlite db
-run_dir = '//aws-model10/Model Data 2/rtp_2026_2050/scenarios_for_sept/sc_base_year_2023/soundcast'
-run_dir_future = '//aws-model10/Model Data 2/rtp_2026_2050/skims_2035/sc_2035_test'
+# get toml config location as script argument
+if len(sys.argv) > 1:
+    config_path = sys.argv[1]
+else:
+    config_path = 'config.toml'
 
-base_year = '2023'    # Make sure to update this since rates used are based on this value
-county_list = ['King','Kitsap','Pierce','Snohomish']
-annualization_factor = 320
-
-analysis_year_list = ['2023']
-lower_bound_year = '2023'
-upper_bound_year = '2035'
-produce_emissions = True
-summarize_results = True
-
-# Bus Operators (excluding Sound Transit for now because they span multiple counties)
-county_transit_operators = {
-    'King': ['King County Metro'],
-    'Pierce': ['Pierce Transit'],
-    'Snohomish': ['Community Transit','Everett Transit'],
-    'Kitsap': ['Kitsap Transit']
-}
+config = toml.load(config_path)
 
 # Load run config toml files
-input_settings = toml.load(os.path.join(run_dir, 'configuration', 'input_configuration.toml'))
-summary_settings = toml.load(os.path.join(run_dir, 'configuration', 'summary_configuration.toml'))
+input_settings = toml.load(os.path.join(config["run_dir"], 'configuration', 'input_configuration.toml'))
+summary_settings = toml.load(os.path.join(config["run_dir"], 'configuration', 'summary_configuration.toml'))
 
 def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name):
 
@@ -52,7 +37,7 @@ def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year
     df_interzonal = calculate_interzonal_emissions(df_interzonal_vmt, df_running_rates)
 
     # Load intrazonal trips for zones in the area
-    df_iz = pd.read_csv(os.path.join(run_dir,r'outputs\network\iz_vol.csv'))
+    df_iz = pd.read_csv(os.path.join(config["run_dir"],r'outputs\network\iz_vol.csv'))
 
     # Get TAZ/county overlay
     # select only county desired
@@ -100,11 +85,11 @@ def process_results(df_interzonal, df_intrazonal, start_emissions_df):
 ###############################################################
 
 
-if produce_emissions:
+if config["produce_emissions"]:
     hpms_df = pd.read_csv(os.path.join(os.getcwd(),'inputs/hpms_observed.csv'))
     # conn = create_engine("sqlite://///aws-model10/Model Data 2/rtp_2026_2050/scenarios_for_sept/sc_base_year_2023/soundcast/inputs/db/soundcast_inputs_2023.db")
     # db_dir = "sqlite://///"+run_dir+'/inputs/db/'+input_settings["db_name"]
-    db_dir = "sqlite:///"+run_dir+'/inputs/db/'+input_settings["db_name"]
+    db_dir = "sqlite:///"+config["run_dir"]+'/inputs/db/'+input_settings["db_name"]
 
     df_taz_geog = pd.read_csv(r'R:\e2projects_two\SoundCast\Inputs\db_inputs\taz_geography.csv')
 
@@ -114,10 +99,10 @@ if produce_emissions:
 
     # Scale all vehicles by difference between base year and modeled total vehicles owned from auto ownership model
     # Join TAZ geography to household data
-    df_hh_base = pd.read_csv(os.path.join(run_dir,r'outputs/daysim/_household.tsv'), sep='\s+', usecols=['hhvehs','hhparcel','hhtaz'])
+    df_hh_base = pd.read_csv(os.path.join(config["run_dir"],r'outputs/daysim/_household.tsv'), sep='\s+', usecols=['hhvehs','hhparcel','hhtaz'])
     df_hh_base = df_hh_base.merge(df_taz_geog[['taz','geog_name']], left_on='hhtaz', right_on='taz')
     df_hh_base["county"] = df_hh_base['geog_name'].apply(lambda x: x.split(" County")[0])
-    df_hh_future = pd.read_csv(os.path.join(run_dir_future,r'outputs/daysim/_household.tsv'), sep='\s+', usecols=['hhvehs','hhparcel','hhtaz'])
+    df_hh_future = pd.read_csv(os.path.join(config["run_dir_future"],r'outputs/daysim/_household.tsv'), sep='\s+', usecols=['hhvehs','hhparcel','hhtaz'])
     df_hh_future = df_hh_future.merge(df_taz_geog[['taz','geog_name']], left_on='hhtaz', right_on='taz')
     df_hh_future["county"] = df_hh_future['geog_name'].apply(lambda x: x.split(" County")[0])
 
@@ -126,50 +111,50 @@ if produce_emissions:
     # Load running emission rates by vehicle type, for the model year
     # Get base year and future rates to be able to interpolate for an analysis year
 
-    df_running_rates_0 = load_running_rates(lower_bound_year, summary_settings, conn)
-    df_running_rates_1 = load_running_rates(upper_bound_year, summary_settings, conn)
+    df_running_rates_0 = load_running_rates(config["lower_bound_year"], summary_settings, conn)
+    df_running_rates_1 = load_running_rates(config["upper_bound_year"], summary_settings, conn)
 
     df_running_rates_merged = df_running_rates_0.merge(df_running_rates_1, on=['pollutantID', 'roadTypeID', 'avgSpeedBinID', 
                                                         'monthID','hourID','county','veh_type'],
-                                                        suffixes=[lower_bound_year, upper_bound_year])
+                                                        suffixes=[config["lower_bound_year"], config["upper_bound_year"]])
 
-    df_start_rates_0 = load_starting_rates(lower_bound_year, summary_settings, conn)
-    df_start_rates_1 = load_starting_rates(upper_bound_year, summary_settings, conn)
+    df_start_rates_0 = load_starting_rates(config["lower_bound_year"], summary_settings, conn)
+    df_start_rates_1 = load_starting_rates(config["upper_bound_year"], summary_settings, conn)
     df_start_rates_merged = df_start_rates_0.merge(df_start_rates_1, on=['pollutantID','county','veh_type'],
-                                                        suffixes=[lower_bound_year, upper_bound_year])
+                                                        suffixes=[config["lower_bound_year"], config["upper_bound_year"]])
 
-    df_network_results = load_network_summary(os.path.join(run_dir, r'outputs\network\network_results.csv'))
+    df_network_results = load_network_summary(os.path.join(config["run_dir"], r'outputs\network\network_results.csv'))
 
-    for county_name in county_list:
+    for county_name in config["county_list"]:
         print(county_name)
         # Select only links in the analysis county
         df_network = df_network_results[df_network_results['county'] == county_name]
 
-        for analysis_year in analysis_year_list:
+        for analysis_year in config["analysis_year_list"]:
 
             print(analysis_year)
 
-            output_dir = os.path.join(os.getcwd(),'output', 'interpolated', county_name, analysis_year)
+            output_dir = os.path.join(config["output_root"],'output', 'interpolated', county_name, analysis_year)
             # Create outputs directory if needed
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
 
             # Interpolate emissions rates if not a base year
-            if analysis_year == lower_bound_year:
+            if analysis_year == config["lower_bound_year"]:
                 df_running_rates = df_running_rates_0
                 df_start_rates = df_start_rates_0
-            elif analysis_year == upper_bound_year:
+            elif analysis_year == config["upper_bound_year"]:
                 df_running_rates = df_running_rates_1
                 df_start_rates = df_start_rates_1
             else:
-                df_running_rates = interpolate_rates(df_running_rates_merged, 'grams_per_mile', lower_bound_year, upper_bound_year, analysis_year)
-                df_start_rates = interpolate_rates(df_start_rates_merged, 'ratePerVehicle', lower_bound_year, upper_bound_year, analysis_year)
+                df_running_rates = interpolate_rates(df_running_rates_merged, 'grams_per_mile', config["lower_bound_year"], config["upper_bound_year"], analysis_year)
+                df_start_rates = interpolate_rates(df_start_rates_merged, 'ratePerVehicle', config["lower_bound_year"], config["upper_bound_year"], analysis_year)
 
             df_running_rates.to_csv(os.path.join(output_dir,'running_rates.csv'))
             df_start_rates.to_csv(os.path.join(output_dir,'start_rates.csv'))
 
             # Scale VMT to match HPMS variations
-            base_year_vmt = hpms_df[hpms_df['year'] == int(base_year)][county_name.lower()]
+            base_year_vmt = hpms_df[hpms_df['year'] == int(config["base_year"])][county_name.lower()]
             analysis_year_vmt = hpms_df[hpms_df['year'] == int(analysis_year)][county_name.lower()]
             hpms_scale = (analysis_year_vmt.values[0]/base_year_vmt.values[0])
             print(hpms_scale)
@@ -179,16 +164,16 @@ if produce_emissions:
             df_hh_future_county = df_hh_future[df_hh_future['county'] == county_name]
             lower_bound_veh = df_hh_base_county['hhvehs'].sum()
             upper_bound_veh = df_hh_future_county['hhvehs'].sum()
-            annual_veh_change = (upper_bound_veh-lower_bound_veh)/(int(upper_bound_year)-int(lower_bound_year))
-            hh_veh_year =  lower_bound_veh + (int(analysis_year)-int(lower_bound_year))*annual_veh_change
-            
+            annual_veh_change = (upper_bound_veh-lower_bound_veh)/(int(config["upper_bound_year"])-int(config["lower_bound_year"]))
+            hh_veh_year =  lower_bound_veh + (int(analysis_year)-int(config["lower_bound_year"]))*annual_veh_change
+
             # Load number of bus vehicles in service
             # FIXME: no interpolation available for this yet, add to improvements, assume base year
-            df_bus_veh = pd.read_sql('SELECT * FROM bus_vehicles WHERE year=='+base_year, con=conn)
+            df_bus_veh = pd.read_sql('SELECT * FROM bus_vehicles WHERE year=='+str(config["base_year"]), con=conn)
             # Select only buses within county
             # Note that we aren't including Sound Transit because they operate thorughout the region
             # FIXME: future improvements could distribute Sound Transit vehicles by county
-            df_bus_veh = df_bus_veh[df_bus_veh['agency'].isin(county_transit_operators[county_name])]
+            df_bus_veh = df_bus_veh[df_bus_veh['agency'].isin(config["county_transit_operators"][county_name])]
 
             df_intrazonal, df_interzonal, start_emissions_df = evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name)
             running_df, start_df = process_results(df_interzonal, df_intrazonal, start_emissions_df)
@@ -196,15 +181,15 @@ if produce_emissions:
             running_df.to_csv(os.path.join(output_dir,'running_summary.csv'))
             start_df.to_csv(os.path.join(output_dir,'start_summary.csv'))
 
-if summarize_results:
+if config["summarize_results"]:
 
     vmt_results_df = pd.DataFrame()
     co2e_results_df = pd.DataFrame()
     start_co2e_results_df = pd.DataFrame()
 
-    for analysis_year in analysis_year_list:
+    for analysis_year in config["analysis_year_list"]:
 
-        output_dir = os.path.join(os.getcwd(),'output', 'interpolated', county_name, analysis_year)
+        output_dir = os.path.join(config["output_root"],'output', 'interpolated', county_name, analysis_year)
         running_df = pd.read_csv(os.path.join(output_dir,'running_summary.csv'))
         start_df = pd.read_csv(os.path.join(output_dir,'start_summary.csv'))
 
@@ -226,9 +211,9 @@ if summarize_results:
         df_start_co2e.index.name = 'year'
         start_co2e_results_df = pd.concat([start_co2e_results_df,df_start_co2e])
 
-final_output_dir = os.path.join(os.getcwd(),'output', 'interpolated', county_name)  
+final_output_dir = os.path.join(config["output_root"],'output', 'interpolated', county_name)  
 vmt_results_df.to_csv(os.path.join(final_output_dir,'running_vmt.csv'))
 co2e_results_df.to_csv(os.path.join(final_output_dir,'running_co2e.csv'))
 start_co2e_results_df.to_csv(os.path.join(final_output_dir,'start_co2e.csv'))
-annual_start_co2e_results_df = start_co2e_results_df*annualization_factor
+annual_start_co2e_results_df = start_co2e_results_df*config["annualization_factor"]
 annual_start_co2e_results_df.to_csv(os.path.join(final_output_dir,'start_co2e_annual.csv'))

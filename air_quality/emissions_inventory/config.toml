@@ -1,0 +1,23 @@
+# Set root of model run to analyze AND the model year
+# Note that we need to use the full path and not the drive shortcut to be able to load sqlite db
+run_dir = "N:/rtp_2026_2050/scenarios_for_sept/sc_base_year_2023/soundcast"
+run_dir_future = "//aws-model10/Model Data 2/rtp_2026_2050/skims_2035/sc_2035_test"
+
+output_root = "Y:/Air Quality/King County Emissions Inventory/2023/data"
+
+base_year = "2023"    # Make sure to update this since rates used are based on this value
+county_list = ["King", "Kitsap", "Pierce", "Snohomish"]
+annualization_factor = 320
+
+analysis_year_list = ["2023"]
+lower_bound_year = "2023"
+upper_bound_year = "2035"
+produce_emissions = true
+summarize_results = true
+
+# Bus Operators (excluding Sound Transit for now because they span multiple counties)
+[county_transit_operators]
+King = ["King County Metro"]
+Pierce = ["Pierce Transit"]
+Snohomish = ["Community Transit", "Everett Transit"]
+Kitsap = ["Kitsap Transit"]
