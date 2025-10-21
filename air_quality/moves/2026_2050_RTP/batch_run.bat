@@ -5,4 +5,4 @@ set MOVESDir=C:\Users\Public\EPA\MOVES\MOVES4.0
 cd /d %MOVESDir%
 call setenv.bat
 
-for %%X in (T:\60day-TEMP\Brice\moves_run_specifications\2035_2050\*.mrs) do ant run -Drunspec=%%X
+for %%X in (T:\60day-TEMP\Brice\moves_october\MRS\*.mrs) do ant run -Drunspec=%%X

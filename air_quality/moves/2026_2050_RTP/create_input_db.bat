@@ -1,1 +1,1 @@
-for %%X in (T:\60day-TEMP\Brice\batch_input_database_creation\*.xml) do ant dbimporter -Dimport=%%X
+for %%X in (T:\60day-TEMP\Brice\moves_october\batch_input_creation\*.xml) do ant dbimporter -Dimport=%%X
