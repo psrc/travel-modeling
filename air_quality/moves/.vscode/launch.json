@@ -10,7 +10,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "run_all.py", 
-            "args": ["2026_2050_RTP/configuration.toml"],
+            "args": ["2026_2050_RTP/configuration_october_25.toml"],
             "console": "integratedTerminal"
         }
     ]

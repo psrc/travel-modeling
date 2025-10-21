@@ -1,0 +1,48 @@
+# Input includes set of MOVES input CSV files that will be updated with model years
+input_dir = 'Y:/Air Quality/2026_2050_RTP/wa_dept_of_ecology_data/2023_MOVES_inputs_revised'
+working_dir =  'Y:/Air Quality/2026_2050_RTP/moves_outputs'
+base_year = '2023'    # File
+year_list = ['2023','2035','2050']
+description = 'RTP 2026-2050'
+
+db_tag = '10_20_25'
+
+# Specify modules to run from run_all.py
+run_create_moves_input_data = false
+run_create_input_database_xml = false
+run_create_mrs_files = false
+run_export_moves_data = true
+run_create_soundcast_input = true
+
+# Optional future age distribution files generated from Excel tool
+# Comment out if using base year age distribution assumptions for future years
+age_distribution_inputs = 'Y:/Air Quality/2026_2050_RTP/moves_inputs_2023/age_distribution'
+# Optional calcualted AVFT input file
+avft_file_dir = "Y:/Air Quality/2026_2050_RTP/moves_inputs_2023/avft/wa_state_policy"
+
+vehicle_type_list = ['light','medium']
+county_list = ['King']
+
+scenario_def_file = false
+
+[county_id_dict] 
+'King'= '53033'
+'Kitsap'= '53035'
+'Pierce'= '53053'
+'Snohomish'= '53061'
+
+[fname_dict] 
+'sourceTypeAgeDistribution'= 'sourcetypeagedistribution'
+'zoneMonthHour'= 'zonemonthhour'
+'FuelUsageFraction' = 'FuelUsageFraction'
+'roadTypeDistribution'= 'roadtypedistribution'
+'sourceTypeYear'= 'sourcetypeyear'
+'HPMSVtypeYear'= 'hpmsvtypeyear'
+'monthVMTFraction'= 'monthvmtfraction'
+'IMCoverage'= 'imcoverage'
+'avgSpeedDistribution'= 'Default_avgSpeedDistribution'
+'FuelSupply'= 'Default_FuelSupply'
+'FuelFormulation'='Default_FuelFormulation'
+'AVFT'= 'avft'
+'dayVMTFraction'= 'dayVMTFraction'
+'hourVMTFraction'= 'hourVMTFraction'
