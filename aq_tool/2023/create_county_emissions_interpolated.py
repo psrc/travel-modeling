@@ -3,6 +3,8 @@
 # further scale results by local VMT.
 
 import os
+import toml
+from sqlalchemy import create_engine
 import pandas as pd
 from functions import load_network_summary
 from emissions import *
@@ -13,12 +15,12 @@ from emissions import *
 
 # Set root of model run to analyze AND the model year
 
-run_dir = r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast'
-run_dir_2030 = r'L:\RTP_2022\final_runs\sc_rtp_2030_final\soundcast'
+run_dir = r'N:\rtp_2026_2050\scenarios_for_sept\sc_base_year_2023\soundcast'
+run_dir_future = r'N:\rtp_2026_2050\skims_2035\sc_2035_test'
 
-model_year = '2018'    # Make sure to update this since rates used are based on this value
-county_name = 'King'
-annualization_factor = 290
+model_year = '2023'    # Make sure to update this since rates used are based on this value
+county_list = ['King']
+annualization_factor = 320
 
 analysis_year_list = ['2023','2024']
 lower_bound_year = '2023'
@@ -26,6 +28,7 @@ upper_bound_year = '2035'
 produce_emissions = True
 summarize_results = True
 
+# Bus Operators (excluding Sound Transit for now because they span multiple counties)
 county_transit_operators = {
     'King': ['King County Metro'],
     'Pierce': ['Pierce Transit'],
@@ -33,12 +36,14 @@ county_transit_operators = {
     'Kitsap': ['Kitsap Transit']
 }
 
-# Set output directory; results will be stored in a folder by model year 
+# Load run config toml files
+input_settings = toml.load(os.path.join(run_dir, 'configuration', 'input_configuration.toml'))
+summary_settings = toml.load(os.path.join(run_dir, 'configuration', 'summary_configuration.toml'))
 
 def evaluate_emissions(df_network, hpms_scale, model_year, df_running_rates, df_start_rates, hh_veh_year, county_name):
 
-    df_interzonal_vmt = calculate_interzonal_vmt(df_network, hpms_scale)
-    df_interzonal = calculate_interzonal_emissions(df_interzonal_vmt, df_running_rates, group_light_vehs=False)
+    df_interzonal_vmt = calculate_interzonal_vmt(df_network, input_settings, summary_settings)
+    df_interzonal = calculate_interzonal_emissions(df_interzonal_vmt, df_running_rates)
 
     # Load intrazonal trips for zones in the area
     df_iz = pd.read_csv(os.path.join(run_dir,r'outputs\network\iz_vol.csv'))
@@ -56,9 +61,10 @@ def evaluate_emissions(df_network, hpms_scale, model_year, df_running_rates, df_
 
     # Write all results to file
     return df_intrazonal, df_interzonal, start_emissions_df
-    df_intrazonal.to_csv(os.path.join(output_dir,'intrazonal_'+county_name+'.csv'))
-    df_interzonal.to_csv(os.path.join(output_dir,'interzonal_'+county_name+'.csv'))
-    start_emissions_df.to_csv(os.path.join(output_dir,'starts_'+county_name+'.csv'))
+
+    # df_intrazonal.to_csv(os.path.join(output_dir,'intrazonal_'+county_name+'.csv'))
+    # df_interzonal.to_csv(os.path.join(output_dir,'interzonal_'+county_name+'.csv'))
+    # start_emissions_df.to_csv(os.path.join(output_dir,'starts_'+county_name+'.csv'))
 
 def process_results(df_interzonal, df_intrazonal, start_emissions_df):
 
@@ -93,7 +99,7 @@ def process_results(df_interzonal, df_intrazonal, start_emissions_df):
 
 
 if produce_emissions:
-    hpms_df = pd.read_csv(r'../inputs/hpms_observed.csv')
+    hpms_df = pd.read_csv(os.path.join(os.getcwd(),'inputs/hpms_observed.csv'))
     db_dir = 'sqlite:///R:/e2projects_two/SoundCast/Inputs/dev/db/soundcast_inputs.db'
 
     df_taz_geog = pd.read_csv(r'R:\e2projects_two\SoundCast\Inputs\db_inputs\taz_geography.csv')
@@ -102,9 +108,9 @@ if produce_emissions:
     start_emissions_fname = r'R:\e2projects_two\SoundCast\Inputs\db_inputs\start_emission_rates_by_veh_type.csv'
     # Calculate interzonal emissions using same approach as for regional/county emissions
 
-    # Scale all vehicles by difference between base year and modeled total vehicles owned from auto onwership model
-    df_hh_18 = pd.read_csv(os.path.join(run_dir,r'outputs/daysim/_household.tsv'), delim_whitespace=True, usecols=['hhvehs','hhparcel'])
-    df_hh_30 = pd.read_csv(os.path.join(run_dir_2030,r'outputs/daysim/_household.tsv'), delim_whitespace=True, usecols=['hhvehs','hhparcel'])
+    # Scale all vehicles by difference between base year and modeled total vehicles owned from auto ownership model
+    df_hh_base = pd.read_csv(os.path.join(run_dir,r'outputs/daysim/_household.tsv'), delim_whitespace=True, usecols=['hhvehs','hhparcel'])
+    df_hh_future = pd.read_csv(os.path.join(run_dir_future,r'outputs/daysim/_household.tsv'), delim_whitespace=True, usecols=['hhvehs','hhparcel'])
 
     conn = create_engine(db_dir)
 
@@ -123,62 +129,62 @@ if produce_emissions:
     df_start_rates_merged = df_start_rates_0.merge(df_start_rates_1, on=['pollutantID','county','veh_type'],
                                                         suffixes=[lower_bound_year, upper_bound_year])
 
-    # 
-    df_network = load_network_summary(os.path.join(run_dir, r'outputs\network\network_results.csv'))
+    df_network_results = load_network_summary(os.path.join(run_dir, r'outputs\network\network_results.csv'))
 
-    # Select only links in the analysis county
-    df_network = df_network[df_network['county'] == county_name]
+    for county_name in county_list:
+        print(county_name)
+        # Select only links in the analysis county
+        df_network = df_network_results[df_network_results['county'] == county_name]
 
-    for analysis_year in analysis_year_list:
+        for analysis_year in analysis_year_list:
 
-        print(analysis_year)
+            print(analysis_year)
 
-        output_dir = os.path.join(os.getcwd(),'output', 'interpolated', county_name, analysis_year)
-        # Create outputs directory if needed
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+            output_dir = os.path.join(os.getcwd(),'output', 'interpolated', county_name, analysis_year)
+            # Create outputs directory if needed
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
 
-        # Perform interpolation if not a base year
-        if analysis_year == lower_bound_year:
-            df_running_rates = df_running_rates_0
-            df_start_rates = df_start_rates_0
-        elif analysis_year == upper_bound_year:
-            df_running_rates = df_running_rates_1
-            df_start_rates = df_start_rates_1
-        else:
-            df_running_rates = interpolate_rates(df_running_rates_merged, 'grams_per_mile', lower_bound_year, upper_bound_year, analysis_year)
-            df_start_rates = interpolate_rates(df_start_rates_merged, 'ratePerVehicle', lower_bound_year, upper_bound_year, analysis_year)
+            # Interpolate emissions rates if not a base year
+            if analysis_year == lower_bound_year:
+                df_running_rates = df_running_rates_0
+                df_start_rates = df_start_rates_0
+            elif analysis_year == upper_bound_year:
+                df_running_rates = df_running_rates_1
+                df_start_rates = df_start_rates_1
+            else:
+                df_running_rates = interpolate_rates(df_running_rates_merged, 'grams_per_mile', lower_bound_year, upper_bound_year, analysis_year)
+                df_start_rates = interpolate_rates(df_start_rates_merged, 'ratePerVehicle', lower_bound_year, upper_bound_year, analysis_year)
 
-        df_running_rates.to_csv(os.path.join(output_dir,'running_rates.csv'))
-        df_start_rates.to_csv(os.path.join(output_dir,'start_rates.csv'))
+            df_running_rates.to_csv(os.path.join(output_dir,'running_rates.csv'))
+            df_start_rates.to_csv(os.path.join(output_dir,'start_rates.csv'))
 
-        # Scale VMT to match HPMS variations
-        base_year_vmt = hpms_df[hpms_df['year'] == int(base_year)][county_name.lower()]
-        analysis_year_vmt = hpms_df[hpms_df['year'] == int(analysis_year)][county_name.lower()]
-        hpms_scale = (analysis_year_vmt.values[0]/base_year_vmt.values[0])
-        print(hpms_scale)
+            # Scale VMT to match HPMS variations
+            base_year_vmt = hpms_df[hpms_df['year'] == int(base_year)][county_name.lower()]
+            analysis_year_vmt = hpms_df[hpms_df['year'] == int(analysis_year)][county_name.lower()]
+            hpms_scale = (analysis_year_vmt.values[0]/base_year_vmt.values[0])
+            print(hpms_scale)
 
-        # Interpolate vehicle ownership between 2018 and 2030 and scale vehicles for starts
-        lower_bound_veh = df_hh_18['hhvehs'].sum()
-        upper_bound_veh = df_hh_30['hhvehs'].sum()
-        annual_veh_change = (upper_bound_veh-lower_bound_veh)/(int(upper_bound_year)-int(lower_bound_year))
-        hh_veh_year =  lower_bound_veh + (int(analysis_year)-int(lower_bound_year))*annual_veh_change
-        
-        # Load number of bus vehicles in service
-        # FIXME: no interpolation available for this yet, add to improvements, assume base year
-        df_bus_veh = pd.read_sql('SELECT * FROM bus_vehicles WHERE year=='+base_year, con=conn)
-        # Select only buses within county
-        # Note that we aren't including Sound Transit because they operate thorughout the region
-        # FIXME: future improvements could distribute Sound Transit vehicles by county
-        df_bus_veh = df_bus_veh[df_bus_veh['agency'].isin(county_transit_operators[county_name])]
+            # Interpolate vehicle ownership between base and forecast model years and scale vehicles for starts
+            lower_bound_veh = df_hh_base['hhvehs'].sum()
+            upper_bound_veh = df_hh_future['hhvehs'].sum()
+            annual_veh_change = (upper_bound_veh-lower_bound_veh)/(int(upper_bound_year)-int(lower_bound_year))
+            hh_veh_year =  lower_bound_veh + (int(analysis_year)-int(lower_bound_year))*annual_veh_change
+            
+            # Load number of bus vehicles in service
+            # FIXME: no interpolation available for this yet, add to improvements, assume base year
+            df_bus_veh = pd.read_sql('SELECT * FROM bus_vehicles WHERE year=='+base_year, con=conn)
+            # Select only buses within county
+            # Note that we aren't including Sound Transit because they operate thorughout the region
+            # FIXME: future improvements could distribute Sound Transit vehicles by county
+            df_bus_veh = df_bus_veh[df_bus_veh['agency'].isin(county_transit_operators[county_name])]
 
-        df_intrazonal, df_interzonal, start_emissions_df = evaluate_emissions(df_network, hpms_scale, model_year, df_running_rates, df_start_rates, hh_veh_year, county_name)
-        running_df, start_df = process_results(df_interzonal, df_intrazonal, start_emissions_df)
+            df_intrazonal, df_interzonal, start_emissions_df = evaluate_emissions(df_network, hpms_scale, model_year, df_running_rates, df_start_rates, hh_veh_year, county_name)
+            running_df, start_df = process_results(df_interzonal, df_intrazonal, start_emissions_df)
 
-        running_df.to_csv(os.path.join(output_dir,'running_summary.csv'))
-        start_df.to_csv(os.path.join(output_dir,'start_summary.csv'))
+            running_df.to_csv(os.path.join(output_dir,'running_summary.csv'))
+            start_df.to_csv(os.path.join(output_dir,'start_summary.csv'))
 
-# Summarize results
 if summarize_results:
 
     vmt_results_df = pd.DataFrame()

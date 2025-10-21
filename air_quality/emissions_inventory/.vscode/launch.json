@@ -9,8 +9,8 @@
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
-            // "program": "create_county_emissions.py",
-            "program": "city_vmt.py",
+            "program": "create_county_emissions.py",
+            // "program": "city_vmt.py",
             "args": ["Y:/Air Quality/King County Emissions Inventory/2023/config.toml"],
             "console": "integratedTerminal"
         }
