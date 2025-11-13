@@ -76,7 +76,7 @@ def calculate_interzonal_vmt(df, input_settings, summary_settings):
     return df
 
 
-def finalize_emissions(df, col_suffix=""):
+def finalize_emissions(df, group_col="veh_type"):
     """
     Compute PM10 and PM2.5 totals, sort index by pollutant value, and pollutant name.
     For total columns add col_suffix (e.g., col_suffix='intrazonal_tons')
@@ -84,14 +84,14 @@ def finalize_emissions(df, col_suffix=""):
 
     pm10 = (
         df[df["pollutantID"].isin([100, 106, 107])]
-        .groupby("veh_type")
+        .groupby(group_col)
         .sum()
         .reset_index()
     )
     pm10["pollutantID"] = "PM10"
     pm25 = (
         df[df["pollutantID"].isin([110, 116, 117])]
-        .groupby("veh_type")
+        .groupby(group_col)
         .sum()
         .reset_index()
     )
@@ -102,7 +102,7 @@ def finalize_emissions(df, col_suffix=""):
     return df
 
 
-def calculate_interzonal_emissions(df, df_rates):
+def calculate_interzonal_emissions(df, df_rates, include_light_modes=False):
     """Calculate link emissions using rates unique to speed, road type, hour, and vehicle type."""
 
     df.rename(
@@ -114,8 +114,13 @@ def calculate_interzonal_emissions(df, df_rates):
         inplace=True,
     )
 
-    # Calculate total VMT by vehicle group
-    df["light"] = df["sov_vmt"] + df["hov2_vmt"] + df["hov3_vmt"] + df["tnc_vmt"]
+    if include_light_modes:
+        df["sov"] = df["sov_vmt"].copy()
+        df["hov2"] = df["hov2_vmt"].copy() + df["tnc_vmt"].copy()    # Group TNC with HOV2
+        df["hov3"] = df["hov3_vmt"].copy()
+    else:
+        # Calculate total VMT by vehicle group
+        df["light"] = df["sov_vmt"] + df["hov2_vmt"] + df["hov3_vmt"] + df["tnc_vmt"]
     df["medium"] = df["medium_truck_vmt"]
     df["heavy"] = df["heavy_truck_vmt"]
     df["transit"] = df["bus_vmt"]
@@ -138,9 +143,20 @@ def calculate_interzonal_emissions(df, df_rates):
     df = pd.melt(
         df,
         id_vars=["avgSpeedBinID", "roadTypeID", "hourID"],
-        var_name="veh_type",
+        var_name="mode",
         value_name="vmt",
     )
+
+    # Map vehicle type names to those used in emission rates
+    df["veh_type"] = df["mode"].map(
+        {'sov': 'light',
+         'hov2': 'light',
+         'hov3': 'light',
+         'light': 'light',
+         'medium': 'medium',
+         'heavy': 'heavy',
+         'transit': 'transit'})
+    
 
     df = pd.merge(
         df,
@@ -158,7 +174,7 @@ def calculate_interzonal_emissions(df, df_rates):
     return df
 
 
-def calculate_intrazonal_vmt(summary_settings, df_iz):
+def calculate_intrazonal_vmt(summary_settings, df_iz, hpms_scale=1.0):
     # df_iz = pd.read_csv(r"outputs/network/iz_vol.csv")
 
     # Sum up SOV, HOV2, and HOV3 volumes across user classes 1, 2, and 3 by time of day
@@ -187,7 +203,7 @@ def calculate_intrazonal_vmt(summary_settings, df_iz):
     df = df.merge(
         df_iz[["taz", "izdist"]], how="left", on="taz"
     )
-    df['VMT'] = df['vol'] * df['izdist']
+    df['VMT'] = df['vol'] * df['izdist']*hpms_scale
     df = df.groupby(['tod','vehicle_type']).sum()[['VMT']].reset_index()
     # Use hourly periods from emission rate files
     df["hourId"] = df["tod"].map(summary_settings["tod_lookup"]).astype("int")
@@ -200,7 +216,7 @@ def calculate_intrazonal_vmt(summary_settings, df_iz):
     return df
 
 
-def calculate_intrazonal_emissions(df_intra, df_running_rates):
+def calculate_intrazonal_emissions(df_intra, df_running_rates, config):
     """Summarize intrazonal emissions by vehicle type."""
 
     df_intra.rename(
@@ -213,19 +229,32 @@ def calculate_intrazonal_emissions(df_intra, df_running_rates):
     )
     df_intra.drop("tod", axis=1, inplace=True)
 
-    df_intra_light = df_intra[df_intra["veh_type"].isin(["sov", "hov2", "hov3"])]
-    df_intra_light = (
-        df_intra_light.groupby(["hourID"]).sum()[["vmt"]].reset_index()
-    )
-    df_intra_light.loc[:, "veh_type"] = "light"
-
     df_intra_medium = df_intra[df_intra["veh_type"] == "mediumtruck"]
     df_intra_medium.loc[:, "veh_type"] = "medium"
+    df_intra_medium.loc[:, "mode"] = "medium"
     df_intra_heavy = df_intra[df_intra["veh_type"] == "heavytruck"]
     df_intra_heavy.loc[:, "veh_type"] = "heavy"
+    df_intra_heavy.loc[:, "mode"] = "heavy"
 
-    df_intra = pd.concat([df_intra_light, df_intra_medium])
-    df_intra = pd.concat([df_intra, df_intra_heavy])
+    if config["include_light_modes"]:
+        df_intra_sov = df_intra[df_intra["veh_type"] == "sov"]
+        df_intra_sov.loc[:, "veh_type"] = "light"
+        df_intra_sov.loc[:, "mode"] = "sov"
+        df_intra_hov2 = df_intra[df_intra["veh_type"] == "hov2"]
+        df_intra_hov2.loc[:, "veh_type"] = "light"
+        df_intra_hov2.loc[:, "mode"] = "hov2"
+        df_intra_hov3 = df_intra[df_intra["veh_type"] == "hov3"]
+        df_intra_hov3.loc[:, "veh_type"] = "light"
+        df_intra_hov3.loc[:, "mode"] = "hov3"
+        df_intra = pd.concat([df_intra_sov, df_intra_hov2, df_intra_hov3, df_intra_medium, df_intra_heavy])
+    else:
+        df_intra_light = df_intra[df_intra["veh_type"].isin(["sov", "hov2", "hov3"])]
+        df_intra_light = (
+            df_intra_light.groupby(["hourID"]).sum()[["vmt"]].reset_index()
+        )
+        df_intra_light.loc[:, "veh_type"] = "light"
+        df_intra_light.loc[:, "mode"] = "light"
+        df_intra = pd.concat([df_intra_light, df_intra_medium, df_intra_heavy])
 
     # For intrazonals, assume standard speed bin and roadway type for all intrazonal trips
     speedbin = 4

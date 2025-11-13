@@ -30,11 +30,16 @@ config = toml.load(config_path)
 input_settings = toml.load(os.path.join(config["run_dir"], 'configuration', 'input_configuration.toml'))
 summary_settings = toml.load(os.path.join(config["run_dir"], 'configuration', 'summary_configuration.toml'))
 
-def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name):
+def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name, config, analysis_year):
 
     df_interzonal_vmt = calculate_interzonal_vmt(df_network, input_settings, summary_settings)
-    df_interzonal_vmt.to_csv(os.path.join("output",f'interzonal_vmt_{county_name}.csv'))
-    df_interzonal = calculate_interzonal_emissions(df_interzonal_vmt, df_running_rates)
+    df_interzonal_vmt.to_csv(os.path.join(
+        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'interzonal_vmt_{county_name}.csv')
+        )
+    df_interzonal = calculate_interzonal_emissions(df_interzonal_vmt, df_running_rates, config["include_light_modes"])
+    df_interzonal.to_csv(os.path.join(
+        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'interzonal_emissions_{county_name}.csv')
+        )
 
     # Load intrazonal trips for zones in the area
     df_iz = pd.read_csv(os.path.join(config["run_dir"],r'outputs\network\iz_vol.csv'))
@@ -42,11 +47,18 @@ def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year
     # Get TAZ/county overlay
     # select only county desired
     df_intrazonal_vmt = calculate_intrazonal_vmt(summary_settings, df_iz)
-    df_intrazonal_vmt.to_csv(os.path.join("output",f'intrazonal_vmt_{county_name}.csv'))
+    df_intrazonal_vmt.to_csv(os.path.join(
+        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'intrazonal_vmt_{county_name}.csv')
+        )
 
-    df_intrazonal = calculate_intrazonal_emissions(df_intrazonal_vmt, df_running_rates)
-
+    df_intrazonal = calculate_intrazonal_emissions(df_intrazonal_vmt, df_running_rates, config)
+    df_intrazonal.to_csv(os.path.join(
+        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'intrazonal_emissions_{county_name}.csv')
+        )
     start_emissions_df = calculate_start_emissions(input_settings, df_start_rates, hh_veh_year, summary_settings, df_bus_veh, conn)
+    start_emissions_df.to_csv(os.path.join(
+        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'start_emissions_{county_name}.csv')
+        )
 
     # Write all results to file
     return df_intrazonal, df_interzonal, start_emissions_df
@@ -55,30 +67,46 @@ def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year
     # df_interzonal.to_csv(os.path.join(output_dir,'interzonal_'+county_name+'.csv'))
     # start_emissions_df.to_csv(os.path.join(output_dir,'starts_'+county_name+'.csv'))
 
-def process_results(df_interzonal, df_intrazonal, start_emissions_df):
+def process_results(df_interzonal, df_intrazonal, start_emissions_df, config):
 
-    df_inter_group = df_interzonal.groupby(['pollutantID','veh_type']).sum()[['tons_tot','vmt']].reset_index()
+    if config["include_light_modes"]:
+        group_col = "mode"
+    else:
+        group_col = "veh_type"
+    df_inter_group = df_interzonal.groupby(['pollutantID',group_col]).sum()[['tons_tot','vmt']].reset_index()
     df_inter_group.rename(columns={'tons_tot': 'interzonal_tons', 
                                 'vmt': 'interzonal_vmt'}, inplace=True)
-    df_intra_group = df_intrazonal.groupby(['pollutantID','veh_type']).sum()[['tons_tot','vmt']].reset_index()
+    df_intra_group = df_intrazonal.groupby(['pollutantID',group_col]).sum()[['tons_tot','vmt']].reset_index()
     df_intra_group.rename(columns={'tons_tot': 'intrazonal_tons', 
                                 'vmt': 'intrazonal_vmt'}, inplace=True)
-    df_start_group = start_emissions_df.groupby(['pollutantID','veh_type']).sum()[['start_tons']].reset_index()
+    df_start_group = start_emissions_df.groupby(['pollutantID',"veh_type"]).sum()[['start_tons']].reset_index()
 
     running_df = pd.merge(df_inter_group, df_intra_group, how='left').fillna(0)
-    running_df = finalize_emissions(running_df, col_suffix="")
+    running_df = finalize_emissions(running_df, group_col)
     running_df.loc[~running_df['pollutantID'].isin(['PM','PM10','PM25']),'pollutantID'] = running_df[~running_df['pollutantID'].isin(['PM','PM10','PM25'])]['pollutantID'].astype('int')
     running_df['pollutant_name'] = running_df['pollutantID'].astype('int', errors='ignore').astype('str').map(summary_settings['pollutant_map'])
     running_df['running_daily_tons'] = running_df['interzonal_tons']+running_df['intrazonal_tons']
     running_df['daily_vmt_total'] = running_df['interzonal_vmt']+running_df['intrazonal_vmt']
-    running_df = running_df[['pollutantID','pollutant_name','veh_type','intrazonal_vmt','interzonal_vmt','daily_vmt_total','intrazonal_tons','interzonal_tons','running_daily_tons']]
+    running_df = running_df[['pollutantID','pollutant_name',group_col,'intrazonal_vmt','interzonal_vmt','daily_vmt_total','intrazonal_tons','interzonal_tons','running_daily_tons']]
 
-    start_df = finalize_emissions(df_start_group, col_suffix="")
-    start_df = finalize_emissions(start_df, col_suffix="")
+    start_df = finalize_emissions(df_start_group, "veh_type")
+    start_df = finalize_emissions(start_df, 'veh_type')
     start_df.loc[~start_df['pollutantID'].isin(['PM','PM10','PM25']),'pollutantID'] = start_df[~start_df['pollutantID'].isin(['PM','PM10','PM25'])]['pollutantID'].astype('int')
     start_df['pollutant_name'] = start_df['pollutantID'].astype('int', errors='ignore').astype('str').map(summary_settings['pollutant_map'])
 
     return running_df, start_df
+
+def apply_hpms_scaling(df_network, hpms_scale):
+
+    mode_list = ["@sov_inc1","@sov_inc2","@sov_inc3",
+                 "@hov2_inc1","@hov2_inc2","@hov2_inc3",
+                 "@hov3_inc1","@hov3_inc2","@hov3_inc3",
+                 "@tnc_inc1","@tnc_inc2","@tnc_inc3",
+                 "@bveh","@mveh","@hveh"]
+                 
+    df_network[mode_list] = df_network[mode_list]*hpms_scale
+
+    return df_network
 
 ###############################################################
 # Script Start
@@ -120,7 +148,8 @@ if config["produce_emissions"]:
 
     df_start_rates_0 = load_starting_rates(config["lower_bound_year"], summary_settings, conn)
     df_start_rates_1 = load_starting_rates(config["upper_bound_year"], summary_settings, conn)
-    df_start_rates_merged = df_start_rates_0.merge(df_start_rates_1, on=['pollutantID','county','veh_type'],
+    df_start_rates_merged = df_start_rates_0.merge(df_start_rates_1, on=['pollutantID','county','veh_type','processID','monthID',
+                                                                         'dayID','hourID'],
                                                         suffixes=[config["lower_bound_year"], config["upper_bound_year"]])
 
     df_network_results = load_network_summary(os.path.join(config["run_dir"], r'outputs\network\network_results.csv'))
@@ -158,6 +187,9 @@ if config["produce_emissions"]:
             analysis_year_vmt = hpms_df[hpms_df['year'] == int(analysis_year)][county_name.lower()]
             hpms_scale = (analysis_year_vmt.values[0]/base_year_vmt.values[0])
             print(hpms_scale)
+            
+            # Apply HPMS scaling to network VMT
+            df_network_scaled = apply_hpms_scaling(df_network, hpms_scale)
 
             # Interpolate vehicle ownership between base and forecast model years and scale vehicles for starts
             df_hh_base_county = df_hh_base[df_hh_base['county'] == county_name]
@@ -175,8 +207,8 @@ if config["produce_emissions"]:
             # FIXME: future improvements could distribute Sound Transit vehicles by county
             df_bus_veh = df_bus_veh[df_bus_veh['agency'].isin(config["county_transit_operators"][county_name])]
 
-            df_intrazonal, df_interzonal, start_emissions_df = evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name)
-            running_df, start_df = process_results(df_interzonal, df_intrazonal, start_emissions_df)
+            df_intrazonal, df_interzonal, start_emissions_df = evaluate_emissions(df_network_scaled, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name, config, analysis_year)
+            running_df, start_df = process_results(df_interzonal, df_intrazonal, start_emissions_df, config)
 
             running_df.to_csv(os.path.join(output_dir,'running_summary.csv'))
             start_df.to_csv(os.path.join(output_dir,'start_summary.csv'))
@@ -187,13 +219,18 @@ if config["summarize_results"]:
     co2e_results_df = pd.DataFrame()
     start_co2e_results_df = pd.DataFrame()
 
+    county_name = "King"
+
     for analysis_year in config["analysis_year_list"]:
 
         output_dir = os.path.join(config["output_root"],'output', 'interpolated', county_name, analysis_year)
         running_df = pd.read_csv(os.path.join(output_dir,'running_summary.csv'))
         start_df = pd.read_csv(os.path.join(output_dir,'start_summary.csv'))
 
-        running_df.index = running_df['veh_type']
+        if config["include_light_modes"]:
+            running_df.index = running_df["mode"]
+        else:
+            running_df.index = running_df['veh_type']
 
         df_vmt = running_df[running_df['pollutant_name'] == 'CO2 Equivalent'][['daily_vmt_total']].T
         df_vmt.index = [analysis_year]
