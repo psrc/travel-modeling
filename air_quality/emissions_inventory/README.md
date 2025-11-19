@@ -16,7 +16,7 @@
  
 ## Outputs
 
-Results are available for light (passenger) vehicles, medium trucks, heavy trucks, and transit buses in terms of tons/day of pollutants by county. City estimates of the same are calculated based on the VMT distributions from the base year mulitplied by the county totals.
+Results are available for light (passenger) vehicles, medium trucks, heavy trucks, and transit buses in terms of tons/day of pollutants by county. City estimates of the same are calculated based on the VMT distributions from the base year mulitplied by the county totals. Python notebooks in the **analysis** directory format the outputs of this tool into tables for final formatting in Excel.
 Results include both running as well as start emissions. 
 
 ## Running the Tool
