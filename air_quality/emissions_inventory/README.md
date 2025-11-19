@@ -18,3 +18,11 @@
 
 Results are available for light (passenger) vehicles, medium trucks, heavy trucks, and transit buses in terms of tons/day of pollutants by county. City estimates of the same are calculated based on the VMT distributions from the base year mulitplied by the county totals.
 Results include both running as well as start emissions. 
+
+## Running the Tool
+There are two scripts that can be run with Python. They must be run by specifying a config.toml file:
+- python city_vmt.py -c config.toml
+- create_county_emissions.py -c config.toml
+
+The config file contains settings for which counties and years to run for an analysis, as well as the location of travel model output data and assumptions like annualization factors. 
+  
