@@ -11,8 +11,9 @@
 - Emissions estimates (grams or tons per day of a pollutant) for a model year are calculated for a county by identifying only roadway links within a county. City level emissions estimates are scaled based on the share of county VMT within the city boundaries. This calculation is performed in the [city_vmt.py script](https://github.com/psrc/travel-modeling/blob/master/air_quality/emissions_inventory/city_vmt.py)
 - County emissions estimates for non-model years introduce complications in that both the vehicle activity and emissions rates from an evolving fleet are changing.
     - Vehicle activity can be scaled versus a base year (2023) by applying observed county-level change from WSDOT's HPMS data. This data provides a percent change in VMT versus 2023, which is applied to the model base year. For instance, if VMT increases 2%, volumes on all model network links are multiplied by 1.02.
-    - Emissions rates must be taken as in interpolation between base year (2023) rates and the next available set of forecasting rates, which is currently 2035. PSRC assumes WA state law for 100% EV sales beginning in 2035, which is incorporated into the emission rates assumptions. For an analysis year of 2024, emissions rates are interpolated between 2023 and 2035 to provide the best guess for fleet emissions changes between model years.
+    - Emissions rates must be taken as in interpolation between base year (2023) rates and the next available set of [forecasted rates](https://github.com/psrc/travel-modeling/tree/master/air_quality/moves/2026_2050_RTP), which is currently 2035. PSRC assumes WA State's [Clean Vehicles Law](https://app.leg.wa.gov/wac/default.aspx?cite=173-423&full=true) will require 100% EV sales beginning in 2035, which is incorporated into the emission rates assumptions. For an analysis year non-model years such as 2024 and beyond, emissions rates are interpolated between 2023 and 2035 to provide the best guess for fleet emissions changes between model years.
     - For non-model years, the HPMS-scaled vehicle activity (VMT) is multiplied by the interpolated rates in the same manner as for a standard model year.
+The PSRC travel model is updated every four years, so when new baseline and forecast data are available, the process will be applied to the latest data.   
  
 ## Outputs
 
@@ -22,7 +23,7 @@ Results include both running as well as start emissions.
 ## Running the Tool
 There are two scripts that can be run with Python. They must be run by specifying a config.toml file:
 - python city_vmt.py -c config.toml
-- create_county_emissions.py -c config.toml
+- python create_county_emissions.py -c config.toml
 
-The config file contains settings for which counties and years to run for an analysis, as well as the location of travel model output data and assumptions like annualization factors. 
+The config file contains settings for which counties and years to run for an analysis, as well as the location of travel model output data and assumptions like annualization factors (**320** is the latest recommended factor). 
   
