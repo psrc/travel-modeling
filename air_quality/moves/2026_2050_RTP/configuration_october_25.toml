@@ -11,7 +11,7 @@ db_tag = '10_20_25'
 run_create_moves_input_data = false
 run_create_input_database_xml = false
 run_create_mrs_files = false
-run_export_moves_data = true
+run_export_moves_data = false
 run_create_soundcast_input = true
 
 # Optional future age distribution files generated from Excel tool
@@ -20,7 +20,7 @@ age_distribution_inputs = 'Y:/Air Quality/2026_2050_RTP/moves_inputs_2023/age_di
 # Optional calcualted AVFT input file
 avft_file_dir = "Y:/Air Quality/2026_2050_RTP/moves_inputs_2023/avft/wa_state_policy"
 
-vehicle_type_list = ['light','medium']
+vehicle_type_list = ['light','medium','heavy','transit']
 county_list = ['King']
 
 scenario_def_file = false
