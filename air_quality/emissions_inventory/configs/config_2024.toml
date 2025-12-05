@@ -3,11 +3,10 @@
 run_dir = "N:/rtp_2026_2050/final_runs/sc_base_year_2023_final/soundcast"
 run_dir_future = "N:/rtp_2026_2050/final_runs/sc_rtp_2035/soundcast"
 
-output_root = "Y:/Air Quality/King County Emissions Inventory/2024/data"
+output_root = "Y:/Air Quality/King County Emissions Inventory/2024"
 
 base_year = "2023"    # Make sure to update this since rates used are based on this value
 county_list = ["King", "Kitsap", "Pierce", "Snohomish"]
-annualization_factor = 320
 
 # Separate light duty vehicles by occupancy
 include_light_modes = false
@@ -15,8 +14,14 @@ include_light_modes = false
 analysis_year_list = ["2023", "2024"]
 lower_bound_year = "2023"
 upper_bound_year = "2035"
-produce_emissions = true
-summarize_results = true
+
+pollutant_list = ["CO2 Equivalent", "Methane", "N20"]
+
+[veh_type_map]
+light = "Passenger Vehicles"
+medium = "Medium Trucks"
+heavy = "Heavy Trucks"
+transit = "Bus"
 
 # Bus Operators (excluding Sound Transit for now because they span multiple counties)
 [county_transit_operators]

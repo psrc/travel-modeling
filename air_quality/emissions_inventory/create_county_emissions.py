@@ -30,15 +30,15 @@ config = toml.load(config_path)
 input_settings = toml.load(os.path.join(config["run_dir"], 'configuration', 'input_configuration.toml'))
 summary_settings = toml.load(os.path.join(config["run_dir"], 'configuration', 'summary_configuration.toml'))
 
-def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name, config, analysis_year):
+def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name, config, analysis_year, conn):
 
     df_interzonal_vmt = calculate_interzonal_vmt(df_network, input_settings, summary_settings)
     df_interzonal_vmt.to_csv(os.path.join(
-        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'interzonal_vmt_{county_name}.csv')
+        config["output_root"],'data','county', county_name, analysis_year,f'interzonal_vmt_{county_name}.csv')
         )
     df_interzonal = calculate_interzonal_emissions(df_interzonal_vmt, df_running_rates, config["include_light_modes"])
     df_interzonal.to_csv(os.path.join(
-        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'interzonal_emissions_{county_name}.csv')
+        config["output_root"],'data','county', county_name, analysis_year,f'interzonal_emissions_{county_name}.csv')
         )
 
     # Load intrazonal trips for zones in the area
@@ -48,16 +48,16 @@ def evaluate_emissions(df_network, df_running_rates, df_start_rates, hh_veh_year
     # select only county desired
     df_intrazonal_vmt = calculate_intrazonal_vmt(summary_settings, df_iz)
     df_intrazonal_vmt.to_csv(os.path.join(
-        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'intrazonal_vmt_{county_name}.csv')
+        config["output_root"],'data','county', county_name, analysis_year,f'intrazonal_vmt_{county_name}.csv')
         )
 
     df_intrazonal = calculate_intrazonal_emissions(df_intrazonal_vmt, df_running_rates, config)
     df_intrazonal.to_csv(os.path.join(
-        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'intrazonal_emissions_{county_name}.csv')
+        config["output_root"],'data','county', county_name, analysis_year,f'intrazonal_emissions_{county_name}.csv')
         )
     start_emissions_df = calculate_start_emissions(input_settings, df_start_rates, hh_veh_year, summary_settings, df_bus_veh, conn)
     start_emissions_df.to_csv(os.path.join(
-        config["output_root"],'output', 'interpolated', county_name, analysis_year,f'start_emissions_{county_name}.csv')
+        config["output_root"],'data','county', county_name, analysis_year,f'start_emissions_{county_name}.csv')
         )
 
     # Write all results to file
@@ -111,18 +111,12 @@ def apply_hpms_scaling(df_network, hpms_scale):
 ###############################################################
 # Script Start
 ###############################################################
-
-
-if config["produce_emissions"]:
+def run():
     hpms_df = pd.read_csv(os.path.join(os.getcwd(),'inputs/hpms_observed.csv'))
-    # conn = create_engine("sqlite://///aws-model10/Model Data 2/rtp_2026_2050/scenarios_for_sept/sc_base_year_2023/soundcast/inputs/db/soundcast_inputs_2023.db")
-    # db_dir = "sqlite://///"+run_dir+'/inputs/db/'+input_settings["db_name"]
     db_dir = "sqlite:///"+config["run_dir"]+'/inputs/db/'+input_settings["db_name"]
 
     df_taz_geog = pd.read_csv(r'R:\e2projects_two\SoundCast\Inputs\db_inputs\taz_geography.csv')
 
-    running_emissions_fname = r'R:\e2projects_two\SoundCast\Inputs\db_inputs\running_emission_rates_by_veh_type.csv'
-    start_emissions_fname = r'R:\e2projects_two\SoundCast\Inputs\db_inputs\start_emission_rates_by_veh_type.csv'
     # Calculate interzonal emissions using same approach as for regional/county emissions
 
     # Scale all vehicles by difference between base year and modeled total vehicles owned from auto ownership model
@@ -149,7 +143,7 @@ if config["produce_emissions"]:
     df_start_rates_0 = load_starting_rates(config["lower_bound_year"], summary_settings, conn)
     df_start_rates_1 = load_starting_rates(config["upper_bound_year"], summary_settings, conn)
     df_start_rates_merged = df_start_rates_0.merge(df_start_rates_1, on=['pollutantID','county','veh_type','processID','monthID',
-                                                                         'dayID','hourID'],
+                                                                            'dayID','hourID'],
                                                         suffixes=[config["lower_bound_year"], config["upper_bound_year"]])
 
     df_network_results = load_network_summary(os.path.join(config["run_dir"], r'outputs\network\network_results.csv'))
@@ -163,7 +157,7 @@ if config["produce_emissions"]:
 
             print(analysis_year)
 
-            output_dir = os.path.join(config["output_root"],'output', 'interpolated', county_name, analysis_year)
+            output_dir = os.path.join(config["output_root"],'data','county', county_name, analysis_year)
             # Create outputs directory if needed
             if not os.path.exists(output_dir):
                 os.makedirs(output_dir)
@@ -207,50 +201,11 @@ if config["produce_emissions"]:
             # FIXME: future improvements could distribute Sound Transit vehicles by county
             df_bus_veh = df_bus_veh[df_bus_veh['agency'].isin(config["county_transit_operators"][county_name])]
 
-            df_intrazonal, df_interzonal, start_emissions_df = evaluate_emissions(df_network_scaled, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name, config, analysis_year)
+            df_intrazonal, df_interzonal, start_emissions_df = evaluate_emissions(df_network_scaled, df_running_rates, df_start_rates, hh_veh_year, df_bus_veh, county_name, config, analysis_year, conn)
             running_df, start_df = process_results(df_interzonal, df_intrazonal, start_emissions_df, config)
 
             running_df.to_csv(os.path.join(output_dir,'running_summary.csv'))
             start_df.to_csv(os.path.join(output_dir,'start_summary.csv'))
 
-if config["summarize_results"]:
-
-    vmt_results_df = pd.DataFrame()
-    co2e_results_df = pd.DataFrame()
-    start_co2e_results_df = pd.DataFrame()
-
-    county_name = "King"
-
-    for analysis_year in config["analysis_year_list"]:
-
-        output_dir = os.path.join(config["output_root"],'output', 'interpolated', county_name, analysis_year)
-        running_df = pd.read_csv(os.path.join(output_dir,'running_summary.csv'))
-        start_df = pd.read_csv(os.path.join(output_dir,'start_summary.csv'))
-
-        if config["include_light_modes"]:
-            running_df.index = running_df["mode"]
-        else:
-            running_df.index = running_df['veh_type']
-
-        df_vmt = running_df[running_df['pollutant_name'] == 'CO2 Equivalent'][['daily_vmt_total']].T
-        df_vmt.index = [analysis_year]
-        df_vmt.index.name = 'year'
-        vmt_results_df = pd.concat([vmt_results_df,df_vmt])
-
-        df_co2e = running_df[running_df['pollutant_name'] == 'CO2 Equivalent'][['running_daily_tons']].T
-        df_co2e.index = [analysis_year]
-        df_co2e.index.name = 'year'
-        co2e_results_df = pd.concat([co2e_results_df,df_co2e])
-
-        start_df.index = start_df['veh_type']
-        df_start_co2e = start_df[start_df['pollutant_name'] == 'CO2 Equivalent'][['start_tons']].T
-        df_start_co2e.index = [analysis_year]
-        df_start_co2e.index.name = 'year'
-        start_co2e_results_df = pd.concat([start_co2e_results_df,df_start_co2e])
-
-final_output_dir = os.path.join(config["output_root"],'output', 'interpolated', county_name)  
-vmt_results_df.to_csv(os.path.join(final_output_dir,'running_vmt.csv'))
-co2e_results_df.to_csv(os.path.join(final_output_dir,'running_co2e.csv'))
-start_co2e_results_df.to_csv(os.path.join(final_output_dir,'start_co2e.csv'))
-annual_start_co2e_results_df = start_co2e_results_df*config["annualization_factor"]
-annual_start_co2e_results_df.to_csv(os.path.join(final_output_dir,'start_co2e_annual.csv'))
+if __name__ == "__main__":
+    run()
