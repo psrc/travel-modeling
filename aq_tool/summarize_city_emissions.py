@@ -7,7 +7,7 @@ from input_configuration import base_year
 from standard_summary_configuration import past_years
 
 rootdir = r'output\2018'
-output_dir = r'output\2018\interpolations'
+output_dir = r'output\2018\interpolations\updated_2025'
 
 df_hpms = pd.read_csv('inputs/hpms_observed.csv')
 
@@ -23,7 +23,11 @@ tons_results_df = pd.DataFrame()
 
 for subdir, dirs, files in os.walk(rootdir):
     for file in files:
-        df = pd.read_csv(os.path.join(rootdir,file))
+        try:
+            df = pd.read_csv(os.path.join(rootdir,file))
+        except:
+            print(f"Skipping {file} due to read error.")
+            continue
         city = file.split('.')[0]
         print(city)
 
@@ -94,7 +98,7 @@ for subdir, dirs, files in os.walk(rootdir):
         df_vmt.drop('index_sort', axis=1, inplace=True)
         df_vmt.reset_index().drop('index_sort', axis=1, inplace=True)
         df_vmt['city'] = city
-        vmt_result_df = vmt_result_df.append(df_vmt)
+        vmt_result_df = pd.concat([vmt_result_df,df_vmt])
             
         # Export emissions summary
         df_tons = df[['veh_type']+['total_daily_tons_' + i for i in year_list]].groupby('veh_type').first()
@@ -111,7 +115,7 @@ for subdir, dirs, files in os.walk(rootdir):
         df_tons.drop('index_sort', axis=1, inplace=True)
         df_tons.reset_index().drop('index_sort', axis=1, inplace=True)
         df_tons['city'] = city
-        tons_results_df = tons_results_df.append(df_tons)
+        tons_results_df = pd.concat([tons_results_df,df_tons])
 
 vmt_result_df.to_csv(os.path.join(output_dir,'annual_city_vmt.csv'), index=False)
 tons_results_df.to_csv(os.path.join(output_dir,'annual_city_tons_co2e.csv'), index=False)
