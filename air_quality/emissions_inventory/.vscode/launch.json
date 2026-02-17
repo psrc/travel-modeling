@@ -11,7 +11,7 @@
             "request": "launch",
             "program": "create_county_emissions.py",
             // "program": "city_vmt.py",
-            "args": ["config_2024.toml"],
+            "args": ["ocnfigs/config_2024.toml"],
             "console": "integratedTerminal"
         }
     ]

@@ -3,15 +3,15 @@ import pandas as pd
 import geopandas as gpd
 import os.path
 from functions import read_from_sde, load_network_summary, intersect_geog
-from emissions import *
+# from emissions import *
 
 ###############################################################
 # Settings
 ###############################################################
 
 # Set root of model run to analyze AND the model year
-run_dir = r'L:\RTP_2022\final_runs\sc_rtp_2018_final\soundcast'
-model_year = '2018'    # Make sure to update this since rates used are based on this value
+run_dir = r'\\modelstation2\c$\Workspace\sc_2023_07_25_25'
+model_year = '2023'    # Make sure to update this since rates used are based on this value
 
 # Set output directory; results will be stored in a folder by model year 
 output_dir = r'output\\' + model_year
@@ -32,9 +32,8 @@ if not os.path.exists(output_dir):
 os.chdir(run_dir)
 
 # Load the network
-crs = 'EPSG:2285'
 gdf_network = gpd.read_file(os.path.join(run_dir,r'inputs\scenario\networks\shapefiles\AM\AM_edges.shp'))
-gdf_network.crs = crs
+gdf_network.crs = 'EPSG:2285'
 
 # Load  tract geographies from ElmerGeo
 connection_string = 'mssql+pyodbc://AWS-PROD-SQL\Sockeye/ElmerGeo?driver=SQL Server?Trusted_Connection=yes'

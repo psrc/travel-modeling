@@ -6,7 +6,7 @@ library(RMySQL)
 library(data.table)
 
 data.outdir <- "W:/gis/projects/parcelization"
-dbname <- '2018_parcel_baseyear' #'psrc_2014_parcel_baseyear'
+dbname <- '2023_parcel_baseyear' #'psrc_2014_parcel_baseyear'
 
 mysql.conn <- function(dbname) {
   un <- .rs.askForPassword("username:")
@@ -31,13 +31,13 @@ mydb <- mysql.conn(dbname)
 
 # Generate buildings file
 bldgs <- get.table(dbname, "buildings")
-fwrite(bldgs, file.path(data.outdir, "buildings_2018.csv"), row.names = FALSE)
+fwrite(bldgs, file.path(data.outdir, "buildings_2023.csv"), row.names = FALSE)
 
 # Generate GQ file
 prcl <- get.table(dbname, "parcels")
 lut <- get.table(dbname, "land_use_types")
 pl <- merge(prcl, lut, by = 'land_use_type_id')
 gqs <- pl[description == 'Group Quarters',]
-fwrite(gqs, file.path(data.outdir, "gq_2018.csv"), row.names = FALSE)
+fwrite(gqs, file.path(data.outdir, "gq_2023.csv"), row.names = FALSE)
           
 dbDisconnect(mydb)
