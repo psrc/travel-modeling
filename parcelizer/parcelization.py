@@ -6,17 +6,17 @@ import numpy as np
 from shapely import wkt
 from pymssql import connect
 
-path_bldgs_file = r'W:\gis\projects\parcelization\buildings_2018.csv' 
-path_gq_file = r'W:\gis\projects\parcelization\gq_2018.csv' 
-prcl_pt_filename = 'parcels_urbansim_2018_pts'
+path_bldgs_file = r'W:\gis\projects\parcelization\buildings_2023.csv' 
+path_gq_file = r'W:\gis\projects\parcelization\gq_2023.csv' 
+prcl_pt_filename = 'parcels_urbansim_2023_pts'
 
 path_block_shp = 'block2020'
 geoid_col = 'GEOID20'
-publication_id = '11'
+publication_id = '10'
 
-ofm_years = list(range(2010, 2020))
+ofm_years = list(range(2023, 2024))
 
-out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2024-10-16\parcelized'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2025-11-07\parcelized'
 
 # functions ----
 
@@ -57,7 +57,7 @@ def read_shapefile(path, keep_columns):
 def read_elmergeo_shapefile(elmergeo_layer, keep_columns):
     # read shapefile
     print("Reading shapefile")
-    con = connect('AWS-Prod-SQL\Sockeye', database="ElmerGeo")
+    con = connect('SQLserver', database="ElmerGeo")
     feature_class_name = elmergeo_layer 
     geo_col_stmt = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME=" + "\'" + feature_class_name + "\'" + " AND DATA_TYPE='geometry'"
     geo_col = str(pd.read_sql(geo_col_stmt, con).iloc[0,0])
@@ -229,4 +229,4 @@ for y in ofm_years:
 
     # create shapefile
     new_prcls_to_blks.to_file(os.path.join(out_dir, out_file)) # takes approx. 11 mins to write to file
-    # print("Finished!")
+    print("Finished writing " + ofm_year + " shapefile")

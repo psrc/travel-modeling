@@ -5,20 +5,23 @@ import pandas as pd
 import numpy as np
 from shapely import wkt
 from pymssql import connect
+import numpy
 
 pd.options.display.float_format = '{:.5f}'.format
 
 vintage_year = 2024
-years = list(range(2010, 2020))
+years = list(range(2023, 2024))
+# years = [2011, 2015]
 geoid_col = 'GEOID20'
-publication_id = '11'
+publication_id = '10'
 
 # open shapefiles in output dir
-out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2024-10-16\parcelized'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2025-11-07\parcelized'
 
 def sqlconn(dbname):
     # create Elmer connection
-    con = pyodbc.connect('DRIVER={SQL Server};SERVER=AWS-PROD-SQL\SOCKEYE;DATABASE=' + dbname + ';trusted_connection=true')
+    conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=SQLserver; DATABASE=Elmer; trusted_connection=yes"
+    con = pyodbc.connect(conn_string)
     return(con)
 
 def query_tblOfmSaep(years, publication_id):
@@ -62,4 +65,29 @@ print(df)
 
 # compare with Elmer results
 x = query_tblOfmSaep(years, publication_id)
+x = x[['publication_dim_id', "estimate_year", "GQPOP", "HHPOP", "HU", "OHU"]]
 print(x)
+
+# compare df and x
+df1 = df.copy()
+df1['est_year'] = numpy.int64(df1['est_year'])
+df2 = x.copy()
+dfs = df1.merge(df2, left_on='est_year', right_on='estimate_year')
+
+dfs['diff_gq'] = dfs['parcel_gq'] - dfs['GQPOP']
+dfs['diff_hhpop'] = dfs['parcel_hhp'] - dfs['HHPOP']
+dfs['diff_hu'] = dfs['parcel_hu'] - dfs['HU']
+dfs['diff_ohu'] = dfs['parcel_ohu'] - dfs['OHU']
+
+# parcelized subtract elmerdb (original)
+dfs_diff = dfs[['est_year', 'diff_gq', 'diff_hhpop', 'diff_hu', 'diff_ohu']]
+
+# compare df and x
+# df1 = df.drop(labels=['est_year', 'parcel_tot'], axis=1)
+# df1 = df1.rename(columns={"parcel_gq": "GQPOP", "parcel_hhp":"HHPOP", "parcel_hu":"HU", "parcel_ohu":"OHU"})
+# df1 = df1.reset_index()
+
+# df2 = x.drop(labels=['estimate_year',"publication_dim_id"], axis=1)
+# df2 = df2.reset_index()
+
+# df1.compare(df2)
