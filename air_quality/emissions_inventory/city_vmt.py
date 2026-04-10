@@ -148,7 +148,7 @@ for city in city_list:
 ####################
 
 # Only Bainbridge has requested VMT data in the past, but we will set the process up for other counties to be added as needed
-county = "Kitsap"
+# county = "Kitsap"
 for county in ["Kitsap", "Pierce", "Snohomish"]:
     city_list = gdf_shp[(gdf_shp['cnty_name'] == county) & (gdf_shp['rg_propose_pa'].isin(['CitiesTowns', 'Core',
                     'Metro','HCT']))]['juris'].to_list()
