@@ -25,4 +25,9 @@ There are two scripts that can be run with Python. They must be run by specifyin
 - python create_county_emissions.py -c configs/config_2024.toml
 
 The config file contains settings for which counties and years to run for an analysis, as well as the location of travel model output data and assumptions like annualization factors (**320** is the latest recommended factor). 
+
+## Summaries
+To generate data provided as standard output, first run the `county_summary.ipynb notebook`, which will generate the file **county_summary_King.xlsx**. This file is used by the `city_summary.ipynb`, which should be run next to produce **city_vmt_summary_King.xlsx** and **city_emissions_summary_King.xlsx**. 
+
+The latest version of this data is available at `Y:\Air Quality\King County Emissions Inventory\Data Release\2023-2024`. This data should be updated annually in the same format but with additional year worksheets as new data becomes available. The process will flow through for the beginning of this README and result in updated versions of these spreadsheets for publication.  
   
