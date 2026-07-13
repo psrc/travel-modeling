@@ -1,0 +1,6 @@
+# Set root of model run to analyze AND the model year
+# Note that we need to use the full path and not the drive shortcut to be able to load sqlite db
+
+run_dir = "C:/workspace/sc_base_year_2023_final/soundcast"
+model_year = "2023"
+include_light_modes = false
