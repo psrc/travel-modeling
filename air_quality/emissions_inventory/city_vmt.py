@@ -75,7 +75,7 @@ def calculate_city_vmt(city_polygon_gdf, gdf_network, taz_centroid_gdf):
 # Script Start
 ###############################################################
 
-for county in ["King", "Kitsap"]:
+for county in ["King", "Kitsap", "Pierce", "Snohomish"]:
     # Create outputs directory if needed
     output_dir = os.path.join(config['output_root'],'data','city', county)
     if not os.path.exists(output_dir):
