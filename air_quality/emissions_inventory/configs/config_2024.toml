@@ -7,7 +7,7 @@ output_root = "Y:/Air Quality/King County Emissions Inventory/2024"
 final_summary_dir = "Y:/Air Quality/King County Emissions Inventory/Data Release/2023-2024"
 
 base_year = "2023"    # Make sure to update this since rates used are based on this value
-county_list = ["King", "Kitsap", "Pierce", "Snohomish"]
+county_list = ["Pierce", "Snohomish"]
 
 # Separate light duty vehicles by occupancy
 include_light_modes = false
