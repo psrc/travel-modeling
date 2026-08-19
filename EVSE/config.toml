@@ -1,0 +1,5 @@
+working_dir = "."
+project_epsg = 2285
+model_run_dir_2023 = "\\\\modelstation4\\c$\\workspace\\sc_base_year_2023_final\\soundcast"
+model_run_dir_2035 = "N:\\rtp_2026_2050\\final_runs\\sc_rtp_2035\\soundcast"
+model_run_dir_2050 = "\\\\modelstation3\\c$\\workspace\\sc_2050_main_5_13_26"
