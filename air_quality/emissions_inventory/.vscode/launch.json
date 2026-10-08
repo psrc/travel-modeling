@@ -9,9 +9,9 @@
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
-            "program": "create_county_emissions.py",
-            // "program": "city_vmt.py",
-            "args": ["ocnfigs/config_2024.toml"],
+            // "program": "create_county_emissions.py",
+            "program": "city_vmt.py",
+            "args": ["configs/config_2025.toml"],
             "console": "integratedTerminal"
         }
     ]
