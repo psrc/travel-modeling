@@ -12,17 +12,17 @@ prcl_pt_filename = 'parcels_urbansim_2023_pts'
 
 path_block_shp = 'block2020'
 geoid_col = 'GEOID20'
-publication_id = '10'
+publication_id = '22'
 
-ofm_years = list(range(2023, 2024))
+ofm_years = list(range(2020, 2027))
 
-out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2025-11-07\parcelized'
+out_dir = r'J:\OtherData\OFM\SAEP\SAEP Extract_2026-10-21\parcelized'
 
 # functions ----
 
 def sqlconn(dbname):
     # create Elmer connection
-    conn_string = "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=SQLserver; DATABASE=Elmer; trusted_connection=yes"
+    conn_string = "DRIVER={ODBC Driver 18 for SQL Server}; SERVER=SQLserver; DATABASE=Elmer; trusted_connection=yes; TrustServerCertificate=yes"
     con = pyodbc.connect(conn_string)
     return(con)
 
@@ -109,7 +109,7 @@ def blocks_with_parcels_and_est_without_byrunits(prcls_to_blks_shp, prcls_units,
 
 for y in ofm_years:
     ofm_year = str(y)
-    out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2024.shp'
+    out_file = 'parcelized_ofm_' + ofm_year + '_vintage_2026.shp'
 
     # spatial join parcels & blocks NEW
     prcls_elmergeo_sub = read_elmergeo_shapefile(prcl_pt_filename, ['parcel_id', 'geometry'])
