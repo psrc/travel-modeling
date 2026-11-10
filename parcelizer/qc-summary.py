@@ -10,7 +10,7 @@ import numpy
 pd.options.display.float_format = '{:.5f}'.format
 
 vintage_year = 2026
-years = list(range(2020, 2026))
+years = list(range(2020, 2027))
 # years = [2011, 2015]
 geoid_col = 'GEOID20'
 publication_id = '22'
@@ -81,7 +81,7 @@ dfs['diff_ohu'] = dfs['parcel_ohu'] - dfs['OHU']
 
 # parcelized subtract elmerdb (original)
 dfs_diff = dfs[['est_year', 'diff_gq', 'diff_hhpop', 'diff_hu', 'diff_ohu']]
-dfs.to_excel(r'J:\OtherData\OFM\SAEP\SAEP Extract_2026-10-21\quality_check\qc-vintage-2026.xlsx', sheet_name='qc', index=False)
+dfs.to_excel('J:\\OtherData\\OFM\\SAEP\\SAEP Extract_2026-10-21\\quality_check\\' + 'qc-vintage-' + vintage_year + '.xlsx', sheet_name='qc', index=False)
 
 # compare df and x
 # df1 = df.drop(labels=['est_year', 'parcel_tot'], axis=1)
